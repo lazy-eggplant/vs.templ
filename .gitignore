@@ -1,0 +1,11 @@
+.cache
+build/ 
+subprojects/*
+!subprojects/*.wrap
+!subprojects/packagefiles/
+/wraps/cfltk
+*.autogen.*
+/dist/
+/node_modules/
+/bun.lockb
+/private
