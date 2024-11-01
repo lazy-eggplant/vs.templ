@@ -2,14 +2,19 @@ project(
     'vs-templ',
     ['cpp'],
     version: '0.1.0',
-    default_options: ['cpp_std=c++17'],
+    default_options: ['cpp_std=c++20'],
 )
 
 pugixml_proj = subproject('pugixml')
 pugixml_dep = pugixml_proj.get_variable('pugixml_dep')
 
 
-vs_templ_lib= library('vs-templ', ['src/vs-templ.cpp'], dependencies: [pugixml_dep], include_directories: ['include'])
+vs_templ_lib= library('vs-templ-lib', ['src/vs-templ.cpp'], dependencies: [pugixml_dep], include_directories: ['include'])
+vs_templ_cli= executable('vs-templ-cli', ['src/app/main.cpp'], dependencies: [pugixml_dep], link_with: [vs_templ_lib], include_directories: ['include'])
+
+
+#Temporary target to be removed, just for the sake of handling this migration
+old_lib= library('old-stuff', ['src/old.cpp'], dependencies: [pugixml_dep], include_directories: ['include'])
 
 
 vs_templ_dep = declare_dependency(

@@ -1,3 +1,6 @@
+> [!WARNING]  
+> Migration and adaptation from the other repository still ongoing.
+
 `vs-templ` is a simple preprocessor to statically generate derived XML files from a template definition.  
 Static templates can be seen as extremely simple programs which are interpreted by this preprocessor, and used to statically generate custom XML consuming some input data. Both the input data and temmplate are expressed in XML, but it can be possible to extend the input data to other formats like JSON if so desired.  
 
@@ -11,6 +14,38 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 
 Hence, `vs` vendors its own XSLT-ish preprocessor. Still, nothing about its semantics or syntax is directly tied to `vs`. For this reason it is distributed as a separate package, hoping it can reach a wider adoption.
 
+## Examples
+
+### Simple for cycle
+```xml
+<items>
+    <item prop-a="Value 1">Text A</item>
+    <item prop-a="Value 2">Text B</item>
+    <item prop-a="Value 3">Text C</item>
+</items>
+```
+
+and 
+
+```xml
+<ul>
+<s:for in="$/items/" sort-by="$~prop-a" order-by="desc">
+    <s:item>
+        <li><s:value src="$~prop-a"/>: <s:value src="$~~txt"/></li>
+    </s:item>
+</s:for>
+</ul>
+```
+
+results in
+
+```xml
+<ul>
+    <li>Value 3: Text C</li>
+    <li>Value 2: Text B</li>
+    <li>Value 1: Text A</li>
+</ul>
+```
 
 ## Usage
 The functionality of this template builder is exposed as a library which can be used for static or dynamic linking.  

@@ -59,18 +59,6 @@ struct symbol_map{
             symbols.pop_back();
         };
 
-        std::string resolve_str(const char* name){
-            for(auto it = symbols.rbegin();it!=symbols.rend();it++){
-                auto found = it->find(name);
-                if(found!=it->end()){
-                    if(std::holds_alternative<int>(found->second))return std::to_string(std::get<int>(found->second));
-                    else if(std::holds_alternative<const pugi::xml_node>(found->second))return std::string(std::get<const pugi::xml_node>(found->second).text().as_string());
-                    else if(std::holds_alternative<const pugi::xml_attribute>(found->second))return std::string(std::get<const pugi::xml_attribute>(found->second).as_string());
-                }
-            }
-            return nullptr;
-        }
-
         std::optional<std::variant<int,const pugi::xml_node, const pugi::xml_attribute>> resolve(std::string_view name){
             std::cout<<"Searching "<<name<<"\n";
             for(auto it = symbols.rbegin();it!=symbols.rend();it++){
