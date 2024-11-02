@@ -3,7 +3,7 @@
 This is a list of commands which are currently supported:
 
 - [x] Add support for `element.text()` & `element.name()` in query.
-- [ ] Replace the current split implementation with something not requiring these many allocations
+- [x] Replace the current split implementation with something not requiring these many allocations
 
 ## Block based:
 

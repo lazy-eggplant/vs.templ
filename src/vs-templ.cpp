@@ -7,6 +7,7 @@ void preprocessor::init(const pugi::xml_document& root_data, const pugi::xml_doc
             stack_template.push({root_template.root().begin(),root_template.root().end()});
             stack_compiled.push(compiled.root());
             this->root_data=root_data.root();
+            symbols.set("$",root_data.root());
             ns(prefix);
         }
 

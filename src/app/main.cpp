@@ -21,7 +21,7 @@ using namespace vs::templ;
 //TODO: Support error logging on std::cerr. Maybe use VS_VERBOSE env variable to determine what is shown and if.
 int main(int argc, const char* argv[]){
     const char* ns_prefix="s:";
-    if(argc==0 || argc > 3){
+    if(argc==0 || argc > 4){
         std::cerr<<"Wrong usage:\n\t"<<argv[0]<<" <template-file> <data-file> [namespace=`s:`]\nOR\t "<<argv[0]<<"[namespace=`s:`] and two input streams\n";
         exit(1);
     }

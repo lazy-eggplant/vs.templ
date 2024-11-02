@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <algorithm>
+#include <iostream>
 #include <map>
 #include <optional>
 #include <stack>
@@ -51,7 +52,7 @@ struct preprocessor{
         inline const std::vector<log_t> logs(){return _logs;}
         inline void log(log_t::values type, const char* msng, ...){
             //TODO
-            _logs.push_back({});
+            _logs.emplace_back();
         }
 
         inline pugi::xml_document& parse(){_parse({});return compiled;}
@@ -152,10 +153,10 @@ struct preprocessor{
                                 auto frame_guard = symbols.guard();
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
-                                stack_template.push({current_template.first->begin(),current_template.first->end()});
+                                stack_template.emplace(current_template.first->begin(),current_template.first->end());
                                 _parse(current_template.first);
                                 //When exiting one too many is removed. restore it.
-                                stack_compiled.push(current_compiled);
+                                stack_compiled.emplace(current_compiled);
                             }
                         }
                         else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
@@ -176,9 +177,9 @@ struct preprocessor{
                             //Only a node is acceptable in this context, otherwise show the error
                             if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
                                 for(const auto& el: current_template.first->children(strings.ERROR_TAG)){
-                                    stack_template.push({el.begin(),el.end()});
+                                    stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
-                                    stack_compiled.push(current_compiled);
+                                    stack_compiled.emplace(current_compiled);
                                 }
                             }
                             else{
@@ -198,18 +199,18 @@ struct preprocessor{
 
                                 if(good_data.size()==0){
                                     for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
-                                        stack_template.push({el.begin(),el.end()});
+                                        stack_template.emplace(el.begin(),el.end());
                                         _parse(current_template.first);
-                                        stack_compiled.push(current_compiled);
+                                        stack_compiled.emplace(current_compiled);
                                     }
                                 }
                                 else{
                                     //Header (once)
                                     {
                                         for(const auto& el: current_template.first->children(strings.HEADER_TAG)){
-                                            stack_template.push({el.begin(),el.end()});
+                                            stack_template.emplace(el.begin(),el.end());
                                             _parse(current_template.first);
-                                            stack_compiled.push(current_compiled);
+                                            stack_compiled.emplace(current_compiled);
                                         }
                                     }
                                 
@@ -219,9 +220,9 @@ struct preprocessor{
                                         if(tag!=nullptr)symbols.set(tag,i);
                                         symbols.set("$",i);
                                         for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
-                                            stack_template.push({el.begin(),el.end()});
+                                            stack_template.emplace(el.begin(),el.end());
                                             _parse(current_template.first);
-                                            stack_compiled.push(current_compiled);
+                                            stack_compiled.emplace(current_compiled);
                                         }
 
                                     }
@@ -229,9 +230,9 @@ struct preprocessor{
                                     //Footer (once)
                                     {
                                         for(const auto& el: current_template.first->children(strings.FOOTER_TAG)){
-                                            stack_template.push({el.begin(),el.end()});
+                                            stack_template.emplace(el.begin(),el.end());
                                             _parse(current_template.first);
-                                            stack_compiled.push(current_compiled);
+                                            stack_compiled.emplace(current_compiled);
                                         }
                                     }
                                 }
@@ -254,9 +255,9 @@ struct preprocessor{
                             //Only a node is acceptable in this context, otherwise show the error
                             if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
                                 for(const auto& el: current_template.first->children(strings.ERROR_TAG)){
-                                    stack_template.push({el.begin(),el.end()});
+                                    stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
-                                    stack_compiled.push(current_compiled);
+                                    stack_compiled.emplace(current_compiled);
                                 }
                             }
                             else{
@@ -264,18 +265,18 @@ struct preprocessor{
 
                                 if(good_data.size()==0){
                                     for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
-                                        stack_template.push({el.begin(),el.end()});
+                                        stack_template.emplace(el.begin(),el.end());
                                         _parse(current_template.first);
-                                        stack_compiled.push(current_compiled);
+                                        stack_compiled.emplace(current_compiled);
                                     }
                                 }
                                 else{
                                     //Header (once)
                                     {
                                         for(const auto& el: current_template.first->children(strings.HEADER_TAG)){
-                                            stack_template.push({el.begin(),el.end()});
+                                            stack_template.emplace(el.begin(),el.end());
                                             _parse(current_template.first);
-                                            stack_compiled.push(current_compiled);
+                                            stack_compiled.emplace(current_compiled);
                                         }
                                     }
                                 
@@ -285,9 +286,9 @@ struct preprocessor{
                                         if(tag!=nullptr)symbols.set(tag,i);
                                         symbols.set("$",i);
                                         for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
-                                            stack_template.push({el.begin(),el.end()});
+                                            stack_template.emplace(el.begin(),el.end());
                                             _parse(current_template.first);
-                                            stack_compiled.push(current_compiled);
+                                            stack_compiled.emplace(current_compiled);
                                         }
 
                                     }
@@ -295,9 +296,9 @@ struct preprocessor{
                                     //Footer (once)
                                     {
                                         for(const auto& el: current_template.first->children(strings.FOOTER_TAG)){
-                                            stack_template.push({el.begin(),el.end()});
+                                            stack_template.emplace(el.begin(),el.end());
                                             _parse(current_template.first);
-                                            stack_compiled.push(current_compiled);
+                                            stack_compiled.emplace(current_compiled);
                                         }
                                     }
                                 }
@@ -313,22 +314,22 @@ struct preprocessor{
                                 for(auto& attr : current_template.first->attributes()){
                                     if(strcmp(attr.name(),strings.TYPE_ATTR)!=0)child.append_attribute(attr.name()).set_value(attr.value());
                                 }
-                                stack_compiled.push(child);
+                                stack_compiled.emplace(child);
 
-                                stack_template.push({current_template.first->begin(),current_template.first->end()});
+                                stack_template.emplace(current_template.first->begin(),current_template.first->end());
                                 _parse(current_template.first);
-                                stack_compiled.push(current_compiled);
+                                stack_compiled.emplace(current_compiled);
                             }
                             else if(std::holds_alternative<const pugi::xml_node>(symbol.value())){
                                 auto child = current_compiled.append_child(std::get<const pugi::xml_node>(symbol.value()).text().as_string());
                                 for(auto& attr : current_template.first->attributes()){
                                     if(strcmp(attr.name(),strings.TYPE_ATTR)!=0)child.append_attribute(attr.name()).set_value(attr.value());
                                 }
-                                stack_compiled.push(child);
+                                stack_compiled.emplace(child);
 
-                                stack_template.push({current_template.first->begin(),current_template.first->end()});
+                                stack_template.emplace(current_template.first->begin(),current_template.first->end());
                                 _parse(current_template.first);
-                                stack_compiled.push(current_compiled);
+                                stack_compiled.emplace(current_compiled);
                             }
                             else{}
                         }
@@ -336,9 +337,9 @@ struct preprocessor{
                             auto symbol = resolve_expr(current_template.first->attribute("src").as_string("$"));
                             if(!symbol.has_value()){
                                 /*Show default content if search fails*/
-                                stack_template.push({current_template.first->begin(),current_template.first->end()});
+                                stack_template.emplace(current_template.first->begin(),current_template.first->end());
                                 _parse(current_template.first);
-                                stack_compiled.push(current_compiled);
+                                stack_compiled.emplace(current_compiled);
                             }
                             else{
                                 if(std::holds_alternative<int>(symbol.value())){
@@ -386,9 +387,9 @@ struct preprocessor{
                                 }
                         
                                 if(result){
-                                    stack_template.push({entry.begin(),entry.end()});
+                                    stack_template.emplace(entry.begin(),entry.end());
                                     _parse(current_template.first);
-                                    stack_compiled.push(current_compiled);
+                                    stack_compiled.emplace(current_compiled);
 
                                     if(_continue==false)break;
                                 }
@@ -418,8 +419,8 @@ struct preprocessor{
                     }
                     if(!current_template.first->children().empty()){
                 
-                        stack_template.push({current_template.first->children().begin(),current_template.first->children().end()});
-                        stack_compiled.push(last);
+                        stack_template.emplace(current_template.first->children().begin(),current_template.first->children().end());
+                        stack_compiled.emplace(last);
                     }
                     current_template.first++;
                 }
