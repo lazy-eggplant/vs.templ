@@ -14,6 +14,7 @@
 
 #include "utils.hpp"
 #include "symbols.hpp"
+#include "logging.hpp"
 
 namespace vs{
 namespace templ{
@@ -31,6 +32,8 @@ struct preprocessor{
         std::stack<pugi::xml_node_iterator> stack_data;
         std::stack<std::pair<pugi::xml_node_iterator,pugi::xml_node_iterator>> stack_template;
 
+        std::vector<log> logs;
+
         //Stack-like table of symbols
         symbol_map symbols;
 
@@ -38,19 +41,15 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_document& root_data, const pugi::xml_document& root_template){
-            init(root_data,root_template);
+        inline preprocessor(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:"){
+            init(root_data,root_template,prefix);
         }
 
-        void init(const pugi::xml_document& root_data, const pugi::xml_document& root_template){
-            stack_template.push({root_template.root().begin(),root_template.root().end()});
-            stack_compiled.push(compiled.root());
-            this->root_data=root_data.root();
-        }
-        inline void reset(){symbols.reset();stack_template=decltype(stack_template)();stack_data=decltype(stack_data)();stack_compiled=decltype(stack_compiled)();}
-        inline pugi::xml_document& parse (){_parse({});return compiled;}
+        void init(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:");
+        void reset();
 
-        inline void ns(const char* str){ns_prefix = str;/*TODO: Update strings on change*/}
+        inline pugi::xml_document& parse(){_parse({});return compiled;}
+        inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
 
     private:
         struct order_method_t{
@@ -67,7 +66,7 @@ struct preprocessor{
         };
 
         //Precomputed string to avoid spawning an absurd number of small objects in heap at each cycle.
-        struct node_strings{
+        struct ns_strings{
             private:
                 char* data = nullptr;
             public:
@@ -109,158 +108,18 @@ struct preprocessor{
 
             const char *USE_SRC_PROP;
 
-    #       define WRITE(name,value) name=data+count;memcpy(data+count,ns_prefix,ns_prefix_len);memcpy(data+count+ns_prefix_len,value,std::char_traits<char>::length(value));data[count+ns_prefix_len+std::char_traits<char>::length(value)]=0;count+=ns_prefix_len+std::char_traits<char>::length(value)+1;
-    #       define STRLEN(str) ns_prefix_len+std::char_traits<char>::length(str)+1
+            void prepare(const char * ns_prefix);
 
-            void prepare(const char * ns_prefix){
-                size_t ns_prefix_len=strlen(ns_prefix);
+            inline ~ns_strings(){if(data!=nullptr)delete[] data;}
 
-                if(data!=nullptr)delete []data;
-                data = new char[
-                    STRLEN("for-range")+
-                    STRLEN("for")+STRLEN("for-props")+STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
-                    STRLEN("when")+STRLEN("is")+
-                    STRLEN("value")+
-                    STRLEN("element")+STRLEN("type")+
-
-                    STRLEN("for.in")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
-                    STRLEN("for-props.in")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
-                    
-                    STRLEN("value.src")+STRLEN("value.format")+
-                    STRLEN("use.src")
-                    ];
-                int count=0;
-                
-                WRITE(FOR_RANGE_TAG,"for-range");
-
-                WRITE(FOR_TAG,"for");
-                WRITE(FOR_PROPS_TAG,"for-props");
-                    WRITE(EMPTY_TAG,"empty");
-                    WRITE(HEADER_TAG,"header");
-                    WRITE(FOOTER_TAG,"footer");
-                    WRITE(ITEM_TAG,"item");
-                    WRITE(ERROR_TAG,"error");
-
-                WRITE(WHEN_TAG,"when");
-                    WRITE(IS_TAG,"is");
-
-                WRITE(VALUE_TAG,"value");
-                WRITE(ELEMENT_TAG,"element");
-                    WRITE(TYPE_ATTR, "type");
-
-                WRITE(FOR_IN_PROP,"for.in");
-                WRITE(FOR_FILTER_PROP,"for.filter");
-                WRITE(FOR_SORT_BY_PROP,"for.sort-by");
-                WRITE(FOR_ORDER_BY_PROP,"for.order-by");
-                WRITE(FOR_OFFSET_PROP,"for.offset")
-                WRITE(FOR_LIMIT_PROP,"for.limit");
-
-
-                WRITE(FOR_PROPS_IN_PROP,"for.in");
-                WRITE(FOR_PROPS_FILTER_PROP,"for.filter");
-                WRITE(FOR_PROPS_ORDER_BY_PROP,"for.order-by");
-                WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
-                WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
-                    
-                WRITE(VALUE_SRC_PROP,"value.src");
-                WRITE(VALUE_FORMAT_PROP,"value.format");
-                
-                WRITE(USE_SRC_PROP,"use.src");
-            }
-
-            ~node_strings(){delete[] data;}
-
-            node_strings(){prepare(ns_prefix);}
-
-    #       undef STRLEN
-    #       undef WRITE
         }strings;
-
-
 
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
         std::optional<concrete_symbol> resolve_expr(const char* _str, const pugi::xml_node* base=nullptr);
 
-        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion){
-            auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
-                if(criterion==order_method_t::ASC){
-                    int cmp =  strcmp(a.name(),b.name());
-                    if(cmp==-1)return true;
-                    else return false;
-                }
-                else if(criterion==order_method_t::DESC){
-                    int cmp =  strcmp(a.name(),b.name());
-                    if(cmp==1)return true;
-                    else return false;
-                }
-                else{
-                    //TODO: methods not implemented. The dot variants are only valid for strings or string-like content. They uses `.` to nest the search in blocks, like for prop names.
-                    //Random is based on the hash of the value. It requires to be stable: as such, a fast hashing function is needed (externally supplied, C++ has none).
-                }
-                
-                return false;
-            };
-            
-            std::vector<pugi::xml_attribute> dataset;
-            for(auto& child: base.attributes()){
-                if(filter==nullptr || filter(child))dataset.push_back(child);
-            }
+        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion);
 
-            std::sort(dataset.begin(),dataset.end(),cmp_fn);
-
-            //TODO: Check if these boudary condition are sound.
-            if(offset<0)offset=0;
-            else if(offset>=dataset.size())return {};
-            if(limit>0 && offset+limit>dataset.size())limit=dataset.size()-offset;
-            else if(limit<0 && dataset.size()+limit<=offset)return {};
-
-            else if(limit<=0)return std::vector(dataset.begin()+offset, dataset.end()-limit);
-            else return std::vector(dataset.begin()+offset, dataset.begin()+offset+limit);
-
-            return {};
-        }
-
-        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_node&), const std::vector<std::pair<std::string,order_method_t::values>>& criteria){
-            auto cmp_fn = [&](const pugi::xml_node& a, const pugi::xml_node& b)->int{
-                for(auto& criterion: criteria){
-                    auto valA = resolve_expr(criterion.first.c_str(),&a);
-                    auto valB = resolve_expr(criterion.first.c_str(),&b);
-
-                    if(criterion.second==order_method_t::ASC){
-                        if(valA<valB)return true;
-                        else if(valA>valB) return false;
-                    }
-                    else if(criterion.second==order_method_t::DESC){
-                        if(valA<valB)return false;
-                        else if(valA>valB) return true;
-                    }
-                    else{
-                        //TODO: methods not implemented. The dot variants are only valid for strings or string-like content. They uses `.` to nest the search in blocks, like for prop names.
-                        //Random is based on the hash of the value. It requires to be stable: as such, a fast hashing function is needed (externally supplied, C++ has none).
-
-                    }
-                }
-                return false;
-            };
-            
-            std::vector<pugi::xml_node> dataset;
-            for(auto& child: base.children()){
-                if(filter==nullptr || filter(child))dataset.push_back(child);
-            }
-
-            std::sort(dataset.begin(),dataset.end(),cmp_fn);
-
-            //TODO: Check if these boudary condition are sound.
-            if(offset<0)offset=0;
-            else if(offset>=dataset.size())return {};
-            if(limit>0 && offset+limit>dataset.size())limit=dataset.size()-offset;
-            else if(limit<0 && dataset.size()+limit<=offset)return {};
-
-            else if(limit<=0)return std::vector(dataset.begin()+offset, dataset.end()-limit);
-            else return std::vector(dataset.begin()+offset, dataset.begin()+offset+limit);
-
-            return {};
-        }
+        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_node&), const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at){ 
             
@@ -392,7 +251,7 @@ struct preprocessor{
                                 }
                             }
                             else{
-                                auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, nullptr,order_form_str(_order_by));
+                                auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, nullptr,order_method_t::from_string(_order_by));
 
                                 if(good_data.size()==0){
                                     for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
@@ -539,11 +398,11 @@ struct preprocessor{
                     last.set_value(current_template.first->value());
                     for(const auto& attr :current_template.first->attributes()){
                         //Special handling of static attribute rewrite rules
-                        if(strncmp(attr.name(), ns_prefix, ns_prefix_len)==0){
-                            if(cx_strneqv(attr.name()+ns_prefix_len,"for.src.")){}
-                            else if(cx_strneqv(attr.name()+ns_prefix_len,"for-prop.src.")){}
-                            else if(cx_strneqv(attr.name()+ns_prefix_len,"use.src.")){}
-                            else if(cx_strneqv(attr.name()+ns_prefix_len,"eval.")){}
+                        if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
+                            if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){}
+                            else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-prop.src.")){}
+                            else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
+                            else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"eval.")){}
                             else {std::cerr<<"unrecognized static operation\n";}
                         }
                         else last.append_attribute(attr.name()).set_value(attr.value());
