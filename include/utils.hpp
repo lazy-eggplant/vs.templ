@@ -19,5 +19,7 @@ std::vector<std::string_view> split_string (const char* str, char delim);
 inline constexpr std::size_t cexpr_strlen(const char* s){return std::char_traits<char>::length(s);}
 inline bool cexpr_strneqv(const char* s, const char* c){return strncmp(s, c, cexpr_strlen(c))==0;}
 
+int cmp_dot_str(const char* a, const char* b);
+
 }
 }

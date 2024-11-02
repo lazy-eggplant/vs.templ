@@ -1,5 +1,3 @@
-#pragma once
-
 #include <utils.hpp>
 
 namespace vs{
@@ -13,6 +11,11 @@ std::vector<std::string_view> split_string (const char* str, char delim) {
         if(str[i]==0){result.emplace_back(str+last,i-last);break;}
     }
     return result;
+}
+
+int cmp_dot_str(const char* a, const char* b){
+    //TODO: Implement logic
+    return 0;
 }
 
 }

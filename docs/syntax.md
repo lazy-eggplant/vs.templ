@@ -80,6 +80,11 @@ Both `for` & `for-props` support the following list of children. You can use as 
 To introduce the value of an expression as text content of an element. It accepts a path expression `src` as argument. By default, it is assumed to be `$`.  
 It also supports an additional `format` argument, but at this stage it has no implementation.
 
+### `calc`
+
+Used to compute more complex expressions which are not restricted like those for paths. Aside from that, its behaviour in the final XML is similar to `value`.
+
+
 ### `element`
 
 To generate a new element whose type is determined by a tag expression `ns:type`. Any other property and child will be preserved.
@@ -96,17 +101,22 @@ Attributes for `is`:
 
 The order of `is` elements is important and determines the overall flow.
 
+
 ### Operators for properties
 
-### `for.FIELD.xxx` & `for-props.FIELD.xxx`
+### `for.SUB-ATTR.xxx` & `for-props.SUB-ATTR.xxx`
 
 As prop, attribute variants of `for` and `for-props`. They add attributes to the node they are defined within.
 
-### `value.FIELD.xxx`
+### `value.SUB-ATTR.xxx`
 
 As prop, to introduce the value of an expression as value of a prop `xxx`.
 
-### `prop`
+### `calc.SUB-ATTR.xxx`
+
+Used to compute more complex expressions which are not restricted like those for paths. Aside from that, its behaviour in the final XML is similar to `value.SUB-ATTR.xxx`.
+
+### `prop.xxx`
 
 To generate new props whose name is determined by an expression.
 

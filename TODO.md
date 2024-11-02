@@ -15,6 +15,7 @@ This is a list of commands which are currently supported:
 - [x] value
 - [x] element
 - [x] when/is
+- [ ] calc
 
 ## Props based
 
@@ -26,6 +27,7 @@ This is a list of commands which are currently supported:
 - [ ] for-prop (mostly a copy & paste from `for`)
 - [ ] value
 - [ ] prop (dual of element)
+- [ ] calc
 
 # Milestones
 
@@ -43,7 +45,7 @@ This is a list of commands which are currently supported:
 - [x] man page generation via meson (not great, but I'll take it).
 
 ## `v1.0.0`
-- [ ] Support for all commands, except `filter` in all `for` variants. Syntax for it has not been determined yet.  
+- [ ] Support for all commands, except `filter` in all `for` variants & `calc`. Syntax for it has not been determined yet.  
 - [x] Functional CLI needed.  
 - [x] Install scripts working.
 - [ ] Some minimal testing facility is highly desirable.
