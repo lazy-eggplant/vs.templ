@@ -1,24 +1,46 @@
 ## Syntax
-
+`vs.templ` uses special elements and attributes to determine the actions to be performed by the preprocessor.  
+They are scoped under the namespace `s`, or any custom defined one.  
 
 ### Path expressions
-Expression are used to use elements and properties in the tree structure of the static dataset from the template. Their definition and usage is purposefully restricted to prevent arbitrary code to be run.  
-This is the list of all feasible value
+Expression are used to access elements and attributes of the data XML from the template.  
+Their definition and usage is purposefully restricted to prevent arbitrary code to be run.  
+A full list of feasible expression types:
 
-- String, automatically cast for expressions starting with `#`
-- Integers, automatically cast for expressions starting with a digit, `+`, `-` or `.`
-- Local paths, `$/.../`. `$` is used to mark the nearest named scope being visited.
-- Local paths leading to a property/attribute, `$/...~prop-name`
-- Paths with arbitrary prefix `{var-name}/.../` where `var-name`is searched for and resolved from the symbols' stack.
-- As before, but ending with a property/attribute, `{var-name}/...~prop-name`
-- Absolute paths. `/.../` starting with `/`.
-- Absolute paths resolving in a property/attribute `/...~prop-name`
+- String, automatically assigned from expressions starting with `#` (the prefix is skipped)
+- Integers (base 10), automatically assigned from expressions starting with a digit, `+`, `-` or `.`
+- Paths starting with `$`. This special symbol is used to mark the nearest scope being visited or root if none.
+- Paths with arbitrary prefix `{var-name}` where `var-name`is searched for and resolved from the symbols' stack.
+- Absolute paths starting from the root, with prefix `/`.
+
+The rest of a path expression has one or more tokens `/`-terminated representing the tag name being visited.  
+If terminated with `~prop-name` the relevant attribute is selected.
 
 There are also two special properties:
 - Special access to the property`~!txt` to get the node text.
 - Special access to the element's name via `~!tag`
 
-No further combination or format is allowed, and if used they might lead to undefined behaviour. However, the preprocessor should not result in exceptions.
+No further combination or format is allowed, and if used they might lead to undefined behaviour.  
+However, the preprocessor should not result in exceptions.
+
+#### Examples
+Using the following XML file as reference:
+```xml
+<hello>
+    <world attribute-a="value-0">
+        text-0
+    </world>
+    <!-- The second one will never be visited with paths like /hello/world/-->
+    <world attribute-a="value-1">
+        text-1
+    </world>
+</hello>
+```
+
+- `/hello/world/` is the list of children for the first `world` element in `hello`
+- `/hello/world~attribute-a` is evaluated as `value-0`
+- `/hello/world~!txt` is evaluated as `text-0`
+- Assuming a for cycle in `/hello/`, its children will be navigated and `$~attribute-a` will be resolved in `value-0` and `value-1`.
 
 ### Operators for elements
 Operators acting over elements will use information from the current static data sub-path to further generate a parametrized version of what shown in their children on the template tree.
