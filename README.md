@@ -31,7 +31,7 @@ and
 <ul>
 <s:for in="$/items/" sort-by="$~prop-a" order-by="desc">
     <s:item>
-        <li><s:value src="$~prop-a"/>: <s:value src="$~~txt"/></li>
+        <li><s:value src="$~prop-a"/>: <s:value src="$~!txt"/></li>
     </s:item>
 </s:for>
 </ul>

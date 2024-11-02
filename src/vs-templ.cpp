@@ -15,7 +15,7 @@ void preprocessor::reset(){
     stack_template=decltype(stack_template)();
     stack_data=decltype(stack_data)();
     stack_compiled=decltype(stack_compiled)();
-    logs=decltype(logs)();
+    _logs=decltype(_logs)();
 }
 
 std::optional<concrete_symbol> preprocessor::resolve_expr(const char* _str, const pugi::xml_node* base){
@@ -87,12 +87,12 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const char* _str, cons
     return {};
 }
 
-preprocessor::order_method_t::values preprocessor::order_method_t::from_string(const char* str){
+preprocessor::order_method_t::values preprocessor::order_method_t::from_string(std::string_view str){
     bool dot_eval=false;
     if(str[0]=='.')dot_eval=true;
-    if(strcmp(str+dot_eval,"asc"))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|ASC);
-    else if(strcmp(str+dot_eval,"desc"))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|DESC);
-    else if(strcmp(str+dot_eval,"random"))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|RANDOM);
+    if((std::string_view(str.begin()+dot_eval, str.length()) == std::string_view("asc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|ASC);
+    else if((std::string_view(str.begin()+dot_eval, str.length()) == std::string_view("desc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|DESC);
+    else if((std::string_view(str.begin()+dot_eval, str.length()) == std::string_view("random")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|RANDOM);
     else return order_method_t::UNKNOWN;
 }
 
@@ -189,9 +189,9 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
 
     //TODO: Check if these boudary condition are sound.
     if(offset<0)offset=0;
-    else if(offset>=dataset.size())return {};
-    if(limit>0 && offset+limit>dataset.size())limit=dataset.size()-offset;
-    else if(limit<0 && dataset.size()+limit<=offset)return {};
+    else if(offset>=(int)dataset.size())return {};
+    if(limit>0 && offset+limit>(int)dataset.size())limit=dataset.size()-offset;
+    else if(limit<0 && (int)dataset.size()+limit<=offset)return {};
 
     else if(limit<=0)return std::vector(dataset.begin()+offset, dataset.end()-limit);
     else return std::vector(dataset.begin()+offset, dataset.begin()+offset+limit);
@@ -231,9 +231,9 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
 
     //TODO: Check if these boudary condition are sound.
     if(offset<0)offset=0;
-    else if(offset>=dataset.size())return {};
-    if(limit>0 && offset+limit>dataset.size())limit=dataset.size()-offset;
-    else if(limit<0 && dataset.size()+limit<=offset)return {};
+    else if(offset>=(int)dataset.size())return {};
+    if(limit>0 && offset+limit>(int)dataset.size())limit=dataset.size()-offset;
+    else if(limit<0 && (int)dataset.size()+limit<=offset)return {};
 
     else if(limit<=0)return std::vector(dataset.begin()+offset, dataset.end()-limit);
     else return std::vector(dataset.begin()+offset, dataset.begin()+offset+limit);

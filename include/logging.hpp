@@ -1,3 +1,14 @@
 #pragma once
 
-struct log{};
+namespace vs{
+namespace templ{
+
+struct log_t{
+    enum values{
+        ERROR
+    };
+
+};
+
+}
+}

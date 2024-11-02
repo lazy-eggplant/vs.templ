@@ -32,7 +32,7 @@ struct preprocessor{
         std::stack<pugi::xml_node_iterator> stack_data;
         std::stack<std::pair<pugi::xml_node_iterator,pugi::xml_node_iterator>> stack_template;
 
-        std::vector<log> logs;
+        std::vector<log_t> _logs;
 
         //Stack-like table of symbols
         symbol_map symbols;
@@ -48,6 +48,12 @@ struct preprocessor{
         void init(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:");
         void reset();
 
+        inline const std::vector<log_t> logs(){return _logs;}
+        inline void log(log_t::values type, const char* msng, ...){
+            //TODO
+            _logs.push_back({});
+        }
+
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
 
@@ -62,7 +68,7 @@ struct preprocessor{
                 USE_DOT_EVAL = 16 //For strings, split evaluation based on their dot groups. Valid for all methods.
             };
 
-            static values from_string(const char* str);
+            static values from_string(std::string_view str);
         };
 
         //Precomputed string to avoid spawning an absurd number of small objects in heap at each cycle.
@@ -176,13 +182,16 @@ struct preprocessor{
                                 }
                             }
                             else{
-                                std::vector<std::pair<std::string,order_method_t>> criteria;
+                                std::vector<std::pair<std::string,order_method_t::values>> criteria;
                                 //Build criteria
                                 {
-                                    auto orders = split(_order_by,',');
+                                    auto orders = split_string(_order_by,',');
                                     int c = 0;
                                     //Apply order directive with wrapping in case not enough cases are specified.
-                                    for(auto& i:split(_sort_by,',')){criteria.push_back({i,order_form_str(orders[c%orders.size()])});c++;}
+                                    for(auto& i:split_string(_sort_by,',')){
+                                        criteria.emplace_back(i,order_method_t::from_string(orders[c%orders.size()]));
+                                        c++;
+                                    }
                                 }
 
                                 auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, nullptr, criteria);
@@ -385,7 +394,7 @@ struct preprocessor{
                                 }
                             }
                         }
-                        else {std::cerr<<"unrecognized static operation\n";}
+                        else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}
                         
                         current_template.first++;
                         continue;
@@ -403,7 +412,7 @@ struct preprocessor{
                             else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-prop.src.")){}
                             else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
                             else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"eval.")){}
-                            else {std::cerr<<"unrecognized static operation\n";}
+                            else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}
                         }
                         else last.append_attribute(attr.name()).set_value(attr.value());
                     }
