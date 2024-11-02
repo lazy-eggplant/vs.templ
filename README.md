@@ -1,14 +1,15 @@
 > [!WARNING]  
-> Migration and adaptation from the other repository still ongoing.
+> Migration and adaptation from the other repository done.  
+> Documentation and missing features still ongoing.
 
-`vs-templ` is a simple preprocessor to statically generate derived XML files from a template definition.  
-Static templates can be seen as extremely simple programs which are interpreted by this preprocessor, and used to statically generate custom XML consuming some input data. Both the input data and temmplate are expressed in XML, but it can be possible to extend the input data to other formats like JSON if so desired.  
+`vs-templ` is a simple preprocessor for XML files. It can be used statically generate new files from a template definition.  
+Static templates can be seen as extremely simple programs which are interpreted by this preprocessor. They consume input data also formatted as XML, and generate some output XML file. In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.
 
 `vs-templ` was first developed in the context of [vs](https://github.com/karurochori/vs-fltk) to express parametric components.  
-While the XML ecosystem is often reliant on XSLT as a preprocessor, this option had to be quickly discarded for several reasons:
+While the XML ecosystem is often reliant on XSLT as a preprocessor, this option was quickly dismissed for several reasons:
 
 - The rest of the `vs` project is based on `pugixml`. The only XSLT 1.0 implementation which is decently licensed is [libxslt](https://gitlab.gnome.org/GNOME/libxslt) based on [libxml2](https://gitlab.gnome.org/GNOME/libxml2).  
-  Because of that a trivial integration would have been quite wasteful, requesting an additional serialization and parsing stage to move the deserialized tree structure from one library to the other.
+  Because of that, a trivial integration would have been quite wasteful: an additional serialization and parsing stage is needed to move the tree structure between libraries.
 - The scope of XSLT, even in its very first version is too wide & its syntax just verbose. This is mostly a result of `xpath` being too powerful of a tool.
 - At some point `vs` will come with dynamic native components, and the idea is for them to match in syntax and behaviour the extended tags introduced by this preprocessor. A custom implementation is the only way to ensure a seamless integration between the two.
 

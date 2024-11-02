@@ -31,7 +31,16 @@ This is a list of commands which are currently supported:
 
 # Milestones
 
+## `v0.3.0`
+- [x] At least feature parity with what it was before moving it out of `vs-fltk`.
+- [x] Some degree of documentation.
+
+## `v0.4.0`
+- [ ] Add support for props-based commands.
+- [ ] Initial setup for the test-suite.
+
 ## `v1.0.0`
 - [ ] Support for all commands, except `filter` in all `for` variants. Syntax for it has not been determined yet.  
-- [ ] Functional CLI needed.  
+- [x] Functional CLI needed.  
+- [ ] Install scripts working.
 - [ ] Some minimal testing facility is highly desirable.
