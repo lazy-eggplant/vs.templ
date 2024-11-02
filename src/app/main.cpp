@@ -29,43 +29,31 @@ int main(int argc, const char* argv[]){
     pugi::xml_document data, tmpl;
 
     if(argc>=2){
-        {auto t = tmpl.load_file(argv[1]); if(!t){std::cerr<<t.description();exit(2);}}
-        {auto t = data.load_file(argv[2]); if(!t){std::cerr<<t.description();exit(3);}}
+        {auto t = tmpl.load_file(argv[1]); if(!t){std::cerr<<t.description()<<" @ `template file`\n";exit(2);}}
+        {auto t = data.load_file(argv[2]); if(!t){std::cerr<<t.description()<<" @ `data file`\n";exit(3);}}
 
         if(argc==4){ns_prefix=argv[3];}
-        
-        preprocessor doc(data,tmpl,ns_prefix);
-        auto& result = doc.parse();
-
-        /*
-        for(auto& log : doc.logs){
-            if(log.type==log_t::types::ERROR){
-                std::cerr<<log;
-            }
-        }
-        */
-
-        result.save(std::cout);
     }
     else{
         if(argc==2){ns_prefix=argv[1];}
 
-        {auto t = tmpl.load(std::cin); if(!t){std::cerr<<t.description();exit(2);}}
-        {auto t = data.load(std::cin); if(!t){std::cerr<<t.description();exit(3);}}
+        {auto t = tmpl.load(std::cin); if(!t){std::cerr<<t.description()<<" @ `template file`\n";exit(2);}}
+        {auto t = data.load(std::cin); if(!t){std::cerr<<t.description()<<" @ `data file`\n";exit(3);}}
 
-        preprocessor doc(data,tmpl,ns_prefix);
-        auto& result = doc.parse();
-
-        /*
-        for(auto& log : doc.logs){
-            if(log.type==log_t::types::ERROR){
-                std::cerr<<log;
-            }
-        }
-        */
-
-        result.save(std::cout);
     }
+
+    preprocessor doc(data,tmpl,ns_prefix);
+    auto& result = doc.parse();
+
+    
+    for(auto& log : doc.logs()){
+        if(log.type()==log_t::values::ERROR){
+            std::cerr<<log.description()<<"\n";
+        }
+    }
+    
+
+    result.save(std::cout);
 
     return 0;
 }
