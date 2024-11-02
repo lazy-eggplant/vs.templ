@@ -23,7 +23,7 @@ namespace templ{
 
 struct preprocessor{
     private:
-        std::string ns_prefix = "ns:";
+        std::string ns_prefix;
 
         //Final document to be shared
         pugi::xml_document compiled;
@@ -51,6 +51,7 @@ struct preprocessor{
 
         inline const std::vector<log_t> logs(){return _logs;}
         inline void log(log_t::values type, const char* msg, ...){
+            //TODO: Handling of panic should terminate the process right away (?)
             //TODO: Interpolate/format string
             _logs.emplace_back(type,msg);
         }

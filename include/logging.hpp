@@ -7,7 +7,7 @@ namespace templ{
 
 struct log_t{
     enum values{
-        ERROR
+        ERROR, WARNING, PANIC
     };
 
     private:
