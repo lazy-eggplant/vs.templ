@@ -308,7 +308,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 c++;
                             }
                         }
-
                         auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, nullptr, criteria);
 
                         if(good_data.size()==0){

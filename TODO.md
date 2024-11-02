@@ -2,8 +2,6 @@
 
 This is a list of commands which are currently supported:
 
-- [x] Add support for `element.text()` & `element.name()` in query.
-- [x] Replace the current split implementation with something not requiring these many allocations
 
 ## Block based:
 
@@ -34,10 +32,14 @@ This is a list of commands which are currently supported:
 ## `v0.3.0`
 - [x] At least feature parity with what it was before moving it out of `vs-fltk`.
 - [x] Some degree of documentation.
+- [x] Add support for `element.text()` & `element.name()` in query.
+- [x] Replace the current split implementation with something not requiring these many allocations
 
 ## `v0.4.0`
 - [ ] Add support for props-based commands.
 - [ ] Initial setup for the test-suite.
+- [ ] Add actual support of dot comparison in strings which is already exposed.
+- [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document).
 
 ## `v1.0.0`
 - [ ] Support for all commands, except `filter` in all `for` variants. Syntax for it has not been determined yet.  
