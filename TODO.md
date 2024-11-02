@@ -40,6 +40,7 @@ This is a list of commands which are currently supported:
 - [ ] Initial setup for the test-suite.
 - [ ] Add actual support of dot comparison in strings which is already exposed.
 - [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document).
+- [x] man page generation via meson (not great, but I'll take it).
 
 ## `v1.0.0`
 - [ ] Support for all commands, except `filter` in all `for` variants. Syntax for it has not been determined yet.  

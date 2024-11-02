@@ -1,5 +1,5 @@
 > [!WARNING]  
-> Migration and adaptation from the other repository done.  
+> Migration and adaptation from the other repository is done.  
 > Documentation and missing features still ongoing.
 
 `vs-templ` is a simple preprocessor for XML files. It can be used statically generate new files from a template definition.  

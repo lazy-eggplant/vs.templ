@@ -12,6 +12,10 @@ pugixml_dep = pugixml_proj.get_variable('pugixml_dep')
 vs_templ_lib= library('vs-templ-lib', ['src/vs-templ.cpp', 'src/utils.cpp', 'src/symbols.cpp', 'src/logging.cpp'], dependencies: [pugixml_dep], include_directories: ['include'])
 vs_templ_cli= executable('vs.templ', ['src/app/main.cpp'], dependencies: [pugixml_dep], link_with: [vs_templ_lib], include_directories: ['include'])
 
+pandoc = find_program('pandoc', required: false)
+if pandoc.found()
+    vs_templ_man = custom_target(command: 'man', output: 'vs-templ.1', input: './docs/manual.md', command:['pandoc','@INPUT@','-s','-t','man','-o','@OUTPUT@'])
+endif
 
 vs_templ_dep = declare_dependency(
   link_with: vs_templ_lib,

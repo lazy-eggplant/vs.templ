@@ -2,18 +2,13 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <algorithm>
-#include <iostream>
-#include <map>
 #include <optional>
 #include <stack>
 #include <string>
-#include <variant>
 #include <vector>
 
 #include <pugixml.hpp>
 
-#include "utils.hpp"
 #include "symbols.hpp"
 #include "logging.hpp"
 

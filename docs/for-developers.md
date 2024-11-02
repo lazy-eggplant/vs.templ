@@ -8,7 +8,8 @@ To build, test and install it you can just use normal meson commands.
 
 ## Using it
 
-Right now this project is only available as a meson package. I might consider adding `cmake` later on to gain a wider compatibility.
+Right now this project is only available as a meson package.  
+I might consider adding `cmake` later on to gain a wider compatibility.
 
 ## Versioning
 

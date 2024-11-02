@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <vs-templ.hpp>
+#include "utils.hpp"
 
 namespace vs{
 namespace templ{
