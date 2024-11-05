@@ -89,6 +89,7 @@ struct preprocessor{
                 const char *IS_TAG;
 
             const char *VALUE_TAG;
+            const char *CALC_TAG;
             const char *ELEMENT_TAG;
                 const char *TYPE_ATTR;
 
@@ -108,6 +109,9 @@ struct preprocessor{
 
             const char *VALUE_SRC_PROP;
             const char *VALUE_FORMAT_PROP;
+
+            const char *CALC_SRC_PROP;
+            const char *CALC_FORMAT_PROP;
 
             const char *USE_SRC_PROP;
 

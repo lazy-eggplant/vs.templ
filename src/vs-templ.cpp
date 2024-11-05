@@ -6,8 +6,8 @@ namespace vs{
 namespace templ{
 
 void preprocessor::init(const pugi::xml_document& root_data, const pugi::xml_document& root_template,const char* prefix){
-            stack_template.push({root_template.root().begin(),root_template.root().end()});
-            stack_compiled.push(compiled.root());
+            stack_template.emplace(root_template.root().begin(),root_template.root().end());
+            stack_compiled.emplace(compiled.root());
             this->root_data=root_data.root();
             symbols.set("$",root_data.root());
             ns(prefix);
@@ -112,12 +112,14 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for")+STRLEN("for-props")+STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
         STRLEN("when")+STRLEN("is")+
         STRLEN("value")+
+        STRLEN("calc")+
         STRLEN("element")+STRLEN("type")+
 
         STRLEN("for.in")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
         STRLEN("for-props.in")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value.src")+STRLEN("value.format")+
+        STRLEN("calc.src")+STRLEN("calc.format")+
         STRLEN("use.src")
         ];
     int count=0;
@@ -136,6 +138,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(IS_TAG,"is");
 
     WRITE(VALUE_TAG,"value");
+    WRITE(CALC_TAG,"calc");
     WRITE(ELEMENT_TAG,"element");
         WRITE(TYPE_ATTR, "type");
 
@@ -155,7 +158,10 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         
     WRITE(VALUE_SRC_PROP,"value.src");
     WRITE(VALUE_FORMAT_PROP,"value.format");
-    
+
+    WRITE(CALC_SRC_PROP,"calc.src");
+    WRITE(CALC_FORMAT_PROP,"calc.format");
+
     WRITE(USE_SRC_PROP,"use.src");
 #   undef WRITE
 #   undef STRLEN
@@ -279,7 +285,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* tag = current_template.first->attribute("tag").as_string();
                     const char* in = current_template.first->attribute("in").as_string();
                     //TODO: filter has not defined syntax yet.
-                    const char* _filter = current_template.first->attribute("filter").as_string();
+                    //const char* _filter = current_template.first->attribute("filter").as_string();
 
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
@@ -357,7 +363,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* tag = current_template.first->attribute("tag").as_string();
                     const char* in = current_template.first->attribute("in").as_string();
                     //TODO: filter has not defined syntax yet.
-                    const char* _filter = current_template.first->attribute("filter").as_string();
+                    //const char* _filter = current_template.first->attribute("filter").as_string();
 
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
@@ -489,7 +495,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else{
 
                             //Move everything to string
-                            const char* op1,* op2;
+                            const char* op1=nullptr,* op2=nullptr;
                             if(std::holds_alternative<std::string>(subject.value()))op1=std::get<std::string>(subject.value()).c_str();
                             else if(std::holds_alternative<const pugi::xml_attribute>(subject.value()))op1=std::get<const pugi::xml_attribute>(subject.value()).as_string();
                             else if(std::holds_alternative<const pugi::xml_node>(subject.value()))op1=std::get<const pugi::xml_node>(subject.value()).text().as_string();
@@ -498,7 +504,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             else if(std::holds_alternative<const pugi::xml_attribute>(test.value()))op2=std::get<const pugi::xml_attribute>(test.value()).as_string();
                             else if(std::holds_alternative<const pugi::xml_node>(test.value()))op2=std::get<const pugi::xml_node>(test.value()).text().as_string();
 
-                            result = strcmp(op1,op2)==0;
+                            result = op1!=nullptr && op2!=nullptr && strcmp(op1,op2)==0;
                         }
                 
                         if(result){
