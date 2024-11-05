@@ -1,0 +1,43 @@
+<!-- I need to learn this syntax :( -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="anyElement" />
+    </start>
+    <define name="anyElement">
+        <element>
+            <anyName><except><nsName ns="vs-templ"></nsName></except></anyName>
+            <ref name="anyAttributes"/>
+            <mixed>
+                <zeroOrMore>
+                    <ref name="both"/>  
+                </zeroOrMore>
+            </mixed>
+        </element>
+    </define>
+    <define name="anyAttributes">
+        <zeroOrMore>
+            <attribute>
+                <anyName/>
+            </attribute>
+        </zeroOrMore>
+    </define>
+
+    <!--Put all definitions s:tag in here-->
+    <define name="static">
+        <element name="quia" ns="vs-templ">
+            <attribute name="attre"></attribute>
+            <mixed>
+                <zeroOrMore>
+                    <ref name="both"></ref>
+                </zeroOrMore>
+            </mixed>
+        </element>
+    </define>
+
+    <!--Element collection to allow both s:tags and the rest within the same document-->
+    <define name="both">
+        <optional><ref name="static"></ref></optional>
+        <optional><ref name="anyElement"/></optional>
+    </define>
+</grammar>

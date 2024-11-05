@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="vs-templ.rng"?>
+<app xmlns:s="vs-templ">
+    <s:quia attre="">
+        <ss></ss>
+
+        <s:quia attre="ss"></s:quia>
+        <ww></ww>
+    </s:quia>
+</app>

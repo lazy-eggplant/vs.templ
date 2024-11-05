@@ -1,4 +1,4 @@
-<ul>
+<ul xmlns:s="vs.templ">
 <s:for in="$/items/" sort-by="$~prop-a" order-by="desc">
     <s:item>
         <li><s:value src="$~prop-a"/>: <s:value src="$~!txt"/></li>
