@@ -14,8 +14,8 @@ This is a list of commands which are currently supported:
 - [x] for-prop (mostly a copy & paste from `for`)
 - [x] value
 - [x] element
-- [x] when/is
 - [ ] calc
+- [x] when/is
 
 ## Props based
 
@@ -35,14 +35,15 @@ This is a list of commands which are currently supported:
 - [x] At least feature parity with what it was before moving it out of `vs-fltk`.
 - [x] Some degree of documentation.
 - [x] Add support for `element.text()` & `element.name()` in query.
-- [x] Replace the current split implementation with something not requiring these many allocations
+- [x] Replace the current split implementation with something requiring less allocations
 
 ## `v0.4.0`
 - [ ] Add support for props-based commands.
 - [ ] Initial setup for the test-suite.
 - [ ] Add actual support of dot comparison in strings which is already exposed.
-- [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document).
+- [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
 - [x] man page generation via meson (not great, but I'll take it).
+- [ ] Add a proper xml schema for this language (rng in place of xsd as they are more flexible for unordered files that I want to support)
 
 ## `v1.0.0`
 - [ ] Support for all commands, except `filter` in all `for` variants & `calc`. Syntax for it has not been determined yet.  
