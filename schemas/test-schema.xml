@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="vs-templ.rng"?>
 <app xmlns:s="vs-templ">
-    <s:quia attre="">
+    <s:for-range>
         <ss></ss>
 
-        <s:quia attre="ss"></s:quia>
+        <s:for src="ss">
+            <s:item></s:item>
+            <s:header>Hello world<b>ddd</b> Quick</s:header>
+            <s:item></s:item>
+        </s:for>
         <ww></ww>
-    </s:quia>
+    </s:for-range>
 </app>

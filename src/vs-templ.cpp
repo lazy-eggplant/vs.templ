@@ -283,7 +283,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
                     const char* tag = current_template.first->attribute("tag").as_string();
-                    const char* in = current_template.first->attribute("in").as_string();
+                    const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
                     //TODO: filter has not defined syntax yet.
                     //const char* _filter = current_template.first->attribute("filter").as_string();
 
