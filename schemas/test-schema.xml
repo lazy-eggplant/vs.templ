@@ -2,7 +2,7 @@
 <?xml-model href="vs-templ.rng"?>
 <app xmlns:s="vs-templ">
     <s:for-range>
-        <ss></ss>
+        <ss s:eee=""></ss>
 
         <s:for src="ss">
             <s:item></s:item>

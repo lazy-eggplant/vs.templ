@@ -7,7 +7,7 @@
     <define name="anyElement">
         <element>
             <anyName><except><nsName ns="vs-templ"></nsName></except></anyName>
-            <ref name="anyAttributes"/>
+            <ref name="both-attr"/>
             <mixed>
                 <zeroOrMore>
                     <ref name="both"/>  
@@ -15,16 +15,25 @@
             </mixed>
         </element>
     </define>
+
     <define name="anyAttributes">
         <zeroOrMore>
             <attribute>
-                <anyName/>
+                <anyName><except><nsName ns="vs-templ"></nsName></except></anyName>
             </attribute>
         </zeroOrMore>
     </define>
 
+    <define name="static-attr" ns="vs-templ">   <!--why I need it here for tags but local for props?-->
+        <zeroOrMore>
+            <choice>
+                <attribute name="eee" ns="vs-templ"></attribute>
+            </choice>
+        </zeroOrMore>
+    </define>
+
     <!--Put all definitions s:tag in here-->
-    <define name="static"  ns="vs-templ">
+    <define name="static" ns="vs-templ">
         <choice>
             <element name="for-range">
                 <optional><attribute name="from"/></optional>
@@ -114,6 +123,13 @@
         <choice>
             <ref name="static"/>
             <ref name="anyElement"/>
+        </choice>
+    </define>
+
+    <define name="both-attr">
+        <choice>
+            <ref name="static-attr"/>
+            <ref name="anyAttributes"/>
         </choice>
     </define>
 </grammar>
