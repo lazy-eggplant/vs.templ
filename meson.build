@@ -15,7 +15,8 @@ vs_templ_lib= library(
         'src/vs-templ.cpp',
         'src/utils.cpp',
         'src/symbols.cpp',
-        'src/logging.cpp'
+        'src/logging.cpp',
+        'src/stack-lang.cpp'
     ], 
     dependencies: [pugixml_dep], 
     include_directories: ['include'],

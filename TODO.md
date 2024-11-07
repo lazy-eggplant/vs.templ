@@ -14,7 +14,7 @@ This is a list of commands which are currently supported:
 - [x] for-prop (mostly a copy & paste from `for`)
 - [x] value
 - [x] element
-- [ ] calc
+- [ ] eval
 - [x] when/is
 
 ## Props based
@@ -29,6 +29,12 @@ This is a list of commands which are currently supported:
 - [ ] prop (dual of element)
 - [ ] calc
 
+
+## Missing features
+- [ ] Stack based language.
+- [ ] Stack based evaluations for `eval` & `filter` prop.
+- [ ] Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with `[` `]` later on)
+
 # Milestones
 
 ## `v0.3.0`
@@ -40,13 +46,13 @@ This is a list of commands which are currently supported:
 ## `v0.4.0`
 - [ ] Add support for props-based commands.
 - [ ] Initial setup for the test-suite.
-- [ ] Add actual support of dot comparison in strings which is already exposed.
+- [x] Add actual support of dot comparison in strings (to be tested).
 - [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
 - [x] man page generation via meson (not great, but I'll take it).
 - [ ] Add a proper xml schema for this language (rng in place of xsd as they are more flexible for unordered files that I want to support)
 
 ## `v1.0.0`
-- [ ] Support for all commands, except `filter` in all `for` variants & `calc`. Syntax for it has not been determined yet.  
+- [ ] Support for all commands, except `filter` in all `for` variants & `eval`. Syntax for it has not been determined yet.  
 - [x] Functional CLI needed.  
 - [x] Install scripts working.
 - [ ] Some minimal testing facility is highly desirable.

@@ -5,6 +5,7 @@
 #include <optional>
 #include <stack>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include <pugixml.hpp>
@@ -18,6 +19,8 @@ namespace templ{
 
 struct preprocessor{
     private:
+        friend struct repl;
+
         std::string ns_prefix;
 
         //Final document to be shared
@@ -89,7 +92,7 @@ struct preprocessor{
                 const char *IS_TAG;
 
             const char *VALUE_TAG;
-            const char *CALC_TAG;
+            const char *EVAL_TAG;
             const char *ELEMENT_TAG;
                 const char *TYPE_ATTR;
 
@@ -110,8 +113,8 @@ struct preprocessor{
             const char *VALUE_SRC_PROP;
             const char *VALUE_FORMAT_PROP;
 
-            const char *CALC_SRC_PROP;
-            const char *CALC_FORMAT_PROP;
+            const char *EVAL_SRC_PROP;
+            const char *EVAL_FORMAT_PROP;
 
             const char *USE_SRC_PROP;
 
@@ -122,7 +125,7 @@ struct preprocessor{
         }strings;
 
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
-        std::optional<concrete_symbol> resolve_expr(const char* _str, const pugi::xml_node* base=nullptr);
+        std::optional<concrete_symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
 
         std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion);
 

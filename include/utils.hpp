@@ -8,6 +8,13 @@
 namespace vs{
 namespace templ{
 
+template <typename T, typename... Args> struct concatenator;
+
+template <typename... Args0, typename... Args1>
+struct concatenator<std::variant<Args0...>, Args1...> {
+    using type = std::variant<Args0..., Args1...>;
+};
+
 template<typename T>
 const T& get_or(const auto& ref, const T& defval) noexcept{
     if(std::holds_alternative<T>(ref))return std::get<T>(ref);

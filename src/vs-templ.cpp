@@ -1,4 +1,7 @@
 #include <algorithm>
+#include <iostream>
+#include <string_view>
+#include <variant>
 #include <vs-templ.hpp>
 #include "utils.hpp"
 
@@ -21,14 +24,15 @@ void preprocessor::reset(){
     _logs=decltype(_logs)();
 }
 
-std::optional<concrete_symbol> preprocessor::resolve_expr(const char* _str, const pugi::xml_node* base){
-    int str_len = strlen(_str);
+std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view& _str, const pugi::xml_node* base) const{
+    int str_len = _str.size(); 
     char str[str_len+1];
-    memcpy(str,_str,str_len+1);
+    memcpy(str,_str.data(),str_len+1);
+    str[str_len]=0;
 
     pugi::xml_node ref;
     int idx = 0;
-    if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')) return atoi(_str);
+    if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')) return atoi(str);
     else if(str[0]=='#') return std::string(str+1);  //Consider what follows as a string
     else if(str[0]=='{'){
         int close = 0;
@@ -93,9 +97,9 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const char* _str, cons
 preprocessor::order_method_t::values preprocessor::order_method_t::from_string(std::string_view str){
     bool dot_eval=false;
     if(str[0]=='.')dot_eval=true;
-    if((std::string_view(str.begin()+dot_eval, str.length()) == std::string_view("asc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|ASC);
-    else if((std::string_view(str.begin()+dot_eval, str.length()) == std::string_view("desc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|DESC);
-    else if((std::string_view(str.begin()+dot_eval, str.length()) == std::string_view("random")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|RANDOM);
+    if((std::string_view(str.begin()+dot_eval, str.end()) == std::string_view("asc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|ASC);
+    else if((std::string_view(str.begin()+dot_eval, str.end()) == std::string_view("desc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|DESC);
+    else if((std::string_view(str.begin()+dot_eval, str.end()) == std::string_view("random")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|RANDOM);
     else return order_method_t::UNKNOWN;
 }
 
@@ -112,14 +116,14 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for")+STRLEN("for-props")+STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
         STRLEN("when")+STRLEN("is")+
         STRLEN("value")+
-        STRLEN("calc")+
+        STRLEN("eval")+
         STRLEN("element")+STRLEN("type")+
 
         STRLEN("for.in")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
         STRLEN("for-props.in")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value.src")+STRLEN("value.format")+
-        STRLEN("calc.src")+STRLEN("calc.format")+
+        STRLEN("eval.src")+STRLEN("eval.format")+
         STRLEN("use.src")
         ];
     int count=0;
@@ -138,7 +142,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(IS_TAG,"is");
 
     WRITE(VALUE_TAG,"value");
-    WRITE(CALC_TAG,"calc");
+    WRITE(EVAL_TAG,"eval");
     WRITE(ELEMENT_TAG,"element");
         WRITE(TYPE_ATTR, "type");
 
@@ -159,8 +163,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(VALUE_SRC_PROP,"value.src");
     WRITE(VALUE_FORMAT_PROP,"value.format");
 
-    WRITE(CALC_SRC_PROP,"calc.src");
-    WRITE(CALC_FORMAT_PROP,"calc.format");
+    WRITE(EVAL_SRC_PROP,"eval.src");
+    WRITE(EVAL_FORMAT_PROP,"eval.format");
 
     WRITE(USE_SRC_PROP,"use.src");
 #   undef WRITE
@@ -221,6 +225,28 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
             else if(criterion.second==order_method_t::DESC){
                 if(valA<valB)return false;
                 else if(valA>valB) return true;
+            }
+            else if(criterion.second==(order_method_t::ASC | order_method_t::USE_DOT_EVAL)){
+                if(valA.has_value() && std::holds_alternative<std::string>(valA.value()) && valB.has_value() && std::holds_alternative<std::string>(valB.value())){
+                    const std::string& strA = std::get<std::string>(valA.value());
+                    const std::string& strB = std::get<std::string>(valB.value());
+
+                    auto i = cmp_dot_str(strA.c_str(), strB.c_str());
+                    if(i<0)return true;
+                    else if(i>0)return false;
+                }
+                else return false;
+            }
+            else if(criterion.second==(order_method_t::DESC | order_method_t::USE_DOT_EVAL)){
+                if(valA.has_value() && std::holds_alternative<std::string>(valA.value()) && valB.has_value() && std::holds_alternative<std::string>(valB.value())){
+                    const std::string& strA = std::get<std::string>(valA.value());
+                    const std::string& strB = std::get<std::string>(valB.value());
+
+                    auto i = cmp_dot_str(strA.c_str(), strB.c_str());
+                    if(i>0)return true;
+                    else if(i<0)return false;
+                }
+                else return false;
             }
             else{
                 //TODO: methods not implemented. The dot variants are only valid for strings or string-like content. They uses `.` to nest the search in blocks, like for prop names.
