@@ -21,6 +21,12 @@ struct repl{
 
         std::stack<std::pair<item_t,std::string_view>> stack;
 
+        /*
+        Approach 1:
+            Execution of a function which is not found results in a runtime error saved on stack.
+            Types not being satisfied are evaluated dynamically by functions and will result in runtime errors saved on stack.
+            Determinations about the numbers of element to pop from the stack are done at runtime as well.
+        */
         std::optional<concrete_symbol> eval(const preprocessor& p, pugi::xml_node* base=nullptr) noexcept{
             while(!stack.empty()){
                 auto top = stack.top();
@@ -40,6 +46,12 @@ struct repl{
             //Breaking failures or empty stack...
             return {};
         };
+
+        bool parse(const char* str){
+            //Identify blocks [...] as operands
+            //Skip spaces
+            //Other alphanumeric patterns are functions
+        }
 
     public:
 };

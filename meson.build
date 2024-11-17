@@ -34,7 +34,7 @@ vs_templ_cli= executable(
 
 pandoc = find_program('pandoc', required: false)
 if pandoc.found()
-    custom_target('vs-templ-man',command: 'man', output: 'vs-templ.1', input: './docs/manual.md', command:['pandoc','@INPUT@','-s','-t','man','-o','@OUTPUT@'], install: true, install_dir : join_paths(get_option('mandir'),'man1'))
+    custom_target('vs-templ-man', output: 'vs-templ.1', input: './docs/manual.md', command:['pandoc','@INPUT@','-s','-t','man','-o','@OUTPUT@'], install: true, install_dir : join_paths(get_option('mandir'),'man1'))
 endif
 
 vs_templ_dep = declare_dependency(
