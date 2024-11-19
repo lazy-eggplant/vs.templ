@@ -29,7 +29,7 @@ vs_templ_cli= executable(
     dependencies: [pugixml_dep], 
     link_with: [vs_templ_lib], 
     include_directories: ['include'],
-    install: true
+    install: not meson.is_subproject()
 )
 
 pandoc = find_program('pandoc', required: false)
