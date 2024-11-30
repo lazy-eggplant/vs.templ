@@ -32,7 +32,8 @@ int main(int argc, const char* argv[]){
         {auto t = tmpl.load_file(argv[1]); if(!t){std::cerr<<t.description()<<" @ `template file`\n";exit(2);}}
         {auto t = data.load_file(argv[2]); if(!t){std::cerr<<t.description()<<" @ `data file`\n";exit(3);}}
 
-        if(argc==4){ns_prefix=argv[3];}
+        if(argc>=4){ns_prefix=argv[3];}
+        if(argc>=5){/*TODO: process random seed*/}
     }
     else{
         if(argc==2){ns_prefix=argv[1];}

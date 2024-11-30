@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="vs-templ.rng"?>
-<app xmlns:s="vs-templ">
+<app xmlns:s="vs.templ">
     <s:for-range>
         <ss s:eee=""></ss>
 

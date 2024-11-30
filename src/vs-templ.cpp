@@ -8,10 +8,11 @@
 namespace vs{
 namespace templ{
 
-void preprocessor::init(const pugi::xml_document& root_data, const pugi::xml_document& root_template,const char* prefix){
+void preprocessor::init(const pugi::xml_document& root_data, const pugi::xml_document& root_template,const char* prefix, uint64_t seed){
             stack_template.emplace(root_template.root().begin(),root_template.root().end());
             stack_compiled.emplace(compiled.root());
             this->root_data=root_data.root();
+            this->seed=seed;
             symbols.set("$",root_data.root());
             ns(prefix);
         }

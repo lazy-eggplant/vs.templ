@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <optional>
@@ -22,6 +23,7 @@ struct preprocessor{
         friend struct repl;
 
         std::string ns_prefix;
+        uint64_t seed;
 
         //Final document to be shared
         pugi::xml_document compiled;
@@ -40,11 +42,11 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:"){
+        inline preprocessor(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:", uint64_t seed = 0){
             init(root_data,root_template,prefix);
         }
 
-        void init(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:");
+        void init(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:", uint64_t seed = 0);
         void reset();
 
         inline const std::vector<log_t> logs(){return _logs;}
