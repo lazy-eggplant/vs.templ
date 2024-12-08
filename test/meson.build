@@ -5,4 +5,16 @@ vs_templ_test = executable(
     install: false,
 )
 
-test('for-range', vs_templ_test, args: ['./cases/for-range.xml'])
+cases = ['id', 'for-range', 'for-element']
+
+foreach case : cases
+
+    test(
+        case,
+        vs_templ_test,
+        args: [
+            meson.current_source_dir() + './cases/' + case + '.xml',
+        ],
+    )
+
+endforeach

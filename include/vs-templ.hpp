@@ -62,6 +62,7 @@ struct preprocessor{
         inline void log(log_t::values type, const char* msg, ...){
             //TODO: Handling of panic should terminate the process right away (?)
             //TODO: Interpolate/format string
+            //https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
             _logs.emplace_back(type,msg);
         }
 

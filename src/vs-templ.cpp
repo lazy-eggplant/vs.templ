@@ -8,11 +8,11 @@ namespace vs{
 namespace templ{
 
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, uint64_t seed){
-    stack_template.emplace(root_template.root().begin(),root_template.root().end());
-    stack_compiled.emplace(compiled.root());
-    this->root_data=root_data.root();
+    stack_template.emplace(root_template.begin(),root_template.end());
+    stack_compiled.emplace(compiled);
+    this->root_data=root_data;
     this->seed=seed;
-    symbols.set("$",root_data.root());
+    symbols.set("$",root_data);
     ns(prefix);
 }
 
@@ -542,7 +542,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                 }
-                else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}
+                else {
+                    log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());
+                }
                 
                 current_template.first++;
                 continue;
