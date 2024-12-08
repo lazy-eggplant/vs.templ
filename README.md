@@ -18,6 +18,7 @@ Hence, `vs` vendors its own XSLT-ish preprocessor. Still, nothing about its sema
 ## Examples
 
 ### Simple `for` cycle
+
 ```xml
 <items>
     <item prop-a="Value 1">Text A</item>
@@ -26,7 +27,7 @@ Hence, `vs` vendors its own XSLT-ish preprocessor. Still, nothing about its sema
 </items>
 ```
 
-and 
+and
 
 ```xml
 <ul>
@@ -49,13 +50,16 @@ results in
 ```
 
 ## Usage
+
 The functionality of this template builder is exposed as a library which can be used for static or dynamic linking.  
 A self-contained CLI utility is also provided as a frontend.
 
 ### As a library
+
 If you want to integrate `vs-templ` in your own application or contribute to its development, [this](./docs/for-developers.md) is where to start.
 
 ### Via its CLI
+
 ```
 vs.tmpl <template-file> <data-file> [namespace=`s:`]
 ```
@@ -67,4 +71,5 @@ vs.tmpl [namespace=`s:`]
 ```
 
 ## Syntax
+
 Details about the supported syntax are covered in a [dedicated page](./docs/syntax.md)

@@ -3,6 +3,7 @@
 namespace vs{
 namespace templ{
 
+
 std::vector<std::string_view> split_string (const char* str, char delim) {
     std::vector<std::string_view> result;
     size_t i = 0, last = 0;
@@ -20,7 +21,7 @@ int cmp_dot_str(const char* a, const char* b){
     if(va.size()<vb.size())return -1;
     else if(va.size()>vb.size())return 1;
 
-    for(int i =0;i<va.size();i++){
+    for(size_t i =0;i<va.size();i++){
         if(va.at(i)<vb.at(i))return -1;
         else if(va.at(i)>vb.at(i))return 1;
     }

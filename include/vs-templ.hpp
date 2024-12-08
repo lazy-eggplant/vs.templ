@@ -1,5 +1,14 @@
 #pragma once
 
+/**
+ * @file vs-templ.hpp
+ * @author karurochari
+ * @brief 
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -42,11 +51,11 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:", uint64_t seed = 0){
+        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", uint64_t seed = 0){
             init(root_data,root_template,prefix);
         }
 
-        void init(const pugi::xml_document& root_data, const pugi::xml_document& root_template, const char* prefix="s:", uint64_t seed = 0);
+        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", uint64_t seed = 0);
         void reset();
 
         inline const std::vector<log_t> logs(){return _logs;}

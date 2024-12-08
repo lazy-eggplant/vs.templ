@@ -21,11 +21,28 @@ const T& get_or(const auto& ref, const T& defval) noexcept{
     else return defval;
 }
 
+/**
+ * @brief Generate a list of string views when a delimiter is matched on a reference string.
+ * 
+ * @param str the string to check
+ * @param delim the delimiter character
+ * @return std::vector<std::string_view> the list of slices
+ */
 std::vector<std::string_view> split_string (const char* str, char delim);
 
+///Compute a const string size at comptime
 inline constexpr std::size_t cexpr_strlen(const char* s){return std::char_traits<char>::length(s);}
+
+///Compare strings where the right one is defined at comptime
 inline bool cexpr_strneqv(const char* s, const char* c){return strncmp(s, c, cexpr_strlen(c))==0;}
 
+/**
+ * @brief Compare two strings assuming the dot notation for ordering nested fields
+ * 
+ * @param a 
+ * @param b 
+ * @return int 
+ */
 int cmp_dot_str(const char* a, const char* b);
 
 }

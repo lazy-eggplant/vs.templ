@@ -2,7 +2,6 @@
 
 This is a list of commands which are currently supported:
 
-
 ## Block based:
 
 - [x] for-range
@@ -29,8 +28,8 @@ This is a list of commands which are currently supported:
 - [ ] prop (dual of element)
 - [ ] calc
 
-
 ## Missing features
+
 - [ ] Stack based language.
   - [ ] Stack based evaluations for `eval` element
   - [ ] and for `filter` prop on for like cycles.
@@ -42,12 +41,14 @@ This is a list of commands which are currently supported:
 # Milestones
 
 ## `v0.3.0`
+
 - [x] At least feature parity with what it was before moving it out of `vs-fltk`.
 - [x] Some degree of documentation.
 - [x] Add support for `element.text()` & `element.name()` in query.
 - [x] Replace the current split implementation with something requiring less allocations
 
 ## `v0.4.0`
+
 - [ ] Add support for props-based commands.
 - [ ] Initial setup for the test-suite.
 - [x] Add actual support of dot comparison in strings (to be tested).
@@ -56,7 +57,8 @@ This is a list of commands which are currently supported:
 - [ ] Add a proper xml schema for this language (rng in place of xsd as they are more flexible for unordered files that I want to support)
 
 ## `v1.0.0`
-- [ ] Support for all commands, except `filter` in all `for` variants & `eval`. Syntax for it has not been determined yet.  
-- [x] Functional CLI needed.  
+
+- [ ] Support for all commands, except `filter` in all `for` variants & `eval`. Syntax for it has not been determined yet.
+- [x] Functional CLI needed.
 - [x] Install scripts working (testing needed).
 - [ ] Some minimal testing facility is highly desirable.
