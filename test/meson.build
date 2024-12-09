@@ -5,7 +5,7 @@ vs_templ_test = executable(
     install: false,
 )
 
-cases = ['id', 'for-range', 'for-element']
+cases = ['id', 'for-range', 'for-elements']
 
 foreach case : cases
 
