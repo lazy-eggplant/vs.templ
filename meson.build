@@ -1,7 +1,7 @@
 project(
   'vs-templ',
   ['cpp'],
-  version: '0.3.1',
+  version: '0.3.4',
   default_options: ['cpp_std=c++20'],
 )
 
@@ -19,7 +19,7 @@ vs_templ_lib = library(
   ],
   dependencies: [pugixml_dep],
   include_directories: ['include'],
-  install: true,
+  install: not meson.is_subproject(),
 )
 
 vs_templ_cli = executable(
@@ -38,7 +38,7 @@ if pandoc.found()
     output: 'vs-templ.1',
     input: './docs/manual.md',
     command: ['pandoc', '@INPUT@', '-s', '-t', 'man', '-o', '@OUTPUT@'],
-    install: true,
+    install: not meson.is_subproject(),
     install_dir: join_paths(get_option('mandir'), 'man1'),
   )
 endif
@@ -59,19 +59,14 @@ install_headers(
   subdir: 'vs-templ',
 )
 
-#TODO: Add install for CLI and man pages.
+if get_option('tests')
+  subdir(['./test/'])
+endif
 
 pconf = import('pkgconfig')
 pconf.generate(
   vs_templ_lib,
   description: 'Simple static template builder for XML files, inspired by XSLT',
   url: 'https://github.com/KaruroChori/vs-templ',
+  version: meson.project_version(),
 )
-
-if get_option('tests')
-  subdir(['./test/'])
-endif
-
-#if get_option('tests')
-#  subdir('test')
-#  vs_templ_check = executable('vs-templ-check', test_sources, dependencies: pugixml_dep)

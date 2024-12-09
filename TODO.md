@@ -15,6 +15,8 @@ This is a list of commands which are currently supported:
 - [x] element
 - [ ] eval
 - [x] when/is
+- [ ] debug / error / log to add entries to the logging data
+- [ ] throw / catch to trigger errors and provide regions to have them resolved
 
 ## Props based
 
@@ -47,10 +49,17 @@ This is a list of commands which are currently supported:
 - [x] Add support for `element.text()` & `element.name()` in query.
 - [x] Replace the current split implementation with something requiring less allocations
 
+## `v0.3.5`
+
+- [x] At least feature parity with what it was before moving it out of `vs-fltk`.
+- [x] Some degree of documentation.
+- [x] Add support for `element.text()` & `element.name()` in query.
+- [x] Replace the current split implementation with something requiring less allocations
+
 ## `v0.4.0`
 
 - [ ] Add support for props-based commands.
-- [ ] Initial setup for the test-suite.
+- [x] Initial setup for the test-suite.
 - [x] Add actual support of dot comparison in strings (to be tested).
 - [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
 - [x] man page generation via meson (not great, but I'll take it).
@@ -61,4 +70,4 @@ This is a list of commands which are currently supported:
 - [ ] Support for all commands, except `filter` in all `for` variants & `eval`. Syntax for it has not been determined yet.
 - [x] Functional CLI needed.
 - [x] Install scripts working (testing needed).
-- [ ] Some minimal testing facility is highly desirable.
+- [ ] Some good testing coverage is highly desirable.

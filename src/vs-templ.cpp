@@ -147,6 +147,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(TYPE_ATTR, "type");
 
     WRITE(FOR_IN_PROP,"for.in");
+    WRITE(FOR_SRC_PROP,"for.src");
     WRITE(FOR_FILTER_PROP,"for.filter");
     WRITE(FOR_SORT_BY_PROP,"for.sort-by");
     WRITE(FOR_ORDER_BY_PROP,"for.order-by");
@@ -155,6 +156,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 
 
     WRITE(FOR_PROPS_IN_PROP,"for.in");
+    WRITE(FOR_PROPS_SRC_PROP,"for.src");
     WRITE(FOR_PROPS_FILTER_PROP,"for.filter");
     WRITE(FOR_PROPS_ORDER_BY_PROP,"for.order-by");
     WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
@@ -559,7 +561,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 //Special handling of static attribute rewrite rules
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
                     if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){}
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-prop.src.")){}
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"eval.")){}
                     else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}

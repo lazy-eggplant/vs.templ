@@ -53,9 +53,7 @@
                     <s:item>
                         <li><s:value src="$~prop-a" />: <s:value src="$~!txt" /></li>
                     </s:item>
-                    <s:empty>
-                        No content!
-                    </s:empty>
+                    <s:empty>No content!</s:empty>
                 </s:for>
             </ul>
         </document>
@@ -78,9 +76,7 @@
                 <h3>Footer</h3>
             </ul>
             <h1>Section C</h1>
-            <ul>
-                No content!
-            </ul>
+            <ul>No content!</ul>
         </document>
     </expects>
 </test>
