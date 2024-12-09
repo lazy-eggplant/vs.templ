@@ -1,0 +1,55 @@
+name: Building & Testing
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}-build
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "**"
+      - "!**.md"
+
+  pull_request:
+    branches: [master]
+    paths:
+      - "**"
+      - "!**.md"
+
+jobs:
+  linux-amd64:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt update
+          sudo apt remove -y firefox
+          sudo apt upgrade -y
+          sudo apt install -y \
+            freeglut3-dev \
+            libcurl4-openssl-dev \
+            libpng-dev \
+            libsqlite3-0 \
+            python3-pip \
+            python3-setuptools
+          python3 -m pip install meson ninja
+          python3 -m pip uninstall cmake
+          #python3 -m pip install cmake==3.30.5 # workaround https://github.com/mesonbuild/meson/issues/13888
+      - name: Configure and build
+        run: |
+          meson setup build/
+          meson compile -C build/ 
+          meson test -C build/ --suite=vs-templ
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-meson-logs
+          path: |
+            build/meson-logs/**/*
