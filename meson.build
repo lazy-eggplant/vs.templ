@@ -6,11 +6,11 @@ project(
   default_options: ['cpp_std=c++20'],
 )
 
-pugixml_dep = dependency('pugixml', version : '>=1.14',required: false)
+pugixml_dep = dependency('pugixml', version: '>=1.14', required: false)
 if pugixml_dep.found() == false
   pugixml_proj = subproject('pugixml')
   pugixml_dep = pugixml_proj.get_variable('pugixml_dep')
-endif 
+endif
 
 vs_templ_lib = library(
   'vs-templ-lib',
@@ -66,6 +66,8 @@ install_headers(
 if get_option('tests')
   subdir(['./test/'])
 endif
+
+subdir(['./metadata/'])
 
 pconf = import('pkgconfig')
 pconf.generate(
