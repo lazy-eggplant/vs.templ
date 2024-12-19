@@ -1,0 +1,14 @@
+{
+  "C_Cpp.default.configurationProvider": "mesonbuild.mesonbuild",
+  "C_Cpp.default.compileCommands": "/home/checkroom/Documents/projects/vs-templ/build/compile_commands.json",
+  "[cpp]": {
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false
+  },
+  "[c]": {
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false
+  }
+}

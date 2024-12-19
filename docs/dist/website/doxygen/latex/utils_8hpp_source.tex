@@ -1,0 +1,39 @@
+\doxysection{utils.\+hpp}
+\hypertarget{utils_8hpp_source}{}\label{utils_8hpp_source}\index{include/utils.hpp@{include/utils.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }vs\{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }templ\{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ Args>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1concatenator}{concatenator}};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args0,\ \textcolor{keyword}{typename}...\ Args1>}
+\DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1concatenator}{concatenator}}<std::variant<Args0...>,\ Args1...>\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{using\ }type\ =\ std::variant<Args0...,\ Args1...>;}
+\DoxyCodeLine{00016\ \};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00019\ \textcolor{keyword}{const}\ T\&\ get\_or(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ ref,\ \textcolor{keyword}{const}\ T\&\ defval)\ \textcolor{keyword}{noexcept}\{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{if}(std::holds\_alternative<T>(ref))\textcolor{keywordflow}{return}\ std::get<T>(ref);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ defval;}
+\DoxyCodeLine{00022\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00031\ std::vector<std::string\_view>\ split\_string\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keywordtype}{char}\ delim);}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::size\_t\ cexpr\_strlen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ s)\{\textcolor{keywordflow}{return}\ std::char\_traits<char>::length(s);\}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ cexpr\_strneqv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ s,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ c)\{\textcolor{keywordflow}{return}\ strncmp(s,\ c,\ cexpr\_strlen(c))==0;\}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ cmp\_dot\_str(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ a,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ b);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \}}
+\DoxyCodeLine{00049\ \}}
+
+\end{DoxyCode}

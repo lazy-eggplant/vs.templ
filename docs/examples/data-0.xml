@@ -1,0 +1,12 @@
+<items>
+    <section-a>
+        <item prop-a="Value 1">Text A</item>
+        <item prop-a="Value 2">Text B</item>
+        <item prop-a="Value 3">Text C</item>
+    </section-a>
+    <section-b>
+        <item prop-a="Value 1">Text A</item>
+        <item prop-a="Value 2">Text B</item>
+        <item prop-a="Value 3">Text C</item>
+    </section-b>
+</items>
