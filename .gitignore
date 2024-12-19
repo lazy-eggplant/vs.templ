@@ -5,7 +5,10 @@ subprojects/*
 !subprojects/packagefiles/
 /wraps/cfltk
 *.autogen.*
-/dist/
+/dist/*
+!/dist/website/
+/dist/website/doxygen/*
+/dist/website/docs/*
 /node_modules/
 /bun.lockb
 /private
