@@ -142,7 +142,6 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(IS_TAG,"is");
 
     WRITE(VALUE_TAG,"value");
-    WRITE(EVAL_TAG,"eval");
     WRITE(ELEMENT_TAG,"element");
         WRITE(TYPE_ATTR, "type");
 
@@ -162,11 +161,9 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
     WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
         
-    WRITE(VALUE_SRC_PROP,"value.src");
+    WRITE(VALUE_SRC_PROP,"value.src"); 
+    WRITE(VALUE_EXPR_PROP,"value.expr");
     WRITE(VALUE_FORMAT_PROP,"value.format");
-
-    WRITE(EVAL_SRC_PROP,"eval.src");
-    WRITE(EVAL_FORMAT_PROP,"eval.format");
 
     WRITE(USE_SRC_PROP,"use.src");
 #   undef WRITE
@@ -563,7 +560,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"eval.")){}
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){}
                     else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}
                 }
                 else last.append_attribute(attr.name()).set_value(attr.value());
