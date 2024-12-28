@@ -104,7 +104,6 @@ struct preprocessor{
                 const char *IS_TAG;
 
             const char *VALUE_TAG;
-            const char *EVAL_TAG;
             const char *ELEMENT_TAG;
                 const char *TYPE_ATTR;
 
@@ -125,10 +124,8 @@ struct preprocessor{
             const char *FOR_PROPS_LIMIT_PROP;
 
             const char *VALUE_SRC_PROP;
+            const char *VALUE_EXPR_PROP;
             const char *VALUE_FORMAT_PROP;
-
-            const char *EVAL_SRC_PROP;
-            const char *EVAL_FORMAT_PROP;
 
             const char *USE_SRC_PROP;
 
