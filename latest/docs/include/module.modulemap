@@ -1,0 +1,4 @@
+module vs {
+    header "vs-templ.hpp"
+    export *
+}
