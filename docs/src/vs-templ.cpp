@@ -309,9 +309,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
                     const char* tag = current_template.first->attribute("tag").as_string();
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
+
                     //TODO: filter has not defined syntax yet.
                     //const char* _filter = current_template.first->attribute("filter").as_string();
-
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
@@ -319,7 +319,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
                     
                     auto expr = resolve_expr(in);
-
 
                     //Only a node is acceptable in this context, otherwise show the error
                     if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
@@ -386,17 +385,16 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_PROPS_TAG)==0){
                     const char* tag = current_template.first->attribute("tag").as_string();
-                    const char* in = current_template.first->attribute("in").as_string();
+                    const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
+
                     //TODO: filter has not defined syntax yet.
                     //const char* _filter = current_template.first->attribute("filter").as_string();
-
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
                     int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
                     int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
                     
                     auto expr = resolve_expr(in);
-
 
                     //Only a node is acceptable in this context, otherwise show the error
                     if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
@@ -557,7 +555,48 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
             for(const auto& attr :current_template.first->attributes()){
                 //Special handling of static attribute rewrite rules
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
-                    if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){}
+                    if(false){}
+                    //Matches for.src.key.* even without named suffix
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.key")){
+                        int subgroup_length = 0;
+                        if(attr.name()[ns_prefix.length()+sizeof("for.src.key")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for.src.key")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.src.key")-1+1;}
+                        else {continue;}
+
+#                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
+                                                    memcpy(NAME,ns_prefix.data(),ns_prefix.length());\
+                                                    memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
+                                                    if(subgroup_length!=0){\
+                                                        NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.src.key")-1+1,subgroup_length);\
+                                                    }\
+                                                    NAME [sizeof(NAME)-1]=0;
+
+                        //Compute all the other tags dynamically
+                        WRITE(FOR_SRC_KEY_PROP,"for.src.key");
+                        WRITE(FOR_SRC_VALUE_PROP,"for.src.value");
+                        WRITE(FOR_SORT_BY_PROP,"for.sort-by");
+                        WRITE(FOR_ORDER_BY_PROP,"for.order-by");
+                        WRITE(FOR_LIMIT_PROP,"for.limit");
+                        WRITE(FOR_OFFSET_PROP,"for.offset");
+                        WRITE(FOR_FORMAT_KEY_PROP,"for.format.key");
+                        WRITE(FOR_FORMAT_VALUE_PROP,"for.format.value");
+#                       undef WRITE
+
+                        //Collect values
+                        const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
+
+                        //TODO: filter has not defined syntax yet.
+                        //const char* _filter = current_template.first->attribute("filter").as_string();
+                        const char* _sort_by = current_template.first->attribute("sort-by").as_string();
+                        const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
+
+                        int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
+                        int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
+                        
+                        auto expr = resolve_expr(in);
+
+                    }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){}

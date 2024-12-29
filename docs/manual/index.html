@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Manual - vs.templ</title>
+    <title>User Manual - vs.templ</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Manual";
+        var mkdocs_page_name = "User Manual";
         var mkdocs_page_input_path = "manual.md";
         var mkdocs_page_url = null;
       </script>
@@ -44,25 +44,25 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../calc/">Calc</a>
+                <li class="toctree-l1"><a class="reference internal" href="../calc/">Computing expressions</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../faq/">Faq</a>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">For developers</a>
+                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Manual</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">User Manual</a>
     <ul class="current">
     </ul>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../syntax/">Syntax</a>
+                <li class="toctree-l1"><a class="reference internal" href="../syntax/">Full Syntax reference</a>
                 </li>
               </ul>
       </div>
@@ -79,7 +79,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Manual</li>
+      <li class="breadcrumb-item active">User Manual</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/lazy-eggplant/vs-templ/edit/master/docs/manual.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
@@ -97,7 +97,7 @@ In theory, it is possible for data to be expressed in other formats (eg. JSON) a
 <h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">#</a></h2>
 <pre><code>vs.tmpl &lt;template-file&gt; &lt;data-file&gt; [namespace=`s:`]
 </code></pre>
-<p>Unlike its usage in vs.fltk, template must be specified on its own.  </p>
+<p>Unlike its usage in vs.fltk, template must be specified on its own, as it cannot be inferred.</p>
 <p>There is also an alternative format:</p>
 <pre><code>vs.tmpl [namespace=`s:`]
 </code></pre>
@@ -106,7 +106,7 @@ In theory, it is possible for data to be expressed in other formats (eg. JSON) a
 <p><code>vs.templ</code> uses special elements and attributes to determine the actions to be performed by the preprocessor.<br />
 They are scoped under the namespace <code>s</code>, or any custom defined one.<br />
 This man page only covers a quick syntax reference.<br />
-If you are looking for the full specs, please check the <a href="https://github.com/KaruroChori/vs-templ">official repository</a>.  </p>
+If you are looking for the full specs, please check the <a href="https://github.com/KaruroChori/vs-templ">official repository</a>.</p>
 <h3 id="path-expressions">Path expressions<a class="headerlink" href="#path-expressions" title="Permanent link">#</a></h3>
 <p>Expression are used to access elements and attributes of the data XML from the template.<br />
 Their definition and usage is purposefully restricted to prevent arbitrary code to be run.<br />
@@ -131,8 +131,8 @@ However, the preprocessor should not result in exceptions.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../for-developers/" class="btn btn-neutral float-left" title="For developers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../syntax/" class="btn btn-neutral float-right" title="Syntax">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../for-developers/" class="btn btn-neutral float-left" title="Information for developers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../syntax/" class="btn btn-neutral float-right" title="Full Syntax reference">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>

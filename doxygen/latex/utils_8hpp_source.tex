@@ -31,9 +31,12 @@
 \DoxyCodeLine{00035\ }
 \DoxyCodeLine{00037\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ cexpr\_strneqv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ s,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ c)\{\textcolor{keywordflow}{return}\ strncmp(s,\ c,\ cexpr\_strlen(c))==0;\}}
 \DoxyCodeLine{00038\ }
-\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ cmp\_dot\_str(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ a,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ b);}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \}}
-\DoxyCodeLine{00049\ \}}
+\DoxyCodeLine{00040\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ cexpr\_streqv(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ s,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ c)\{\textcolor{keywordflow}{return}\ strcmp(s,\ c)==0;\}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{int}\ cmp\_dot\_str(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ a,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ b);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \}}
+\DoxyCodeLine{00053\ \}}
 
 \end{DoxyCode}

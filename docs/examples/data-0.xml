@@ -1,3 +1,4 @@
+<!-- Test with `./build/vs.templ ./examples/template-0.xml ./examples/data-0.xml` -->
 <items>
     <section-a>
         <item prop-a="Value 1">Text A</item>
