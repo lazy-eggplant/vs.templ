@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Full Syntax reference - vs.templ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Full Syntax reference";
+        var mkdocs_page_input_path = "syntax.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> vs.templ
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../calc/">Computing expressions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Full Syntax reference</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#path-expressions">Path expressions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#operators-for-elements">Operators for elements</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#for-range">for-range</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#for-for-props">for &amp; for-props</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#value">value</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#element">element</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#when-is">when &amp; is</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#operators-for-properties">Operators for properties</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx">for.SUB-ATTR.[prop/value].xxx &amp; for-props.SUB-ATTR.[prop/value].xxx</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#valuesub-attrxxx">value.SUB-ATTR.xxx</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#propxxx">prop.xxx</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">vs.templ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Full Syntax reference</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/syntax.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">#</a></h2>
+<p><code>vs.templ</code> uses special elements and attributes to determine the actions to be performed by the preprocessor.<br />
+They are scoped under the namespace <code>s</code>, or any custom defined one.</p>
+<h3 id="path-expressions">Path expressions<a class="headerlink" href="#path-expressions" title="Permanent link">#</a></h3>
+<p>Expression are used to access elements and attributes of the data XML from the template.<br />
+Their definition and usage is purposefully restricted to prevent arbitrary code to be run.<br />
+A full list of feasible expression types:</p>
+<ul>
+<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix is skipped)</li>
+<li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
+<li>Paths starting with <code>$</code>. This special symbol is used to mark the nearest scope being visited or root if none.</li>
+<li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
+<li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
+</ul>
+<p>The rest of a path expression has one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
+If terminated with <code>~prop-name</code> the relevant attribute is selected.</p>
+<p>There are also two special properties:</p>
+<ul>
+<li>Special access to the property<code>~!txt</code> to get the node text.</li>
+<li>Special access to the element&rsquo;s name via <code>~!tag</code></li>
+</ul>
+<p>No further combination or format is allowed, and if used they might lead to undefined behaviour.<br />
+However, the preprocessor should not result in exceptions.</p>
+<h4 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h4>
+<p>Using the following XML file as reference:</p>
+<pre><code class="language-xml">&lt;hello&gt;
+    &lt;world attribute-a=&quot;value-0&quot;&gt;
+        text-0
+    &lt;/world&gt;
+    &lt;!-- The second one will never be visited with paths like /hello/world/--&gt;
+    &lt;world attribute-a=&quot;value-1&quot;&gt;
+        text-1
+    &lt;/world&gt;
+&lt;/hello&gt;
+</code></pre>
+<ul>
+<li><code>/hello/world/</code> is the list of children for the first <code>world</code> element in <code>hello</code></li>
+<li><code>/hello/world~attribute-a</code> is evaluated as <code>value-0</code></li>
+<li><code>/hello/world~!txt</code> is evaluated as <code>text-0</code></li>
+<li>Assuming a for cycle in <code>/hello/</code>, its children will be navigated and <code>$~attribute-a</code> will be resolved in <code>value-0</code> and <code>value-1</code>.</li>
+</ul>
+<h3 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h3>
+<p>Operators acting over elements will use information from the current static data sub-path to further generate a parametrized version of what shown in their children on the template tree.</p>
+<h4 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h4>
+<ul>
+<li><code>tag</code> is the name of the symbol where the current value will be stored. If empty the default <code>$</code> is used.</li>
+<li><code>from</code> starting value.</li>
+<li><code>to</code> final value.</li>
+<li><code>step</code> step of increment. It can be negative. If so <code>to&lt;from</code> must hold true.</li>
+</ul>
+<p>Infinite cycles are detected before execution, in which case no cycle will run. Unlike other <code>for</code> variants, there is no header, footer or empty child. Anything inside a <code>for-range</code> is interpreted as <code>item</code>.</p>
+<h4 id="for-for-props"><code>for</code> &amp; <code>for-props</code><a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h4>
+<p>To iterate over children and props of an element respectively.<br />
+Aside from that, they mostly share the same interface.</p>
+<ul>
+<li><code>tag</code> the name of the symbol hosting the current XML node pointer. If empty, its default is <code>$</code></li>
+<li><code>in</code> must be specified and is a path expression</li>
+<li><code>filter</code> as an expression in the internal <a href="../calc/">custom language</a>.</li>
+<li><code>sort-by</code> (only available for <code>for</code>) list of comma separated path expressions. Elements will be sorted giving priority from left to right</li>
+<li><code>order-by</code> order preference for each field in the <code>sort-by</code> or the only one implicit for <code>for-props</code>. Each entry is a pair <code>type:comparator</code> with type either ASC, DESC or RANDOM. If not provided, comparator is assumed to be the default one. As an alternative comparator we could have a one using <code>.</code> to separate values in tokens, and order them token by token.</li>
+<li><code>limit</code> maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.</li>
+<li><code>offset</code> offset from start (of the filtered and ordered list of children)</li>
+</ul>
+<p>Both <code>for</code> &amp; <code>for-props</code> support the following list of children. You can use as many instances of them as you want, in any order.</p>
+<ul>
+<li><code>header</code> shown at the top of a nonempty container</li>
+<li><code>footer</code> shown at the bottom of a nonempty container</li>
+<li><code>empty</code> shown if a container is empty</li>
+<li><code>item</code> the main body</li>
+<li><code>error</code> shown if it was not possible to retrieve items (because of an error in the path)</li>
+</ul>
+<h4 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h4>
+<p>To introduce the value of an expression as text content of an element. It accepts a path expression <code>src</code> as argument. By default, it is assumed to be <code>$</code>.<br />
+It also supports an additional <code>format</code> argument, but at this stage it has no implementation.</p>
+<h4 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h4>
+<p>To generate a new element whose type is determined by a tag expression <code>ns:type</code>. Any other property and child will be preserved.</p>
+<h4 id="when-is"><code>when</code> &amp; <code>is</code><a class="headerlink" href="#when-is" title="Permanent link">#</a></h4>
+<p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
+<code>when</code> accepts a single <code>subject</code> property as a path expression.<br />
+Inside the body of <code>when</code> we have one or more <code>is</code>.<br />
+Attributes for <code>is</code>:</p>
+<ul>
+<li><code>continue</code> default is <code>false</code>. If <code>true</code> it continues checking and executing even after a match. Else it will break.</li>
+<li><code>value</code> a path expression to compare against.</li>
+</ul>
+<p>The order of <code>is</code> elements is important and determines the overall flow.</p>
+<h3 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h3>
+<p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
+<h4 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h4>
+<p>As prop, attribute variants of <code>for</code> and <code>for-props</code>. They add attributes/values to the node they are defined within.</p>
+<h4 id="valuesub-attrxxx"><code>value.SUB-ATTR.xxx</code><a class="headerlink" href="#valuesub-attrxxx" title="Permanent link">#</a></h4>
+<p>As prop, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
+<h4 id="propxxx"><code>prop.xxx</code><a class="headerlink" href="#propxxx" title="Permanent link">#</a></h4>
+<p>To generate new props whose name is determined by an expression.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
