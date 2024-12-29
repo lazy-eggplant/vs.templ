@@ -1,5 +1,5 @@
 site_name: vs.templ
-repo_url: https://github.com/lazy-eggplant/vs-templ
+repo_url: https://github.com/lazy-eggplant/vs.templ
 site_dir: dist/website/docs
 docs_dir: docs
 

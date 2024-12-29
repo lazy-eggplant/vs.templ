@@ -46,6 +46,12 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Computing expressions</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#why-rpn">Why RPN?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#possible-extensions">Possible extensions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#options-for-implementation">Options for implementation</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -81,7 +87,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Computing expressions</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs-templ/edit/master/docs/calc.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/calc.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -89,53 +95,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Tentative specs for the expressions used in:</p>
-<ul>
-<li><code>calc</code></li>
-<li>its prop variant</li>
-<li>in filters within <code>for</code></li>
-<li>maybe in <code>for-range</code>, replacing simple numbers.</li>
-</ul>
-<p>My plan is to add a stack-based language in polish notation, constrained to have only one root.<br />
-For example:</p>
-<pre><code>add:2 int:2 [{var-a}/path~attribute] error add:2 [2] [3]
+                <p>Tentative specs for higher order expressions.<br />
+They extends the current expression by starting with <code>:</code>. Instead of being interpreted as usual, they represent the serialization of a program in reverse polish notation (RPN).<br />
+This is going to run, and the single element left out on stack will be taken as the final expression.</p>
+<p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>
+<pre><code>: `#name-` `{i}` concat.*`
 </code></pre>
-<p>Compressed it would be something like:</p>
-<pre><code>+   int[{var-a}/path~attribute]!
-    +[2][3]
-</code></pre>
-<p>Inside <code>[...]</code> there are path expressions. Type casting should be explicit. The delimiters are needed since expressions can contain spaces and other escaping characters.<br />
-The reason for going with something like this are:</p>
+<p>will return an expression of type string embedding the value <code>name-1</code>.</p>
+<p>Type casting should be explicit, but some operations like <code>concat</code> might cast automatically.<br />
+The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.</p>
+<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
+<h3 id="why-rpn">Why RPN?<a class="headerlink" href="#why-rpn" title="Permanent link">#</a></h3>
+<p>The reason for going with something like this are:</p>
 <ul>
 <li>to avoid a complex parser for what will end up being a quite marginal feature</li>
 <li>to avoid the arbitrary precedence rules usually associated to algebraic operator</li>
-<li>to be fast and easy to compile into native code via tcc</li>
+<li>to be fast and easy to compile into native code via tcc if so desired (but for now it is just going to be interpreted)</li>
 </ul>
-<p>I will probably allow braces, just for the sake of readability. At some point I might validate them if present just to highlight potential bugs.</p>
-<p>Options for implementation:</p>
+<h3 id="possible-extensions">Possible extensions<a class="headerlink" href="#possible-extensions" title="Permanent link">#</a></h3>
+<p>I will probably allow braces, just for the sake of readability, and to avoid being explicit about the number of arguments a function should take.<br />
+At some point I might validate them if present just to highlight potential bugs.</p>
+<h3 id="options-for-implementation">Options for implementation<a class="headerlink" href="#options-for-implementation" title="Permanent link">#</a></h3>
+<p>Assumption: these programs are very short. As such their source is not read in streaming, but it is all resident in memory while compiling. This allows the usage of <code>string_views</code> and the buffer itself in place of allocating too many temporary objects in memory. Hence, processing these expressions should be very memory efficient.</p>
 <ul>
-<li>Add them to this repo directly.</li>
-<li>Build a schema based generator and use it. This way it is easier to build different backends and integrate fast dispatching via perfect minimal hashing functions.</li>
-<li>Find a library already implementing this design and use that.</li>
+<li>Add the vm to this repo directly.</li>
+<li>Build a generic vm library for which specific instances can be generated downstream of a schema.<br />
+  This way it is easier to build different backends and integrate fast dispatching via perfect minimal hashing functions.</li>
+<li><del>Find a library already implementing this design and use that.</del> no success in that</li>
 </ul>
-<p>Assumption: these programs are very short. As such their source is not read in streaming, but it is all resident in memory while compiling. This allows the usage of string_views and the buffer itself in place of allocating too many temporary objects in memory. Hence, processing these expressions should be very memory efficient.</p>
 <h2 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">#</a></h2>
+<h3 id="array-operators">Array operators<a class="headerlink" href="#array-operators" title="Permanent link">#</a></h3>
 <ul>
 <li><code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</li>
 <li><code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</li>
 <li><code>filter</code> <code>[container] F</code>, filters elements out of a container</li>
-<li>
-<p><code>map</code> <code>[expr] [container] M</code>, maps container based on a lamba</p>
-</li>
-<li>
-<p><code>concat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</p>
-</li>
-<li>
-<p><code>if</code> <code>[false] [true] [condition] ?</code></p>
-</li>
-<li>
-<p>And all the typical math operations as usual</p>
-</li>
+<li><code>map</code> <code>[expr] [container] M</code>, maps container based on a lamba</li>
+</ul>
+<h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
+<ul>
+<li><code>concat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</li>
+</ul>
+<h3 id="boolean-operators">Boolean operators<a class="headerlink" href="#boolean-operators" title="Permanent link">#</a></h3>
+<ul>
+<li><code>if</code> <code>[false] [true] [condition] ?</code></li>
+</ul>
+<h3 id="common-algebraic-operators">Common algebraic operators<a class="headerlink" href="#common-algebraic-operators" title="Permanent link">#</a></h3>
+<ul>
+<li>And all the typical math operations as usual</li>
 </ul>
               
             </div>
@@ -165,7 +171,7 @@ The reason for going with something like this are:</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
         <span>
-          <a href="https://github.com/lazy-eggplant/vs-templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
         </span>
     
     

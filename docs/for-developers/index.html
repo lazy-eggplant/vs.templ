@@ -81,7 +81,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Information for developers</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs-templ/edit/master/docs/for-developers.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/for-developers.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -96,9 +96,11 @@
 <li><code>pandoc</code> if you want to generate the documentation/man pages</li>
 </ul>
 <p>To build, test and install it you can just use normal meson commands.</p>
-<h2 id="using-it">Using it<a class="headerlink" href="#using-it" title="Permanent link">#</a></h2>
-<p>Right now this project is only available as a meson package.<br />
+<h2 id="embedding-it">Embedding it<a class="headerlink" href="#embedding-it" title="Permanent link">#</a></h2>
+<p>Right now, this project is only available as a meson package.<br />
 I might consider adding <code>cmake</code> later on to gain a wider compatibility.</p>
+<p>If <code>pugixml</code> is already provided as a dependency in the main project, that will be used.</p>
+<p>The CLI in <code>src/app</code> shows all that is needed to use <code>vs.templ</code> as a library.</p>
 <h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">#</a></h2>
 <p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
 Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
@@ -133,7 +135,7 @@ Before that, any release can and will have breaking changes.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
         <span>
-          <a href="https://github.com/lazy-eggplant/vs-templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
         </span>
     
     
