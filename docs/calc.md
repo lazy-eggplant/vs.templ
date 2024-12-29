@@ -1,3 +1,7 @@
+---
+title: Computing expressions
+---
+
 Tentative specs for the expressions used in:
 
 - `calc`

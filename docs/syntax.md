@@ -1,3 +1,7 @@
+---
+title: Full Syntax reference
+---
+
 ## Syntax
 
 `vs.templ` uses special elements and attributes to determine the actions to be performed by the preprocessor.  
