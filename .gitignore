@@ -6,6 +6,7 @@ subprojects/*
 /wraps/cfltk
 *.autogen.*
 /dist/*
+!/dist/root-website/
 !/dist/website/
 /dist/website/doxygen/*
 /dist/website/docs/*
