@@ -1,9 +1,11 @@
 > [!WARNING]  
-> Migration and adaptation from the other repository is done.  
-> Documentation and missing features still ongoing.
+> Some features are still missing, they are tracked in the [TODO](./TODO.md) file.
+> Documentation is an ongoing effort.
 
 `vs-templ` is a simple preprocessor for XML files. It can be used statically generate new files from a template definition.  
-Static templates can be seen as extremely simple programs which are interpreted by this preprocessor. They consume input data also formatted as XML, and generate some output XML file. In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.
+Static templates can be seen as extremely simple programs which are interpreted by this preprocessor.  
+They consume input data also formatted as XML, and generate some output XML file.  
+In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.
 
 ## Examples
 

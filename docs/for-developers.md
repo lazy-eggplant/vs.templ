@@ -10,10 +10,14 @@ title: Information for developers
 
 To build, test and install it you can just use normal meson commands.
 
-## Using it
+## Embedding it
 
-Right now this project is only available as a meson package.  
+Right now, this project is only available as a meson package.  
 I might consider adding `cmake` later on to gain a wider compatibility.
+
+If `pugixml` is already provided as a dependency in the main project, that will be used.
+
+The CLI in `src/app` shows all that is needed to use `vs.templ` as a library.
 
 ## Versioning
 

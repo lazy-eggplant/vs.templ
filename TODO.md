@@ -42,13 +42,6 @@ This is a list of commands which are currently supported:
 
 # Milestones
 
-## `v0.3.0`
-
-- [x] At least feature parity with what it was before moving it out of `vs-fltk`.
-- [x] Some degree of documentation.
-- [x] Add support for `element.text()` & `element.name()` in query.
-- [x] Replace the current split implementation with something requiring less allocations
-
 ## `v0.3.5`
 
 - [x] At least feature parity with what it was before moving it out of `vs-fltk`.
