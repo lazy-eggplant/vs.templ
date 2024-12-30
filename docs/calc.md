@@ -2,9 +2,9 @@
 title: Computing expressions
 ---
 
-Tentative specs for higher order expressions.  
-They extends the current expression by starting with `:`. Instead of being interpreted as usual, they represent the serialization of a program in reverse polish notation (RPN).  
-This is going to run, and the single element left out on stack will be taken as the final expression.
+Tentative specs for higher order expressions to add some degree of freedom in calculations.  
+They are still interpreted as expression, starting with `:`. The content of the expression represent the serialization of a program in reverse polish notation (RPN).  
+The VM is going to run it, and the only element left on stack is taken as the final expression value.
 
 For example, assuming the environment had `i` set to `1`:
 
@@ -34,7 +34,10 @@ At some point I might validate them if present just to highlight potential bugs.
 
 ### Options for implementation
 
-Assumption: these programs are very short. As such their source is not read in streaming, but it is all resident in memory while compiling. This allows the usage of `string_views` and the buffer itself in place of allocating too many temporary objects in memory. Hence, processing these expressions should be very memory efficient.
+Assumption: these programs are very short.  
+As such their source is not read in streaming, but it is all resident in memory while compiling.  
+This allows the usage of `string_views` and the buffer itself in place of allocating too many temporary objects in memory.  
+Hence, processing these expressions should be very memory efficient.
 
 - Add the vm to this repo directly.
 - Build a generic vm library for which specific instances can be generated downstream of a schema.  
