@@ -6,11 +6,14 @@
     <summary>A simple static XML template builder</summary>
 
     <metadata_license>CC-BY-SA-4.0</metadata_license>
-    <project_license>multiple, check docs</project_license>
+    <project_license>BSD-3-Clause</project_license>
+
+    <content_rating type="oars-1.1" />
 
     <description>
         <p>
-            A simple static XML template builde
+            A simple static XML template builder. Designed to construct XML files from a template
+            file and a dataset, both of which 100% pure XML.
         </p>
     </description>
 
@@ -26,4 +29,8 @@
     <provides>
         <binary>vs.templ</binary>
     </provides>
+
+    <releases>
+        <release version="0.3.5" date="2024-12-29"></release>
+    </releases>
 </component>

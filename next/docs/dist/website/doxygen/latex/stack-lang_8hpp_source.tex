@@ -31,36 +31,13 @@
 \DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Types\ not\ being\ satisfied\ are\ evaluated\ dynamically\ by\ functions\ and\ will\ result\ in\ runtime\ errors\ saved\ on\ stack.}}
 \DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Determinations\ about\ the\ numbers\ of\ element\ to\ pop\ from\ the\ stack\ are\ done\ at\ runtime\ as\ well.}}
 \DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ \ \ \ \ \ */}}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ eval(\textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}\&\ p,\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{noexcept}\{}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!stack.empty())\{}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ top\ =\ stack.top();}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack.pop();}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(top.first==item\_t::EXPR)\textcolor{keywordflow}{return}\ p.resolve\_expr(top.second,\ base);}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//If\ I\ end\ up\ with\ an\ error\ which\ I\ am\ not\ able\ to\ fix\ I\ will\ just\ return\ an\ empty\ result.}}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (stack.size()==0\ \&\&\ top.first==item\_t::ERROR)\textcolor{keywordflow}{return}\ \{\};}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Else\ extract\ from\ stack\ based\ on\ specs,\ perform\ operation,\ save\ on\ stack\ and\ repeat.}}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\{\}}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}(...)\{\}}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Breaking\ failures\ or\ empty\ stack...}}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ parse(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str)\{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Identify\ blocks\ [...]\ as\ operands}}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Skip\ spaces}}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Other\ alphanumeric\ patterns\ are\ functions}}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00057\ \};}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \}}
-\DoxyCodeLine{00060\ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ eval(\textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}\&\ p,\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ parse(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00037\ \}}
 
 \end{DoxyCode}

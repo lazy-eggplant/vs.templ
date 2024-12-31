@@ -27,32 +27,9 @@ struct repl{
             Types not being satisfied are evaluated dynamically by functions and will result in runtime errors saved on stack.
             Determinations about the numbers of element to pop from the stack are done at runtime as well.
         */
-        std::optional<concrete_symbol> eval(const preprocessor& p, pugi::xml_node* base=nullptr) noexcept{
-            while(!stack.empty()){
-                auto top = stack.top();
-                stack.pop();
-                if(top.first==item_t::EXPR)return p.resolve_expr(top.second, base);
-                //If I end up with an error which I am not able to fix I will just return an empty result.
-                else if (stack.size()==0 && top.first==item_t::ERROR)return {};
-                else{
-                    //Else extract from stack based on specs, perform operation, save on stack and repeat.
+        std::optional<concrete_symbol> eval(const preprocessor& p, pugi::xml_node* base=nullptr) noexcept;
 
-
-                    try{}
-                    catch(...){}
-                }
-            }
-
-            //Breaking failures or empty stack...
-            return {};
-        };
-
-        bool parse(const char* str){
-            //Identify blocks [...] as operands
-            //Skip spaces
-            //Other alphanumeric patterns are functions
-        }
-
+        bool parse(const char* str);
     public:
 };
 

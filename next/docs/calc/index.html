@@ -95,9 +95,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Tentative specs for higher order expressions.<br />
-They extends the current expression by starting with <code>:</code>. Instead of being interpreted as usual, they represent the serialization of a program in reverse polish notation (RPN).<br />
-This is going to run, and the single element left out on stack will be taken as the final expression.</p>
+                <p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
+They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
+The VM is going to run it, and the only element left on stack is taken as the final expression value.</p>
 <p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>
 <pre><code>: `#name-` `{i}` concat.*`
 </code></pre>
@@ -116,7 +116,10 @@ The delimiters are needed, since some types of expressions like strings can cont
 <p>I will probably allow braces, just for the sake of readability, and to avoid being explicit about the number of arguments a function should take.<br />
 At some point I might validate them if present just to highlight potential bugs.</p>
 <h3 id="options-for-implementation">Options for implementation<a class="headerlink" href="#options-for-implementation" title="Permanent link">#</a></h3>
-<p>Assumption: these programs are very short. As such their source is not read in streaming, but it is all resident in memory while compiling. This allows the usage of <code>string_views</code> and the buffer itself in place of allocating too many temporary objects in memory. Hence, processing these expressions should be very memory efficient.</p>
+<p>Assumption: these programs are very short.<br />
+As such their source is not read in streaming, but it is all resident in memory while compiling.<br />
+This allows the usage of <code>string_views</code> and the buffer itself in place of allocating too many temporary objects in memory.<br />
+Hence, processing these expressions should be very memory efficient.</p>
 <ul>
 <li>Add the vm to this repo directly.</li>
 <li>Build a generic vm library for which specific instances can be generated downstream of a schema.<br />
