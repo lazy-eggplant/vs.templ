@@ -35,32 +35,28 @@ This is a list of commands which are currently supported:
 - [ ] Stack based language.
   - [ ] Stack based evaluations for `eval` element
   - [ ] and for `filter` prop on for like cycles.
-  - [ ] BREAKING replace numbers in for-range with these kinds of expressions.
+  - [x] replace numbers in for-range with these kinds of expressions.
   - [ ] Evaluate their usage in when/is
-- [ ] Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with `[` `]` later on)
+- [ ] Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with special symbols later on)
 - [ ] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
 
 # Milestones
 
-## `v0.3.5`
+## `v0.3.7`
 
-- [x] At least feature parity with what it was before moving it out of `vs-fltk`.
-- [x] Some degree of documentation.
-- [x] Add support for `element.text()` & `element.name()` in query.
-- [x] Replace the current split implementation with something requiring less allocations
+- [ ] Add support for props-based commands.
+- [ ] Improve debugging and error resolution during the static construction.
+
+## `v0.3.9`
+
+- [ ] Add environment data when used as a lib.
+- [ ] Basic repl done.
 
 ## `v0.4.0`
 
-- [ ] Add support for props-based commands.
-- [x] Initial setup for the test-suite.
-- [x] Add actual support of dot comparison in strings (to be tested).
-- [ ] Add random as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
-- [x] man page generation via meson (not great, but I'll take it).
-- [ ] Add a proper xml schema for this language (rng in place of xsd as they are more flexible for unordered files that I want to support)
+- [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
 
 ## `v1.0.0`
 
-- [ ] Support for all commands, except `filter` in all `for` variants & `eval`. Syntax for it has not been determined yet.
-- [x] Functional CLI needed.
-- [x] Install scripts working (testing needed).
 - [ ] Some good testing coverage is highly desirable.
+- [ ] Add a proper xml schema for this language (rng in place of xsd as they are more flexible for unordered files that I want to support)

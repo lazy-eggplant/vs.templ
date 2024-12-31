@@ -8,20 +8,30 @@ title: Information for developers
 - `meson` as the build system of choice
 - `pandoc` if you want to generate the documentation/man pages
 
-To build, test and install it you can just use normal meson commands.
+To build, test and install it you can just use normal meson commands like.
+
+```
+meson setup build
+meson compile -C build
+meson install -C build
+```
 
 ## Embedding it
 
-Right now, this project is only available as a meson package.  
+At this time, this repository is only available as a [meson](https://mesonbuild.com/) package.  
 I might consider adding `cmake` later on to gain a wider compatibility.
 
 If `pugixml` is already provided as a dependency in the main project, that will be used.
 
-The CLI in `src/app` shows all that is needed to use `vs.templ` as a library.
+The CLI in `src/app` shows everything that is needed to use `vs.templ` as a library.
+
+### C bindings
+
+At this time, no C bindings are provided since all my downstream project don't need them, and pugixml is C++ only.  
+Still, the public interface is quite thin, so they can be easily introduced if so desired.
 
 ## Versioning
 
-At this time, this repository is only available as a [meson](https://mesonbuild.com/) package.  
 Releases are tagged on the repo, with `master` as the main development branch.  
 Semantic versioning will be followed after `v1.0.0`.  
 Before that, any release can and will have breaking changes.
