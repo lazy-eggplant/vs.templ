@@ -14,7 +14,7 @@
 \DoxyCodeLine{00010\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1repl}{repl}}\{}
 \DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ item\_t\{}
-\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ ERROR,\ EXPR,\ FN}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ ERROR,\ OPERAND,\ OPERATOR}
 \DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \};}
 \DoxyCodeLine{00015\ }
 \DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{comment}{//TODO:\ Order\ by\ name\ \&\ operands,\ so\ that\ shorter\ ones\ are\ selected\ first.}}
@@ -23,21 +23,36 @@
 \DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ operands;}
 \DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \};}
 \DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::stack<std::pair<item\_t,std::string\_view>>\ stack;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::stack<std::pair<item\_t,concrete\_symbol>>\ stack;}
 \DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
-\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ \ \ \ \ \ Approach\ 1:}}
-\DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Execution\ of\ a\ function\ which\ is\ not\ found\ results\ in\ a\ runtime\ error\ saved\ on\ stack.}}
-\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Types\ not\ being\ satisfied\ are\ evaluated\ dynamically\ by\ functions\ and\ will\ result\ in\ runtime\ errors\ saved\ on\ stack.}}
-\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Determinations\ about\ the\ numbers\ of\ element\ to\ pop\ from\ the\ stack\ are\ done\ at\ runtime\ as\ well.}}
-\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ \ \ \ \ \ */}}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ eval(\textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}\&\ p,\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ parse(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ \ \ \ \ \ Approach\ 1:}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Execution\ of\ a\ function\ which\ is\ not\ found\ results\ in\ a\ runtime\ error\ saved\ on\ stack.}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Types\ not\ being\ satisfied\ are\ evaluated\ dynamically\ by\ functions\ and\ will\ result\ in\ runtime\ errors\ saved\ on\ stack.}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ Determinations\ about\ the\ numbers\ of\ element\ to\ pop\ from\ the\ stack\ are\ done\ at\ runtime\ as\ well.}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ eval(\textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}\&\ p,\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ parse(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str);}
 \DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \}}
-\DoxyCodeLine{00037\ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1repl_1_1token__ret__t}{token\_ret\_t}}\{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OPERAND\_FOUND,\ OPERATOR\_FOUND,\ SKIP,\ INCOMPLETE,\ ERROR}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \}msg;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ begin;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ end;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ next;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structvs_1_1templ_1_1repl_1_1token__ret__t}{token\_ret\_t}}\ parse\_token(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keywordtype}{size\_t}\ max\_length);}
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \}}
+\DoxyCodeLine{00052\ \}}
 
 \end{DoxyCode}

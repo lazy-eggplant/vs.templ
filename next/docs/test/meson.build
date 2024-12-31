@@ -18,3 +18,5 @@ foreach case : cases
     )
 
 endforeach
+
+subdir('marginal')

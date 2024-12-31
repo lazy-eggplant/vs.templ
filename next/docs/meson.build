@@ -1,7 +1,7 @@
 project(
   'vs-templ',
   ['cpp'],
-  version: '0.3.5',
+  version: '0.3.6',
   meson_version: '>= 1.1',
   default_options: ['cpp_std=c++20'],
 )

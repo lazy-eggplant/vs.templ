@@ -24,6 +24,9 @@ void preprocessor::reset(){
     _logs=decltype(_logs)();
 }
 
+//TODO: The next release of pugixml will have support for string_views directly. 
+//      As such, the double buffer to add \0 around will no longer be needed.
+//      Once that is done, please revise this function to make it much faster.
 std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view& _str, const pugi::xml_node* base) const{
     int str_len = _str.size(); 
     char str[str_len+1];
@@ -88,9 +91,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
         else if(strcmp(str+idx+1,"!tag")==0) return ref.name();
         else return ref.attribute(str+idx+1).as_string();
     }
-
-    //TODO: Add command type to return the text() of a node as string.
-
+    
     return {};
 }
 
