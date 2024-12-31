@@ -4,48 +4,72 @@
 #include <stack>
 #include <symbols.hpp>
 
+#include <frozen/unordered_map.h>
+#include <frozen/string.h>
+
+
 namespace vs{
 namespace templ{
 
 struct repl{
-    private:
-        enum class item_t{
-            ERROR, OPERAND, OPERATOR
-        };
+    struct token_ret_t{
+        enum {
+            OPERAND_FOUND, 
+            OPERATOR_FOUND,
+            SKIP,               //Whitespaces, comments etc.
+            INCOMPLETE,         //The current token is incomplete (or potentially incomplete). Waiting for more content to know.
+            ERROR,              //Generic syntax error.
+            END                 //End of message met. (\0) for example.
+        }msg;
 
-        //TODO: Order by name & operands, so that shorter ones are selected first.
+        size_t begin;           //Where we the token match starts
+        size_t end;             //Where the token match ends
+        size_t next;            //Where to jump before the next token is considered, avoiding irrelevant characters in the middle.
+    };
+
+    enum struct error_t{
+        OK,                     //No error actually everything ended up being right
+        WRONG_TYPE,             //Type mismatch in the argument being used
+        STACK_EMPTY,            //The stack is empty, I cannot take any further element
+        STACK_STILL_FULL,       //The stack should only be left with one element when closing a program. If more are present, it is an error.
+        UNKNOWN_OPERATOR,       //The requested operator does not exists.
+        UNKNOWN_ARIETY,         //The requested operator cannot operate with the specified ariety.
+        MEMORY,                 //No more internal memory can be allocated.
+    };
+
+    private:
         struct op_t{
             std::string_view name;
             size_t operands;
         };
 
-        std::stack<std::pair<item_t,concrete_symbol>> stack;
+        std::stack<concrete_symbol> stack;
+
+        const preprocessor& ctx;
+
+        struct command_t{
+            size_t min_ariety;
+            size_t max_ariety;
+            error_t (*fn)(const std::stack<concrete_symbol>& stack, size_t N);
+        };
+        
+        inline static frozen::unordered_map<frozen::string, command_t, 100> commands = {
+            {"nop", {0, 0, +[](const std::stack<concrete_symbol>& stack, size_t N){return repl::error_t::OK;}}}
+        };
 
     public:
 
-        /*
-        Approach 1:
-            Execution of a function which is not found results in a runtime error saved on stack.
-            Types not being satisfied are evaluated dynamically by functions and will result in runtime errors saved on stack.
-            Determinations about the numbers of element to pop from the stack are done at runtime as well.
-        */
-        std::optional<concrete_symbol> eval(const preprocessor& p, pugi::xml_node* base=nullptr) noexcept;
+        repl(const preprocessor& _ctx);
 
-        bool parse(const char* str);
+        /**
+         * @brief 
+         * 
+         * @param expr 
+         * @return std::optional<concrete_symbol> 
+         */
+        std::optional<concrete_symbol> eval(const char* expr) noexcept;     
 
-     
-
-        struct token_ret_t{
-            enum {
-                OPERAND_FOUND, OPERATOR_FOUND, SKIP, INCOMPLETE, ERROR
-            }msg;
-
-            size_t begin;
-            size_t end;
-            size_t next;
-        };
-
-        token_ret_t parse_token(const char* str, size_t max_length);
+        token_ret_t parse_token(const char* str, size_t max_length=-1);
 };
 
 }
