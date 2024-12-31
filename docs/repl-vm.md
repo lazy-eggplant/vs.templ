@@ -9,7 +9,7 @@ The VM is going to run it, and the only element left on stack is taken as the fi
 For example, assuming the environment had `i` set to `1`:
 
 ```
-: `#name-` `{i}` concat.*`
+: `#name-` `{i}` cat:*`
 ```
 
 will return an expression of type string embedding the value `name-1`.
@@ -53,14 +53,36 @@ Hence, processing these expressions should be very memory efficient.
 - `filter` `[container] F`, filters elements out of a container
 - `map` `[expr] [container] M`, maps container based on a lamba
 
+### Generic
+
+- [ ] `dup` duplicate the last element on stack
+- [ ] `nop` no operation
+- [ ] `erase` remove last n eleemnts from stack
+- [ ] `swap` swap the two top elements
+- [ ] `eval` (probably I will not expose this one) expose a nested repl vm
+- [ ] `esc` escape number to string literal
+- [ ] `load` load variable on stack from the environment map
+- [ ] `store`(probably I will not expose this one) store variable form stack to the environment map
+
 ### String operators
 
-- `concat` `[container] cat`, simplified version of `V` where based on the type, the 0 is used as initial and the reducer is the natural `+` operation
+- [x] `concat` `[container] cat`, simplified version of `V` where based on the type, the 0 is used as initial and the reducer is the natural `+` operation
 
 ### Boolean operators
 
-- `if` `[false] [true] [condition] ?`
+Boolean types are not directly supported. They are just integers with extra semantic.
+
+- [ ] `if` `[false] [true] [condition] ?`
+- [ ] `and` `or` `not` `xor` `nor` `nand` as expected (they are bitwise).
+- [ ] `eq` `neq` `bg` `bge` `lse`
 
 ### Common algebraic operators
 
-- And all the typical math operations as usual
+And all the typical math operations as usual
+
+- [ ] `+` `-` `*` `/` `pow`, `mod` (and mnemonic versions too)
+
+### Cast
+
+- [ ] `as.string`
+- [ ] `as.integer`

@@ -33,28 +33,30 @@ This is a list of commands which are currently supported:
 ## Missing features
 
 - [ ] Stack based language.
-  - [ ] Stack based evaluations for `eval` element
+  - [x] Stack based evaluations for `eval` element
   - [ ] and for `filter` prop on for like cycles.
   - [x] replace numbers in for-range with these kinds of expressions.
-  - [ ] Evaluate their usage in when/is
-- [ ] Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with special symbols later on)
+  - [x] Evaluate their usage in when/is
+- [ ] ~~Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with special symbols later on)~~ covered by repl vm
 - [ ] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
 
 # Milestones
 
 ## `v0.3.7`
 
-- [ ] Add support for props-based commands.
+- [x] Basic repl vm done.
 - [ ] Improve debugging and error resolution during the static construction.
 
 ## `v0.3.9`
 
 - [ ] Add environment data when used as a lib.
-- [ ] Basic repl done.
+- [ ] Add support for props-based commands.
+- [ ] Complete more of the repl vm operator to cover specs.
 
 ## `v0.4.0`
 
 - [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
+- [ ] Add filter to cycles.
 
 ## `v1.0.0`
 
