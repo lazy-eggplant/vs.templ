@@ -13,7 +13,7 @@
       <script>
         // Current page data
         var mkdocs_page_name = "Computing expressions";
-        var mkdocs_page_input_path = "calc.md";
+        var mkdocs_page_input_path = "repl-vm.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -43,18 +43,6 @@
                 <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Computing expressions</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#why-rpn">Why RPN?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#possible-extensions">Possible extensions</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#options-for-implementation">Options for implementation</a>
-    </li>
-    </ul>
-                </li>
-              </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
                 </li>
@@ -65,6 +53,18 @@
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Computing expressions</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#why-rpn">Why RPN?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#possible-extensions">Possible extensions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#options-for-implementation">Options for implementation</a>
+    </li>
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -92,7 +92,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Computing expressions</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/calc.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/repl-vm.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -104,7 +104,7 @@
 They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
 The VM is going to run it, and the only element left on stack is taken as the final expression value.</p>
 <p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>
-<pre><code>: `#name-` `{i}` concat.*`
+<pre><code>: `#name-` `{i}` cat:*`
 </code></pre>
 <p>will return an expression of type string embedding the value <code>name-1</code>.</p>
 <p>Type casting should be explicit, but some operations like <code>concat</code> might cast automatically.<br />
@@ -139,24 +139,44 @@ Hence, processing these expressions should be very memory efficient.</p>
 <li><code>filter</code> <code>[container] F</code>, filters elements out of a container</li>
 <li><code>map</code> <code>[expr] [container] M</code>, maps container based on a lamba</li>
 </ul>
+<h3 id="generic">Generic<a class="headerlink" href="#generic" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>dup</code> duplicate the last element on stack</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>nop</code> no operation</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>erase</code> remove last n eleemnts from stack</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>swap</code> swap the two top elements</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>eval</code> (probably I will not expose this one) expose a nested repl vm</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>esc</code> escape number to string literal</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>load</code> load variable on stack from the environment map</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>store</code>(probably I will not expose this one) store variable form stack to the environment map</li>
+</ul>
 <h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
-<ul>
-<li><code>concat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</li>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>concat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</li>
 </ul>
 <h3 id="boolean-operators">Boolean operators<a class="headerlink" href="#boolean-operators" title="Permanent link">#</a></h3>
-<ul>
-<li><code>if</code> <code>[false] [true] [condition] ?</code></li>
+<p>Boolean types are not directly supported. They are just integers with extra semantic.</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>if</code> <code>[false] [true] [condition] ?</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>and</code> <code>or</code> <code>not</code> <code>xor</code> <code>nor</code> <code>nand</code> as expected (they are bitwise).</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>eq</code> <code>neq</code> <code>bg</code> <code>bge</code> <code>lse</code></li>
 </ul>
 <h3 id="common-algebraic-operators">Common algebraic operators<a class="headerlink" href="#common-algebraic-operators" title="Permanent link">#</a></h3>
-<ul>
-<li>And all the typical math operations as usual</li>
+<p>And all the typical math operations as usual</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>pow</code>, <code>mod</code> (and mnemonic versions too)</li>
+</ul>
+<h3 id="cast">Cast<a class="headerlink" href="#cast" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>as.string</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>as.integer</code></li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../faq/" class="btn btn-neutral float-right" title="FAQ">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../syntax/" class="btn btn-neutral float-right" title="Full Syntax reference">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -183,10 +203,10 @@ Hence, processing these expressions should be very memory efficient.</p>
         </span>
     
     
-      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../faq/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../syntax/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

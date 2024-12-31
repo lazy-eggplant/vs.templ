@@ -44,10 +44,6 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../calc/">Computing expressions</a>
-                </li>
-              </ul>
-              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
                 </li>
               </ul>
@@ -57,6 +53,10 @@
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
                 </li>
               </ul>
               <ul class="current">
@@ -181,7 +181,7 @@ Aside from that, they mostly share the same interface.</p>
 <ul>
 <li><code>tag</code> the name of the symbol hosting the current XML node pointer. If empty, its default is <code>$</code></li>
 <li><code>in</code> must be specified and is a path expression</li>
-<li><code>filter</code> as an expression in the internal <a href="../calc/">custom language</a>.</li>
+<li><code>filter</code> as an expression in the internal <a href="./calc.md">custom language</a>.</li>
 <li><code>sort-by</code> (only available for <code>for</code>) list of comma separated path expressions. Elements will be sorted giving priority from left to right</li>
 <li><code>order-by</code> order preference for each field in the <code>sort-by</code> or the only one implicit for <code>for-props</code>. Each entry is a pair <code>type:comparator</code> with type either ASC, DESC or RANDOM. If not provided, comparator is assumed to be the default one. As an alternative comparator we could have a one using <code>.</code> to separate values in tokens, and order them token by token.</li>
 <li><code>limit</code> maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.</li>
@@ -222,7 +222,7 @@ Attributes for <code>is</code>:</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../repl-vm/" class="btn btn-neutral float-left" title="Computing expressions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../releases/v0.3.5/" class="btn btn-neutral float-right" title="V0.3.5">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -250,7 +250,7 @@ Attributes for <code>is</code>:</p>
         </span>
     
     
-      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../repl-vm/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../releases/v0.3.5/" style="color: #fcfcfc">Next &raquo;</a></span>

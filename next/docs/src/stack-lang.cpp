@@ -1,4 +1,6 @@
+#include <charconv>
 #include <stack-lang.hpp>
+#include <string>
 #include <string_view>
 
 
@@ -15,7 +17,8 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                             std::string ret;
                             for(size_t i = 0;i<N;i++){
                                 if(stack.size()==0)return error_t::STACK_EMPTY;
-                                auto tmp = stack.top();
+                                auto tmp = std::move(stack.top());
+                                stack.pop();
                                 if(std::holds_alternative<std::string>(tmp))
                                     ret+=std::get<std::string>(tmp);
                                 else return error_t::WRONG_TYPE;
@@ -23,7 +26,9 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                             stack.push(ret);
                             return error_t::OK;
                         }, 2, MAX_ARITY}}
-
+                /*
+                List of operators to implement is being developed in ./docs/repl-vm.md
+                 */
 
     };
     
@@ -35,9 +40,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             std::string ss(expr+current+begin,expr+current+end);
             //printf("Found operand %s\n", ss.c_str());
 
-            std::string sv(expr+current+begin,expr+current+end);
-
-            auto tmp = ctx.resolve_expr(sv);
+            auto tmp = ctx.resolve_expr(std::string_view(expr+current+begin,expr+current+end));
             if(tmp.has_value()){
                 stack.push(tmp.value());
             }
@@ -52,7 +55,38 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             std::string ss(expr+current+begin,expr+current+end);
             //printf("Found operator %s\n", ss.c_str());
 
-            //TODO Perform operation!
+            {   
+                int arity = -1;
+
+                //Parsing operator to split name from arity specifier
+                int i=current+begin;
+                for(;i!=current+end && expr[i]!=':';i++);
+                if(expr[i]==':'){
+                    if(expr[i+1]=='*'){arity = stack.size();}
+                    else{
+                        std::from_chars(expr+i+1, expr+current+end, arity);
+                    }
+                }
+
+                auto it = commands.find(std::string_view(expr+current+begin,expr+i));
+                if(it!=commands.end()){
+                    if(arity==-1)arity=it->second.default_arity;
+                    if(arity>it->second.max_arity || arity<it->second.min_arity){
+                        //ERROR HERE Bad arity
+                        return {};
+                    }
+                    auto ret = it->second.fn(stack,arity);
+                    if(ret!=error_t::OK){
+                        //ERROR HERE Specify
+                        return {};
+                    }
+                }
+                else{
+                    //ERROR HERE Command not found
+                    return {};
+                }
+            }
+
             current += skip;
         }
         else if(status==token_ret_t::SKIP){
@@ -62,7 +96,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             break;
         }
         else{
-            //ERROR HERE
+            //ERROR HERE Parsing error
             return {};
         }
     }
