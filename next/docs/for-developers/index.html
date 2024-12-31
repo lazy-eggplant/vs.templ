@@ -65,6 +65,11 @@
                 <li class="toctree-l1"><a class="reference internal" href="../syntax/">Full Syntax reference</a>
                 </li>
               </ul>
+              <p class="caption"><span class="caption-text">Releases</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -95,15 +100,21 @@
 <li><code>meson</code> as the build system of choice</li>
 <li><code>pandoc</code> if you want to generate the documentation/man pages</li>
 </ul>
-<p>To build, test and install it you can just use normal meson commands.</p>
+<p>To build, test and install it you can just use normal meson commands like.</p>
+<pre><code>meson setup build
+meson compile -C build
+meson install -C build
+</code></pre>
 <h2 id="embedding-it">Embedding it<a class="headerlink" href="#embedding-it" title="Permanent link">#</a></h2>
-<p>Right now, this project is only available as a meson package.<br />
+<p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
 I might consider adding <code>cmake</code> later on to gain a wider compatibility.</p>
 <p>If <code>pugixml</code> is already provided as a dependency in the main project, that will be used.</p>
-<p>The CLI in <code>src/app</code> shows all that is needed to use <code>vs.templ</code> as a library.</p>
+<p>The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
+<h3 id="c-bindings">C bindings<a class="headerlink" href="#c-bindings" title="Permanent link">#</a></h3>
+<p>At this time, no C bindings are provided since all my downstream project don&rsquo;t need them, and pugixml is C++ only.<br />
+Still, the public interface is quite thin, so they can be easily introduced if so desired.</p>
 <h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">#</a></h2>
-<p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
-Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
+<p>Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
 Semantic versioning will be followed after <code>v1.0.0</code>.<br />
 Before that, any release can and will have breaking changes.</p>
 <p>Versions ending with an odd revision number are meant for proper for releases, while even numbers are only for in-dev stages.</p>
