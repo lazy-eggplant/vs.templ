@@ -2,6 +2,8 @@
 #include <string_view>
 #include <variant>
 #include <vs-templ.hpp>
+#include <stack-lang.hpp>
+
 #include "utils.hpp"
 
 namespace vs{
@@ -36,6 +38,10 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
     pugi::xml_node ref;
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')) return atoi(str);
+    else if(str[0]==':') {
+        repl r(*this);
+        return r.eval(str+1);
+    }
     else if(str[0]=='#') return std::string(str+1);  //Consider what follows as a string
     else if(str[0]=='{'){
         int close = 0;
@@ -91,7 +97,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
         else if(strcmp(str+idx+1,"!tag")==0) return ref.name();
         else return ref.attribute(str+idx+1).as_string();
     }
-    
+
     return {};
 }
 
