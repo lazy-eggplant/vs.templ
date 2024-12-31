@@ -17,7 +17,7 @@ foreach case : to_pass
     exe = executable(
         'test_marginal_' + case,
         './' + case + '.cpp',
-        dependencies: [vs_templ_dep, pugixml_dep, frozen_dep],
+        dependencies: [vs_templ_dep, pugixml_dep],
         cpp_args: '',
         install: false
     )
@@ -32,7 +32,7 @@ foreach case : to_fail
     exe = executable(
         case,
         './' + case + '.cpp',
-        dependencies: [vs_templ_dep, pugixml_dep, frozen_dep],
+        dependencies: [vs_templ_dep, pugixml_dep],
         cpp_args: '',
         install: false
     )

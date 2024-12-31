@@ -4,9 +4,6 @@
 #include <stack>
 #include <symbols.hpp>
 
-#include <frozen/unordered_map.h>
-#include <frozen/string.h>
-
 
 namespace vs{
 namespace templ{
@@ -33,7 +30,7 @@ struct repl{
         STACK_EMPTY,            //The stack is empty, I cannot take any further element
         STACK_STILL_FULL,       //The stack should only be left with one element when closing a program. If more are present, it is an error.
         UNKNOWN_OPERATOR,       //The requested operator does not exists.
-        UNKNOWN_ARIETY,         //The requested operator cannot operate with the specified ariety.
+        UNKNOWN_ARITY,         //The requested operator cannot operate with the specified arity.
         MEMORY,                 //No more internal memory can be allocated.
     };
 
@@ -48,15 +45,12 @@ struct repl{
         const preprocessor& ctx;
 
         struct command_t{
-            size_t min_ariety;
-            size_t max_ariety;
-            error_t (*fn)(const std::stack<concrete_symbol>& stack, size_t N);
+            error_t (*fn)(std::stack<concrete_symbol>& stack, size_t N);
+            size_t min_arity = 1;
+            size_t max_arity = min_arity;
+            size_t default_arity = min_arity;
         };
         
-        inline static frozen::unordered_map<frozen::string, command_t, 100> commands = {
-            {"nop", {0, 0, +[](const std::stack<concrete_symbol>& stack, size_t N){return repl::error_t::OK;}}}
-        };
-
     public:
 
         repl(const preprocessor& _ctx);

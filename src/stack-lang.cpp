@@ -1,32 +1,59 @@
 #include <stack-lang.hpp>
 #include <string_view>
 
+
+#include <frozen/unordered_map.h>
+#include <frozen/string.h>
+
 namespace vs{
 namespace templ{
-
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
+    static const size_t MAX_ARITY = 100;
+    static frozen::unordered_map<frozen::string, command_t, 2> commands = {
+            {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return repl::error_t::OK;}, 0}},
+            {"cat", { +[](std::stack<concrete_symbol>& stack, size_t N){
+                            std::string ret;
+                            for(size_t i = 0;i<N;i++){
+                                if(stack.size()==0)return error_t::STACK_EMPTY;
+                                auto tmp = stack.top();
+                                if(std::holds_alternative<std::string>(tmp))
+                                    ret+=std::get<std::string>(tmp);
+                                else return error_t::WRONG_TYPE;
+                            }
+                            stack.push(ret);
+                            return error_t::OK;
+                        }, 2, MAX_ARITY}}
+
+
+    };
+    
+
     size_t current = 0;
     while(true){
-        auto [status,begin,end,skip] = parse_token(expr+current, 0xffff);
+        auto [status,begin,end,skip] = parse_token(expr+current);
         if(status==token_ret_t::OPERAND_FOUND){
             std::string ss(expr+current+begin,expr+current+end);
-            printf("Found operand %s\n", ss.c_str());
-            current += skip;
+            //printf("Found operand %s\n", ss.c_str());
 
-            auto tmp = ctx.resolve_expr(std::string_view(expr+current+begin,expr+current+end));
-            if(tmp.has_value())stack.push(tmp.value());
+            std::string sv(expr+current+begin,expr+current+end);
+
+            auto tmp = ctx.resolve_expr(sv);
+            if(tmp.has_value()){
+                stack.push(tmp.value());
+            }
             else{
                 //ERROR HERE
                 return {};
             }
+
+            current += skip;
         }
         else if(status==token_ret_t::OPERATOR_FOUND){
             std::string ss(expr+current+begin,expr+current+end);
-            printf("Found operator %s\n", ss.c_str());
-            current += skip;
+            //printf("Found operator %s\n", ss.c_str());
 
             //TODO Perform operation!
-
+            current += skip;
         }
         else if(status==token_ret_t::SKIP){
             current += skip;
@@ -40,7 +67,11 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
         }
     }
 
-    return {};
+    if(stack.size()!=1){
+        //Error!
+        return {};
+    }
+    return stack.top();
 };
 
 
@@ -100,7 +131,6 @@ repl::token_ret_t repl::parse_token(const char* str, size_t max_length){
     }
 
     if(str[i]=='`'){is_operand=!is_operand;i++;}
-
     if(is_operand){
         size_t j=i,old=i;
         for(;str[j]!='`' && str[j]!='\0'  && i<max_length;j++);
