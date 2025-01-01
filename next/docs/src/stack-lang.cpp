@@ -1,11 +1,13 @@
+#include <bits/types/error_t.h>
 #include <charconv>
+#include <cmath>
 #include <stack-lang.hpp>
 #include <string>
 #include <string_view>
-#include <bit>
 
 #include <frozen/map.h>
 #include <frozen/string.h>
+#include <variant>
 
 #define VS_OPERATOR_N_MATH_HELPER(OPERATOR) \
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
@@ -13,7 +15,6 @@
     int ret_i = int ();\
     float ret_f = float ();\
     for(size_t i = 0;i<N;i++){\
-        if(stack.size()==0)return error_t::STACK_EMPTY;\
         auto tmp = std::move(stack.top());\
         stack.pop();\
         if(type!=FLOAT && std::holds_alternative<int>(tmp)){\
@@ -36,7 +37,6 @@
     enum {NONE, INT, FLOAT} type;\
     int ret_i;\
     float ret_f;\
-    if(stack.size()==0)return error_t::STACK_EMPTY;\
     auto tmp = std::move(stack.top());\
     stack.pop();\
     if(std::holds_alternative<int>(tmp)){\
@@ -57,7 +57,6 @@
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
     TYPE ret = TYPE ();\
     for(size_t i = 0;i<N;i++){\
-        if(stack.size()==0)return error_t::STACK_EMPTY;\
         auto tmp = std::move(stack.top());\
         stack.pop();\
         if(std::holds_alternative<  TYPE >(tmp))\
@@ -71,7 +70,6 @@
 #define VS_OPERATOR_1_HELPER(OPERATOR, TYPE) \
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
     TYPE ret;\
-    if(stack.size()==0)return error_t::STACK_EMPTY;\
     auto tmp = std::move(stack.top());\
     stack.pop();\
     if(std::holds_alternative<  TYPE >(tmp))\
@@ -85,9 +83,15 @@ namespace vs{
 namespace templ{
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::map<frozen::string, command_t, 22> commands = {
-            {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return repl::error_t::OK;}, 0}},
+    static frozen::map<frozen::string, command_t, 26> commands = {
+            {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
+            {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
+            {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
+            {"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(int i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
+
+
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
+            //JOIN
 
             ////Math operators
             {"add", VS_OPERATOR_N_MATH_HELPER(+=)},
@@ -98,10 +102,12 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             {"*", VS_OPERATOR_N_MATH_HELPER(*=)},
             {"div", VS_OPERATOR_N_MATH_HELPER(/=)},
             {"/", VS_OPERATOR_N_MATH_HELPER(/=)},
-            {"mod", VS_OPERATOR_N_HELPER(%=, int)},
-            {"%", VS_OPERATOR_N_HELPER(%=, int)},
             {"neg", VS_OPERATOR_1_MATH_HELPER(-)},
             {"-", VS_OPERATOR_1_MATH_HELPER(-)},
+
+            {"mod", VS_OPERATOR_N_HELPER(%=, int)},
+            {"%", VS_OPERATOR_N_HELPER(%=, int)},
+            //{"log2", VS_OPERATOR_1_HELPER(std::log2, int)},
             //pow
             //log2
 
@@ -117,9 +123,22 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             //{"rrot", VS_OPERATOR_N_HELPER(>>=,int)},
             //{"lsh", VS_OPERATOR_N_HELPER(<<=,int)},
             //{"rsh", VS_OPERATOR_N_HELPER(>>=,int)},
-            {"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return repl::error_t::OK;}, 0}},
-            {"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return repl::error_t::OK;}, 0}},
+            {"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}},
+            {"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}},
+            {"?", {+[](std::stack<concrete_symbol>& stack, size_t N){
+                auto condition = stack.top();
+                stack.pop();
+                auto if_true = stack.top();
+                stack.pop();
+                auto if_false = stack.top();
+                stack.pop();
+                if(!std::holds_alternative<int>(condition))return error_t::WRONG_TYPE;
+                if((std::get<int>(condition)&1)==0)stack.push(if_true);
+                else stack.push(if_false);
+                return error_t::OK;
+            }, 3, 3}},
 
+            ///Comparison operators
             /* List of operators to implement is being developed in ./docs/repl-vm.md */
 
     };
@@ -164,6 +183,10 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                     if(arity==-1)arity=it->second.default_arity;
                     if(arity>it->second.max_arity || arity<it->second.min_arity){
                         //ERROR HERE Bad arity
+                        return {};
+                    }
+                    if(arity>stack.size()){
+                        //ERROR HERE Stack would end up being empty
                         return {};
                     }
                     auto ret = it->second.fn(stack,arity);

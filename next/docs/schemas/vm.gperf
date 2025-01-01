@@ -1,11 +1,12 @@
-struct command_entry_t{
-    const char* opname;
-    command_t entry;
-};
 %language=C++
 %enum
 %readonly-tables
 %struct-type
+
+struct command_entry_t{
+    const char* opname;
+    command_t entry;
+};
 
 %%
 add,    VS_OPERATOR_N_HELPER(+=,int)

@@ -146,23 +146,29 @@ Hence, processing these expressions should be very memory efficient.</p>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>erase</code> remove last n elements from stack</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>swap</code> swap the two top elements</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>eval</code> (probably I will not expose this one) expose a nested repl vm</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>esc</code> escape number to string literal</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>load</code> load variable on stack from the environment map</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>store</code> (probably I will not expose this one) store variable form stack to the environment map</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>log</code> to log errors/warning etc somewhere</li>
 </ul>
 <h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled checked/> <code>concat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>cat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>join</code> to join together strings on the stack with the first string.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>rcat</code> like cat but in reverse order</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>rjoin</code> like join but in reverse order</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>esc</code> escape number to string literal</li>
 </ul>
 <h3 id="boolean-operators">Boolean operators<a class="headerlink" href="#boolean-operators" title="Permanent link">#</a></h3>
 <p>Boolean types are not directly supported. They are just integers with extra semantic.</p>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>if</code> <code>[false] [true] [condition] ?</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>if</code> <code>[false] [true] [condition] ?</code></li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>and</code> <code>or</code> <code>not</code> as expected (they are bitwise)</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>xor</code> <code>nor</code> <code>nand</code> as expected (they are bitwise).</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>eq</code> <code>neq</code> <code>bg</code> <code>bge</code> <code>lse</code></li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>true</code> <code>false</code> to load those values in stack.</li>
+</ul>
+<h3 id="comparison-operators">Comparison operators<a class="headerlink" href="#comparison-operators" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>eq</code> <code>neq</code> <code>bg</code> <code>bge</code> <code>lse</code> for integers &amp; floats</li>
 </ul>
 <h3 id="common-algebraic-operators">Common algebraic operators<a class="headerlink" href="#common-algebraic-operators" title="Permanent link">#</a></h3>
 <p>And all the typical math operations as usual</p>
@@ -175,6 +181,12 @@ Hence, processing these expressions should be very memory efficient.</p>
 <ul class="task-list">
 <li class="task-list-item"><input type="checkbox" disabled/> <code>as.string</code></li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>as.integer</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>as.float</code></li>
+</ul>
+<h3 id="special">Special<a class="headerlink" href="#special" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>(</code> &amp; <code>)</code> as nop just to enable formatting in expression (not enforced, but the LSP might check)</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>rem</code> to tag the prior tag as comment (remove the last element from stack)</li>
 </ul>
               
             </div>

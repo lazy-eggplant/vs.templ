@@ -34,22 +34,22 @@
 \DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ STACK\_EMPTY,\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//The\ stack\ is\ empty,\ I\ cannot\ take\ any\ further\ element}}
 \DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ STACK\_STILL\_FULL,\ \ \ \ \ \ \ \textcolor{comment}{//The\ stack\ should\ only\ be\ left\ with\ one\ element\ when\ closing\ a\ program.\ If\ more\ are\ present,\ it\ is\ an\ error.}}
 \DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ UNKNOWN\_OPERATOR,\ \ \ \ \ \ \ \textcolor{comment}{//The\ requested\ operator\ does\ not\ exists.}}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ UNKNOWN\_ARITY,\ \ \ \ \ \ \ \ \ \textcolor{comment}{//The\ requested\ operator\ cannot\ operate\ with\ the\ specified\ arity.}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ UNKNOWN\_ARITY,\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//The\ requested\ operator\ cannot\ operate\ with\ the\ specified\ arity.}}
 \DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ MEMORY,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//No\ more\ internal\ memory\ can\ be\ allocated.}}
-\DoxyCodeLine{00035\ \ \ \ \ \};}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }op\_t\{}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\_view\ name;}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ operands;}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ std::stack<concrete\_symbol>\ stack;}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ preprocessor\&\ ctx;}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }command\_t\{}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ char*\ opname;}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ NOT\_IMPLEMENTED,\ \ \ \ \ \ \ \ \textcolor{comment}{//Operator\ or\ path\ not\ yet\ implemented.}}
+\DoxyCodeLine{00036\ \ \ \ \ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }op\_t\{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\_view\ name;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ operands;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ std::stack<concrete\_symbol>\ stack;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ preprocessor\&\ ctx;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }command\_t\{}
 \DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ error\_t\ (*fn)(std::stack<concrete\_symbol>\&\ stack,\ \textcolor{keywordtype}{size\_t}\ N);}
 \DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ min\_arity\ =\ 1;}
 \DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ max\_arity\ =\ min\_arity;}

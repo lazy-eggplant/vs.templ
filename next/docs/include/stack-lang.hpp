@@ -30,8 +30,9 @@ struct repl{
         STACK_EMPTY,            //The stack is empty, I cannot take any further element
         STACK_STILL_FULL,       //The stack should only be left with one element when closing a program. If more are present, it is an error.
         UNKNOWN_OPERATOR,       //The requested operator does not exists.
-        UNKNOWN_ARITY,         //The requested operator cannot operate with the specified arity.
+        UNKNOWN_ARITY,          //The requested operator cannot operate with the specified arity.
         MEMORY,                 //No more internal memory can be allocated.
+        NOT_IMPLEMENTED,        //Operator or path not yet implemented.
     };
 
     private:
@@ -45,7 +46,6 @@ struct repl{
         const preprocessor& ctx;
 
         struct command_t{
-            //const char* opname;
             error_t (*fn)(std::stack<concrete_symbol>& stack, size_t N);
             int min_arity = 1;
             int max_arity = min_arity;
