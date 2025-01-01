@@ -13,7 +13,7 @@ namespace templ{
 typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute> symbol;
 
 //Extended symbol which is the result of computations. String is introduced as they cannot be set as values for symbols, but they can be computed.
-typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute, std::string> concrete_symbol;
+typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute, std::string, float> concrete_symbol;
 
 //Utility class to implement a list of symbols. Use for `for` like structures in pattern matching.
 struct symbol_map{

@@ -6,7 +6,9 @@ title: Information for developers
 
 - A modern C++ toolchain supporting C++20
 - `meson` as the build system of choice
-- `pandoc` if you want to generate the documentation/man pages
+- `pandoc` (optional) if you want to generate the documentation/man pages
+- `gperf` (optional) if you want to regenerate the command dispatchers
+- `valgrind` (optional) to run some of the tests
 
 To build, test and install it you can just use normal meson commands like.
 
