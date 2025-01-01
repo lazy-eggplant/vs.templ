@@ -31,7 +31,6 @@ This is a list of commands which are currently supported:
 - [ ] calc
 - [ ] log to add entries to the logging data
 
-
 ## Missing features
 
 - [ ] Stack based language.
@@ -41,6 +40,8 @@ This is a list of commands which are currently supported:
   - [x] Evaluate their usage in when/is
 - [ ] ~~Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with special symbols later on)~~ covered by repl vm
 - [ ] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
+- [ ] Floating point numbers (same serialization as for integers, but ending in `f`).  
+       Cannot be mixed with integers in operations, explicit casts are needed.
 
 # Milestones
 

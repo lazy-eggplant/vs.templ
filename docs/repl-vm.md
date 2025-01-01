@@ -56,8 +56,8 @@ Hence, processing these expressions should be very memory efficient.
 ### Generic
 
 - [ ] `dup` duplicate the last element on stack
-- [ ] `nop` no operation
-- [ ] `erase` remove last n eleemnts from stack
+- [x] `nop` no operation
+- [ ] `erase` remove last n elements from stack
 - [ ] `swap` swap the two top elements
 - [ ] `eval` (probably I will not expose this one) expose a nested repl vm
 - [ ] `esc` escape number to string literal
@@ -74,15 +74,18 @@ Hence, processing these expressions should be very memory efficient.
 Boolean types are not directly supported. They are just integers with extra semantic.
 
 - [ ] `if` `[false] [true] [condition] ?`
-- [ ] `and` `or` `not` `xor` `nor` `nand` as expected (they are bitwise).
+- [x] `and` `or` `not` as expected (they are bitwise)
+- [ ] `xor` `nor` `nand` as expected (they are bitwise).
 - [ ] `eq` `neq` `bg` `bge` `lse`
-- [ ] `true` `false` to load those values in stack.
+- [x] `true` `false` to load those values in stack.
 
 ### Common algebraic operators
 
 And all the typical math operations as usual
 
-- [ ] `+` `-` `*` `/` `pow`, `mod` (and mnemonic versions too)
+- [x] `+` `-` `*` `/` `mod` (and mnemonic versions too)
+- [ ] `pow` `log`
+- [x] `count.0` & `count.1`
 
 ### Cast
 
