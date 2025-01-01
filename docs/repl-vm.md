@@ -62,7 +62,8 @@ Hence, processing these expressions should be very memory efficient.
 - [ ] `eval` (probably I will not expose this one) expose a nested repl vm
 - [ ] `esc` escape number to string literal
 - [ ] `load` load variable on stack from the environment map
-- [ ] `store`(probably I will not expose this one) store variable form stack to the environment map
+- [ ] `store` (probably I will not expose this one) store variable form stack to the environment map
+- [ ] `log` to log errors/warning etc somewhere
 
 ### String operators
 

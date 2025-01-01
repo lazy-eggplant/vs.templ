@@ -9,7 +9,8 @@
 namespace vs{
 namespace templ{
 
-void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, uint64_t seed){
+void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t logfn, uint64_t seed){
+    logfn=logfn;
     stack_template.emplace(root_template.begin(),root_template.end());
     stack_compiled.emplace(compiled);
     this->root_data=root_data;
@@ -23,7 +24,11 @@ void preprocessor::reset(){
     stack_template=decltype(stack_template)();
     stack_data=decltype(stack_data)();
     stack_compiled=decltype(stack_compiled)();
-    _logs=decltype(_logs)();
+}
+
+void preprocessor::log(log_t::values type, const char* msg, ...){
+    //TODO: Add prefix & stuff in here like for vs.fltk
+    logfn(type,msg);
 }
 
 //TODO: The next release of pugixml will have support for string_views directly. 
