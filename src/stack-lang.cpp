@@ -7,6 +7,52 @@
 #include <frozen/map.h>
 #include <frozen/string.h>
 
+#define VS_OPERATOR_N_MATH_HELPER(OPERATOR) \
+{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+    enum {NONE, INT, FLOAT} type;\
+    int ret_i = int ();\
+    float ret_f = float ();\
+    for(size_t i = 0;i<N;i++){\
+        if(stack.size()==0)return error_t::STACK_EMPTY;\
+        auto tmp = std::move(stack.top());\
+        stack.pop();\
+        if(type!=FLOAT && std::holds_alternative<int>(tmp)){\
+            ret_i OPERATOR ( std::get<int>(tmp) );\
+            type = INT;\
+        }\
+        else if(type!=INT && std::holds_alternative<float>(tmp)){\
+            ret_f OPERATOR ( std::get<float>(tmp) );\
+            type = FLOAT;\
+        }\
+        else return error_t::WRONG_TYPE;\
+    }\
+    if(type==INT)stack.push(ret_i);\
+    else if(type==FLOAT)stack.push(ret_f);\
+    return error_t::OK;\
+}, 2, MAX_ARITY}
+
+#define VS_OPERATOR_1_MATH_HELPER(OPERATOR) \
+{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+    enum {NONE, INT, FLOAT} type;\
+    int ret_i;\
+    float ret_f;\
+    if(stack.size()==0)return error_t::STACK_EMPTY;\
+    auto tmp = std::move(stack.top());\
+    stack.pop();\
+    if(std::holds_alternative<int>(tmp)){\
+        ret_i = OPERATOR ( std::get<int>(tmp) );\
+        type = INT;\
+    }\
+    else if(std::holds_alternative<float>(tmp)){\
+        ret_f = OPERATOR ( std::get<float>(tmp) );\
+        type = FLOAT;\
+    }\
+    else return error_t::WRONG_TYPE;\
+    if(type==INT)stack.push(ret_i);\
+    else if(type==FLOAT)stack.push(ret_f);\
+    return error_t::OK;\
+}, 1}
+
 #define VS_OPERATOR_N_HELPER(OPERATOR, TYPE) \
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
     TYPE ret = TYPE ();\
@@ -44,18 +90,18 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
 
             ////Math operators
-            {"add", VS_OPERATOR_N_HELPER(+=,int)},
-            {"+", VS_OPERATOR_N_HELPER(+=,int)},
-            {"sub", VS_OPERATOR_N_HELPER(-=,int)},
-            {"-", VS_OPERATOR_N_HELPER(-=,int)},
-            {"mul", VS_OPERATOR_N_HELPER(*=,int)},
-            {"*", VS_OPERATOR_N_HELPER(*=,int)},
-            {"div", VS_OPERATOR_N_HELPER(/=,int)},
-            {"/", VS_OPERATOR_N_HELPER(/=,int)},
-            {"mod", VS_OPERATOR_N_HELPER(%=,int)},
-            {"%", VS_OPERATOR_N_HELPER(%=,int)},
-            {"neg", VS_OPERATOR_1_HELPER(-,int)},
-            {"-", VS_OPERATOR_1_HELPER(-,int)},
+            {"add", VS_OPERATOR_N_MATH_HELPER(+=)},
+            {"+", VS_OPERATOR_N_MATH_HELPER(+=)},
+            {"sub", VS_OPERATOR_N_MATH_HELPER(-=)},
+            {"-", VS_OPERATOR_N_MATH_HELPER(-=)},
+            {"mul", VS_OPERATOR_N_MATH_HELPER(*=)},
+            {"*", VS_OPERATOR_N_MATH_HELPER(*=)},
+            {"div", VS_OPERATOR_N_MATH_HELPER(/=)},
+            {"/", VS_OPERATOR_N_MATH_HELPER(/=)},
+            {"mod", VS_OPERATOR_N_HELPER(%=, int)},
+            {"%", VS_OPERATOR_N_HELPER(%=, int)},
+            {"neg", VS_OPERATOR_1_MATH_HELPER(-)},
+            {"-", VS_OPERATOR_1_MATH_HELPER(-)},
             //pow
             //log2
 
@@ -238,5 +284,7 @@ repl::token_ret_t repl::parse_token(const char* str, size_t max_length){
 }
 }
 
+#undef VS_OPERATOR_N_MATH_HELPER
+#undef VS_OPERATOR_1_MATH_HELPER
 #undef VS_OPERATOR_1_HELPER
 #undef VS_OPERATOR_N_HELPER

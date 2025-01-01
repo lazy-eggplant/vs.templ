@@ -1,4 +1,7 @@
-struct command_t;
+struct command_entry_t{
+    const char* opname;
+    command_t entry;
+};
 %language=C++
 %enum
 %readonly-tables
