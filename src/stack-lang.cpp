@@ -129,7 +129,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
         auto [status,begin,end,skip] = parse_token(expr+current);
         if(status==token_ret_t::OPERAND_FOUND){
             std::string ss(expr+current+begin,expr+current+end);
-            printf("Found operand %s\n", ss.c_str());
+            //printf("Found operand %s\n", ss.c_str());
 
             auto tmp = ctx.resolve_expr(std::string_view(expr+current+begin,expr+current+end));
             if(tmp.has_value()){
@@ -144,7 +144,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
         }
         else if(status==token_ret_t::OPERATOR_FOUND){
             std::string ss(expr+current+begin,expr+current+end);
-            printf("Found operator %s\n", ss.c_str());
+            //printf("Found operator %s\n", ss.c_str());
 
             {   
                 int arity = -1;
