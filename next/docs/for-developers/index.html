@@ -98,7 +98,9 @@
 <ul>
 <li>A modern C++ toolchain supporting C++20</li>
 <li><code>meson</code> as the build system of choice</li>
-<li><code>pandoc</code> if you want to generate the documentation/man pages</li>
+<li><code>pandoc</code> (optional) if you want to generate the documentation/man pages</li>
+<li><code>gperf</code> (optional) if you want to regenerate the command dispatchers</li>
+<li><code>valgrind</code> (optional) to run some of the tests</li>
 </ul>
 <p>To build, test and install it you can just use normal meson commands like.</p>
 <pre><code>meson setup build

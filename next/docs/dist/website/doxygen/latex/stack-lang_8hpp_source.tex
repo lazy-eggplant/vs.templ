@@ -49,22 +49,23 @@
 \DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ preprocessor\&\ ctx;}
 \DoxyCodeLine{00046\ }
 \DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }command\_t\{}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ error\_t\ (*fn)(std::stack<concrete\_symbol>\&\ stack,\ \textcolor{keywordtype}{size\_t}\ N);}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ min\_arity\ =\ 1;}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ max\_arity\ =\ min\_arity;}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ default\_arity\ =\ min\_arity;}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ repl(\textcolor{keyword}{const}\ preprocessor\&\ \_ctx);}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ \mbox{\hyperlink{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c}{eval}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ expr)\ \textcolor{keyword}{noexcept};\ \ \ \ \ }
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ token\_ret\_t\ parse\_token(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keywordtype}{size\_t}\ max\_length=-\/1);}
-\DoxyCodeLine{00067\ \};}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//const\ char*\ opname;}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ error\_t\ (*fn)(std::stack<concrete\_symbol>\&\ stack,\ \textcolor{keywordtype}{size\_t}\ N);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ min\_arity\ =\ 1;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ max\_arity\ =\ min\_arity;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ default\_arity\ =\ min\_arity;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ repl(\textcolor{keyword}{const}\ preprocessor\&\ \_ctx);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ \mbox{\hyperlink{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c}{eval}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ expr)\ \textcolor{keyword}{noexcept};\ \ \ \ \ }
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ token\_ret\_t\ parse\_token(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keywordtype}{size\_t}\ max\_length=-\/1);}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
 \DoxyCodeLine{00070\ \}}
+\DoxyCodeLine{00071\ \}}
 
 \end{DoxyCode}

@@ -4,7 +4,7 @@
 #include <string_view>
 #include <bit>
 
-#include <frozen/unordered_map.h>
+#include <frozen/map.h>
 #include <frozen/string.h>
 
 #define VS_OPERATOR_N_HELPER(OPERATOR, TYPE) \
@@ -39,7 +39,7 @@ namespace vs{
 namespace templ{
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 22> commands = {
+    static frozen::map<frozen::string, command_t, 22> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return repl::error_t::OK;}, 0}},
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
 

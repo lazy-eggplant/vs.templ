@@ -42,7 +42,10 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
 
     pugi::xml_node ref;
     int idx = 0;
-    if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')) return atoi(str);
+    if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
+        if(_str[_str.length()-1]=='f')return (float)atof(str);
+        else return atoi(str);
+    }
     else if(str[0]==':') {
         repl r(*this);
         return r.eval(str+1);

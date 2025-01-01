@@ -45,10 +45,11 @@ struct repl{
         const preprocessor& ctx;
 
         struct command_t{
+            //const char* opname;
             error_t (*fn)(std::stack<concrete_symbol>& stack, size_t N);
-            size_t min_arity = 1;
-            size_t max_arity = min_arity;
-            size_t default_arity = min_arity;
+            int min_arity = 1;
+            int max_arity = min_arity;
+            int default_arity = min_arity;
         };
         
     public:
