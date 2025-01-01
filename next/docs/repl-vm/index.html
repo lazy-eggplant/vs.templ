@@ -133,11 +133,11 @@ Hence, processing these expressions should be very memory efficient.</p>
 </ul>
 <h2 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">#</a></h2>
 <h3 id="array-operators">Array operators<a class="headerlink" href="#array-operators" title="Permanent link">#</a></h3>
-<ul>
-<li><code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</li>
-<li><code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</li>
-<li><code>filter</code> <code>[container] F</code>, filters elements out of a container</li>
-<li><code>map</code> <code>[expr] [container] M</code>, maps container based on a lamba</li>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>filter</code> <code>[container] F</code>, filters elements out of a container</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>map</code> <code>[expr] [container] M</code>, maps container based on a lambda</li>
 </ul>
 <h3 id="generic">Generic<a class="headerlink" href="#generic" title="Permanent link">#</a></h3>
 <ul class="task-list">
@@ -148,7 +148,8 @@ Hence, processing these expressions should be very memory efficient.</p>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>eval</code> (probably I will not expose this one) expose a nested repl vm</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>esc</code> escape number to string literal</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>load</code> load variable on stack from the environment map</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>store</code>(probably I will not expose this one) store variable form stack to the environment map</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>store</code> (probably I will not expose this one) store variable form stack to the environment map</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>log</code> to log errors/warning etc somewhere</li>
 </ul>
 <h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
 <ul class="task-list">

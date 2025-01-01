@@ -112,26 +112,7 @@ In theory, it is possible for data to be expressed in other formats (eg. JSON) a
 They are scoped under the namespace <code>s</code>, or any custom defined one.<br />
 This man page only covers a quick syntax reference.<br />
 If you are looking for the full specs, please check the <a href="https://github.com/KaruroChori/vs-templ">official repository</a>.</p>
-<h3 id="path-expressions">Path expressions<a class="headerlink" href="#path-expressions" title="Permanent link">#</a></h3>
-<p>Expression are used to access elements and attributes of the data XML from the template.<br />
-Their definition and usage is purposefully restricted to prevent arbitrary code to be run.<br />
-A full list of feasible expression types:</p>
-<ul>
-<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix is skipped)</li>
-<li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
-<li>Paths starting with <code>$</code>. This special symbol is used to mark the nearest scope being visited or root if none.</li>
-<li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
-<li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
-</ul>
-<p>The rest of a path expression has one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
-If terminated with <code>~prop-name</code> the relevant attribute is selected.</p>
-<p>There are also two special properties:</p>
-<ul>
-<li>Special access to the property<code>~!txt</code> to get the node text.</li>
-<li>Special access to the element&rsquo;s name via <code>~!tag</code></li>
-</ul>
-<p>No further combination or format is allowed, and if used they might lead to undefined behaviour.<br />
-However, the preprocessor should not result in exceptions.</p>
+<p>TODO: write cheat sheet of syntax here.</p>
               
             </div>
           </div><footer>

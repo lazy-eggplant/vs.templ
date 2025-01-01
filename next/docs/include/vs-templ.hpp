@@ -28,11 +28,15 @@ namespace templ{
 
 
 struct preprocessor{
+    typedef  void (*logfn_t)(log_t::values, const char* str, ...);
+    inline static void default_logfn(log_t::values, const char* str, ...){}
+
     private:
         friend struct repl;
 
         std::string ns_prefix;
         uint64_t seed;
+        logfn_t logfn = default_logfn;
 
         //Final document to be shared
         pugi::xml_document compiled;
@@ -42,8 +46,6 @@ struct preprocessor{
         std::stack<pugi::xml_node_iterator> stack_data;
         std::stack<std::pair<pugi::xml_node_iterator,pugi::xml_node_iterator>> stack_template;
 
-        std::vector<log_t> _logs;
-
         //Stack-like table of symbols
         symbol_map symbols;
 
@@ -51,20 +53,12 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", uint64_t seed = 0){
+        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = nullptr, uint64_t seed = 0){
             init(root_data,root_template,prefix);
         }
 
-        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", uint64_t seed = 0);
+        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = nullptr, uint64_t seed = 0);
         void reset();
-
-        inline const std::vector<log_t> logs(){return _logs;}
-        inline void log(log_t::values type, const char* msg, ...){
-            //TODO: Handling of panic should terminate the process right away (?)
-            //TODO: Interpolate/format string
-            //https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
-            _logs.emplace_back(type,msg);
-        }
 
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
@@ -107,6 +101,8 @@ struct preprocessor{
             const char *ELEMENT_TAG;
                 const char *TYPE_ATTR;
 
+            const char *LOG_TAG;
+
             //S:PROPS
             const char *FOR_IN_PROP;
             const char *FOR_SRC_PROP;
@@ -129,6 +125,9 @@ struct preprocessor{
 
             const char *USE_SRC_PROP;
 
+            const char *LOG_TYPE_PROP;
+            const char *LOG_MSG_PROP;
+
             void prepare(const char * ns_prefix);
 
             inline ~ns_strings(){if(data!=nullptr)delete[] data;}
@@ -143,6 +142,8 @@ struct preprocessor{
         std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_node&), const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at);
+
+        void log(log_t::values, const char* str, ...);
 
 };
 

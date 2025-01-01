@@ -62,35 +62,7 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Full Syntax reference</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#path-expressions">Path expressions</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#operators-for-elements">Operators for elements</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#for-range">for-range</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#for-for-props">for &amp; for-props</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#value">value</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#element">element</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#when-is">when &amp; is</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#operators-for-properties">Operators for properties</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx">for.SUB-ATTR.[prop/value].xxx &amp; for-props.SUB-ATTR.[prop/value].xxx</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#valuesub-attrxxx">value.SUB-ATTR.xxx</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#propxxx">prop.xxx</a>
-    </li>
-        </ul>
+    <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a>
     </li>
     </ul>
                 </li>
@@ -124,30 +96,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">#</a></h2>
-<p><code>vs.templ</code> uses special elements and attributes to determine the actions to be performed by the preprocessor.<br />
-They are scoped under the namespace <code>s</code>, or any custom defined one.</p>
-<h3 id="path-expressions">Path expressions<a class="headerlink" href="#path-expressions" title="Permanent link">#</a></h3>
-<p>Expression are used to access elements and attributes of the data XML from the template.<br />
+                <p><code>vs.templ</code> uses special elements and attributes to define which actions the preprocessor should perform.<br />
+These XML entities are scoped under the namespace <code>s</code> by default, but the user can set up a custom one as well.<br />
+Please, notice that pugixml on which vs.templ is based does not have a full understanding of XML and namespaces are not covered.<br />
+As such, they only operate as fancy prefixes at this scale.</p>
+<h2 id="expressions">Expressions<a class="headerlink" href="#expressions" title="Permanent link">#</a></h2>
+<p>Several of the attributes introduced by <code>vs.templ</code> accept expressions and not just simple literal values.
+Expression can are used to access elements and attributes of the data XML, in addition to represent native types like integers or strings.<br />
 Their definition and usage is purposefully restricted to prevent arbitrary code to be run.<br />
 A full list of feasible expression types:</p>
 <ul>
-<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix is skipped)</li>
+<li>Empty expression, generally representing errors</li>
+<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped)</li>
 <li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
-<li>Paths starting with <code>$</code>. This special symbol is used to mark the nearest scope being visited or root if none.</li>
+<li>Paths, of which three forms exists:</li>
+<li>those starting with <code>$</code>. This special symbol is used to mark the nearest scope in the data XML being visited, or root if none.</li>
 <li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
 </ul>
-<p>The rest of a path expression has one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
-If terminated with <code>~prop-name</code> the relevant attribute is selected.</p>
-<p>There are also two special properties:</p>
+<p>Path expressions will continue with one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
+If terminated with <code>~prop-name</code> the relevant attribute is selected.
+There are also two special meta-properties which can be accessed this way:</p>
 <ul>
 <li>Special access to the property<code>~!txt</code> to get the node text.</li>
 <li>Special access to the element&rsquo;s name via <code>~!tag</code></li>
 </ul>
-<p>No further combination or format is allowed, and if used they might lead to undefined behaviour.<br />
-However, the preprocessor should not result in exceptions.</p>
-<h4 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h4>
+<p>Finally, there are stack meta-expressions, starting with <code>:</code>.<br />
+Those are run by a stack VM and can be sparingly used to perform more complex tasks.<br />
+They return a single expression in one of the other real types.<br />
+The full specifications of these meta-expressions can be found <a href="../repl-vm/">here</a>.<br />
+For most scenarios, the only ones really needed are casts, integer math operations and <code>cat</code> to merge strings.</p>
+<p>No further combination or format is allowed in expression. Else, those might lead to undefined behaviour.<br />
+However, the preprocessor should not generally throw exceptions, only emit error or warning logs.</p>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h3>
 <p>Using the following XML file as reference:</p>
 <pre><code class="language-xml">&lt;hello&gt;
     &lt;world attribute-a=&quot;value-0&quot;&gt;
@@ -165,9 +146,9 @@ However, the preprocessor should not result in exceptions.</p>
 <li><code>/hello/world~!txt</code> is evaluated as <code>text-0</code></li>
 <li>Assuming a for cycle in <code>/hello/</code>, its children will be navigated and <code>$~attribute-a</code> will be resolved in <code>value-0</code> and <code>value-1</code>.</li>
 </ul>
-<h3 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h3>
+<h2 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h2>
 <p>Operators acting over elements will use information from the current static data sub-path to further generate a parametrized version of what shown in their children on the template tree.</p>
-<h4 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h4>
+<h3 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
 <ul>
 <li><code>tag</code> is the name of the symbol where the current value will be stored. If empty the default <code>$</code> is used.</li>
 <li><code>from</code> starting value.</li>
@@ -175,7 +156,7 @@ However, the preprocessor should not result in exceptions.</p>
 <li><code>step</code> step of increment. It can be negative. If so <code>to&lt;from</code> must hold true.</li>
 </ul>
 <p>Infinite cycles are detected before execution, in which case no cycle will run. Unlike other <code>for</code> variants, there is no header, footer or empty child. Anything inside a <code>for-range</code> is interpreted as <code>item</code>.</p>
-<h4 id="for-for-props"><code>for</code> &amp; <code>for-props</code><a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h4>
+<h3 id="for-for-props"><code>for</code> &amp; <code>for-props</code><a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h3>
 <p>To iterate over children and props of an element respectively.<br />
 Aside from that, they mostly share the same interface.</p>
 <ul>
@@ -195,12 +176,12 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>item</code> the main body</li>
 <li><code>error</code> shown if it was not possible to retrieve items (because of an error in the path)</li>
 </ul>
-<h4 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h4>
+<h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
 <p>To introduce the value of an expression as text content of an element. It accepts a path expression <code>src</code> as argument. By default, it is assumed to be <code>$</code>.<br />
 It also supports an additional <code>format</code> argument, but at this stage it has no implementation.</p>
-<h4 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h4>
+<h3 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h3>
 <p>To generate a new element whose type is determined by a tag expression <code>ns:type</code>. Any other property and child will be preserved.</p>
-<h4 id="when-is"><code>when</code> &amp; <code>is</code><a class="headerlink" href="#when-is" title="Permanent link">#</a></h4>
+<h3 id="when-is"><code>when</code> &amp; <code>is</code><a class="headerlink" href="#when-is" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
 <code>when</code> accepts a single <code>subject</code> property as a path expression.<br />
 Inside the body of <code>when</code> we have one or more <code>is</code>.<br />
@@ -210,14 +191,16 @@ Attributes for <code>is</code>:</p>
 <li><code>value</code> a path expression to compare against.</li>
 </ul>
 <p>The order of <code>is</code> elements is important and determines the overall flow.</p>
-<h3 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h3>
+<h3 id="debug"><code>debug</code><a class="headerlink" href="#debug" title="Permanent link">#</a></h3>
+<h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
-<h4 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h4>
+<h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>
 <p>As prop, attribute variants of <code>for</code> and <code>for-props</code>. They add attributes/values to the node they are defined within.</p>
-<h4 id="valuesub-attrxxx"><code>value.SUB-ATTR.xxx</code><a class="headerlink" href="#valuesub-attrxxx" title="Permanent link">#</a></h4>
+<h3 id="valuesub-attrxxx"><code>value.SUB-ATTR.xxx</code><a class="headerlink" href="#valuesub-attrxxx" title="Permanent link">#</a></h3>
 <p>As prop, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
-<h4 id="propxxx"><code>prop.xxx</code><a class="headerlink" href="#propxxx" title="Permanent link">#</a></h4>
+<h3 id="propxxx"><code>prop.xxx</code><a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
 <p>To generate new props whose name is determined by an expression.</p>
+<h3 id="debugxxx"><code>debug.XXX</code><a class="headerlink" href="#debugxxx" title="Permanent link">#</a></h3>
               
             </div>
           </div><footer>

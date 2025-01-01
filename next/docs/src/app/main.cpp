@@ -11,12 +11,15 @@
     with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xml)
 */
 
+#include "logging.hpp"
 #include <pugixml.hpp>
 #include <vs-templ.hpp>
 
 #include <iostream>
 
 using namespace vs::templ;
+
+void logfn(log_t::values, const char* msg, ...){std::cerr<<msg;}
 
 //TODO: Support error logging on std::cerr. Maybe use VS_VERBOSE env variable to determine what is shown and if.
 int main(int argc, const char* argv[]){
@@ -43,15 +46,8 @@ int main(int argc, const char* argv[]){
 
     }
 
-    preprocessor doc(data,tmpl,ns_prefix);
+    preprocessor doc(data,tmpl,ns_prefix, logfn);
     auto& result = doc.parse();
-
-    
-    for(auto& log : doc.logs()){
-        if(log.type()==log_t::values::ERROR){
-            std::cerr<<log.description()<<"\n";
-        }
-    }
     
 
     result.save(std::cout);

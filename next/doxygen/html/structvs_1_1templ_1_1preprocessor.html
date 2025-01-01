@@ -75,36 +75,44 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="structvs_1_1templ_1_1preprocessor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">vs::templ::preprocessor Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aca085e3e2e60854192015e1f2405a9be" id="r_aca085e3e2e60854192015e1f2405a9be"><td class="memItemLeft" align="right" valign="top"><a id="aca085e3e2e60854192015e1f2405a9be" name="aca085e3e2e60854192015e1f2405a9be"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>logfn_t</b>) (log_t::values, const char *str,...)</td></tr>
+<tr class="separator:aca085e3e2e60854192015e1f2405a9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8d5ecded455c0cd2eec432f7fa841513" id="r_a8d5ecded455c0cd2eec432f7fa841513"><td class="memItemLeft" align="right" valign="top"><a id="a8d5ecded455c0cd2eec432f7fa841513" name="a8d5ecded455c0cd2eec432f7fa841513"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>preprocessor</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, uint64_t seed=0)</td></tr>
-<tr class="separator:a8d5ecded455c0cd2eec432f7fa841513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f85c04f8ad57d553dc30b97e211463d" id="r_a7f85c04f8ad57d553dc30b97e211463d"><td class="memItemLeft" align="right" valign="top"><a id="a7f85c04f8ad57d553dc30b97e211463d" name="a7f85c04f8ad57d553dc30b97e211463d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, uint64_t seed=0)</td></tr>
-<tr class="separator:a7f85c04f8ad57d553dc30b97e211463d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88ad273417c6f494e280a62e841af0c3" id="r_a88ad273417c6f494e280a62e841af0c3"><td class="memItemLeft" align="right" valign="top"><a id="a88ad273417c6f494e280a62e841af0c3" name="a88ad273417c6f494e280a62e841af0c3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>preprocessor</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, logfn_t logfn=nullptr, uint64_t seed=0)</td></tr>
+<tr class="separator:a88ad273417c6f494e280a62e841af0c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0d0effc00689c2198bd479be9f23bdf" id="r_ae0d0effc00689c2198bd479be9f23bdf"><td class="memItemLeft" align="right" valign="top"><a id="ae0d0effc00689c2198bd479be9f23bdf" name="ae0d0effc00689c2198bd479be9f23bdf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, logfn_t logfn=nullptr, uint64_t seed=0)</td></tr>
+<tr class="separator:ae0d0effc00689c2198bd479be9f23bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf816b5d9fd337b7d21e5add0495a2cf" id="r_adf816b5d9fd337b7d21e5add0495a2cf"><td class="memItemLeft" align="right" valign="top"><a id="adf816b5d9fd337b7d21e5add0495a2cf" name="adf816b5d9fd337b7d21e5add0495a2cf"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr>
 <tr class="separator:adf816b5d9fd337b7d21e5add0495a2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c3efd217ab05010461f3999ec88f418" id="r_a3c3efd217ab05010461f3999ec88f418"><td class="memItemLeft" align="right" valign="top"><a id="a3c3efd217ab05010461f3999ec88f418" name="a3c3efd217ab05010461f3999ec88f418"></a>
-const std::vector&lt; <a class="el" href="structvs_1_1templ_1_1log__t.html">log_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>logs</b> ()</td></tr>
-<tr class="separator:a3c3efd217ab05010461f3999ec88f418"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad838456aafc4bd3ed816880dbf4abcd6" id="r_ad838456aafc4bd3ed816880dbf4abcd6"><td class="memItemLeft" align="right" valign="top"><a id="ad838456aafc4bd3ed816880dbf4abcd6" name="ad838456aafc4bd3ed816880dbf4abcd6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> (log_t::values type, const char *msg,...)</td></tr>
-<tr class="separator:ad838456aafc4bd3ed816880dbf4abcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f1bc942dc64a7b834bbd32ad6975625" id="r_a1f1bc942dc64a7b834bbd32ad6975625"><td class="memItemLeft" align="right" valign="top"><a id="a1f1bc942dc64a7b834bbd32ad6975625" name="a1f1bc942dc64a7b834bbd32ad6975625"></a>
 pugi::xml_document &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>parse</b> ()</td></tr>
 <tr class="separator:a1f1bc942dc64a7b834bbd32ad6975625"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5540b0ab2840f888c58f9666788692c2" id="r_a5540b0ab2840f888c58f9666788692c2"><td class="memItemLeft" align="right" valign="top"><a id="a5540b0ab2840f888c58f9666788692c2" name="a5540b0ab2840f888c58f9666788692c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ns</b> (const char *str)</td></tr>
 <tr class="separator:a5540b0ab2840f888c58f9666788692c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac1af090009871d33a8f83b58ac884196" id="r_ac1af090009871d33a8f83b58ac884196"><td class="memItemLeft" align="right" valign="top"><a id="ac1af090009871d33a8f83b58ac884196" name="ac1af090009871d33a8f83b58ac884196"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>default_logfn</b> (log_t::values, const char *str,...)</td></tr>
+<tr class="separator:ac1af090009871d33a8f83b58ac884196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
