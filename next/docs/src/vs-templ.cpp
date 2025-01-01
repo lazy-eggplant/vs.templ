@@ -513,6 +513,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         if(std::holds_alternative<int>(symbol.value())){
                             current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(std::get<int>(symbol.value())).c_str());
                         }
+                        else if(std::holds_alternative<float>(symbol.value())){
+                            current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(std::get<float>(symbol.value())).c_str());
+                        }
                         else if(std::holds_alternative<const pugi::xml_attribute>(symbol.value())) {
                             current_compiled.append_child(pugi::node_pcdata).set_value(std::get<const pugi::xml_attribute>(symbol.value()).as_string());
                         }
