@@ -15,7 +15,7 @@ This is a list of commands which are currently supported:
 - [x] element
 - [ ] eval
 - [x] when/is
-- [ ] debug / error / log to add entries to the logging data
+- [ ] log to add entries to the logging data
 - [ ] throw / catch to trigger errors and provide regions to have them resolved
 
 ## Props based
@@ -29,6 +29,8 @@ This is a list of commands which are currently supported:
 - [ ] value
 - [ ] prop (dual of element)
 - [ ] calc
+- [ ] log to add entries to the logging data
+
 
 ## Missing features
 

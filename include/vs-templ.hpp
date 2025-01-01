@@ -107,6 +107,8 @@ struct preprocessor{
             const char *ELEMENT_TAG;
                 const char *TYPE_ATTR;
 
+            const char *LOG_TAG;
+
             //S:PROPS
             const char *FOR_IN_PROP;
             const char *FOR_SRC_PROP;
@@ -128,6 +130,9 @@ struct preprocessor{
             const char *VALUE_FORMAT_PROP;
 
             const char *USE_SRC_PROP;
+
+            const char *LOG_TYPE_PROP;
+            const char *LOG_MSG_PROP;
 
             void prepare(const char * ns_prefix);
 

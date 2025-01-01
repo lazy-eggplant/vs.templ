@@ -125,13 +125,16 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("value")+
         STRLEN("eval")+
         STRLEN("element")+STRLEN("type")+
+        STRLEN("debug")+
 
         STRLEN("for.in")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
         STRLEN("for-props.in")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value.src")+STRLEN("value.format")+
         STRLEN("eval.src")+STRLEN("eval.format")+
-        STRLEN("use.src")
+        STRLEN("use.src")+
+        STRLEN("debug.type")+
+        STRLEN("debug.msg")
         ];
     int count=0;
     
@@ -151,6 +154,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(VALUE_TAG,"value");
     WRITE(ELEMENT_TAG,"element");
         WRITE(TYPE_ATTR, "type");
+
+    WRITE(LOG_TAG,"log");
 
     WRITE(FOR_IN_PROP,"for.in");
     WRITE(FOR_SRC_PROP,"for.src");
@@ -173,6 +178,10 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(VALUE_FORMAT_PROP,"value.format");
 
     WRITE(USE_SRC_PROP,"use.src");
+
+    WRITE(LOG_TYPE_PROP,"log.type");
+    WRITE(LOG_MSG_PROP,"log.msg");
+
 #   undef WRITE
 #   undef STRLEN
 }

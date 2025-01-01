@@ -48,10 +48,10 @@ Hence, processing these expressions should be very memory efficient.
 
 ### Array operators
 
-- `count` `[expr] #`, count the dimensionality of expression returning a 1-dimensional scalar number
-- `reduce` `[initial] [reducer] [container] V`, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)
-- `filter` `[container] F`, filters elements out of a container
-- `map` `[expr] [container] M`, maps container based on a lamba
+- [ ] `count` `[expr] #`, count the dimensionality of expression returning a 1-dimensional scalar number
+- [ ] `reduce` `[initial] [reducer] [container] V`, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)
+- [ ] `filter` `[container] F`, filters elements out of a container
+- [ ] `map` `[expr] [container] M`, maps container based on a lambda
 
 ### Generic
 
