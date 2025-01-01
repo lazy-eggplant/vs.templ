@@ -60,24 +60,30 @@ Hence, processing these expressions should be very memory efficient.
 - [ ] `erase` remove last n elements from stack
 - [ ] `swap` swap the two top elements
 - [ ] `eval` (probably I will not expose this one) expose a nested repl vm
-- [ ] `esc` escape number to string literal
 - [ ] `load` load variable on stack from the environment map
 - [ ] `store` (probably I will not expose this one) store variable form stack to the environment map
 - [ ] `log` to log errors/warning etc somewhere
 
 ### String operators
 
-- [x] `concat` `[container] cat`, simplified version of `V` where based on the type, the 0 is used as initial and the reducer is the natural `+` operation
+- [x] `cat` `[container] cat`, simplified version of `V` where based on the type, the 0 is used as initial and the reducer is the natural `+` operation
+- [ ] `join` to join together strings on the stack with the first string.
+- [ ] ~~`rcat` like cat but in reverse order~~
+- [ ] ~~`rjoin` like join but in reverse order~~
+- [ ] `esc` escape number to string literal
 
 ### Boolean operators
 
 Boolean types are not directly supported. They are just integers with extra semantic.
 
-- [ ] `if` `[false] [true] [condition] ?`
+- [x] `if` `[false] [true] [condition] ?`
 - [x] `and` `or` `not` as expected (they are bitwise)
 - [ ] `xor` `nor` `nand` as expected (they are bitwise).
-- [ ] `eq` `neq` `bg` `bge` `lse`
 - [x] `true` `false` to load those values in stack.
+
+### Comparison operators
+
+- [ ] `eq` `neq` `bg` `bge` `lse` for integers & floats
 
 ### Common algebraic operators
 
@@ -91,3 +97,9 @@ And all the typical math operations as usual
 
 - [ ] `as.string`
 - [ ] `as.integer`
+- [ ] `as.float`
+
+### Special
+
+- [x] `(` & `)` as nop just to enable formatting in expression (not enforced, but the LSP might check)
+- [x] `rem` to tag the prior tag as comment (remove the last element from stack)
