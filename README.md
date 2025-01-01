@@ -1,11 +1,12 @@
 > [!WARNING]  
-> Some features are still missing, they are tracked in the [TODO](./TODO.md) file.
+> Some features are still missing, they are tracked in the [TODO](./TODO.md) file.  
 > Documentation is an ongoing effort.
 
 `vs-templ` is a simple preprocessor for XML files. It can be used statically generate new files from a template definition.  
 Static templates can be seen as extremely simple programs which are interpreted by this preprocessor.  
-They consume input data also formatted as XML, and generate some output XML file.  
-In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.
+They consume input data also formatted as XML, and generate some output XML file.
+
+Details about the supported syntax are covered in a [dedicated page](./docs/syntax.md)
 
 ## Examples
 
@@ -23,7 +24,7 @@ and
 
 ```xml
 <ul>
-<s:for in="$/items/" sort-by="$~prop-a" order-by="desc">
+<s:for src="$/items/" sort-by="$~prop-a" order-by="desc">
     <s:item>
         <li><s:value src="$~prop-a"/>: <s:value src="$~!txt"/></li>
     </s:item>
@@ -62,9 +63,7 @@ There is also an alternative format:
 vs.tmpl [namespace=`s:`]
 ```
 
-## Syntax
-
-Details about the supported syntax are covered in a [dedicated page](./docs/syntax.md)
+with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xml)`
 
 ## Why?
 

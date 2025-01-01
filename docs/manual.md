@@ -31,25 +31,4 @@ They are scoped under the namespace `s`, or any custom defined one.
 This man page only covers a quick syntax reference.  
 If you are looking for the full specs, please check the [official repository](https://github.com/KaruroChori/vs-templ).
 
-### Path expressions
-
-Expression are used to access elements and attributes of the data XML from the template.  
-Their definition and usage is purposefully restricted to prevent arbitrary code to be run.  
-A full list of feasible expression types:
-
-- String, automatically assigned from expressions starting with `#` (the prefix is skipped)
-- Integers (base 10), automatically assigned from expressions starting with a digit, `+`, `-` or `.`
-- Paths starting with `$`. This special symbol is used to mark the nearest scope being visited or root if none.
-- Paths with arbitrary prefix `{var-name}` where `var-name`is searched for and resolved from the symbols' stack.
-- Absolute paths starting from the root, with prefix `/`.
-
-The rest of a path expression has one or more tokens `/`-terminated representing the tag name being visited.  
-If terminated with `~prop-name` the relevant attribute is selected.
-
-There are also two special properties:
-
-- Special access to the property`~!txt` to get the node text.
-- Special access to the element's name via `~!tag`
-
-No further combination or format is allowed, and if used they might lead to undefined behaviour.  
-However, the preprocessor should not result in exceptions.
+TODO: write cheat sheet of syntax here.
