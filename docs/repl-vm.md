@@ -76,6 +76,7 @@ Boolean types are not directly supported. They are just integers with extra sema
 - [ ] `if` `[false] [true] [condition] ?`
 - [ ] `and` `or` `not` `xor` `nor` `nand` as expected (they are bitwise).
 - [ ] `eq` `neq` `bg` `bge` `lse`
+- [ ] `true` `false` to load those values in stack.
 
 ### Common algebraic operators
 

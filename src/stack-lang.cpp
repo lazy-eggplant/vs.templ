@@ -2,43 +2,88 @@
 #include <stack-lang.hpp>
 #include <string>
 #include <string_view>
-
+#include <bit>
 
 #include <frozen/unordered_map.h>
 #include <frozen/string.h>
+
+#define VS_OPERATOR_N_HELPER(OPERATOR, TYPE) \
+{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+    TYPE ret = TYPE ();\
+    for(size_t i = 0;i<N;i++){\
+        if(stack.size()==0)return error_t::STACK_EMPTY;\
+        auto tmp = std::move(stack.top());\
+        stack.pop();\
+        if(std::holds_alternative<  TYPE >(tmp))\
+            ret OPERATOR ( std::get< TYPE >(tmp) );\
+        else return error_t::WRONG_TYPE;\
+    }\
+    stack.push(ret);\
+    return error_t::OK;\
+}, 2, MAX_ARITY}
+
+#define VS_OPERATOR_1_HELPER(OPERATOR, TYPE) \
+{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+    TYPE ret;\
+    if(stack.size()==0)return error_t::STACK_EMPTY;\
+    auto tmp = std::move(stack.top());\
+    stack.pop();\
+    if(std::holds_alternative<  TYPE >(tmp))\
+        ret = OPERATOR ( std::get< TYPE >(tmp) );\
+    else return error_t::WRONG_TYPE;\
+    stack.push(ret);\
+    return error_t::OK;\
+}, 1}
 
 namespace vs{
 namespace templ{
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 2> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 22> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return repl::error_t::OK;}, 0}},
-            {"cat", { +[](std::stack<concrete_symbol>& stack, size_t N){
-                            std::string ret;
-                            for(size_t i = 0;i<N;i++){
-                                if(stack.size()==0)return error_t::STACK_EMPTY;
-                                auto tmp = std::move(stack.top());
-                                stack.pop();
-                                if(std::holds_alternative<std::string>(tmp))
-                                    ret+=std::get<std::string>(tmp);
-                                else return error_t::WRONG_TYPE;
-                            }
-                            stack.push(ret);
-                            return error_t::OK;
-                        }, 2, MAX_ARITY}}
-                /*
-                List of operators to implement is being developed in ./docs/repl-vm.md
-                 */
+            {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
+
+            ////Math operators
+            {"add", VS_OPERATOR_N_HELPER(+=,int)},
+            {"+", VS_OPERATOR_N_HELPER(+=,int)},
+            {"sub", VS_OPERATOR_N_HELPER(-=,int)},
+            {"-", VS_OPERATOR_N_HELPER(-=,int)},
+            {"mul", VS_OPERATOR_N_HELPER(*=,int)},
+            {"*", VS_OPERATOR_N_HELPER(*=,int)},
+            {"div", VS_OPERATOR_N_HELPER(/=,int)},
+            {"/", VS_OPERATOR_N_HELPER(/=,int)},
+            {"mod", VS_OPERATOR_N_HELPER(%=,int)},
+            {"%", VS_OPERATOR_N_HELPER(%=,int)},
+            {"neg", VS_OPERATOR_1_HELPER(-,int)},
+            {"-", VS_OPERATOR_1_HELPER(-,int)},
+            //pow
+            //log2
+
+            ////Logic operators
+            {"and", VS_OPERATOR_N_HELPER(&=,int)},
+            {"or", VS_OPERATOR_N_HELPER(|=,int)},
+            {"not", VS_OPERATOR_1_HELPER(~,int)},
+            {"!", VS_OPERATOR_1_HELPER(~,int)},
+            {"count.1", VS_OPERATOR_1_HELPER(__builtin_popcount,int)},  //I wanted to use std::popcount but it failed to be found for some reason :/
+            {"count.0", VS_OPERATOR_1_HELPER(sizeof(int)*8-__builtin_popcount,int)},
+                
+            //{"lrot", VS_OPERATOR_N_HELPER(<<=,int)},
+            //{"rrot", VS_OPERATOR_N_HELPER(>>=,int)},
+            //{"lsh", VS_OPERATOR_N_HELPER(<<=,int)},
+            //{"rsh", VS_OPERATOR_N_HELPER(>>=,int)},
+            {"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return repl::error_t::OK;}, 0}},
+            {"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return repl::error_t::OK;}, 0}},
+
+            /* List of operators to implement is being developed in ./docs/repl-vm.md */
 
     };
-    
 
     size_t current = 0;
     while(true){
         auto [status,begin,end,skip] = parse_token(expr+current);
         if(status==token_ret_t::OPERAND_FOUND){
             std::string ss(expr+current+begin,expr+current+end);
-            //printf("Found operand %s\n", ss.c_str());
+            printf("Found operand %s\n", ss.c_str());
 
             auto tmp = ctx.resolve_expr(std::string_view(expr+current+begin,expr+current+end));
             if(tmp.has_value()){
@@ -53,13 +98,13 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
         }
         else if(status==token_ret_t::OPERATOR_FOUND){
             std::string ss(expr+current+begin,expr+current+end);
-            //printf("Found operator %s\n", ss.c_str());
+            printf("Found operator %s\n", ss.c_str());
 
             {   
                 int arity = -1;
 
                 //Parsing operator to split name from arity specifier
-                int i=current+begin;
+                size_t i=current+begin;
                 for(;i!=current+end && expr[i]!=':';i++);
                 if(expr[i]==':'){
                     if(expr[i+1]=='*'){arity = stack.size();}
@@ -192,4 +237,6 @@ repl::token_ret_t repl::parse_token(const char* str, size_t max_length){
 
 }
 }
-       
+
+#undef VS_OPERATOR_1_HELPER
+#undef VS_OPERATOR_N_HELPER

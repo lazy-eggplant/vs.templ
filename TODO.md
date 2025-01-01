@@ -48,6 +48,7 @@ This is a list of commands which are currently supported:
 
 - [x] Basic repl vm done.
 - [ ] Improve debugging and error resolution during the static construction.
+- [ ] Add filter to cycles.
 
 ## `v0.3.9`
 
@@ -58,7 +59,6 @@ This is a list of commands which are currently supported:
 ## `v0.4.0`
 
 - [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
-- [ ] Add filter to cycles.
 
 ## `v1.0.0`
 

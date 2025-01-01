@@ -1,0 +1,10 @@
+struct command_t;
+%language=C++
+%enum
+%readonly-tables
+%struct-type
+
+%%
+add,    VS_OPERATOR_N_HELPER(+=,int)
+sub,    VS_OPERATOR_N_HELPER(-=,int)
+%%
