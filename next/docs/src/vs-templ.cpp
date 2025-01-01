@@ -9,8 +9,8 @@
 namespace vs{
 namespace templ{
 
-void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t logfn, uint64_t seed){
-    logfn=logfn;
+void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, uint64_t seed){
+    logfn=_logfn;
     stack_template.emplace(root_template.begin(),root_template.end());
     stack_compiled.emplace(compiled);
     this->root_data=root_data;

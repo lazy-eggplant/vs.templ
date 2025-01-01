@@ -5,6 +5,9 @@ project(
   meson_version: '>= 1.1',
   default_options: ['cpp_std=c++20'],
 )
+
+add_project_arguments( ['-Wno-vla-cxx-extension'], language: 'cpp')
+
 cmake = import('cmake')
 
 pugixml_dep = dependency('pugixml', version: '>=1.14', required: false)
