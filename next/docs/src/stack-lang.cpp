@@ -5,15 +5,15 @@
 #include <string>
 #include <string_view>
 
-#include <frozen/map.h>
+#include <frozen/unordered_map.h>
 #include <frozen/string.h>
 #include <variant>
 
 #define VS_OPERATOR_N_MATH_HELPER(OPERATOR) \
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
-    enum {NONE, INT, FLOAT} type;\
-    int ret_i = int ();\
-    float ret_f = float ();\
+    enum {NONE, INT, FLOAT} type = NONE;\
+    int ret_i = 0;\
+    float ret_f = 0.0;\
     for(size_t i = 0;i<N;i++){\
         auto tmp = std::move(stack.top());\
         stack.pop();\
@@ -83,7 +83,7 @@ namespace vs{
 namespace templ{
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::map<frozen::string, command_t, 26> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 25> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
@@ -103,7 +103,6 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             {"div", VS_OPERATOR_N_MATH_HELPER(/=)},
             {"/", VS_OPERATOR_N_MATH_HELPER(/=)},
             {"neg", VS_OPERATOR_1_MATH_HELPER(-)},
-            {"-", VS_OPERATOR_1_MATH_HELPER(-)},
 
             {"mod", VS_OPERATOR_N_HELPER(%=, int)},
             {"%", VS_OPERATOR_N_HELPER(%=, int)},

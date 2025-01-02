@@ -183,7 +183,7 @@ It also supports an additional <code>format</code> argument, but at this stage i
 <p>To generate a new element whose type is determined by a tag expression <code>ns:type</code>. Any other property and child will be preserved.</p>
 <h3 id="when-is"><code>when</code> &amp; <code>is</code><a class="headerlink" href="#when-is" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
-<code>when</code> accepts a single <code>subject</code> property as a path expression.<br />
+<code>when</code> accepts a single <code>src</code> property an expression.<br />
 Inside the body of <code>when</code> we have one or more <code>is</code>.<br />
 Attributes for <code>is</code>:</p>
 <ul>
@@ -191,7 +191,7 @@ Attributes for <code>is</code>:</p>
 <li><code>value</code> a path expression to compare against.</li>
 </ul>
 <p>The order of <code>is</code> elements is important and determines the overall flow.</p>
-<h3 id="debug"><code>debug</code><a class="headerlink" href="#debug" title="Permanent link">#</a></h3>
+<h3 id="log"><code>log</code><a class="headerlink" href="#log" title="Permanent link">#</a></h3>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>
@@ -200,7 +200,6 @@ Attributes for <code>is</code>:</p>
 <p>As prop, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
 <h3 id="propxxx"><code>prop.xxx</code><a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
 <p>To generate new props whose name is determined by an expression.</p>
-<h3 id="debugxxx"><code>debug.XXX</code><a class="headerlink" href="#debugxxx" title="Permanent link">#</a></h3>
               
             </div>
           </div><footer>
