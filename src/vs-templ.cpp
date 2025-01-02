@@ -9,6 +9,8 @@
 namespace vs{
 namespace templ{
 
+const float EPS = 10e-5;
+
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, uint64_t seed){
     logfn=_logfn;
     stack_template.emplace(root_template.begin(),root_template.end());
@@ -335,13 +337,13 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
-                    //const char* _filter = current_template.first->attribute("filter").as_string();
+                    const char* _filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
                     int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
                     int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
-                    
+
                     auto expr = resolve_expr(in);
 
                     //Only a node is acceptable in this context, otherwise show the error
@@ -384,16 +386,20 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             }
                         
                             //Items (iterate)
+                            int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
+                                //TODO: Add filter check in here!
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
+                                symbols.set("$$",counter);
+
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
                                 }
-
+                                counter++;
                             }
 
                             //Footer (once)
@@ -412,7 +418,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
-                    //const char* _filter = current_template.first->attribute("filter").as_string();
+                    const char* _filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
                     int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
@@ -449,16 +455,19 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             }
                         
                             //Items (iterate)
+                            int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
+                                symbols.set("$$",counter);
+
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
                                 }
-
+                                counter++;
                             }
 
                             //Footer (once)
@@ -529,7 +538,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.WHEN_TAG)==0){
-                    auto subject = resolve_expr(current_template.first->attribute("subject").as_string("$"));
+                    auto subject = resolve_expr(current_template.first->attribute("src").as_string("$"));
                     for(const auto& entry: current_template.first->children(strings.IS_TAG)){
                         bool _continue =  entry.attribute("continue").as_bool(false);
                         auto test = resolve_expr(entry.attribute("value").as_string("$"));
@@ -541,6 +550,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else if (!subject.has_value() || !test.has_value()){result = false;}
                         else if(std::holds_alternative<int>(subject.value()) && std::holds_alternative<int>(test.value())){
                             result = std::get<int>(subject.value())==std::get<int>(test.value());
+                        }
+                        else if(std::holds_alternative<float>(subject.value()) && std::holds_alternative<float>(test.value())){
+                            result = std::get<float>(subject.value())-std::get<float>(test.value())<EPS;
                         }
                         else{
 
