@@ -11,9 +11,9 @@
 
 #define VS_OPERATOR_N_MATH_HELPER(OPERATOR) \
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
-    enum {NONE, INT, FLOAT} type;\
-    int ret_i = int ();\
-    float ret_f = float ();\
+    enum {NONE, INT, FLOAT} type = NONE;\
+    int ret_i = 0;\
+    float ret_f = 0.0;\
     for(size_t i = 0;i<N;i++){\
         auto tmp = std::move(stack.top());\
         stack.pop();\
