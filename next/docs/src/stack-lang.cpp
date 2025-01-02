@@ -1,4 +1,3 @@
-#include <bits/types/error_t.h>
 #include <charconv>
 #include <cmath>
 #include <stack-lang.hpp>
