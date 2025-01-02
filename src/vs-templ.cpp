@@ -142,9 +142,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         
         STRLEN("value.src")+STRLEN("value.format")+
         STRLEN("eval.src")+STRLEN("eval.format")+
-        STRLEN("use.src")+
-        STRLEN("debug.type")+
-        STRLEN("debug.msg")
+        STRLEN("use.src")
         ];
     int count=0;
     
@@ -188,9 +186,6 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(VALUE_FORMAT_PROP,"value.format");
 
     WRITE(USE_SRC_PROP,"use.src");
-
-    WRITE(LOG_TYPE_PROP,"log.type");
-    WRITE(LOG_MSG_PROP,"log.msg");
 
 #   undef WRITE
 #   undef STRLEN

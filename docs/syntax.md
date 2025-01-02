@@ -105,7 +105,7 @@ To generate a new element whose type is determined by a tag expression `ns:type`
 ### `when` & `is`
 
 To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.  
-`when` accepts a single `subject` property as a path expression.  
+`when` accepts a single `src` property an expression.  
 Inside the body of `when` we have one or more `is`.  
 Attributes for `is`:
 
@@ -114,7 +114,7 @@ Attributes for `is`:
 
 The order of `is` elements is important and determines the overall flow.
 
-### `debug`
+### `log`
 
 ## Operators for properties
 
@@ -131,5 +131,3 @@ As prop, to introduce the value of an expression as value of a prop `xxx`.
 ### `prop.xxx`
 
 To generate new props whose name is determined by an expression.
-
-### `debug.XXX`
