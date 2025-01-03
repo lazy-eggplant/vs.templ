@@ -46,7 +46,7 @@ pandoc = find_program('pandoc', required: false)
 if pandoc.found()
   custom_target(
     'vs-templ-man',
-    output: 'vs-templ.1',
+    output: 'vs.templ.1',
     input: './docs/manual.md',
     command: ['pandoc', '@INPUT@', '-s', '-t', 'man', '-o', '@OUTPUT@'],
     install: not meson.is_subproject(),
