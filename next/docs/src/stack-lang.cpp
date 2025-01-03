@@ -82,6 +82,14 @@
 
 namespace vs{
 namespace templ{
+
+
+bool repl::push_operand(const concrete_symbol& ref)noexcept{
+    stack.push(ref);
+    //TODO: for now the assumption is no memory failure
+    return true;
+}
+
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
     static frozen::unordered_map<frozen::string, command_t, 26> commands = {
@@ -176,9 +184,10 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             auto tmp = ctx.resolve_expr(std::string_view(expr+current+begin,expr+current+end));
             if(tmp.has_value()){
                 stack.push(tmp.value());
+                //TODO: for now the assumption is no memory failure
             }
             else{
-                ctx.log(log_t::PANIC,std::format("VM Error: cannot insert on stack @{} (probable memory cap reached)",current+begin));
+                ctx.log(log_t::PANIC,std::format("VM Error: cannot insert empty object on stack @{}",current+begin));
                 return {};
             }
 

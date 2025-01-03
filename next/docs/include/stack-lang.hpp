@@ -63,19 +63,14 @@ struct repl{
             int default_arity = min_arity;
         };
         
+        token_ret_t parse_token(const char* str, size_t max_length=-1);
+
     public:
 
         repl(const preprocessor& _ctx);
 
-        /**
-         * @brief 
-         * 
-         * @param expr 
-         * @return std::optional<concrete_symbol> 
-         */
         std::optional<concrete_symbol> eval(const char* expr) noexcept;     
-
-        token_ret_t parse_token(const char* str, size_t max_length=-1);
+        bool push_operand(const concrete_symbol& ref)noexcept;
 };
 
 }

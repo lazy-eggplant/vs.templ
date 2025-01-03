@@ -139,13 +139,13 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("value")+
         STRLEN("eval")+
         STRLEN("element")+STRLEN("type")+
-        STRLEN("debug")+
+        STRLEN("log")+
+        STRLEN("include")+
 
-        STRLEN("for.in")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
-        STRLEN("for-props.in")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
+        STRLEN("for.src")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
+        STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
-        STRLEN("value.src")+STRLEN("value.format")+
-        STRLEN("eval.src")+STRLEN("eval.format")+
+        STRLEN("value.src")+STRLEN("value.expr")+STRLEN("value.format")+
         STRLEN("use.src")
         ];
     int count=0;
@@ -168,8 +168,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(TYPE_ATTR, "type");
 
     WRITE(LOG_TAG,"log");
+    WRITE(LOG_TAG,"include");
 
-    WRITE(FOR_IN_PROP,"for.in");
     WRITE(FOR_SRC_PROP,"for.src");
     WRITE(FOR_FILTER_PROP,"for.filter");
     WRITE(FOR_SORT_BY_PROP,"for.sort-by");
@@ -178,7 +178,6 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(FOR_LIMIT_PROP,"for.limit");
 
 
-    WRITE(FOR_PROPS_IN_PROP,"for.in");
     WRITE(FOR_PROPS_SRC_PROP,"for.src");
     WRITE(FOR_PROPS_FILTER_PROP,"for.filter");
     WRITE(FOR_PROPS_ORDER_BY_PROP,"for.order-by");
@@ -194,8 +193,6 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 #   undef WRITE
 #   undef STRLEN
 }
-
-
 
 std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion){
     auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
@@ -388,7 +385,12 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
-                                //TODO: Add filter check in here!
+                                if(_filter!=nullptr){
+                                    repl testexpr(*this);
+                                    testexpr.push_operand(i);
+                                    auto retexpr = testexpr.eval(_filter);
+                                    if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                                }
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
                                 symbols.set("$$",counter);
@@ -457,6 +459,13 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
+
+                                if(_filter!=nullptr){
+                                    repl testexpr(*this);
+                                    testexpr.push_operand(i);
+                                    auto retexpr = testexpr.eval(_filter);
+                                    if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                                }
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
                                 symbols.set("$$",counter);
