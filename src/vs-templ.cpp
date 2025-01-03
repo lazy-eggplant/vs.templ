@@ -374,10 +374,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         std::vector<std::pair<std::string,order_method_t::values>> criteria;
                         //Build criteria
                         {
-                            auto orders = split_string(_order_by,',');
+                            auto orders = split_string(_order_by,'|');
                             int c = 0;
                             //Apply order directive with wrapping in case not enough cases are specified.
-                            for(auto& i:split_string(_sort_by,',')){
+                            for(auto& i:split_string(_sort_by,'|')){
                                 criteria.emplace_back(i,order_method_t::from_string(orders[c%orders.size()]));
                                 c++;
                             }

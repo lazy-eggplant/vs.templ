@@ -101,5 +101,6 @@ And all the typical math operations as usual
 
 ### Special
 
+- [x] `PIPE` and `APOS` to escape `|` and `\`` respectively
 - [x] `(` & `)` as nop just to enable formatting in expression (not enforced, but the LSP might check)
 - [x] `rem` to tag the prior tag as comment (remove the last element from stack)

@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <s:for src="/entry" sort-by="$~name,$~surname" filter=": true">
+                <s:for src="/entry" sort-by="$~name|$~surname" filter=": true">
                     <s:item>
                         <tr>
                             <td><img s:eval.src="$~pic" /></td>
