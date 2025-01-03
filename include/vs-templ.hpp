@@ -110,8 +110,9 @@ struct preprocessor{
 
             const char *LOG_TAG;
 
+            const char *INCLUDE_TAG;
+
             //S:PROPS
-            const char *FOR_IN_PROP;
             const char *FOR_SRC_PROP;
             const char *FOR_FILTER_PROP;
             const char *FOR_SORT_BY_PROP;
@@ -119,7 +120,6 @@ struct preprocessor{
             const char *FOR_OFFSET_PROP;
             const char *FOR_LIMIT_PROP;
 
-            const char *FOR_PROPS_IN_PROP;
             const char *FOR_PROPS_SRC_PROP;
             const char *FOR_PROPS_FILTER_PROP;
             const char *FOR_PROPS_ORDER_BY_PROP;

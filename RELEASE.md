@@ -2,7 +2,7 @@
 
 This release brings many new features which further expand the capabilities of `vs.templ`:
 
-- [x] Introduced a more robust logging infrastructure at all levels.
+- [x] Introduced a more robust logging infrastructure at all levels. Now errors and warnings are better logged.
   - [x] Introduced `log` tag
 - [x] Introduced [meta-expressions](../repl-vm.md) with their RPN virtual machine to support more complex evaluations.  
        A good number of operators have been implemented so far, with most of the architectural bits ironed out.
