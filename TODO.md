@@ -5,18 +5,16 @@ This is a list of commands which are currently supported:
 ## Block based:
 
 - [x] `for-range`
-- [ ] `for`
+- [x] `for`
   - [x] base structure
-  - [ ] filter
+  - [x] filter
   - [x] sort & order
   - [x] limit & offset
 - [x] `for-prop` (mostly a copy & paste from `for`)
 - [x] `value`
 - [x] `element`
-- [ ] `eval`
 - [x] `when`/`is`
 - [x] `log` to add entries to the logging data
-- [ ] ~~throw / catch to trigger errors and provide regions to have them resolved~~
 - [ ] `include` to append template files
 
 ## Props based
@@ -34,12 +32,11 @@ This is a list of commands which are currently supported:
 
 ## Missing features
 
-- [ ] Stack based language.
+- [x] Stack based language.
   - [x] Stack based evaluations for `eval` element
-  - [ ] and for `filter` prop on for like cycles.
+  - [x] and for `filter` prop on for like cycles.
   - [x] replace numbers in for-range with these kinds of expressions.
   - [x] Evaluate their usage in when/is
-- [ ] ~~Introduce escaping via "%" of 7bit ascii of strings within path expressions (to avoid issues with special symbols later on)~~ covered by repl vm
 - [ ] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
 - [x] Floating point numbers (same serialization as for integers, but ending in `f`).  
        Cannot be mixed with integers in operations, explicit casts are needed.
@@ -52,7 +49,7 @@ This is a list of commands which are currently supported:
 - [x] Improve logging and error resolution in static construction.
 - [x] Add `log` tag.
 - [x] Write some initial docs for the RPN vm features.
-- [ ] Add filter to cycles.
+- [x] Add filter to cycles.
 
 ## `v0.3.9`
 

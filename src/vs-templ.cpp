@@ -194,8 +194,6 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 #   undef STRLEN
 }
 
-
-
 std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion){
     auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
         if(criterion==order_method_t::ASC){
@@ -387,7 +385,12 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
-                                //TODO: Add filter check in here!
+                                if(_filter!=nullptr){
+                                    repl testexpr(*this);
+                                    testexpr.push_operand(i);
+                                    auto retexpr = testexpr.eval(_filter);
+                                    if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                                }
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
                                 symbols.set("$$",counter);
@@ -456,6 +459,13 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
+
+                                if(_filter!=nullptr){
+                                    repl testexpr(*this);
+                                    testexpr.push_operand(i);
+                                    auto retexpr = testexpr.eval(_filter);
+                                    if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                                }
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
                                 symbols.set("$$",counter);
