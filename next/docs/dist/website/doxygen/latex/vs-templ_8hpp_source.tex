@@ -136,9 +136,9 @@
 \DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Transforming\ a\ string\ into\ a\ parsed\ symbol,\ setting\ an\ optional\ base\ root\ or\ leaving\ it\ to\ a\ default\ evaluation.}}
 \DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ resolve\_expr(\textcolor{keyword}{const}\ std::string\_view\&\ str,\ \textcolor{keyword}{const}\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_attribute>\ prepare\_props\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keywordtype}{bool}(*filter)(\textcolor{keyword}{const}\ pugi::xml\_attribute\&),\ order\_method\_t::values\ criterion);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_attribute>\ prepare\_props\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ order\_method\_t::values\ criterion);}
 \DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_node>\ prepare\_children\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keywordtype}{bool}(*filter)(\textcolor{keyword}{const}\ pugi::xml\_node\&),\ \textcolor{keyword}{const}\ std::vector<std::pair<std::string,order\_method\_t::values>>\&\ criteria);}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_node>\ prepare\_children\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ \textcolor{keyword}{const}\ std::vector<std::pair<std::string,order\_method\_t::values>>\&\ criteria);}
 \DoxyCodeLine{00147\ }
 \DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_parse(std::optional<pugi::xml\_node\_iterator>\ stop\_at);}
 \DoxyCodeLine{00149\ }

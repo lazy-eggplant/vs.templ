@@ -96,7 +96,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
-            {"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(int i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
+            {"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(size_t i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
 
 
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
@@ -218,7 +218,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                         ctx.log(log_t::PANIC,std::format("VM Error: arity `{}` asked for command `{}` @{} but it must be in [{},{}]",arity,command_name,current+begin,it->second.min_arity ,it->second.max_arity ));
                         return {};
                     }
-                    if(arity>stack.size()){
+                    if(arity>(int)stack.size()){
                         ctx.log(log_t::PANIC,std::format("VM Error: arity asked for command `{}` @{} but the stack has less",command_name,current+begin));
                         return {};
                     }
