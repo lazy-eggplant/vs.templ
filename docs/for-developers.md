@@ -8,7 +8,7 @@ title: Information for developers
 - `meson` as the build system of choice
 - `pandoc` (optional) if you want to generate the documentation/man pages
 - `gperf` (optional) if you want to regenerate the command dispatchers
-- `valgrind` (optional) to run some of the tests
+- `valgrind` (optional) to run some tests
 
 To build, test and install it you can just use normal meson commands like.
 
