@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+    <id>com.karurochari.vs.templ</id>
+
+    <name>vs.templ</name>
+    <summary>A simple static XML template builder</summary>
+
+    <metadata_license>CC-BY-SA-4.0</metadata_license>
+    <project_license>BSD-3-Clause</project_license>
+
+    <content_rating type="oars-1.1" />
+    <url type="homepage">https://github.com/lazy-eggplant/vs.templ</url>
+    <developer id="lazy-eggplant@universe">
+        <name>lazy-eggplant</name>
+    </developer>
+
+    <description>
+        <p>
+            A simple static XML template builder. Designed to construct XML files from a template
+            file and a dataset, both of which 100% pure XML.
+        </p>
+    </description>
+
+    <launchable type="desktop-id">com.karurochari.vs.templ.desktop</launchable>
+
+    <icon type="stock">vs.templ</icon>
+
+    <categories>
+        <category>Utility</category>
+        <category>Construction</category>
+    </categories>
+
+    <provides>
+        <binary>vs.templ</binary>
+    </provides>
+
+    <releases>
+        <release version="0.3.7" date="2025-01-03"></release>
+        <release version="0.3.5" date="2024-12-29"></release>
+    </releases>
+</component>
