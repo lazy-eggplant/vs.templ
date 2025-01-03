@@ -45,13 +45,17 @@ This is a list of commands which are currently supported:
 
 ## `v0.3.9`
 
-- [ ] Add environment data when used as a lib.
-- [ ] Add support for props-based commands.
-- [x] Complete more of the repl vm operator to cover specs.
+Just a corrective versions.
 
 ## `v0.3.11`
 
+- [ ] Add support for props-based commands.
+- [x] Complete more of the repl vm operator to cover specs.
+
+## `v0.3.13`
+
 - [ ] Complete more of the repl vm operator to cover specs.
+- [ ] Add environment data when used as a lib.
 
 ## `v0.4.x`
 
