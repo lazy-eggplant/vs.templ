@@ -34,6 +34,11 @@
                             </td>
                         </tr>
                     </s:item>
+                    <s:empty>
+                        <tr>
+                            <td colspan="3">No entries</td>
+                        </tr>
+                    </s:empty>
                 </s:for>
             </tbody>
             <tfoot></tfoot>
