@@ -38,34 +38,45 @@
 \DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ MEMORY,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//No\ more\ internal\ memory\ can\ be\ allocated.}}
 \DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ NOT\_IMPLEMENTED,\ \ \ \ \ \ \ \ \textcolor{comment}{//Operator\ or\ path\ not\ yet\ implemented.}}
 \DoxyCodeLine{00036\ \ \ \ \ \};}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }op\_t\{}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\_view\ name;}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ operands;}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ std::stack<concrete\_symbol>\ stack;}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ preprocessor\&\ ctx;}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }command\_t\{}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ error\_t\ (*fn)(std::stack<concrete\_symbol>\&\ stack,\ \textcolor{keywordtype}{size\_t}\ N);}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ min\_arity\ =\ 1;}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ max\_arity\ =\ min\_arity;}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ default\_arity\ =\ min\_arity;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ error\_s(error\_t\ e)\{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(e==error\_t::OK)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}ok"{}};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::WRONG\_TYPE)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}wrong\ type"{}};}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::STACK\_EMPTY)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}stack\ is\ empty"{}};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::STACK\_STILL\_FULL)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}stack\ has\ still\ items"{}};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::UNKNOWN\_OPERATOR)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}no\ matching\ operator\ found"{}};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::UNKNOWN\_ARITY)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}operator\ has\ the\ wrong\ arity"{}};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::MEMORY)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}unable\ to\ allocate\ memory"{}};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(e==error\_t::NOT\_IMPLEMENTED)\textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}the\ operator\ is\ not\ fully\ implemented\ yet"{}};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}illegal\ error"{}};}
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }op\_t\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\_view\ name;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ operands;}
 \DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ std::stack<concrete\_symbol>\ stack;}
 \DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ repl(\textcolor{keyword}{const}\ preprocessor\&\ \_ctx);}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ preprocessor\&\ ctx;}
 \DoxyCodeLine{00058\ }
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ \mbox{\hyperlink{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c}{eval}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ expr)\ \textcolor{keyword}{noexcept};\ \ \ \ \ }
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ token\_ret\_t\ parse\_token(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keywordtype}{size\_t}\ max\_length=-\/1);}
-\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }command\_t\{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ error\_t\ (*fn)(std::stack<concrete\_symbol>\&\ stack,\ \textcolor{keywordtype}{size\_t}\ N);}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ min\_arity\ =\ 1;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ max\_arity\ =\ min\_arity;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ default\_arity\ =\ min\_arity;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ repl(\textcolor{keyword}{const}\ preprocessor\&\ \_ctx);}
 \DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \}}
-\DoxyCodeLine{00071\ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ \mbox{\hyperlink{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c}{eval}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ expr)\ \textcolor{keyword}{noexcept};\ \ \ \ \ }
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ token\_ret\_t\ parse\_token(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keywordtype}{size\_t}\ max\_length=-\/1);}
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \}}
+\DoxyCodeLine{00082\ \}}
 
 \end{DoxyCode}

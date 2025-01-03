@@ -1,9 +1,12 @@
 #include <algorithm>
+#include <string>
 #include <string_view>
 #include <variant>
 #include <vs-templ.hpp>
 #include <stack-lang.hpp>
+#include <format>
 
+#include "logging.hpp"
 #include "utils.hpp"
 
 namespace vs{
@@ -28,9 +31,10 @@ void preprocessor::reset(){
     stack_compiled=decltype(stack_compiled)();
 }
 
-void preprocessor::log(log_t::values type, const char* msg, ...){
+void preprocessor::log(log_t::values type, const std::string& str) const{
     //TODO: Add prefix & stuff in here like for vs.fltk
-    logfn(type,msg);
+    logctx_t ctx;
+    logfn(type,str.data(),ctx);
 }
 
 //TODO: The next release of pugixml will have support for string_views directly. 
@@ -573,8 +577,25 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                 }
+                else if(strcmp(current_template.first->name(),strings.LOG_TAG)==0){
+                    auto _type = current_template.first->attribute("type").as_string("info");
+                    auto _msg = resolve_expr(current_template.first->attribute("type").as_string(""));
+                    log_t::values type = log_t::PANIC;
+                    //        ERROR, WARNING, PANIC, INFO
+                    if(strcmp(_type,"info")==0)type=log_t::INFO;
+                    else if(strcmp(_type,"panic")==0)type=log_t::PANIC;
+                    else if(strcmp(_type,"error")==0)type=log_t::ERROR;
+                    else if(strcmp(_type,"warning")==0)type=log_t::WARNING;
+                    else {/*....*/}
+                    if(_msg.has_value()){
+                        if(std::holds_alternative<std::string>(_msg.value()))log(type,std::get<std::string>(_msg.value()));
+                        else if(std::holds_alternative<int>(_msg.value()))log(type,std::to_string(std::get<int>(_msg.value())));
+                        else if(std::holds_alternative<float>(_msg.value()))log(type,std::to_string(std::get<float>(_msg.value())));
+                        else{/*...*/}
+                    }
+                }
                 else {
-                    log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());
+                    log(log_t::ERROR, std::format("unrecognized static operation `{}`\n",current_template.first->name()));
                 }
                 
                 current_template.first++;
@@ -634,7 +655,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){}
-                    else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}
+                    else {log(log_t::ERROR, std::format("unrecognized static operation `{}`\n",current_template.first->name()));}
                 }
                 else last.append_attribute(attr.name()).set_value(attr.value());
             }

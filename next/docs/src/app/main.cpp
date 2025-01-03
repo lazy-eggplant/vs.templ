@@ -19,7 +19,10 @@
 
 using namespace vs::templ;
 
-void logfn(log_t::values, const char* msg, ...){std::cerr<<msg;}
+void logfn(log_t::values, const char* msg, const logctx_t&){
+    std::cerr<<msg<<"\n";
+    //TODO: Add contextual
+}
 
 //TODO: Support error logging on std::cerr. Maybe use VS_VERBOSE env variable to determine what is shown and if.
 int main(int argc, const char* argv[]){

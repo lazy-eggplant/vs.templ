@@ -34,6 +34,17 @@ struct repl{
         MEMORY,                 //No more internal memory can be allocated.
         NOT_IMPLEMENTED,        //Operator or path not yet implemented.
     };
+    static constexpr const char* error_s(error_t e){
+        if(e==error_t::OK)return "ok";
+        else if(e==error_t::WRONG_TYPE)return "wrong type";
+        else if(e==error_t::STACK_EMPTY)return "stack is empty";
+        else if(e==error_t::STACK_STILL_FULL)return "stack has still items";
+        else if(e==error_t::UNKNOWN_OPERATOR)return "no matching operator found";
+        else if(e==error_t::UNKNOWN_ARITY)return "operator has the wrong arity";
+        else if(e==error_t::MEMORY)return "unable to allocate memory";
+        else if(e==error_t::NOT_IMPLEMENTED)return "the operator is not fully implemented yet";
+        else return "illegal error";
+    }
 
     private:
         struct op_t{

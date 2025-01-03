@@ -1,19 +1,13 @@
 \doxysection{vs\+::templ\+::preprocessor Struct Reference}
 \hypertarget{structvs_1_1templ_1_1preprocessor}{}\label{structvs_1_1templ_1_1preprocessor}\index{vs::templ::preprocessor@{vs::templ::preprocessor}}
-\doxysubsubsection*{Public Types}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_aca085e3e2e60854192015e1f2405a9be}\label{structvs_1_1templ_1_1preprocessor_aca085e3e2e60854192015e1f2405a9be} 
-typedef void(\texorpdfstring{$\ast$}{*} {\bfseries logfn\+\_\+t}) (log\+\_\+t\+::values, const char \texorpdfstring{$\ast$}{*}str,...)
-\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_a88ad273417c6f494e280a62e841af0c3}\label{structvs_1_1templ_1_1preprocessor_a88ad273417c6f494e280a62e841af0c3} 
-{\bfseries preprocessor} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, logfn\+\_\+t logfn=nullptr, uint64\+\_\+t seed=0)
+\Hypertarget{structvs_1_1templ_1_1preprocessor_ab2afd417d11dfc2e4fb488386630557e}\label{structvs_1_1templ_1_1preprocessor_ab2afd417d11dfc2e4fb488386630557e} 
+{\bfseries preprocessor} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, logfn\+\_\+t logfn=default\+\_\+logfn, uint64\+\_\+t seed=0)
 \item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_ae0d0effc00689c2198bd479be9f23bdf}\label{structvs_1_1templ_1_1preprocessor_ae0d0effc00689c2198bd479be9f23bdf} 
-void {\bfseries init} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, logfn\+\_\+t logfn=nullptr, uint64\+\_\+t seed=0)
+\Hypertarget{structvs_1_1templ_1_1preprocessor_a70ad429b3526cee1eb4c6d4e1abcc380}\label{structvs_1_1templ_1_1preprocessor_a70ad429b3526cee1eb4c6d4e1abcc380} 
+void {\bfseries init} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, logfn\+\_\+t logfn=default\+\_\+logfn, uint64\+\_\+t seed=0)
 \item 
 \Hypertarget{structvs_1_1templ_1_1preprocessor_adf816b5d9fd337b7d21e5add0495a2cf}\label{structvs_1_1templ_1_1preprocessor_adf816b5d9fd337b7d21e5add0495a2cf} 
 void {\bfseries reset} ()
@@ -27,8 +21,8 @@ void {\bfseries ns} (const char \texorpdfstring{$\ast$}{*}str)
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_ac1af090009871d33a8f83b58ac884196}\label{structvs_1_1templ_1_1preprocessor_ac1af090009871d33a8f83b58ac884196} 
-static void {\bfseries default\+\_\+logfn} (log\+\_\+t\+::values, const char \texorpdfstring{$\ast$}{*}str,...)
+\Hypertarget{structvs_1_1templ_1_1preprocessor_a4ad8d7f459e74aedfeb356f17c1a38ea}\label{structvs_1_1templ_1_1preprocessor_a4ad8d7f459e74aedfeb356f17c1a38ea} 
+static void {\bfseries default\+\_\+logfn} (log\+\_\+t\+::values, const char \texorpdfstring{$\ast$}{*}str, const \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\+\_\+t}} \&ctx)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Friends}
 \begin{DoxyCompactItemize}
