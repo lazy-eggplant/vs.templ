@@ -18,7 +18,7 @@ foreach case : to_pass
         'test_marginal_' + case,
         './' + case + '.cpp',
         dependencies: [vs_templ_dep, pugixml_dep],
-        cpp_args: ['-DAAA'],
+        cpp_args: [],
         install: false
     )
     test(
@@ -33,7 +33,7 @@ foreach case : to_fail
         case,
         './' + case + '.cpp',
         dependencies: [vs_templ_dep, pugixml_dep],
-        cpp_args: ['-DAAA'],
+        cpp_args: [],
         install: false
     )
     test(
