@@ -21,7 +21,7 @@ using namespace vs::templ;
 
 void logfn(log_t::values, const char* msg, const logctx_t&){
     std::cerr<<msg<<"\n";
-    //TODO: Add contextual
+    //TODO: Add contextual info
 }
 
 //TODO: Support error logging on std::cerr. Maybe use VS_VERBOSE env variable to determine what is shown and if.
@@ -33,13 +33,14 @@ int main(int argc, const char* argv[]){
     }
 
     pugi::xml_document data, tmpl;
+    int seed = 0 ;
 
     if(argc>=2){
         {auto t = tmpl.load_file(argv[1]); if(!t){std::cerr<<t.description()<<" @ `template file`\n";exit(2);}}
         {auto t = data.load_file(argv[2]); if(!t){std::cerr<<t.description()<<" @ `data file`\n";exit(3);}}
 
         if(argc>=4){ns_prefix=argv[3];}
-        if(argc>=5){/*TODO: process random seed*/}
+        if(argc>=5){seed=atoi(argv[4]);}
     }
     else{
         if(argc==2){ns_prefix=argv[1];}
@@ -49,7 +50,7 @@ int main(int argc, const char* argv[]){
 
     }
 
-    preprocessor doc(data,tmpl,ns_prefix, logfn);
+    preprocessor doc(data,tmpl,ns_prefix, logfn, seed);
     auto& result = doc.parse();
     
 
