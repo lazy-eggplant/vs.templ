@@ -77,41 +77,48 @@ Infinite cycles are detected before execution, in which case no cycle will run. 
 To iterate over children and props of an element respectively.  
 Aside from that, they mostly share the same interface.
 
-- `tag` the name of the symbol hosting the current XML node pointer. If empty, its default is `$`
-- `in` must be specified and is a path expression
-- `filter` as an expression in the internal [custom language](./calc.md).
-- `sort-by` (only available for `for`) list of comma separated path expressions. Elements will be sorted giving priority from left to right
-- `order-by` order preference for each field in the `sort-by` or the only one implicit for `for-props`. Each entry is a pair `type:comparator` with type either ASC, DESC or RANDOM. If not provided, comparator is assumed to be the default one. As an alternative comparator we could have a one using `.` to separate values in tokens, and order them token by token.
-- `limit` maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.
-- `offset` offset from start (of the filtered and ordered list of children)
+- `tag`: the name of the symbol hosting the current XML node pointer. If empty, its default is `$`
+- `in`: must be specified and is a path expression
+- `filter`: as an expression in the internal [custom language](./calc.md).
+- `sort-by`: (only available for `for`) list of `|` separated path expressions. Elements will be sorted giving priority from left to right
+- `order-by`: order preference for each field in the `sort-by` or the only one implicit for `for-props`.  
+  Each entry is a pair `type:comparator` with type either `ASC`, `DESC` or `RANDOM`.  
+  If not provided, comparator is assumed to be the default one.  
+  As an alternative comparator we could have a one using `.` to separate values in tokens, and order them token by token.
+- `limit`: maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.
+- `offset`: offset from start (of the filtered and ordered list of children)
 
-Both `for` & `for-props` support the following list of children. You can use as many instances of them as you want, in any order.
+Both `for` & `for-props` support the following list of children. You can use as many instances of the same type as you want, they will be applied to the final document in the order they appear.
 
-- `header` shown at the top of a non-empty container
-- `footer` shown at the bottom of a non-empty container
-- `empty` shown if a container is empty
-- `item` the main body
-- `error` shown if it was not possible to retrieve items (because of an error in the path)
+- `header`: shown at the top of a non-empty container
+- `footer`: shown at the bottom of a non-empty container
+- `empty`: shown if a container is empty
+- `item`: the main body
+- `error`: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists `empty` is used)
+
+The symbol `$$` gets loaded with the entry number while iterating, so that it is possible to count which one we are at.
 
 ### `value`
 
-To introduce the value of an expression as text content of an element. It accepts a path expression `src` as argument. By default, it is assumed to be `$`.
+To introduce the result of a (meta) expression in the tree.  
+Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.  
+It accepts a an expression `src` as argument, by default set to `$`.
 
 ### `element`
 
-To generate a new element whose type is determined by a tag expression `s:type` (this attribute is specifically namespaced). Any other property and child will be preserved.
+To generate a new element whose type is determined by an expression `s:type` (this attribute is specifically namespaced).  
+Any other property and child will be preserved.
 
-### `when` & `is`
+### `check` & `case`
 
 To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.  
-`when` accepts a single `src` property an expression.  
-Inside the body of `when` we have one or more `is`.  
-Attributes for `is`:
+Inside the body of `test` we have one or more `case`.  
+Attributes for `case`:
 
 - `continue` default is `false`. If `true` it continues checking and executing even after a match. Else it will break.
-- `value` a path expression to compare against.
+- `when` an expression to compare against.
 
-The order of `is` elements is important and determines the overall flow.
+The order of `case` elements is important and determines the overall flow.
 
 ### `log`
 
@@ -143,3 +150,7 @@ As for the element version, to introduce the value of an expression as value of 
 ### `prop.xxx`
 
 To generate new property whose name is determined by an expression and assign whatever values was assigned to `prop.xxx`.
+
+### `when`
+
+To test if the current element should be shown, if and only if the expression is `true`.

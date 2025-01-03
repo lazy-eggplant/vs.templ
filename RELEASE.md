@@ -5,4 +5,5 @@ This release also introduces few more meta-expression operators to allow escapin
 
 ### Breaking changes
 
-`sort-by` and `order-by` will now use `|` in place `,` to split multiple options.
+- `sort-by` and `order-by` will now use `|` in place `,` to split multiple options.
+- `when`/`is` fully replaced. The older syntax was dreadful but necessary without the RPN virtual machine, but now that we have... say hello to `test`/`case`.

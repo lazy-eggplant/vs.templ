@@ -101,8 +101,8 @@ struct preprocessor{
                 const char *ITEM_TAG;
                 const char *ERROR_TAG;
 
-            const char *WHEN_TAG;
-                const char *IS_TAG;
+            const char *TEST_TAG;
+                const char *CASE_TAG;
 
             const char *VALUE_TAG;
             const char *ELEMENT_TAG;
@@ -129,6 +129,8 @@ struct preprocessor{
             const char *VALUE_PROP;
 
             const char *PROP_PROP;
+
+            const char *WHEN_PROP;
 
             void prepare(const char * ns_prefix);
 
