@@ -121,33 +121,31 @@
 \DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_OFFSET\_PROP;}
 \DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_LIMIT\_PROP;}
 \DoxyCodeLine{00128\ }
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *VALUE\_SRC\_PROP;}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *VALUE\_EXPR\_PROP;}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *VALUE\_FORMAT\_PROP;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *VALUE\_PROP;}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *PROP\_TYPE\_PROP;}
 \DoxyCodeLine{00132\ }
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *USE\_SRC\_PROP;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ prepare(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ ns\_prefix);}
 \DoxyCodeLine{00134\ }
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ prepare(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ ns\_prefix);}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \string~ns\_strings()\{\textcolor{keywordflow}{if}(data!=\textcolor{keyword}{nullptr})\textcolor{keyword}{delete}[]\ data;\}}
 \DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \string~ns\_strings()\{\textcolor{keywordflow}{if}(data!=\textcolor{keyword}{nullptr})\textcolor{keyword}{delete}[]\ data;\}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \}strings;}
 \DoxyCodeLine{00138\ }
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \}strings;}
-\DoxyCodeLine{00140\ }
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Transforming\ a\ string\ into\ a\ parsed\ symbol,\ setting\ an\ optional\ base\ root\ or\ leaving\ it\ to\ a\ default\ evaluation.}}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ resolve\_expr(\textcolor{keyword}{const}\ std::string\_view\&\ str,\ \textcolor{keyword}{const}\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Transforming\ a\ string\ into\ a\ parsed\ symbol,\ setting\ an\ optional\ base\ root\ or\ leaving\ it\ to\ a\ default\ evaluation.}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ resolve\_expr(\textcolor{keyword}{const}\ std::string\_view\&\ str,\ \textcolor{keyword}{const}\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_attribute>\ prepare\_props\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ order\_method\_t::values\ criterion);}
 \DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_attribute>\ prepare\_props\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ order\_method\_t::values\ criterion);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_node>\ prepare\_children\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ \textcolor{keyword}{const}\ std::vector<std::pair<std::string,order\_method\_t::values>>\&\ criteria);}
 \DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_node>\ prepare\_children\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ \textcolor{keyword}{const}\ std::vector<std::pair<std::string,order\_method\_t::values>>\&\ criteria);}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_parse(std::optional<pugi::xml\_node\_iterator>\ stop\_at);}
 \DoxyCodeLine{00147\ }
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_parse(std::optional<pugi::xml\_node\_iterator>\ stop\_at);}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ log(log\_t::values,\ \textcolor{keyword}{const}\ std::string\&)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00149\ }
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ log(log\_t::values,\ \textcolor{keyword}{const}\ std::string\&)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00150\ \};}
 \DoxyCodeLine{00151\ }
-\DoxyCodeLine{00152\ \};}
-\DoxyCodeLine{00153\ }
-\DoxyCodeLine{00154\ }
-\DoxyCodeLine{00155\ \}}
-\DoxyCodeLine{00156\ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \}}
+\DoxyCodeLine{00154\ \}}
 
 \end{DoxyCode}

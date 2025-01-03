@@ -145,8 +145,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for.src")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
-        STRLEN("value.src")+STRLEN("value.expr")+STRLEN("value.format")+
-        STRLEN("use.src")
+        STRLEN("value")+
+        STRLEN("prop.type")
         ];
     int count=0;
     
@@ -184,11 +184,9 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
     WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
         
-    WRITE(VALUE_SRC_PROP,"value.src"); 
-    WRITE(VALUE_EXPR_PROP,"value.expr");
-    WRITE(VALUE_FORMAT_PROP,"value.format");
+    WRITE(VALUE_PROP,"value.src"); 
 
-    WRITE(USE_SRC_PROP,"use.src");
+    WRITE(PROP_TYPE_PROP,"prop.type");
 
 #   undef WRITE
 #   undef STRLEN
@@ -296,7 +294,6 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
             if(filter!=nullptr){
                 repl testexpr(*this);
                 auto retexpr = testexpr.eval(filter+1);
-                printf("%d",std::get<int>(retexpr.value()));
                 if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
                 if(std::get<int>(retexpr.value_or(true))==false)continue; //Skip logic.
             }
@@ -613,7 +610,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else {
-                    log(log_t::ERROR, std::format("unrecognized static operation `{}`\n",current_template.first->name()));
+                    log(log_t::ERROR, std::format("unrecognized static operation `{}`",current_template.first->name()));
                 }
                 
                 current_template.first++;
@@ -673,7 +670,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){}
-                    else {log(log_t::ERROR, std::format("unrecognized static operation `{}`\n",current_template.first->name()));}
+                    else {log(log_t::ERROR, std::format("unrecognized static operation `{}`",attr.name()));}
                 }
                 else last.append_attribute(attr.name()).set_value(attr.value());
             }
