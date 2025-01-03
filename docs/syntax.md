@@ -87,20 +87,19 @@ Aside from that, they mostly share the same interface.
 
 Both `for` & `for-props` support the following list of children. You can use as many instances of them as you want, in any order.
 
-- `header` shown at the top of a nonempty container
-- `footer` shown at the bottom of a nonempty container
+- `header` shown at the top of a non-empty container
+- `footer` shown at the bottom of a non-empty container
 - `empty` shown if a container is empty
 - `item` the main body
 - `error` shown if it was not possible to retrieve items (because of an error in the path)
 
 ### `value`
 
-To introduce the value of an expression as text content of an element. It accepts a path expression `src` as argument. By default, it is assumed to be `$`.  
-It also supports an additional `format` argument, but at this stage it has no implementation.
+To introduce the value of an expression as text content of an element. It accepts a path expression `src` as argument. By default, it is assumed to be `$`.
 
 ### `element`
 
-To generate a new element whose type is determined by a tag expression `ns:type`. Any other property and child will be preserved.
+To generate a new element whose type is determined by a tag expression `s:type` (this attribute is specifically namespaced). Any other property and child will be preserved.
 
 ### `when` & `is`
 
@@ -116,6 +115,19 @@ The order of `is` elements is important and determines the overall flow.
 
 ### `log`
 
+Optional argument `type` set to:
+
+- `notify` when something should be logged, but there is no fault or suspicious behaviour ongoing.
+- `ok` for tasks completed successfully
+- `error` when a condition prevents this activity from succeeding, but the situation is recoverable
+- `warning` when something can complete, but it is suspicious.
+- `panic` when an error triggered, and the situation cannot be recovered
+
+Panic does not mean exceptions. For example, the evaluation of an expression might panic, but this problem is not propagated.  
+It just means that there is no way to recover it, and downstream code will have to live with its failure.  
+Error means that there is a capability recognized when it was raised for the system to rectify this issue.  
+For example the inclusion of a file which does not exist can adopt the content of the `include` tag as fallback.
+
 ## Operators for properties
 
 `xxx` are used as tags to identify groups under which multiple attributes should be used.
@@ -124,10 +136,10 @@ The order of `is` elements is important and determines the overall flow.
 
 As prop, attribute variants of `for` and `for-props`. They add attributes/values to the node they are defined within.
 
-### `value.SUB-ATTR.xxx`
+### `value.xxx`
 
-As prop, to introduce the value of an expression as value of a prop `xxx`.
+As for the element version, to introduce the value of an expression as value of a prop `xxx`.
 
 ### `prop.xxx`
 
-To generate new props whose name is determined by an expression.
+To generate new property whose name is determined by an expression and assign whatever values was assigned to `prop.xxx`.

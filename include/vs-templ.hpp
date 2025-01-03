@@ -128,7 +128,7 @@ struct preprocessor{
 
             const char *VALUE_PROP;
 
-            const char *PROP_TYPE_PROP;
+            const char *PROP_PROP;
 
             void prepare(const char * ns_prefix);
 

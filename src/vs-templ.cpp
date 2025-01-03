@@ -146,7 +146,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value")+
-        STRLEN("prop.type")
+        STRLEN("prop")
         ];
     int count=0;
     
@@ -184,9 +184,9 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
     WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
         
-    WRITE(VALUE_PROP,"value.src"); 
+    WRITE(VALUE_PROP,"value"); 
 
-    WRITE(PROP_TYPE_PROP,"prop.type");
+    WRITE(PROP_PROP,"prop");
 
 #   undef WRITE
 #   undef STRLEN
@@ -608,6 +608,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else if(std::holds_alternative<float>(_msg.value()))log(type,std::to_string(std::get<float>(_msg.value())));
                         else{/*...*/}
                     }
+                }
+                else if(strcmp(current_template.first->name(),strings.INCLUDE_TAG)==0){
+                    auto src = current_template.first->attribute("src").as_string(nullptr);
+                    log(log_t::ERROR, std::format("static operation `{}` not implemented yet",current_template.first->name()));
                 }
                 else {
                     log(log_t::ERROR, std::format("unrecognized static operation `{}`",current_template.first->name()));
