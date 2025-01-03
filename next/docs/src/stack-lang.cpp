@@ -120,7 +120,7 @@ bool repl::push_operand(const concrete_symbol& ref)noexcept{
 
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 28> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 34> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
