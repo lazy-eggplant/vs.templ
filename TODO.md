@@ -15,7 +15,7 @@ This is a list of commands which are currently supported:
 - [x] `element`
 - [ ] `eval`
 - [x] `when`/`is`
-- [ ] `log` to add entries to the logging data
+- [x] `log` to add entries to the logging data
 - [ ] ~~throw / catch to trigger errors and provide regions to have them resolved~~
 - [ ] `include` to append template files
 
@@ -48,14 +48,20 @@ This is a list of commands which are currently supported:
 
 ## `v0.3.7`
 
-- [x] Basic repl vm done.
-- [ ] Improve debugging and error resolution during the static construction.
+- [x] Basic RPN vm done.
+- [x] Improve logging and error resolution in static construction.
+- [x] Add `log` tag.
+- [x] Write some initial docs for the RPN vm features.
 - [ ] Add filter to cycles.
 
 ## `v0.3.9`
 
 - [ ] Add environment data when used as a lib.
 - [ ] Add support for props-based commands.
+- [x] Complete more of the repl vm operator to cover specs.
+
+## `v0.3.11`
+
 - [ ] Complete more of the repl vm operator to cover specs.
 
 ## `v0.4.x`
