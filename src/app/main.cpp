@@ -20,7 +20,7 @@
 using namespace vs::templ;
 
 void logfn(log_t::values, const char* msg, const logctx_t&){
-    std::cerr<<msg;
+    std::cerr<<msg<<"\n";
     //TODO: Add contextual
 }
 

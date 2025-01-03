@@ -29,7 +29,7 @@ void preprocessor::reset(){
     stack_compiled=decltype(stack_compiled)();
 }
 
-void preprocessor::log(log_t::values type, const std::string& str){
+void preprocessor::log(log_t::values type, const std::string& str) const{
     //TODO: Add prefix & stuff in here like for vs.fltk
     logctx_t ctx;
     logfn(type,str.data(),ctx);

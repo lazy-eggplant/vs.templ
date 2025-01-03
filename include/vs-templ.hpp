@@ -61,7 +61,7 @@ struct preprocessor{
 
     public:
         inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, uint64_t seed = 0){
-            init(root_data,root_template,prefix);
+            init(root_data,root_template,prefix,logfn,seed);
         }
 
         void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, uint64_t seed = 0);
@@ -150,7 +150,7 @@ struct preprocessor{
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at);
 
-        void log(log_t::values, const std::string&);
+        void log(log_t::values, const std::string&) const;
 
 };
 

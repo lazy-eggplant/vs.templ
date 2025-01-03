@@ -1,5 +1,7 @@
+#include "logging.hpp"
 #include <charconv>
 #include <cmath>
+#include <format>
 #include <stack-lang.hpp>
 #include <string>
 #include <string_view>
@@ -176,7 +178,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                 stack.push(tmp.value());
             }
             else{
-                //ERROR HERE
+                ctx.log(log_t::PANIC,std::format("VM Error: cannot insert on stack @{} (probable memory cap reached)",current+begin));
                 return {};
             }
 
@@ -199,25 +201,26 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                     }
                 }
 
-                auto it = commands.find(std::string_view(expr+current+begin,expr+i));
+                auto command_name =std::string_view(expr+current+begin,expr+i);
+                auto it = commands.find(command_name);
                 if(it!=commands.end()){
                     if(arity==-1)arity=it->second.default_arity;
                     if(arity>it->second.max_arity || arity<it->second.min_arity){
-                        //ERROR HERE Bad arity
+                        ctx.log(log_t::PANIC,std::format("VM Error: arity `{}` asked for command `{}` @{} but it must be in [{},{}]",arity,command_name,current+begin,it->second.min_arity ,it->second.max_arity ));
                         return {};
                     }
                     if(arity>stack.size()){
-                        //ERROR HERE Stack would end up being empty
+                        ctx.log(log_t::PANIC,std::format("VM Error: arity asked for command `{}` @{} but the stack has less",command_name,current+begin));
                         return {};
                     }
                     auto ret = it->second.fn(stack,arity);
                     if(ret!=error_t::OK){
-                        //ERROR HERE Specify
+                        ctx.log(log_t::ERROR,std::format("VM Error: the operator `{}` @{} returned with error `{}`",command_name,current+begin,error_s(ret)));
                         return {};
                     }
                 }
                 else{
-                    //ERROR HERE Command not found
+                    ctx.log(log_t::PANIC,std::format("VM Error: asked for command `{}` @{} but there is no implementation of it",command_name,current+begin));
                     return {};
                 }
             }
@@ -231,7 +234,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             break;
         }
         else{
-            //ERROR HERE Parsing error
+            ctx.log(log_t::PANIC,std::format("VM Error: parsing error @{}",current+begin));
             return {};
         }
     }
