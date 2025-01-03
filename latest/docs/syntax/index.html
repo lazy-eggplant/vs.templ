@@ -73,6 +73,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -98,7 +100,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p><code>vs.templ</code> uses special elements and attributes to define which actions the preprocessor should perform.<br />
+                <div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This documentation reflects the expected functionality for v0.5.0.<br />
+ Some features are still missing, progress is tracked in the repository and on the todo file in root.</p>
+</div>
+<p><code>vs.templ</code> uses special elements and attributes to define which actions the preprocessor should perform.<br />
 These XML entities are scoped under the namespace <code>s</code> by default, but the user can set up a custom one as well.<br />
 Please, notice that pugixml on which vs.templ is based does not have a full understanding of XML and namespaces are not covered.<br />
 As such, they only operate as fancy prefixes at this scale.</p>
@@ -162,46 +169,65 @@ However, the preprocessor should not generally throw exceptions, only emit error
 <p>To iterate over children and props of an element respectively.<br />
 Aside from that, they mostly share the same interface.</p>
 <ul>
-<li><code>tag</code> the name of the symbol hosting the current XML node pointer. If empty, its default is <code>$</code></li>
-<li><code>in</code> must be specified and is a path expression</li>
-<li><code>filter</code> as an expression in the internal <a href="./calc.md">custom language</a>.</li>
-<li><code>sort-by</code> (only available for <code>for</code>) list of comma separated path expressions. Elements will be sorted giving priority from left to right</li>
-<li><code>order-by</code> order preference for each field in the <code>sort-by</code> or the only one implicit for <code>for-props</code>. Each entry is a pair <code>type:comparator</code> with type either ASC, DESC or RANDOM. If not provided, comparator is assumed to be the default one. As an alternative comparator we could have a one using <code>.</code> to separate values in tokens, and order them token by token.</li>
-<li><code>limit</code> maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.</li>
-<li><code>offset</code> offset from start (of the filtered and ordered list of children)</li>
+<li><code>tag</code>: the name of the symbol hosting the current XML node pointer. If empty, its default is <code>$</code></li>
+<li><code>in</code>: must be specified and is a path expression</li>
+<li><code>filter</code>: as an expression in the internal <a href="./calc.md">custom language</a>.</li>
+<li><code>sort-by</code>: (only available for <code>for</code>) list of <code>|</code> separated path expressions. Elements will be sorted giving priority from left to right</li>
+<li><code>order-by</code>: order preference for each field in the <code>sort-by</code> or the only one implicit for <code>for-props</code>.<br />
+  Each entry is a pair <code>type:comparator</code> with type either <code>ASC</code>, <code>DESC</code> or <code>RANDOM</code>.<br />
+  If not provided, comparator is assumed to be the default one.<br />
+  As an alternative comparator we could have a one using <code>.</code> to separate values in tokens, and order them token by token.</li>
+<li><code>limit</code>: maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.</li>
+<li><code>offset</code>: offset from start (of the filtered and ordered list of children)</li>
 </ul>
-<p>Both <code>for</code> &amp; <code>for-props</code> support the following list of children. You can use as many instances of them as you want, in any order.</p>
+<p>Both <code>for</code> &amp; <code>for-props</code> support the following list of children. You can use as many instances of the same type as you want, they will be applied to the final document in the order they appear.</p>
 <ul>
-<li><code>header</code> shown at the top of a nonempty container</li>
-<li><code>footer</code> shown at the bottom of a nonempty container</li>
-<li><code>empty</code> shown if a container is empty</li>
-<li><code>item</code> the main body</li>
-<li><code>error</code> shown if it was not possible to retrieve items (because of an error in the path)</li>
+<li><code>header</code>: shown at the top of a non-empty container</li>
+<li><code>footer</code>: shown at the bottom of a non-empty container</li>
+<li><code>empty</code>: shown if a container is empty</li>
+<li><code>item</code>: the main body</li>
+<li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
+<p>The symbol <code>$$</code> gets loaded with the entry number while iterating, so that it is possible to count which one we are at.</p>
 <h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
-<p>To introduce the value of an expression as text content of an element. It accepts a path expression <code>src</code> as argument. By default, it is assumed to be <code>$</code>.<br />
-It also supports an additional <code>format</code> argument, but at this stage it has no implementation.</p>
+<p>To introduce the result of a (meta) expression in the tree.<br />
+Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.<br />
+It accepts an expression <code>src</code> as argument, by default set to <code>$</code>.</p>
 <h3 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h3>
-<p>To generate a new element whose type is determined by a tag expression <code>ns:type</code>. Any other property and child will be preserved.</p>
-<h3 id="when-is"><code>when</code> &amp; <code>is</code><a class="headerlink" href="#when-is" title="Permanent link">#</a></h3>
+<p>To generate a new element whose type is determined by an expression <code>s:type</code> (this attribute is specifically namespaced).<br />
+Any other property and child will be preserved.</p>
+<h3 id="check-case"><code>check</code> &amp; <code>case</code><a class="headerlink" href="#check-case" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
-<code>when</code> accepts a single <code>src</code> property an expression.<br />
-Inside the body of <code>when</code> we have one or more <code>is</code>.<br />
-Attributes for <code>is</code>:</p>
+Inside the body of <code>test</code> we have one or more <code>case</code>.<br />
+Attributes for <code>case</code>:</p>
 <ul>
 <li><code>continue</code> default is <code>false</code>. If <code>true</code> it continues checking and executing even after a match. Else it will break.</li>
-<li><code>value</code> a path expression to compare against.</li>
+<li><code>when</code> an expression to compare against.</li>
 </ul>
-<p>The order of <code>is</code> elements is important and determines the overall flow.</p>
+<p>The order of <code>case</code> elements is important and determines the overall flow.</p>
 <h3 id="log"><code>log</code><a class="headerlink" href="#log" title="Permanent link">#</a></h3>
+<p>Optional argument <code>type</code> set to:</p>
+<ul>
+<li><code>notify</code> when something should be logged, but there is no fault or suspicious behaviour ongoing.</li>
+<li><code>ok</code> for tasks completed successfully</li>
+<li><code>error</code> when a condition prevents this activity from succeeding, but the situation is recoverable</li>
+<li><code>warning</code> when something can complete, but it is suspicious.</li>
+<li><code>panic</code> when an error triggered, and the situation cannot be recovered</li>
+</ul>
+<p>Panic does not mean exceptions. For example, the evaluation of an expression might panic, but this problem is not propagated.<br />
+It just means that there is no way to recover it, and downstream code will have to live with its failure.<br />
+Error means that there is a capability recognized when it was raised for the system to rectify this issue.<br />
+For example the inclusion of a file which does not exist can adopt the content of the <code>include</code> tag as fallback.</p>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>
 <p>As prop, attribute variants of <code>for</code> and <code>for-props</code>. They add attributes/values to the node they are defined within.</p>
-<h3 id="valuesub-attrxxx"><code>value.SUB-ATTR.xxx</code><a class="headerlink" href="#valuesub-attrxxx" title="Permanent link">#</a></h3>
-<p>As prop, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
+<h3 id="valuexxx"><code>value.xxx</code><a class="headerlink" href="#valuexxx" title="Permanent link">#</a></h3>
+<p>As for the element version, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
 <h3 id="propxxx"><code>prop.xxx</code><a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
-<p>To generate new props whose name is determined by an expression.</p>
+<p>To generate new property whose name is determined by an expression and assign whatever values was assigned to <code>prop.xxx</code>.</p>
+<h3 id="when"><code>when</code><a class="headerlink" href="#when" title="Permanent link">#</a></h3>
+<p>To test if the current element should be shown, if and only if the expression is <code>true</code>.</p>
               
             </div>
           </div><footer>

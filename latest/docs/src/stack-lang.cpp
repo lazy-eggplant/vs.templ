@@ -92,11 +92,11 @@ bool repl::push_operand(const concrete_symbol& ref)noexcept{
 
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 26> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 28> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
-            {"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(int i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
+            {"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(size_t i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
 
 
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
@@ -154,6 +154,8 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             //{"rrot", VS_OPERATOR_N_HELPER(>>=,int)},
             //{"lsh", VS_OPERATOR_N_HELPER(<<=,int)},
             //{"rsh", VS_OPERATOR_N_HELPER(>>=,int)},
+            {"APOS", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push("`");return error_t::OK;}, 0}},
+            {"PIPE", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push("|");return error_t::OK;}, 0}},
             {"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}},
             {"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}},
             {"?", {+[](std::stack<concrete_symbol>& stack, size_t N){
@@ -218,7 +220,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                         ctx.log(log_t::PANIC,std::format("VM Error: arity `{}` asked for command `{}` @{} but it must be in [{},{}]",arity,command_name,current+begin,it->second.min_arity ,it->second.max_arity ));
                         return {};
                     }
-                    if(arity>stack.size()){
+                    if(arity>(int)stack.size()){
                         ctx.log(log_t::PANIC,std::format("VM Error: arity asked for command `{}` @{} but the stack has less",command_name,current+begin));
                         return {};
                     }

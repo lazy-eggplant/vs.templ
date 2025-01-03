@@ -1,7 +1,7 @@
 project(
   'vs-templ',
   ['cpp'],
-  version: '0.3.7',
+  version: '0.3.9',
   meson_version: '>= 1.1',
   default_options: ['cpp_std=c++20'],
 )
@@ -46,7 +46,7 @@ pandoc = find_program('pandoc', required: false)
 if pandoc.found()
   custom_target(
     'vs-templ-man',
-    output: 'vs-templ.1',
+    output: 'vs.templ.1',
     input: './docs/manual.md',
     command: ['pandoc', '@INPUT@', '-s', '-t', 'man', '-o', '@OUTPUT@'],
     install: not meson.is_subproject(),

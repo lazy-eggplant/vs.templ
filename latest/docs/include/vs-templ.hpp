@@ -101,8 +101,8 @@ struct preprocessor{
                 const char *ITEM_TAG;
                 const char *ERROR_TAG;
 
-            const char *WHEN_TAG;
-                const char *IS_TAG;
+            const char *TEST_TAG;
+                const char *CASE_TAG;
 
             const char *VALUE_TAG;
             const char *ELEMENT_TAG;
@@ -126,11 +126,11 @@ struct preprocessor{
             const char *FOR_PROPS_OFFSET_PROP;
             const char *FOR_PROPS_LIMIT_PROP;
 
-            const char *VALUE_SRC_PROP;
-            const char *VALUE_EXPR_PROP;
-            const char *VALUE_FORMAT_PROP;
+            const char *VALUE_PROP;
 
-            const char *USE_SRC_PROP;
+            const char *PROP_PROP;
+
+            const char *WHEN_PROP;
 
             void prepare(const char * ns_prefix);
 
@@ -141,9 +141,9 @@ struct preprocessor{
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
         std::optional<concrete_symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
 
-        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion);
+        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_method_t::values criterion);
 
-        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_node&), const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
+        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char *filter, const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at);
 
