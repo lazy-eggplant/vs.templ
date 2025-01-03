@@ -9,6 +9,10 @@
     <project_license>BSD-3-Clause</project_license>
 
     <content_rating type="oars-1.1" />
+    <url type="homepage">https://github.com/lazy-eggplant/vs.templ</url>
+    <developer id="lazy-eggplant@universe">
+        <name>lazy-eggplant</name>
+    </developer>
 
     <description>
         <p>
