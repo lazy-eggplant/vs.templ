@@ -1,0 +1,53 @@
+%language=C++
+%enum
+%readonly-tables
+%struct-type
+
+struct command_entry_t{
+    const char* opname;
+    command_t entry;
+};
+
+%{
+auto op_if = +[](std::stack<concrete_symbol>& stack, size_t N){
+    auto condition = stack.top();
+    stack.pop();
+    auto if_true = stack.top();
+    stack.pop();
+    auto if_false = stack.top();
+    stack.pop();
+    if(!std::holds_alternative<int>(condition))return error_t::WRONG_TYPE;
+    if((std::get<int>(condition)&1)==0)stack.push(if_true);
+    else stack.push(if_false);
+    return error_t::OK;
+}
+%}
+
+%%
+"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}
+"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}
+")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}
+"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(int i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}
+"cat", VS_OPERATOR_N_HELPER(+=,std::string)
+"add", VS_OPERATOR_N_MATH_HELPER(+=)
+"+", VS_OPERATOR_N_MATH_HELPER(+=)
+"sub", VS_OPERATOR_N_MATH_HELPER(-=)
+"-", VS_OPERATOR_N_MATH_HELPER(-=)
+"mul", VS_OPERATOR_N_MATH_HELPER(*=)
+"*", VS_OPERATOR_N_MATH_HELPER(*=)
+"div", VS_OPERATOR_N_MATH_HELPER(/=)
+"/", VS_OPERATOR_N_MATH_HELPER(/=)
+"neg", VS_OPERATOR_1_MATH_HELPER(-)
+#"-", VS_OPERATOR_1_MATH_HELPER(-)
+"mod", VS_OPERATOR_N_HELPER(%=, int)
+"%", VS_OPERATOR_N_HELPER(%=, int)
+"and", VS_OPERATOR_N_HELPER(&=,int)
+"or", VS_OPERATOR_N_HELPER(|=,int)
+"not", VS_OPERATOR_1_HELPER(~,int)
+"!", VS_OPERATOR_1_HELPER(~,int)
+"count.1", VS_OPERATOR_1_HELPER(__builtin_popcount,int)
+"count.0", VS_OPERATOR_1_HELPER(sizeof(int)*8-__builtin_popcount,int)
+"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}
+"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}
+"?", {op_if, 3, 3}
+%%
