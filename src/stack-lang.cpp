@@ -19,11 +19,13 @@
         auto tmp = std::move(stack.top());\
         stack.pop();\
         if(type!=FLOAT && std::holds_alternative<int>(tmp)){\
-            ret_i OPERATOR ( std::get<int>(tmp) );\
+            auto& ret = ret_i;\
+            ret OPERATOR ( std::get<int>(tmp) );\
             type = INT;\
         }\
         else if(type!=INT && std::holds_alternative<float>(tmp)){\
-            ret_f OPERATOR ( std::get<float>(tmp) );\
+            auto& ret = ret_f;\
+            ret OPERATOR ( std::get<float>(tmp) );\
             type = FLOAT;\
         }\
         else return error_t::WRONG_TYPE;\
@@ -41,11 +43,13 @@
     auto tmp = std::move(stack.top());\
     stack.pop();\
     if(std::holds_alternative<int>(tmp)){\
-        ret_i = OPERATOR ( std::get<int>(tmp) );\
+        auto& ret = ret_i;\
+        ret = OPERATOR ( std::get<int>(tmp) );\
         type = INT;\
     }\
     else if(std::holds_alternative<float>(tmp)){\
-        ret_f = OPERATOR ( std::get<float>(tmp) );\
+        auto& ret = ret_f;\
+        ret = OPERATOR ( std::get<float>(tmp) );\
         type = FLOAT;\
     }\
     else return error_t::WRONG_TYPE;\
@@ -53,6 +57,30 @@
     else if(type==FLOAT)stack.push(ret_f);\
     return error_t::OK;\
 }, 1}
+
+#define VS_OPERATOR_CMP_HELPER(OPERATOR) \
+{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+    auto a = std::move(stack.top());\
+    stack.pop();\
+    if(std::holds_alternative<int>(a)){\
+        auto b = std::move(stack.top());\
+        stack.pop();\
+        if(std::holds_alternative<int>(b)){\
+            stack.push(std::get<int>(a) OPERATOR std::get<int>(b));\
+        }\
+        else return error_t::WRONG_TYPE;\
+    }\
+    else if(std::holds_alternative<float>(a)){\
+        auto b = std::move(stack.top());\
+        stack.pop();\
+        if(std::holds_alternative<float>(b)){\
+            stack.push( std::get<float>(a) OPERATOR  std::get<float>(b));\
+        }\
+        else return error_t::WRONG_TYPE;\
+    }\
+    else return error_t::WRONG_TYPE;\
+    return error_t::OK;\
+}, 2}
 
 #define VS_OPERATOR_N_HELPER(OPERATOR, TYPE) \
 { +[](std::stack<concrete_symbol>& stack, size_t N){\
@@ -92,7 +120,7 @@ bool repl::push_operand(const concrete_symbol& ref)noexcept{
 
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 28> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 34> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
@@ -141,6 +169,14 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             //{"log2", VS_OPERATOR_1_HELPER(std::log2, int)},
             //pow
             //log2
+
+            ///Comparisons
+            {"eqv", VS_OPERATOR_CMP_HELPER(==)},
+            {"neq", VS_OPERATOR_CMP_HELPER(!=)},
+            {"bg", VS_OPERATOR_CMP_HELPER(>)},
+            {"bge", VS_OPERATOR_CMP_HELPER(>=)},
+            {"lt", VS_OPERATOR_CMP_HELPER(<)},
+            {"lte", VS_OPERATOR_CMP_HELPER(<=)},
 
             ////Logic operators
             {"and", VS_OPERATOR_N_HELPER(&=,int)},
@@ -344,5 +380,6 @@ repl::token_ret_t repl::parse_token(const char* str, size_t max_length){
 
 #undef VS_OPERATOR_N_MATH_HELPER
 #undef VS_OPERATOR_1_MATH_HELPER
+#undef VS_OPERATOR_CMP_HELPER
 #undef VS_OPERATOR_1_HELPER
 #undef VS_OPERATOR_N_HELPER

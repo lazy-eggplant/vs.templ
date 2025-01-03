@@ -83,7 +83,11 @@ Boolean types are not directly supported. They are just integers with extra sema
 
 ### Comparison operators
 
-- [ ] `eq` `neq` `bg` `bge` `lse` for integers & floats
+- [x] `eq` `neq` `bg` `bge` `lt` `lte` for integers & floats
+- [ ] For strings we have at least three criteria, which is making these operations harder to handle
+  - [ ] Typical comparison based on lexicographic comparison
+  - [ ] Dot comparison, introduced by `vs` to handle nesting
+  - [ ] Natural comparison, where for example $20<100$
 
 ### Common algebraic operators
 

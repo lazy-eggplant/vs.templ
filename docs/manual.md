@@ -10,7 +10,7 @@ In theory, it is possible for data to be expressed in other formats (eg. JSON) a
 
 ## CLI
 
-```
+```bash
 vs.tmpl <template-file> <data-file> [namespace=`s:`]
 ```
 
@@ -18,7 +18,7 @@ Unlike its usage in vs.fltk, template must be specified on its own, as it cannot
 
 There is also an alternative format:
 
-```
+```bash
 vs.tmpl [namespace=`s:`]
 ```
 

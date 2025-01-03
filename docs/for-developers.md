@@ -12,7 +12,7 @@ title: Information for developers
 
 To build, test and install it you can just use normal meson commands like.
 
-```
+```bash
 meson setup build
 meson compile -C build
 meson install -C build
