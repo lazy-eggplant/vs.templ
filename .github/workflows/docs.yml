@@ -27,7 +27,7 @@ jobs:
             graphviz \
             python3-pip \
             python3-setuptools
-          python3 -m pip install mkdocs mkdocs-github-admonitions-plugin mkdocs-get-deps pymdown-extensions
+          python3 -m pip install mkdocs mkdocs-github-admonitions-plugin mkdocs-get-deps pymdown-extensions mdx_truly_sane_lists
           doxygen
           mkdocs build
           bun install -g gh-pages

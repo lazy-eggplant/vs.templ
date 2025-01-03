@@ -194,7 +194,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 #   undef STRLEN
 }
 
-std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion){
+std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_method_t::values criterion){
     auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
         if(criterion==order_method_t::ASC){
             int cmp =  strcmp(a.name(),b.name());
@@ -215,8 +215,18 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
     };
     
     std::vector<pugi::xml_attribute> dataset;
-    for(auto& child: base.attributes()){
-        if(filter==nullptr || filter(child))dataset.push_back(child);
+    {
+        symbols.guard();
+        for(auto& child: base.attributes()){
+            if(filter!=nullptr){
+                repl testexpr(*this);
+                auto retexpr = testexpr.eval(filter+1);
+                if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                if(std::get<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+            }
+
+            dataset.push_back(child);
+        }
     }
 
     std::sort(dataset.begin(),dataset.end(),cmp_fn);
@@ -233,7 +243,7 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
     return {};
 }
 
-std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_node&), const std::vector<std::pair<std::string,order_method_t::values>>& criteria){
+std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char* filter, const std::vector<std::pair<std::string,order_method_t::values>>& criteria){
     auto cmp_fn = [&](const pugi::xml_node& a, const pugi::xml_node& b)->int{
         for(auto& criterion: criteria){
             auto valA = resolve_expr(criterion.first.c_str(),&a);
@@ -279,10 +289,20 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
     };
     
     std::vector<pugi::xml_node> dataset;
-    for(auto& child: base.children()){
-        if(filter==nullptr || filter(child))dataset.push_back(child);
+    {
+        symbols.guard();
+        for(auto& child: base.children()){
+            symbols.set("$",child);
+            if(filter!=nullptr){
+                repl testexpr(*this);
+                auto retexpr = testexpr.eval(filter+1);
+                printf("%d",std::get<int>(retexpr.value()));
+                if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                if(std::get<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+            }
+            dataset.push_back(child);
+        }
     }
-
     std::sort(dataset.begin(),dataset.end(),cmp_fn);
 
     //TODO: Check if these boudary condition are sound.
@@ -333,7 +353,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
-                    const char* _filter = current_template.first->attribute("filter").as_string(nullptr);
+                    const char* filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
@@ -362,7 +382,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 c++;
                             }
                         }
-                        auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, nullptr, criteria);
+                        auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
 
                         if(good_data.size()==0){
                             for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
@@ -385,12 +405,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             int counter = 0;
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
-                                if(_filter!=nullptr){
-                                    repl testexpr(*this);
-                                    testexpr.push_operand(i);
-                                    auto retexpr = testexpr.eval(_filter);
-                                    if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
-                                }
+    
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
                                 symbols.set("$$",counter);
@@ -419,7 +434,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
-                    const char* _filter = current_template.first->attribute("filter").as_string(nullptr);
+                    const char* filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
                     int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
@@ -436,7 +451,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                     else{
-                        auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, nullptr,order_method_t::from_string(_order_by));
+                        auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_method_t::from_string(_order_by));
 
                         if(good_data.size()==0){
                             for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
@@ -460,12 +475,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
 
-                                if(_filter!=nullptr){
-                                    repl testexpr(*this);
-                                    testexpr.push_operand(i);
-                                    auto retexpr = testexpr.eval(_filter);
-                                    if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
-                                }
                                 if(tag!=nullptr)symbols.set(tag,i);
                                 symbols.set("$",i);
                                 symbols.set("$$",counter);

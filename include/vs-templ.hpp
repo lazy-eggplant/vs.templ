@@ -141,9 +141,9 @@ struct preprocessor{
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
         std::optional<concrete_symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
 
-        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_attribute&), order_method_t::values criterion);
+        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_method_t::values criterion);
 
-        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, bool(*filter)(const pugi::xml_node&), const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
+        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char *filter, const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at);
 
