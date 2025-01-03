@@ -76,6 +76,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="structvs_1_1templ_1_1preprocessor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">vs::templ::preprocessor Struct Reference</div></div>
@@ -84,27 +85,27 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8d5ecded455c0cd2eec432f7fa841513" id="r_a8d5ecded455c0cd2eec432f7fa841513"><td class="memItemLeft" align="right" valign="top"><a id="a8d5ecded455c0cd2eec432f7fa841513" name="a8d5ecded455c0cd2eec432f7fa841513"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>preprocessor</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, uint64_t seed=0)</td></tr>
-<tr class="separator:a8d5ecded455c0cd2eec432f7fa841513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f85c04f8ad57d553dc30b97e211463d" id="r_a7f85c04f8ad57d553dc30b97e211463d"><td class="memItemLeft" align="right" valign="top"><a id="a7f85c04f8ad57d553dc30b97e211463d" name="a7f85c04f8ad57d553dc30b97e211463d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, uint64_t seed=0)</td></tr>
-<tr class="separator:a7f85c04f8ad57d553dc30b97e211463d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2afd417d11dfc2e4fb488386630557e" id="r_ab2afd417d11dfc2e4fb488386630557e"><td class="memItemLeft" align="right" valign="top"><a id="ab2afd417d11dfc2e4fb488386630557e" name="ab2afd417d11dfc2e4fb488386630557e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>preprocessor</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, logfn_t logfn=default_logfn, uint64_t seed=0)</td></tr>
+<tr class="separator:ab2afd417d11dfc2e4fb488386630557e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70ad429b3526cee1eb4c6d4e1abcc380" id="r_a70ad429b3526cee1eb4c6d4e1abcc380"><td class="memItemLeft" align="right" valign="top"><a id="a70ad429b3526cee1eb4c6d4e1abcc380" name="a70ad429b3526cee1eb4c6d4e1abcc380"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, logfn_t logfn=default_logfn, uint64_t seed=0)</td></tr>
+<tr class="separator:a70ad429b3526cee1eb4c6d4e1abcc380"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf816b5d9fd337b7d21e5add0495a2cf" id="r_adf816b5d9fd337b7d21e5add0495a2cf"><td class="memItemLeft" align="right" valign="top"><a id="adf816b5d9fd337b7d21e5add0495a2cf" name="adf816b5d9fd337b7d21e5add0495a2cf"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr>
 <tr class="separator:adf816b5d9fd337b7d21e5add0495a2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c3efd217ab05010461f3999ec88f418" id="r_a3c3efd217ab05010461f3999ec88f418"><td class="memItemLeft" align="right" valign="top"><a id="a3c3efd217ab05010461f3999ec88f418" name="a3c3efd217ab05010461f3999ec88f418"></a>
-const std::vector&lt; <a class="el" href="structvs_1_1templ_1_1log__t.html">log_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>logs</b> ()</td></tr>
-<tr class="separator:a3c3efd217ab05010461f3999ec88f418"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad838456aafc4bd3ed816880dbf4abcd6" id="r_ad838456aafc4bd3ed816880dbf4abcd6"><td class="memItemLeft" align="right" valign="top"><a id="ad838456aafc4bd3ed816880dbf4abcd6" name="ad838456aafc4bd3ed816880dbf4abcd6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> (log_t::values type, const char *msg,...)</td></tr>
-<tr class="separator:ad838456aafc4bd3ed816880dbf4abcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f1bc942dc64a7b834bbd32ad6975625" id="r_a1f1bc942dc64a7b834bbd32ad6975625"><td class="memItemLeft" align="right" valign="top"><a id="a1f1bc942dc64a7b834bbd32ad6975625" name="a1f1bc942dc64a7b834bbd32ad6975625"></a>
 pugi::xml_document &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>parse</b> ()</td></tr>
 <tr class="separator:a1f1bc942dc64a7b834bbd32ad6975625"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5540b0ab2840f888c58f9666788692c2" id="r_a5540b0ab2840f888c58f9666788692c2"><td class="memItemLeft" align="right" valign="top"><a id="a5540b0ab2840f888c58f9666788692c2" name="a5540b0ab2840f888c58f9666788692c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ns</b> (const char *str)</td></tr>
 <tr class="separator:a5540b0ab2840f888c58f9666788692c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4ad8d7f459e74aedfeb356f17c1a38ea" id="r_a4ad8d7f459e74aedfeb356f17c1a38ea"><td class="memItemLeft" align="right" valign="top"><a id="a4ad8d7f459e74aedfeb356f17c1a38ea" name="a4ad8d7f459e74aedfeb356f17c1a38ea"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>default_logfn</b> (log_t::values, const char *str, const <a class="el" href="structvs_1_1templ_1_1logctx__t.html">logctx_t</a> &amp;ctx)</td></tr>
+<tr class="separator:a4ad8d7f459e74aedfeb356f17c1a38ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>

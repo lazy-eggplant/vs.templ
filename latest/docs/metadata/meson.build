@@ -4,7 +4,7 @@ if ascli_exe.found()
   test(
     'validate metainfo file',
     ascli_exe,
-    args: ['validate', '--no-net', '--pedantic', metainfo_file],
+    args: ['validate', '--no-net', '--pedantic',join_paths(meson.current_source_dir(), metainfo_file)],
   )
 
   ascli_exe = find_program('appstreamcli')

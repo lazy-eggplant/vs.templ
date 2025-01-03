@@ -1,7 +1,55 @@
 \doxysection{vs\+::templ\+::repl Struct Reference}
 \hypertarget{structvs_1_1templ_1_1repl}{}\label{structvs_1_1templ_1_1repl}\index{vs::templ::repl@{vs::templ::repl}}
-
-
-The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
 \item 
-include/stack-\/lang.\+hpp\end{DoxyCompactItemize}
+struct \mbox{\hyperlink{structvs_1_1templ_1_1repl_1_1token__ret__t}{token\+\_\+ret\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structvs_1_1templ_1_1repl_aa874b9b53d4f2cf54886d0ed2041194e}\label{structvs_1_1templ_1_1repl_aa874b9b53d4f2cf54886d0ed2041194e} 
+enum struct {\bfseries error\+\_\+t} \{ \newline
+{\bfseries OK}
+, {\bfseries WRONG\+\_\+\+TYPE}
+, {\bfseries STACK\+\_\+\+EMPTY}
+, {\bfseries STACK\+\_\+\+STILL\+\_\+\+FULL}
+, \newline
+{\bfseries UNKNOWN\+\_\+\+OPERATOR}
+, {\bfseries UNKNOWN\+\_\+\+ARITY}
+, {\bfseries MEMORY}
+, {\bfseries NOT\+\_\+\+IMPLEMENTED}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structvs_1_1templ_1_1repl_a60f4f5eadffec090d821dd1f51fe2062}\label{structvs_1_1templ_1_1repl_a60f4f5eadffec090d821dd1f51fe2062} 
+{\bfseries repl} (const \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}} \&\+\_\+ctx)
+\item 
+std\+::optional$<$ concrete\+\_\+symbol $>$ \mbox{\hyperlink{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c}{eval}} (const char \texorpdfstring{$\ast$}{*}expr) noexcept
+\item 
+\Hypertarget{structvs_1_1templ_1_1repl_a5fa06c2aec7e3199989739c8b43fa63e}\label{structvs_1_1templ_1_1repl_a5fa06c2aec7e3199989739c8b43fa63e} 
+bool {\bfseries push\+\_\+operand} (const concrete\+\_\+symbol \&ref) noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structvs_1_1templ_1_1repl_aed2c880fdf97408d8546149c26b5f335}\label{structvs_1_1templ_1_1repl_aed2c880fdf97408d8546149c26b5f335} 
+static constexpr const char \texorpdfstring{$\ast$}{*} {\bfseries error\+\_\+s} (error\+\_\+t e)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c}\label{structvs_1_1templ_1_1repl_a6b79ea7b823837fe08473c829f87a50c} 
+\index{vs::templ::repl@{vs::templ::repl}!eval@{eval}}
+\index{eval@{eval}!vs::templ::repl@{vs::templ::repl}}
+\doxysubsubsection{\texorpdfstring{eval()}{eval()}}
+{\footnotesize\ttfamily std\+::optional$<$ concrete\+\_\+symbol $>$ vs\+::templ\+::repl\+::eval (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{expr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+Comparison operators
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/stack-\/lang.\+hpp\item 
+src/stack-\/lang.\+cpp\end{DoxyCompactItemize}

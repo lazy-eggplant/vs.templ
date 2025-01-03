@@ -8,6 +8,7 @@
  *
  */
 
+#include "logging.hpp"
 #include <cassert>
 #include <iostream>
 #include <pugixml.hpp>
@@ -36,14 +37,14 @@ int main(int argc, const char **argv) {
   // data.print(std::cout);
   // expects.print(std::cout);
 
-  preprocessor pdoc(data, tmpl, "s:", seed);
+  preprocessor pdoc(data, tmpl, "s:", +[](log_t::values,const char*,const logctx_t&){}, seed);
   auto &result = pdoc.parse();
 
-  for (auto &log : pdoc.logs()) {
+  /*for (auto &log : pdoc.logs()) {
     if (log.type() == log_t::values::ERROR) {
       std::cerr << log.description() << "\n";
     }
-  }
+  }*/
   // if (!pdoc.result){return 3;}
 
   std::stringstream serial_result;
