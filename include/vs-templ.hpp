@@ -132,9 +132,6 @@ struct preprocessor{
 
             const char *USE_SRC_PROP;
 
-            const char *LOG_TYPE_PROP;
-            const char *LOG_MSG_PROP;
-
             void prepare(const char * ns_prefix);
 
             inline ~ns_strings(){if(data!=nullptr)delete[] data;}

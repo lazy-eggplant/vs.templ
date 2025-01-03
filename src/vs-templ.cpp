@@ -1,10 +1,12 @@
 #include <algorithm>
+#include <string>
 #include <string_view>
 #include <variant>
 #include <vs-templ.hpp>
 #include <stack-lang.hpp>
 #include <format>
 
+#include "logging.hpp"
 #include "utils.hpp"
 
 namespace vs{
@@ -573,6 +575,23 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                             if(_continue==false)break;
                         }
+                    }
+                }
+                else if(strcmp(current_template.first->name(),strings.LOG_TAG)==0){
+                    auto _type = current_template.first->attribute("type").as_string("info");
+                    auto _msg = resolve_expr(current_template.first->attribute("type").as_string(""));
+                    log_t::values type = log_t::PANIC;
+                    //        ERROR, WARNING, PANIC, INFO
+                    if(strcmp(_type,"info")==0)type=log_t::INFO;
+                    else if(strcmp(_type,"panic")==0)type=log_t::PANIC;
+                    else if(strcmp(_type,"error")==0)type=log_t::ERROR;
+                    else if(strcmp(_type,"warning")==0)type=log_t::WARNING;
+                    else {/*....*/}
+                    if(_msg.has_value()){
+                        if(std::holds_alternative<std::string>(_msg.value()))log(type,std::get<std::string>(_msg.value()));
+                        else if(std::holds_alternative<int>(_msg.value()))log(type,std::to_string(std::get<int>(_msg.value())));
+                        else if(std::holds_alternative<float>(_msg.value()))log(type,std::to_string(std::get<float>(_msg.value())));
+                        else{/*...*/}
                     }
                 }
                 else {
