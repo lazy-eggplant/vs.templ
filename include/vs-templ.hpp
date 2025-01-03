@@ -126,11 +126,9 @@ struct preprocessor{
             const char *FOR_PROPS_OFFSET_PROP;
             const char *FOR_PROPS_LIMIT_PROP;
 
-            const char *VALUE_SRC_PROP;
-            const char *VALUE_EXPR_PROP;
-            const char *VALUE_FORMAT_PROP;
+            const char *VALUE_PROP;
 
-            const char *USE_SRC_PROP;
+            const char *PROP_TYPE_PROP;
 
             void prepare(const char * ns_prefix);
 
