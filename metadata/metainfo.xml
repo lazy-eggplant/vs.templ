@@ -35,6 +35,7 @@
     </provides>
 
     <releases>
+        <release version="0.3.7" date="2025-01-03"></release>
         <release version="0.3.5" date="2024-12-29"></release>
     </releases>
 </component>

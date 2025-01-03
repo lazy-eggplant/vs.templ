@@ -43,14 +43,6 @@ This is a list of commands which are currently supported:
 
 # Milestones
 
-## `v0.3.7`
-
-- [x] Basic RPN vm done.
-- [x] Improve logging and error resolution in static construction.
-- [x] Add `log` tag.
-- [x] Write some initial docs for the RPN vm features.
-- [x] Add filter to cycles.
-
 ## `v0.3.9`
 
 - [ ] Add environment data when used as a lib.
