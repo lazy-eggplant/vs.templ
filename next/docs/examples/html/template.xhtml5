@@ -13,6 +13,8 @@
 
 <body>
     <main class="container">
+        <!--TODO: once more operations are defined add a more complex test for when-->
+        <h1 s:when=": false">Hello!</h1>
         <table>
             <thead>
                 <tr>
@@ -25,7 +27,7 @@
                 <s:for src="/entry" sort-by="$~name|$~surname" filter=": true">
                     <s:item>
                         <tr>
-                            <td><img s:eval.src="$~pic" /></td>
+                            <td><img s:value.src="$~pic" /></td>
                             <td>
                                 <s:value src=": `$~surname` `$~name` `# ` join" />
                             </td>
