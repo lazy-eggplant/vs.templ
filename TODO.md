@@ -42,10 +42,6 @@ This is a list of commands which are currently supported:
 
 # Milestones
 
-## `v0.3.9`
-
-Just a corrective versions.
-
 ## `v0.3.11`
 
 - [ ] Add support for all props-based commands.

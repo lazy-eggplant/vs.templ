@@ -1,13 +1,1 @@
-## v0.3.9
-
-Just a quick corrective version over v0.3.7 to fix the behaviour of several untested features, like the newly added filters of `for` loops.  
-This release also introduces few more meta-expression operators to allow escaping, and a realistic example emitting HTML to complement the rest of the docs.
-
-### New features
-
-- `when` as a prop command for the conditional rendering of the owner.
-
-### Breaking changes
-
-- `sort-by` and `order-by` will now use `|` in place `,` to split multiple options.
-- `when`/`is` fully replaced. The older syntax was dreadful but necessary without the RPN virtual machine, but now that we have... say hello to `test`/`case`.
+## v0.3.11
