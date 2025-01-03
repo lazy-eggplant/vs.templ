@@ -10,9 +10,8 @@
 
     <content_rating type="oars-1.1" />
     <url type="homepage">https://github.com/lazy-eggplant/vs.templ</url>
-    <developer>
+    <developer id="lazy-eggplant@universe">
         <name>lazy-eggplant</name>
-        <id>lazy-eggplant</id>
     </developer>
 
     <description>
