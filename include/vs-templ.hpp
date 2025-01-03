@@ -27,9 +27,16 @@ namespace vs{
 namespace templ{
 
 
+struct logctx_t{
+    const char* file = nullptr;
+    const char* path = nullptr;
+    int line_start = -1, line_end = -1, column_start = -1, column_end = -1;
+};
+typedef  void (*logfn_t)(log_t::values, const char* str, const logctx_t& ctx);
+
 struct preprocessor{
-    typedef  void (*logfn_t)(log_t::values, const char* str, ...);
-    inline static void default_logfn(log_t::values, const char* str, ...){}
+
+    inline static void default_logfn(log_t::values, const char* str, const logctx_t& ctx){}
 
     private:
         friend struct repl;
@@ -53,11 +60,11 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = nullptr, uint64_t seed = 0){
+        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, uint64_t seed = 0){
             init(root_data,root_template,prefix);
         }
 
-        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = nullptr, uint64_t seed = 0);
+        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, uint64_t seed = 0);
         void reset();
 
         inline pugi::xml_document& parse(){_parse({});return compiled;}
@@ -143,7 +150,7 @@ struct preprocessor{
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at);
 
-        void log(log_t::values, const char* str, ...);
+        void log(log_t::values, const std::string&);
 
 };
 

@@ -67,7 +67,7 @@ Hence, processing these expressions should be very memory efficient.
 ### String operators
 
 - [x] `cat` `[container] cat`, simplified version of `V` where based on the type, the 0 is used as initial and the reducer is the natural `+` operation
-- [ ] `join` to join together strings on the stack with the first string.
+- [x] `join` to join together strings on the stack with the first string.
 - [ ] ~~`rcat` like cat but in reverse order~~
 - [ ] ~~`rjoin` like join but in reverse order~~
 - [ ] `esc` escape number to string literal

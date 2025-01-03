@@ -82,7 +82,7 @@ namespace vs{
 namespace templ{
 std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 25> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 26> commands = {
             {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
             {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
@@ -90,6 +90,29 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
 
 
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
+            {"join", {+[](std::stack<concrete_symbol>& stack, size_t N){
+                            std::string ret;
+                            std::string sep;
+                            {
+                                auto tmp = std::move(stack.top());
+                                stack.pop();
+                                if(std::holds_alternative<std::string>(tmp))
+                                    sep = ( std::get<std::string>(tmp) );
+                                else return error_t::WRONG_TYPE;
+                            }
+                            for(size_t i = 1;i<N;i++){
+                                auto tmp = std::move(stack.top());
+                                stack.pop();
+                                if(std::holds_alternative<std::string>(tmp)){
+                                    if(i!=1)ret += sep + ( std::get<std::string>(tmp) );
+                                    else ret+=( std::get<std::string>(tmp) );
+                                }
+                                else return error_t::WRONG_TYPE;
+                            }
+                            stack.push(ret);
+                            return error_t::OK;
+            }, 3, MAX_ARITY}},
+
             //JOIN
 
             ////Math operators

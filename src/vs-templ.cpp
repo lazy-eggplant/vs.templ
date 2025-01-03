@@ -3,6 +3,7 @@
 #include <variant>
 #include <vs-templ.hpp>
 #include <stack-lang.hpp>
+#include <format>
 
 #include "utils.hpp"
 
@@ -28,9 +29,10 @@ void preprocessor::reset(){
     stack_compiled=decltype(stack_compiled)();
 }
 
-void preprocessor::log(log_t::values type, const char* msg, ...){
+void preprocessor::log(log_t::values type, const std::string& str){
     //TODO: Add prefix & stuff in here like for vs.fltk
-    logfn(type,msg);
+    logctx_t ctx;
+    logfn(type,str.data(),ctx);
 }
 
 //TODO: The next release of pugixml will have support for string_views directly. 
@@ -574,7 +576,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else {
-                    log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());
+                    log(log_t::ERROR, std::format("unrecognized static operation `{}`\n",current_template.first->name()));
                 }
                 
                 current_template.first++;
@@ -634,7 +636,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){}
-                    else {log(log_t::ERROR, "unrecognized static operation `%s`\n",current_template.first->name());}
+                    else {log(log_t::ERROR, std::format("unrecognized static operation `{}`\n",current_template.first->name()));}
                 }
                 else last.append_attribute(attr.name()).set_value(attr.value());
             }

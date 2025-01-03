@@ -1,5 +1,5 @@
 <document xmlns:s="vs.templ">
-    <s:element s:type=":`#hello` `#world` `#cruel` cat:3"/>
+    <s:element s:type=":`#hello` `#world` `#cruel` `#-` join:*"/>
     <s:value src=": `100.0f` `5.f` +"/>
     <tag s:for.src.key.group-1="$/items/section-a/"/>
     <h1>Section A</h1>
