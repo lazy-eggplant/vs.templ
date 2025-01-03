@@ -135,7 +135,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     data = new char[
         STRLEN("for-range")+
         STRLEN("for")+STRLEN("for-props")+STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
-        STRLEN("when")+STRLEN("is")+
+        STRLEN("test")+STRLEN("case")+
         STRLEN("value")+
         STRLEN("eval")+
         STRLEN("element")+STRLEN("type")+
@@ -146,7 +146,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value")+
-        STRLEN("prop.type")
+        STRLEN("prop")+
+        STRLEN("when")
         ];
     int count=0;
     
@@ -160,8 +161,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(ITEM_TAG,"item");
         WRITE(ERROR_TAG,"error");
 
-    WRITE(WHEN_TAG,"when");
-        WRITE(IS_TAG,"is");
+    WRITE(TEST_TAG,"test");
+        WRITE(CASE_TAG,"case");
 
     WRITE(VALUE_TAG,"value");
     WRITE(ELEMENT_TAG,"element");
@@ -184,9 +185,12 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
     WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
         
-    WRITE(VALUE_PROP,"value.src"); 
+    WRITE(VALUE_PROP,"value"); 
 
-    WRITE(PROP_TYPE_PROP,"prop.type");
+    WRITE(PROP_PROP,"prop");
+
+    WRITE(PROP_PROP,"when");
+
 
 #   undef WRITE
 #   undef STRLEN
@@ -551,39 +555,14 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                 }
-                else if(strcmp(current_template.first->name(),strings.WHEN_TAG)==0){
-                    auto subject = resolve_expr(current_template.first->attribute("src").as_string("$"));
-                    for(const auto& entry: current_template.first->children(strings.IS_TAG)){
+                else if(strcmp(current_template.first->name(),strings.TEST_TAG)==0){
+                    for(const auto& entry: current_template.first->children(strings.CASE_TAG)){
                         bool _continue =  entry.attribute("continue").as_bool(false);
                         auto test = resolve_expr(entry.attribute("value").as_string("$"));
 
-                        bool result = false;
-                        //TODO: Perform comparison.
-
-                        if(!subject.has_value() && !test.has_value()){result = true;}
-                        else if (!subject.has_value() || !test.has_value()){result = false;}
-                        else if(std::holds_alternative<int>(subject.value()) && std::holds_alternative<int>(test.value())){
-                            result = std::get<int>(subject.value())==std::get<int>(test.value());
-                        }
-                        else if(std::holds_alternative<float>(subject.value()) && std::holds_alternative<float>(test.value())){
-                            result = std::get<float>(subject.value())-std::get<float>(test.value())<EPS;
-                        }
-                        else{
-
-                            //Move everything to string
-                            const char* op1=nullptr,* op2=nullptr;
-                            if(std::holds_alternative<std::string>(subject.value()))op1=std::get<std::string>(subject.value()).c_str();
-                            else if(std::holds_alternative<const pugi::xml_attribute>(subject.value()))op1=std::get<const pugi::xml_attribute>(subject.value()).as_string();
-                            else if(std::holds_alternative<const pugi::xml_node>(subject.value()))op1=std::get<const pugi::xml_node>(subject.value()).text().as_string();
-
-                            if(std::holds_alternative<std::string>(test.value()))op2=std::get<std::string>(test.value()).c_str();
-                            else if(std::holds_alternative<const pugi::xml_attribute>(test.value()))op2=std::get<const pugi::xml_attribute>(test.value()).as_string();
-                            else if(std::holds_alternative<const pugi::xml_node>(test.value()))op2=std::get<const pugi::xml_node>(test.value()).text().as_string();
-
-                            result = op1!=nullptr && op2!=nullptr && strcmp(op1,op2)==0;
-                        }
+                        auto when =  get_or<int>(resolve_expr(current_template.first->attribute("when").as_string(": false")).value_or(false),false);
                 
-                        if(result){
+                        if(when){
                             stack_template.emplace(entry.begin(),entry.end());
                             _parse(current_template.first);
                             stack_compiled.emplace(current_compiled);
@@ -608,6 +587,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else if(std::holds_alternative<float>(_msg.value()))log(type,std::to_string(std::get<float>(_msg.value())));
                         else{/*...*/}
                     }
+                }
+                else if(strcmp(current_template.first->name(),strings.INCLUDE_TAG)==0){
+                    auto src = current_template.first->attribute("src").as_string(nullptr);
+                    log(log_t::ERROR, std::format("static operation `{}` not implemented yet",current_template.first->name()));
                 }
                 else {
                     log(log_t::ERROR, std::format("unrecognized static operation `{}`",current_template.first->name()));
