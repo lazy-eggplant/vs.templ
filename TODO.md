@@ -27,8 +27,7 @@ This is a list of commands which are currently supported:
 - [ ] for-prop (mostly a copy & paste from `for`)
 - [ ] value
 - [ ] prop (dual of element)
-- [ ] calc
-- [ ] log to add entries to the logging data
+- [x] when
 
 ## Missing features
 
@@ -49,7 +48,7 @@ Just a corrective versions.
 
 ## `v0.3.11`
 
-- [ ] Add support for props-based commands.
+- [ ] Add support for all props-based commands.
 - [x] Complete more of the repl vm operator to cover specs.
 
 ## `v0.3.13`

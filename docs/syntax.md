@@ -2,6 +2,10 @@
 title: Full Syntax reference
 ---
 
+> [!WARNING]  
+> This documentation reflects the expected functionality for v0.5.0.  
+> Some features are still missing, progress is tracked in the repository and on the todo file in root.
+
 `vs.templ` uses special elements and attributes to define which actions the preprocessor should perform.  
 These XML entities are scoped under the namespace `s` by default, but the user can set up a custom one as well.  
 Please, notice that pugixml on which vs.templ is based does not have a full understanding of XML and namespaces are not covered.  
@@ -102,7 +106,7 @@ The symbol `$$` gets loaded with the entry number while iterating, so that it is
 
 To introduce the result of a (meta) expression in the tree.  
 Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.  
-It accepts a an expression `src` as argument, by default set to `$`.
+It accepts an expression `src` as argument, by default set to `$`.
 
 ### `element`
 

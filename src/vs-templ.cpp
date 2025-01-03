@@ -648,11 +648,22 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
                         
                         auto expr = resolve_expr(in);
-
+                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){}
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"use.src.")){}
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){}
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){
+                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                    }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
+                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                    }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){
+                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                    }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"when")){
+                        auto test  = get_or<int>(resolve_expr(attr.value()).value_or(false),false);
+                        if(!test)last.parent().remove_child(last);
+                        break;
+                    }
                     else {log(log_t::ERROR, std::format("unrecognized static operation `{}`",attr.name()));}
                 }
                 else last.append_attribute(attr.name()).set_value(attr.value());
