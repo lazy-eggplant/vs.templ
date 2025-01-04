@@ -15,7 +15,7 @@ This is a list of commands which are currently supported:
 - [x] `element`
 - [x] `when`/`is`
 - [x] `log` to add entries to the logging data
-- [ ] `include` to append template files
+- [x] `include` to append template files
 
 ## Props based
 
@@ -54,7 +54,7 @@ This is a list of commands which are currently supported:
 
 ## `v0.4.x`
 
-- [ ] `include` (only fs when used via CLI)
+- [x] `include` (only fs when used via CLI)
 
 ## `v0.5.x`
 

@@ -50,7 +50,7 @@ int main(int argc, const char* argv[]){
 
     }
 
-    preprocessor doc(data,tmpl,ns_prefix, logfn, seed);
+    preprocessor doc(data,tmpl,ns_prefix, logfn, +[](const char* path, pugi::xml_document& ref){auto result = ref.load_file(path);if(result.status==pugi::status_ok)return true;return false;}, seed);
     auto& result = doc.parse();
     
 

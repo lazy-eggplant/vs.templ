@@ -14,8 +14,10 @@ namespace templ{
 
 const float EPS = 10e-5;
 
-void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, uint64_t seed){
-    logfn=_logfn;
+void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, loadfn_t _loadfn, uint64_t seed){
+    if(_logfn!=nullptr)logfn=_logfn;
+    if(_loadfn!=nullptr)loadfn=_loadfn;
+
     stack_template.emplace(root_template.begin(),root_template.end());
     stack_compiled.emplace(compiled);
     this->root_data=root_data;
@@ -169,7 +171,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(TYPE_ATTR, "type");
 
     WRITE(LOG_TAG,"log");
-    WRITE(LOG_TAG,"include");
+    WRITE(INCLUDE_TAG,"include");
 
     WRITE(FOR_SRC_PROP,"for.src");
     WRITE(FOR_FILTER_PROP,"for.filter");
@@ -589,8 +591,24 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.INCLUDE_TAG)==0){
-                    auto src = current_template.first->attribute("src").as_string(nullptr);
-                    log(log_t::ERROR, std::format("static operation `{}` not implemented yet",current_template.first->name()));
+                    //This is intentionally not an expression. Declarations of files to include should always be fully static to ensure they can be statically traced.
+                    auto src = current_template.first->attribute("src").as_string("");
+                    if(src[0]!=0){
+                        pugi::xml_document localdoc;
+                        if(loadfn(src,localdoc)){
+                            current_template.first->attribute("src").set_value("");
+                            current_template.first->remove_children();
+                            for(auto& child: localdoc.root().first_child().children()){
+                                current_template.first->append_copy(child);
+                            }
+                        }
+                        else log(log_t::WARNING, std::format("Unable to use file `{}`, the content of the `include` will be used instead",src));
+                    }
+                    
+                    stack_template.emplace(current_template.first->begin(),current_template.first->end());
+                    _parse(current_template.first);
+                    stack_compiled.emplace(current_compiled);
+                    
                 }
                 else {
                     log(log_t::ERROR, std::format("unrecognized static operation `{}`",current_template.first->name()));

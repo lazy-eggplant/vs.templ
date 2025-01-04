@@ -139,6 +139,15 @@ It just means that there is no way to recover it, and downstream code will have 
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.  
 For example the inclusion of a file which does not exist can adopt the content of the `include` tag as fallback.
 
+### `include`
+
+Add in place the file defined in `src`. If not found, it uses the content inside `include`. External files will have their root removed when included.  
+File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
+`src` is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.  
+There is no caching provided by `vs.templ`, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.
+
+Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.
+
 ## Operators for properties
 
 `xxx` are used as tags to identify groups under which multiple attributes should be used.
