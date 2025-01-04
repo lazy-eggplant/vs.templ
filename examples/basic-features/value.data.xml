@@ -1,0 +1,4 @@
+<!--
+`./build/vs.templ ./examples/basic-features/value.templ.xml ./examples/basic-features/value.data.xml`
+-->
+<data></data>

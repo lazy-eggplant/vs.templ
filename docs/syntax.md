@@ -68,6 +68,38 @@ Using the following XML file as reference:
 Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.  
 There are several to control flow or add content to the final document.
 
+### `value`
+
+To introduce the result of a (meta) expression in the tree.  
+**Integers** and **floats** are automatically serialized before adding them to the page.  
+**strings** are just appended.  
+**attributes** are interpreted as strings.  
+**nodes** are added as subtree.
+
+`value` accepts an expression `src` as argument, by default set to `$`.  
+If the expression fails, its body will be used instead.
+
+#### Examples
+
+```xml
+<s:value src=":...">This fails, so this text will be used</s:value>
+<s:value src=": `1` `2` +">Since the operation is ok and returns `3` as integer, this text will not show up</s:value>
+```
+
+### `element`
+
+This command is usedto generate a new element whose type is by an expression passed via the attribute `s:type` (this one is specifically namespaced).  
+Any other property and child will be preserved.
+
+In case of failure, the tag is dropped.
+
+#### Examples
+
+```xml
+<s:element s:type="#tag-name" prop-1="Hello">Content</s:element>
+<s:element s:type=":" prop-1="Hello">This will not be shown as the expression is not valid</s:element>
+```
+
 ### `for-range`
 
 - `tag` is the name of the symbol where the current value will be stored. If empty the default `$` is used.
@@ -112,17 +144,6 @@ Both `for` & `for-props` support the following list of children. You can use as 
 - `error`: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists `empty` is used)
 
 The symbol `$$` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.
-
-### `value`
-
-To introduce the result of a (meta) expression in the tree.  
-Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.  
-It accepts an expression `src` as argument, by default set to `$`.
-
-### `element`
-
-To generate a new element whose type is determined by an expression `s:type` (this attribute is specifically namespaced).  
-Any other property and child will be preserved.
 
 ### `check` & `case`
 

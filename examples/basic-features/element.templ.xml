@@ -1,0 +1,7 @@
+<doc xmlns:s="vs.templ">
+    <s:element s:type="#tag-name" prop-1="Hello">Content
+    </s:element>
+    <br />
+    <s:element s:type=":" prop-1="Hello">This will not be shown as the expression is not valid
+    </s:element>
+</doc>
