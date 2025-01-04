@@ -193,18 +193,24 @@ Similarly, circular dependencies are not tested. It is up to you to use a load f
 
 `xxx` are used as tags to identify groups under which multiple attributes should be used.
 
-### `for.SUB-ATTR.[prop/value].xxx` & `for-props.SUB-ATTR.[prop/value].xxx`
+### for.SUB-ATTR.xxx & for-props.SUB-ATTR.xxx
 
 As prop, attribute variants of `for` and `for-props`. They add attributes/values to the node they are defined within.
 
-### `value.xxx`
+### value.xxx
 
 As for the element version, to introduce the value of an expression as value of a prop `xxx`.
 
-### `prop.[name/value].xxx`
+### prop.xxx
 
-To generate new property whose name and value are determined by the relative command props.
+To generate new property whose name and value are determined by the pair passed as value.
 
-### `when`
+#### Examples
+
+```xml
+<tag s:prop.0="#hello|#world" s:prop.1="#hallo|#Welt"/>
+```
+
+### when
 
 To test if the current element should be shown, if and only if the expression is `true`.
