@@ -78,6 +78,13 @@ struct preprocessor{
         void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, loadfn_t loadfn = default_loadfn,  uint64_t seed = 0);
         void reset();
 
+        /**
+         * @brief Reset the symbols and introduce an environment
+         * 
+         * @param env a table of symbols to introduce in the preprocessor
+         */
+        inline void load_env(std::map<std::string,symbol>& env){symbols.reset(env);}
+
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
 

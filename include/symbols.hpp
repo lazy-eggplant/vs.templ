@@ -9,10 +9,10 @@
 namespace vs{
 namespace templ{
 
-//Symbol which can be saved in the table
-typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute> symbol;
+//Symbol which can be saved in the table. Now they are the same as concrete_symbol
+typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute, std::string, float> symbol;
 
-//Extended symbol which is the result of computations. String is introduced as they cannot be set as values for symbols, but they can be computed.
+//Extended symbol which is the result of computations. ~~String is introduced as they cannot be set as values for symbols, but they can be computed.~~
 typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute, std::string, float> concrete_symbol;
 
 //Utility class to implement a list of symbols. Use for `for` like structures in pattern matching.
@@ -33,6 +33,7 @@ struct symbol_map{
         };
 
         void reset(){symbols=decltype(symbols)();}
+        void reset(std::map<std::string,symbol>& src){symbols=decltype(symbols)();symbols.push_back(std::move(src));}
 
         std::optional<symbol> resolve(std::string_view name) const{
             for(auto it = symbols.rbegin();it!=symbols.rend();it++){
