@@ -118,10 +118,12 @@ A full list of feasible expression types:</p>
 <li>Empty expression, generally representing errors</li>
 <li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped)</li>
 <li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
-<li>Paths, of which three forms exists:</li>
+<li>Paths, of which three forms exists:<ul>
 <li>those starting with <code>$</code>. This special symbol is used to mark the nearest scope in the data XML being visited, or root if none.</li>
 <li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
+</ul>
+</li>
 </ul>
 <p>Path expressions will continue with one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
 If terminated with <code>~prop-name</code> the relevant attribute is selected.
