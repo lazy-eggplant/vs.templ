@@ -505,6 +505,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     //It is possible for it to generate strange results as strings are not validated by pugi
                     auto symbol = resolve_expr(current_template.first->attribute(strings.TYPE_ATTR).as_string("$"));
                     if(!symbol.has_value()){
+                        current_template.first->parent().remove_child(*current_template.first);
                     }
                     else if(std::holds_alternative<std::string>(symbol.value())){
                         auto child = current_compiled.append_child(std::get<std::string>(symbol.value()).c_str());

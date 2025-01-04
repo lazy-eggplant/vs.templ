@@ -160,6 +160,26 @@ However, the preprocessor should not generally throw exceptions, only emit error
 <h2 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h2>
 <p>Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.<br />
 There are several to control flow or add content to the final document.</p>
+<h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
+<p>To introduce the result of a (meta) expression in the tree.<br />
+<strong>Integers</strong> and <strong>floats</strong> are automatically serialized before adding them to the page.<br />
+<strong>strings</strong> are just appended.<br />
+<strong>attributes</strong> are interpreted as strings.<br />
+<strong>nodes</strong> are added as subtree.</p>
+<p><code>value</code> accepts an expression <code>src</code> as argument, by default set to <code>$</code>.<br />
+If the expression fails, its body will be used instead.</p>
+<h4 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:value src=&quot;:...&quot;&gt;This fails, so this text will be used&lt;/s:value&gt;
+&lt;s:value src=&quot;: `1` `2` +&quot;&gt;Since the operation is ok and returns `3` as integer, this text will not show up&lt;/s:value&gt;
+</code></pre>
+<h3 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h3>
+<p>This command is usedto generate a new element whose type is by an expression passed via the attribute <code>s:type</code> (this one is specifically namespaced).<br />
+Any other property and child will be preserved.</p>
+<p>In case of failure, the tag is dropped.</p>
+<h4 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:element s:type=&quot;#tag-name&quot; prop-1=&quot;Hello&quot;&gt;Content&lt;/s:element&gt;
+&lt;s:element s:type=&quot;:&quot; prop-1=&quot;Hello&quot;&gt;This will not be shown as the expression is not valid&lt;/s:element&gt;
+</code></pre>
 <h3 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
 <ul>
 <li><code>tag</code> is the name of the symbol where the current value will be stored. If empty the default <code>$</code> is used.</li>
@@ -199,13 +219,6 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
 <p>The symbol <code>$$</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.</p>
-<h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
-<p>To introduce the result of a (meta) expression in the tree.<br />
-Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.<br />
-It accepts an expression <code>src</code> as argument, by default set to <code>$</code>.</p>
-<h3 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h3>
-<p>To generate a new element whose type is determined by an expression <code>s:type</code> (this attribute is specifically namespaced).<br />
-Any other property and child will be preserved.</p>
 <h3 id="check-case"><code>check</code> &amp; <code>case</code><a class="headerlink" href="#check-case" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
 Inside the body of <code>test</code> we have one or more <code>case</code>.<br />
