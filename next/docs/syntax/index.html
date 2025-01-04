@@ -218,6 +218,12 @@ Attributes for <code>case</code>:</p>
 It just means that there is no way to recover it, and downstream code will have to live with its failure.<br />
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.<br />
 For example the inclusion of a file which does not exist can adopt the content of the <code>include</code> tag as fallback.</p>
+<h3 id="include"><code>include</code><a class="headerlink" href="#include" title="Permanent link">#</a></h3>
+<p>Add in place the file defined in <code>src</code>. If not found, it uses the content inside <code>include</code>. External files will have their root removed when included.<br />
+File loading for a single <code>include</code> instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.<br />
+<code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.<br />
+There is no caching provided by <code>vs.templ</code>, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.</p>
+<p>Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>

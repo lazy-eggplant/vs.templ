@@ -85,12 +85,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab2afd417d11dfc2e4fb488386630557e" id="r_ab2afd417d11dfc2e4fb488386630557e"><td class="memItemLeft" align="right" valign="top"><a id="ab2afd417d11dfc2e4fb488386630557e" name="ab2afd417d11dfc2e4fb488386630557e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>preprocessor</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, logfn_t logfn=default_logfn, uint64_t seed=0)</td></tr>
-<tr class="separator:ab2afd417d11dfc2e4fb488386630557e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70ad429b3526cee1eb4c6d4e1abcc380" id="r_a70ad429b3526cee1eb4c6d4e1abcc380"><td class="memItemLeft" align="right" valign="top"><a id="a70ad429b3526cee1eb4c6d4e1abcc380" name="a70ad429b3526cee1eb4c6d4e1abcc380"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, logfn_t logfn=default_logfn, uint64_t seed=0)</td></tr>
-<tr class="separator:a70ad429b3526cee1eb4c6d4e1abcc380"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95fdf4e6c797432743dbd540a60e6e6c" id="r_a95fdf4e6c797432743dbd540a60e6e6c"><td class="memItemLeft" align="right" valign="top"><a id="a95fdf4e6c797432743dbd540a60e6e6c" name="a95fdf4e6c797432743dbd540a60e6e6c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>preprocessor</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, <a class="el" href="vs-templ_8hpp.html#a4a80bfa4b3f465ed810c0c449c008b66">logfn_t</a> logfn=default_logfn, <a class="el" href="vs-templ_8hpp.html#a6208f78845fd01fd4361b6142895fa87">loadfn_t</a> loadfn=default_loadfn, uint64_t seed=0)</td></tr>
+<tr class="separator:a95fdf4e6c797432743dbd540a60e6e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73e01d161fc276e7e76b51e152f28708" id="r_a73e01d161fc276e7e76b51e152f28708"><td class="memItemLeft" align="right" valign="top"><a id="a73e01d161fc276e7e76b51e152f28708" name="a73e01d161fc276e7e76b51e152f28708"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (const pugi::xml_node &amp;root_data, const pugi::xml_node &amp;root_template, const char *prefix=&quot;s:&quot;, <a class="el" href="vs-templ_8hpp.html#a4a80bfa4b3f465ed810c0c449c008b66">logfn_t</a> logfn=default_logfn, <a class="el" href="vs-templ_8hpp.html#a6208f78845fd01fd4361b6142895fa87">loadfn_t</a> loadfn=default_loadfn, uint64_t seed=0)</td></tr>
+<tr class="separator:a73e01d161fc276e7e76b51e152f28708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf816b5d9fd337b7d21e5add0495a2cf" id="r_adf816b5d9fd337b7d21e5add0495a2cf"><td class="memItemLeft" align="right" valign="top"><a id="adf816b5d9fd337b7d21e5add0495a2cf" name="adf816b5d9fd337b7d21e5add0495a2cf"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr>
 <tr class="separator:adf816b5d9fd337b7d21e5add0495a2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,6 +106,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ad8d7f459e74aedfeb356f17c1a38ea" id="r_a4ad8d7f459e74aedfeb356f17c1a38ea"><td class="memItemLeft" align="right" valign="top"><a id="a4ad8d7f459e74aedfeb356f17c1a38ea" name="a4ad8d7f459e74aedfeb356f17c1a38ea"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>default_logfn</b> (log_t::values, const char *str, const <a class="el" href="structvs_1_1templ_1_1logctx__t.html">logctx_t</a> &amp;ctx)</td></tr>
 <tr class="separator:a4ad8d7f459e74aedfeb356f17c1a38ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5258657feb6763d20d50345a6b2325a8" id="r_a5258657feb6763d20d50345a6b2325a8"><td class="memItemLeft" align="right" valign="top"><a id="a5258657feb6763d20d50345a6b2325a8" name="a5258657feb6763d20d50345a6b2325a8"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>default_loadfn</b> (const char *path, pugi::xml_document &amp;)</td></tr>
+<tr class="separator:a5258657feb6763d20d50345a6b2325a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
