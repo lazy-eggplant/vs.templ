@@ -20,13 +20,9 @@ This is a list of commands which are currently supported:
 ## Props based
 
 - [ ] for
-  - [ ] base structure
-  - [ ] filter
-  - [ ] sort & order
-  - [ ] limit & offset
-- [ ] for-prop (mostly a copy & paste from `for`)
+- [ ] for-prop
 - [x] value
-- [ ] prop (dual of element)
+- [x] prop (dual of element)
 - [x] when
 
 ## Missing features

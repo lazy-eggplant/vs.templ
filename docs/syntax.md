@@ -201,9 +201,9 @@ As prop, attribute variants of `for` and `for-props`. They add attributes/values
 
 As for the element version, to introduce the value of an expression as value of a prop `xxx`.
 
-### `prop.xxx`
+### `prop.[name/value].xxx`
 
-To generate new property whose name is determined by an expression and assign whatever values was assigned to `prop.xxx`.
+To generate new property whose name and value are determined by the relative command props.
 
 ### `when`
 
