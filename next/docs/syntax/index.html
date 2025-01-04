@@ -136,8 +136,8 @@ There are also two special meta-properties which can be accessed this way:</p>
 Those are run by a stack VM and can be sparingly used to perform more complex tasks.<br />
 They return a single expression in one of the other real types.<br />
 The full specifications of these meta-expressions can be found <a href="../repl-vm/">here</a>.<br />
-For most scenarios, the only ones really needed are casts, integer math operations and <code>cat</code> to merge strings.</p>
-<p>No further combination or format is allowed in expression. Else, those might lead to undefined behaviour.<br />
+For most scenarios, only a minor subset is going to be useful, like some basic integer maths, comparisons and <code>cat</code> to merge strings.</p>
+<p>No further combination or format is allowed in expression. Else, their parsing will fail.<br />
 However, the preprocessor should not generally throw exceptions, only emit error or warning logs.</p>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h3>
 <p>Using the following XML file as reference:</p>
@@ -158,7 +158,8 @@ However, the preprocessor should not generally throw exceptions, only emit error
 <li>Assuming a for cycle in <code>/hello/</code>, its children will be navigated and <code>$~attribute-a</code> will be resolved in <code>value-0</code> and <code>value-1</code>.</li>
 </ul>
 <h2 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h2>
-<p>Operators acting over elements will use information from the current static data sub-path to further generate a parametrized version of what shown in their children on the template tree.</p>
+<p>Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.<br />
+There are several to control flow or add content to the final document.</p>
 <h3 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
 <ul>
 <li><code>tag</code> is the name of the symbol where the current value will be stored. If empty the default <code>$</code> is used.</li>
@@ -166,7 +167,14 @@ However, the preprocessor should not generally throw exceptions, only emit error
 <li><code>to</code> final value.</li>
 <li><code>step</code> step of increment. It can be negative. If so <code>to&lt;from</code> must hold true.</li>
 </ul>
-<p>Infinite cycles are detected before execution, in which case no cycle will run. Unlike other <code>for</code> variants, there is no header, footer or empty child. Anything inside a <code>for-range</code> is interpreted as <code>item</code>.</p>
+<p>Infinite cycles are detected before execution, in which case no step will run. Unlike other <code>for</code> variants, there is no header, footer or empty child. Anything inside a <code>for-range</code> is interpreted as <code>item</code>.</p>
+<h4 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:for-range tag=&quot;i&quot; from=&quot;0&quot; to=&quot;10&quot; step=&quot;1&quot;&gt;
+    &lt;s:for-range tag=&quot;j&quot; from=&quot;0&quot; to=&quot;: `{i}`&quot; step=&quot;1&quot;&gt;
+        &lt;s:value src=&quot;: `{j}` `{i}` mul&quot; /&gt;
+    &lt;/s:for-range&gt;
+&lt;/s:for-range&gt;
+</code></pre>
 <h3 id="for-for-props"><code>for</code> &amp; <code>for-props</code><a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h3>
 <p>To iterate over children and props of an element respectively.<br />
 Aside from that, they mostly share the same interface.</p>
@@ -190,7 +198,7 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>item</code>: the main body</li>
 <li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
-<p>The symbol <code>$$</code> gets loaded with the entry number while iterating, so that it is possible to count which one we are at.</p>
+<p>The symbol <code>$$</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.</p>
 <h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
 <p>To introduce the result of a (meta) expression in the tree.<br />
 Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.<br />
