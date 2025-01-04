@@ -37,9 +37,9 @@ Finally, there are stack meta-expressions, starting with `:`.
 Those are run by a stack VM and can be sparingly used to perform more complex tasks.  
 They return a single expression in one of the other real types.  
 The full specifications of these meta-expressions can be found [here](repl-vm.md).  
-For most scenarios, the only ones really needed are casts, integer math operations and `cat` to merge strings.
+For most scenarios, only a minor subset is going to be useful, like some basic integer maths, comparisons and `cat` to merge strings.
 
-No further combination or format is allowed in expression. Else, those might lead to undefined behaviour.  
+No further combination or format is allowed in expression. Else, their parsing will fail.  
 However, the preprocessor should not generally throw exceptions, only emit error or warning logs.
 
 ### Examples
@@ -65,7 +65,8 @@ Using the following XML file as reference:
 
 ## Operators for elements
 
-Operators acting over elements will use information from the current static data sub-path to further generate a parametrized version of what shown in their children on the template tree.
+Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.  
+There are several to control flow or add content to the final document.
 
 ### `for-range`
 
@@ -74,7 +75,17 @@ Operators acting over elements will use information from the current static data
 - `to` final value.
 - `step` step of increment. It can be negative. If so `to<from` must hold true.
 
-Infinite cycles are detected before execution, in which case no cycle will run. Unlike other `for` variants, there is no header, footer or empty child. Anything inside a `for-range` is interpreted as `item`.
+Infinite cycles are detected before execution, in which case no step will run. Unlike other `for` variants, there is no header, footer or empty child. Anything inside a `for-range` is interpreted as `item`.
+
+#### Example
+
+```xml
+<s:for-range tag="i" from="0" to="10" step="1">
+    <s:for-range tag="j" from="0" to=": `{i}`" step="1">
+        <s:value src=": `{j}` `{i}` mul" />
+    </s:for-range>
+</s:for-range>
+```
 
 ### `for` & `for-props`
 
@@ -100,7 +111,7 @@ Both `for` & `for-props` support the following list of children. You can use as 
 - `item`: the main body
 - `error`: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists `empty` is used)
 
-The symbol `$$` gets loaded with the entry number while iterating, so that it is possible to count which one we are at.
+The symbol `$$` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.
 
 ### `value`
 

@@ -21,12 +21,14 @@
         stack.pop();\
         if(type!=FLOAT && std::holds_alternative<int>(tmp)){\
             auto& ret = ret_i;\
-            ret OPERATOR ( std::get<int>(tmp) );\
+            if(i==0)ret=std::get<int>(tmp);\
+            else ret OPERATOR ( std::get<int>(tmp) );\
             type = INT;\
         }\
         else if(type!=INT && std::holds_alternative<float>(tmp)){\
             auto& ret = ret_f;\
-            ret OPERATOR ( std::get<float>(tmp) );\
+            if(i==0)ret=std::get<float>(tmp);\
+            else ret OPERATOR ( std::get<float>(tmp) );\
             type = FLOAT;\
         }\
         else return error_t::WRONG_TYPE;\
