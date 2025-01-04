@@ -630,10 +630,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
                     if(false){}
                     //Matches for.src.key.* even without named suffix
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.key")){
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){
                         int subgroup_length = 0;
-                        if(attr.name()[ns_prefix.length()+sizeof("for.src.key")-1]=='\0'){}
-                        else if(attr.name()[ns_prefix.length()+sizeof("for.src.key")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.src.key")-1+1;}
+                        if(attr.name()[ns_prefix.length()+sizeof("for.src")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for.src")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.src")-1+1;}
                         else {continue;}
 
 #                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
@@ -641,19 +641,16 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                                     memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
                                                     if(subgroup_length!=0){\
                                                         NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
-                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.src.key")-1+1,subgroup_length);\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.src")-1+1,subgroup_length);\
                                                     }\
                                                     NAME [sizeof(NAME)-1]=0;
 
                         //Compute all the other tags dynamically
-                        WRITE(FOR_SRC_KEY_PROP,"for.src.key");
-                        WRITE(FOR_SRC_VALUE_PROP,"for.src.value");
+                        WRITE(FOR_SRC_KEY_PROP,"for.src");
                         WRITE(FOR_SORT_BY_PROP,"for.sort-by");
                         WRITE(FOR_ORDER_BY_PROP,"for.order-by");
                         WRITE(FOR_LIMIT_PROP,"for.limit");
                         WRITE(FOR_OFFSET_PROP,"for.offset");
-                        WRITE(FOR_FORMAT_KEY_PROP,"for.format.key");
-                        WRITE(FOR_FORMAT_VALUE_PROP,"for.format.value");
 #                       undef WRITE
 
                         //Collect values
@@ -670,22 +667,31 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         auto expr = resolve_expr(in);
                         log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.")){
+                        /*Skip, already considered in the earlier block*/
+                    }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){
                         log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.name.")){
-                        auto _name = resolve_expr(attr.value());
-                        auto _tag = attr.name()+ns_prefix.length()+sizeof("prop.name.")-1;
-                        auto _value = resolve_expr(current_template.first->attribute((ns_prefix + "prop.value." + _tag).c_str()).as_string(""));
-
-                        if(_name.has_value() && _value.has_value()){
-                            auto name = to_string(_name.value());
-                            auto value = to_string(_value.value());
-                            if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
-                        }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.")){
+                        /*Skip, already considered in the earlier block*/
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.value.")){
-                        //SKIP since it is captured in `prop.name.`
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
+                        auto pair = split_string(attr.value(),'|');
+                        if(pair.size()!=2){
+                            log(log_t::ERROR, std::format("unrecognized pair for prop operator `prop`"));
+                        }
+                        else{
+                            auto _name = resolve_expr(pair[0]);
+                            auto _value = resolve_expr(pair[1]);
+
+                            if(_name.has_value() && _value.has_value()){
+                               auto name = to_string(_name.value());
+                                auto value = to_string(_value.value());
+                                if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
+                                /*Error?*/
+                            }
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){
                         auto val = resolve_expr(attr.value());

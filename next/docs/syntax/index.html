@@ -255,13 +255,16 @@ There is no caching provided by <code>vs.templ</code>, if you need it you will h
 </code></pre>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
-<h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>
+<h3 id="forsub-attrxxx-for-propssub-attrxxx">for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx<a class="headerlink" href="#forsub-attrxxx-for-propssub-attrxxx" title="Permanent link">#</a></h3>
 <p>As prop, attribute variants of <code>for</code> and <code>for-props</code>. They add attributes/values to the node they are defined within.</p>
-<h3 id="valuexxx"><code>value.xxx</code><a class="headerlink" href="#valuexxx" title="Permanent link">#</a></h3>
+<h3 id="valuexxx">value.xxx<a class="headerlink" href="#valuexxx" title="Permanent link">#</a></h3>
 <p>As for the element version, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
-<h3 id="propnamevaluexxx"><code>prop.[name/value].xxx</code><a class="headerlink" href="#propnamevaluexxx" title="Permanent link">#</a></h3>
-<p>To generate new property whose name and value are determined by the relative command props.</p>
-<h3 id="when"><code>when</code><a class="headerlink" href="#when" title="Permanent link">#</a></h3>
+<h3 id="propxxx">prop.xxx<a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
+<p>To generate new property whose name and value are determined by the pair passed as value.</p>
+<h4 id="examples_4">Examples<a class="headerlink" href="#examples_4" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;tag s:prop.0=&quot;#hello|#world&quot; s:prop.1=&quot;#hallo|#Welt&quot;/&gt;
+</code></pre>
+<h3 id="when">when<a class="headerlink" href="#when" title="Permanent link">#</a></h3>
 <p>To test if the current element should be shown, if and only if the expression is <code>true</code>.</p>
               
             </div>
