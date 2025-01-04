@@ -172,7 +172,7 @@ If the expression fails, its body will be used instead.</p>
 <pre><code class="language-xml">&lt;s:value src=&quot;:...&quot;&gt;This fails, so this text will be used&lt;/s:value&gt;
 &lt;s:value src=&quot;: `1` `2` +&quot;&gt;Since the operation is ok and returns `3` as integer, this text will not show up&lt;/s:value&gt;
 </code></pre>
-<h3 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h3>
+<h3 id="element">element<a class="headerlink" href="#element" title="Permanent link">#</a></h3>
 <p>This command is usedto generate a new element whose type is by an expression passed via the attribute <code>s:type</code> (this one is specifically namespaced).<br />
 Any other property and child will be preserved.</p>
 <p>In case of failure, the tag is dropped.</p>
@@ -180,7 +180,7 @@ Any other property and child will be preserved.</p>
 <pre><code class="language-xml">&lt;s:element s:type=&quot;#tag-name&quot; prop-1=&quot;Hello&quot;&gt;Content&lt;/s:element&gt;
 &lt;s:element s:type=&quot;:&quot; prop-1=&quot;Hello&quot;&gt;This will not be shown as the expression is not valid&lt;/s:element&gt;
 </code></pre>
-<h3 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
+<h3 id="for-range">for-range<a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
 <ul>
 <li><code>tag</code> is the name of the symbol where the current value will be stored. If empty the default <code>$</code> is used.</li>
 <li><code>from</code> starting value.</li>
@@ -195,7 +195,7 @@ Any other property and child will be preserved.</p>
     &lt;/s:for-range&gt;
 &lt;/s:for-range&gt;
 </code></pre>
-<h3 id="for-for-props"><code>for</code> &amp; <code>for-props</code><a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h3>
+<h3 id="for-for-props">for &amp; for-props<a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h3>
 <p>To iterate over children and props of an element respectively.<br />
 Aside from that, they mostly share the same interface.</p>
 <ul>
@@ -219,7 +219,7 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
 <p>The symbol <code>$$</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.</p>
-<h3 id="check-case"><code>check</code> &amp; <code>case</code><a class="headerlink" href="#check-case" title="Permanent link">#</a></h3>
+<h3 id="test-case">test &amp; case<a class="headerlink" href="#test-case" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
 Inside the body of <code>test</code> we have one or more <code>case</code>.<br />
 Attributes for <code>case</code>:</p>
@@ -228,7 +228,7 @@ Attributes for <code>case</code>:</p>
 <li><code>when</code> an expression to compare against.</li>
 </ul>
 <p>The order of <code>case</code> elements is important and determines the overall flow.</p>
-<h3 id="log"><code>log</code><a class="headerlink" href="#log" title="Permanent link">#</a></h3>
+<h3 id="log">log<a class="headerlink" href="#log" title="Permanent link">#</a></h3>
 <p>Optional argument <code>type</code> set to:</p>
 <ul>
 <li><code>notify</code> when something should be logged, but there is no fault or suspicious behaviour ongoing.</li>
@@ -241,12 +241,18 @@ Attributes for <code>case</code>:</p>
 It just means that there is no way to recover it, and downstream code will have to live with its failure.<br />
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.<br />
 For example the inclusion of a file which does not exist can adopt the content of the <code>include</code> tag as fallback.</p>
-<h3 id="include"><code>include</code><a class="headerlink" href="#include" title="Permanent link">#</a></h3>
+<h3 id="include">include<a class="headerlink" href="#include" title="Permanent link">#</a></h3>
 <p>Add in place the file defined in <code>src</code>. If not found, it uses the content inside <code>include</code>. External files will have their root removed when included.<br />
 File loading for a single <code>include</code> instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.<br />
 <code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.<br />
 There is no caching provided by <code>vs.templ</code>, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.</p>
 <p>Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
+<h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:include src=&quot;component.xml&quot;&gt;
+    &lt;h1&gt;Placeholder title&lt;/h1&gt;
+    &lt;p&gt;This will be used if the import fails. Leave empty if not needed&lt;/p&gt;
+&lt;/s:include&gt;
+</code></pre>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>

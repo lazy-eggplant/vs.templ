@@ -146,7 +146,8 @@ struct preprocessor{
 
             const char *VALUE_PROP;
 
-            const char *PROP_PROP;
+            const char *PROP_NAME_PROP;
+            const char *PROP_VALUE_PROP;
 
             const char *WHEN_PROP;
 
