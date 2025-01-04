@@ -3,7 +3,7 @@ var indexSectionsWithContent =
   0: "ceglprstv",
   1: "cglprst",
   2: "v",
-  3: "e",
+  3: "el",
   4: "l"
 };
 

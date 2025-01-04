@@ -37,7 +37,7 @@ int main(int argc, const char **argv) {
   // data.print(std::cout);
   // expects.print(std::cout);
 
-  preprocessor pdoc(data, tmpl, "s:", +[](log_t::values,const char*,const logctx_t&){}, seed);
+  preprocessor pdoc(data, tmpl, "s:", +[](log_t::values,const char*,const logctx_t&){}, nullptr, seed);
   auto &result = pdoc.parse();
 
   /*for (auto &log : pdoc.logs()) {
