@@ -25,7 +25,7 @@ This is a list of commands which are currently supported:
   - [ ] sort & order
   - [ ] limit & offset
 - [ ] for-prop (mostly a copy & paste from `for`)
-- [ ] value
+- [x] value
 - [ ] prop (dual of element)
 - [x] when
 

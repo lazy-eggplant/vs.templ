@@ -86,7 +86,7 @@ If the expression fails, its body will be used instead.
 <s:value src=": `1` `2` +">Since the operation is ok and returns `3` as integer, this text will not show up</s:value>
 ```
 
-### `element`
+### element
 
 This command is usedto generate a new element whose type is by an expression passed via the attribute `s:type` (this one is specifically namespaced).  
 Any other property and child will be preserved.
@@ -100,7 +100,7 @@ In case of failure, the tag is dropped.
 <s:element s:type=":" prop-1="Hello">This will not be shown as the expression is not valid</s:element>
 ```
 
-### `for-range`
+### for-range
 
 - `tag` is the name of the symbol where the current value will be stored. If empty the default `$` is used.
 - `from` starting value.
@@ -119,7 +119,7 @@ Infinite cycles are detected before execution, in which case no step will run. U
 </s:for-range>
 ```
 
-### `for` & `for-props`
+### for & for-props
 
 To iterate over children and props of an element respectively.  
 Aside from that, they mostly share the same interface.
@@ -145,7 +145,7 @@ Both `for` & `for-props` support the following list of children. You can use as 
 
 The symbol `$$` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.
 
-### `check` & `case`
+### test & case
 
 To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.  
 Inside the body of `test` we have one or more `case`.  
@@ -156,7 +156,7 @@ Attributes for `case`:
 
 The order of `case` elements is important and determines the overall flow.
 
-### `log`
+### log
 
 Optional argument `type` set to:
 
@@ -171,7 +171,7 @@ It just means that there is no way to recover it, and downstream code will have 
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.  
 For example the inclusion of a file which does not exist can adopt the content of the `include` tag as fallback.
 
-### `include`
+### include
 
 Add in place the file defined in `src`. If not found, it uses the content inside `include`. External files will have their root removed when included.  
 File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
@@ -179,6 +179,15 @@ File loading for a single `include` instance appearing in code is only done once
 There is no caching provided by `vs.templ`, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.
 
 Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.
+
+#### Examples
+
+```xml
+<s:include src="component.xml">
+    <h1>Placeholder title</h1>
+    <p>This will be used if the import fails. Leave empty if not needed</p>
+</s:include>
+```
 
 ## Operators for properties
 

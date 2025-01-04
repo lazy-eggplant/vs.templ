@@ -148,7 +148,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value")+
-        STRLEN("prop")+
+        STRLEN("prop.name")+STRLEN("prop.value")+
         STRLEN("when")
         ];
     int count=0;
@@ -189,9 +189,10 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         
     WRITE(VALUE_PROP,"value"); 
 
-    WRITE(PROP_PROP,"prop");
+    WRITE(PROP_NAME_PROP,"prop.name");
+    WRITE(PROP_VALUE_PROP,"prop.value");
 
-    WRITE(PROP_PROP,"when");
+    WRITE(WHEN_PROP,"when");
 
 
 #   undef WRITE
@@ -672,11 +673,18 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){
                         log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.name.")){
                         log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){
-                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                        auto val = resolve_expr(attr.value());
+                        auto attribute = last.append_attribute(attr.name()+ns_prefix.length()+sizeof("value.")-1);
+                        if(val.has_value()){
+                            if(std::holds_alternative<int>(val.value()))attribute.set_value(std::to_string(std::get<int>(val.value())).c_str());
+                            else if(std::holds_alternative<float>(val.value()))attribute.set_value(std::to_string(std::get<float>(val.value())).c_str());
+                            else if(std::holds_alternative<std::string>(val.value()))attribute.set_value(std::get<std::string>(val.value()).c_str());
+                            /* Error? */
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"when")){
                         auto test  = get_or<int>(resolve_expr(attr.value()).value_or(false),false);
