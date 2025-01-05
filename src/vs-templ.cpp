@@ -74,6 +74,12 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
         else if(std::holds_alternative<const pugi::xml_attribute>(tmp.value())){
             return std::get<const pugi::xml_attribute>(tmp.value());
         }
+        else if(std::holds_alternative<std::string>(tmp.value())){
+            return std::get<std::string>(tmp.value());
+        }
+        else if(std::holds_alternative<float>(tmp.value())){
+            return std::get<float>(tmp.value());
+        }
         if(close==str_len)return ref;        //End of string was met earlier
         idx=close+1;
     }

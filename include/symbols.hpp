@@ -37,9 +37,10 @@ struct symbol_map{
         void reset(){symbols=decltype(symbols)();}
         void reset(std::map<std::string,symbol>& src){symbols=decltype(symbols)();symbols.push_back(std::move(src));}
 
-        std::optional<symbol> resolve(std::string_view name) const{
+        std::optional<symbol> resolve(std::string_view _name) const{
+            auto name = std::string(_name);
             for(auto it = symbols.rbegin();it!=symbols.rend();it++){
-                auto found = it->find(std::string(name));
+                auto found = it->find(name);
                 if(found!=it->end()){
                     return found->second;
                 }
