@@ -67,7 +67,7 @@
 \DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ \ uint64\_t\ seed\ =\ 0);}
 \DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ reset();}
 \DoxyCodeLine{00080\ }
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor_af1e9c40e232179830b24b01740a36ab7}{load\_env}}(std::map<std::string,symbol>\&\ env)\{symbols.reset(env);\}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor_af1e9c40e232179830b24b01740a36ab7}{load\_env}}(std::map<std::string,symbol>\&\ env)\{symbols.reset(env);symbols.set(\textcolor{stringliteral}{"{}\$"{}},root\_data);\}}
 \DoxyCodeLine{00087\ }
 \DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ pugi::xml\_document\&\ parse()\{\_parse(\{\});\textcolor{keywordflow}{return}\ compiled;\}}
 \DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ns(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str)\{ns\_prefix\ =\ str;strings.prepare(str);\}}

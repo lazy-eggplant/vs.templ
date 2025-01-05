@@ -41,33 +41,34 @@
 \DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ reset()\{symbols=\textcolor{keyword}{decltype}(symbols)();\}}
 \DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ reset(std::map<std::string,symbol>\&\ src)\{symbols=\textcolor{keyword}{decltype}(symbols)();symbols.push\_back(std::move(src));\}}
 \DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ std::optional<symbol>\ resolve(std::string\_view\ name)\textcolor{keyword}{\ const}\{}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ it\ =\ symbols.rbegin();it!=symbols.rend();it++)\{}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ found\ =\ it-\/>find(std::string(name));}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(found!=it-\/>end())\{}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ found-\/>second;}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ set(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{auto}\ value)\{}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ symbols.back().emplace(name,value);}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}\{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map}{symbol\_map}}\&\ ref;}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}(\mbox{\hyperlink{structvs_1_1templ_1_1symbol__map}{symbol\_map}}\&\ r):ref(r)\{ref.new\_frame();\}}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{\string~guard\_t}}()\{ref.remove\_frame();\}}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00061\ }
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}\ guard()\{\textcolor{keywordflow}{return}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}(*\textcolor{keyword}{this});\}}
-\DoxyCodeLine{00063\ \};}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ }
-\DoxyCodeLine{00066\ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ std::optional<symbol>\ resolve(std::string\_view\ \_name)\textcolor{keyword}{\ const}\{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ name\ =\ std::string(\_name);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\ it\ =\ symbols.rbegin();it!=symbols.rend();it++)\{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ found\ =\ it-\/>find(name);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(found!=it-\/>end())\{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ found-\/>second;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ set(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{auto}\ value)\{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ symbols.back().emplace(name,value);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map}{symbol\_map}}\&\ ref;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}(\mbox{\hyperlink{structvs_1_1templ_1_1symbol__map}{symbol\_map}}\&\ r):ref(r)\{ref.new\_frame();\}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{\string~guard\_t}}()\{ref.remove\_frame();\}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}\ guard()\{\textcolor{keywordflow}{return}\ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map_1_1guard__t}{guard\_t}}(*\textcolor{keyword}{this});\}}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ }
 \DoxyCodeLine{00067\ \}}
+\DoxyCodeLine{00068\ \}}
 
 \end{DoxyCode}

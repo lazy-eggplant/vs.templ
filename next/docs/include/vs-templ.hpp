@@ -83,7 +83,7 @@ struct preprocessor{
          * 
          * @param env a table of symbols to introduce in the preprocessor
          */
-        inline void load_env(std::map<std::string,symbol>& env){symbols.reset(env);}
+        inline void load_env(std::map<std::string,symbol>& env){symbols.reset(env);symbols.set("$",root_data);}
 
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
