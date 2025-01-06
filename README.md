@@ -80,6 +80,11 @@ meson install -C build
 
 should work on most systems. I highly suggest a dry run by setting `DESTDIR` to ensure expected behaviour.
 
+## Projects using `vs.templ`
+
+- [vs](https://github.com/KaruroChori/vs-fltk) the parent project from which `vs.templ` derived.
+- [vs.http](https://github.com/lazy-eggplant/vs.http) an HTTP server built around `vs.templ`.
+
 ## Why?
 
 `vs-templ` was first developed in the context of [vs](https://github.com/karurochori/vs-fltk) to express static, yet parametric, components.  
