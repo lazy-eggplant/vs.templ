@@ -38,16 +38,9 @@ This is a list of commands which are currently supported:
 
 # Milestones
 
-## `v0.3.11`
-
-- [x] Complete more of the repl vm operator to cover specs.
-- [x] Complete more of the repl vm operator to cover specs.
-- [x] Add environment data when used as a lib.
-- [x] `include` (only fs when used via CLI)
-
 ## `v0.3.13`
 
-- [ ] Add support for all props-based commands.
+- [ ] Add support for all props-based which were left commands.
 
 ## `v0.4.1`
 

@@ -1,4 +1,4 @@
-## v0.3.11
+## v0.3.13
 
 There has been much more progress than anticipated, and most features needed to reach `v0.4.1` have been filled in already.  
 This release is to make sure `vs` can properly use the newly supported syntax in its code and examples.  
