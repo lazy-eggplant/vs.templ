@@ -346,7 +346,12 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
         if(stop_at.has_value() && current_template.first==stop_at)break;
 
         if(current_template.first!=current_template.second){
-
+            
+            auto _visible =  current_template.first->attribute(strings.WHEN_PROP).as_string(nullptr);
+            if(_visible!=nullptr){
+                auto test  = get_or<int>(resolve_expr(_visible).value_or(false),false);
+                if(!test){current_template.first++;continue;}
+            }
             //Special handling of static element
             if(strncmp(current_template.first->name(),ns_prefix.c_str(),ns_prefix.length())==0) {
                 if(strcmp(current_template.first->name(),strings.FOR_RANGE_TAG)==0){
@@ -717,9 +722,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"when")){
-                        auto test  = get_or<int>(resolve_expr(attr.value()).value_or(false),false);
-                        if(!test)last.parent().remove_child(last);
-                        break;
+                        //Skip, already done
                     }
                     else {log(log_t::ERROR, std::format("unrecognized static operation `{}`",attr.name()));}
                 }
