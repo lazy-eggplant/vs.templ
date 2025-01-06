@@ -1,27 +1,3 @@
 ## v0.3.13
 
-There has been much more progress than anticipated, and most features needed to reach `v0.4.1` have been filled in already.  
-This release is to make sure `vs` can properly use the newly supported syntax in its code and examples.  
-Subsequent milestones have been rescheduled, and next new branch `v0.4.x` will be mostly for consolidation, documentation and to incrementally improve the quality of code.  
-As such, I am splitting this release here, leaving the two leftover commands for `v0.3.13`.
 
-### New features
-
-- [x] Introduced `include` to load more template files. Please, notice that checks to avoid circular dependencies are to be performed externally.
-- [ ] All the remaining prop-based commands.
-  - [x] `value`
-  - [x] `prop`
-  - [ ] `for`
-  - [ ] `for-prop`
-- [x] Loading the environment of a preprocessor is now possible via `load_env`.
-- [x] Improved handling of some expressions making them less verbose.
-- [x] Better (and colourful) logging!
-
-### Bug fixing
-
-- Fixed several broken maths operations like `*`.
-
-### Breaking changes
-
-The interface of `preprocessor` was changed once again to support the XML loader function.  
-Minimal changes are expected downstream, based on your prior usage.
