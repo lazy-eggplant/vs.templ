@@ -87,8 +87,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
 
         if(base==nullptr){
             auto tmp = symbols.resolve("$");
-            if(!tmp.has_value() || std::holds_alternative<const pugi::xml_node>(tmp.value())==false)return {};
-            else{
+            if(tmp.has_value() && std::holds_alternative<const pugi::xml_node>(tmp.value())){
                 ref=std::get<const pugi::xml_node>(tmp.value());
             }
         }
@@ -115,6 +114,15 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
     }
     //Process the terminal attributes and special properties name & text
     if(str[idx]=='~'){
+        //Special case to reduce complexity in expression.
+        //If no prefix is used, $ is asssumed as reference
+        if(idx==0){
+            auto tmp = symbols.resolve("$");
+            if(!tmp.has_value() || std::holds_alternative<const pugi::xml_node>(tmp.value())==false)return {};
+            else{
+                ref=std::get<const pugi::xml_node>(tmp.value());
+            }
+        }
         if(strcmp(str+idx+1,"!txt")==0) return ref.text().as_string();
         else if(strcmp(str+idx+1,"!tag")==0) return ref.name();
         else return ref.attribute(str+idx+1).as_string();
