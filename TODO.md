@@ -40,21 +40,23 @@ This is a list of commands which are currently supported:
 
 ## `v0.3.11`
 
-- [ ] Add support for all props-based commands.
 - [x] Complete more of the repl vm operator to cover specs.
+- [x] Complete more of the repl vm operator to cover specs.
+- [x] Add environment data when used as a lib.
+- [x] `include` (only fs when used via CLI)
 
 ## `v0.3.13`
 
-- [x] Complete more of the repl vm operator to cover specs.
-- [x] Add environment data when used as a lib.
+- [ ] Add support for all props-based commands.
+
+## `v0.4.1`
+
+- [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
 
 ## `v0.4.x`
 
-- [x] `include` (only fs when used via CLI)
-
-## `v0.5.x`
-
-- [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
+- [ ] Much more robust test-suite with higher coverage.
+- [ ] Optimization for lower-end systems by reducing explicit memory allocations if possible and adopting string views.
 
 ## `v0.8.x`
 

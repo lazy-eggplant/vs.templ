@@ -7,7 +7,7 @@ It can be used to statically generate new files from a template definition and a
 Static templates can be seen as extremely simple programs serialized in XML which are interpreted by this preprocessor.
 They consume input data (also XML) to generated output XML.
 
-Details about the syntax & supported features are covered in a [dedicated page](./docs/syntax.md), or you might want to check some of the [examples](./examples/).
+Details about the syntax & supported features are covered in a [dedicated page](./docs/syntax.md), or you might want to check some [examples](./examples/).
 
 ## Examples
 
@@ -25,9 +25,9 @@ and
 
 ```xml
 <ul>
-<s:for src="/items/" sort-by="$~prop-a" order-by="desc">
+<s:for src="/items/" sort-by="~prop-a" order-by="desc">
     <s:item>
-        <li><s:value src="$~prop-a"/>: <s:value src="$~!txt"/></li>
+        <li><s:value src="~prop-a"/>: <s:value src="~!txt"/></li>
     </s:item>
 </s:for>
 </ul>
@@ -73,7 +73,7 @@ with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xm
 
 ## Installation
 
-```
+```bash
 meson setup build
 meson install -C build
 ```
