@@ -1,0 +1,54 @@
+\doxysection{include/vs-\/templ.hpp File Reference}
+\hypertarget{vs-templ_8hpp}{}\label{vs-templ_8hpp}\index{include/vs-\/templ.hpp@{include/vs-\/templ.hpp}}
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$optional$>$}\newline
+{\ttfamily \#include $<$stack$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$pugixml.\+hpp$>$}\newline
+{\ttfamily \#include "{}symbols.\+hpp"{}}\newline
+{\ttfamily \#include "{}logging.\+hpp"{}}\newline
+Include dependency graph for vs-\/templ.hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{vs-templ_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{vs-templ_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{vs\+::templ\+::logctx\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{vs\+::templ\+::preprocessor}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}\label{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66} 
+typedef void(\texorpdfstring{$\ast$}{*} {\bfseries vs\+::templ\+::logfn\+\_\+t}) (log\+\_\+t\+::values, const char \texorpdfstring{$\ast$}{*}str, const \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\+\_\+t}} \&ctx)
+\begin{DoxyCompactList}\small\item\em Type of a logging function passed to the preprocessor. \end{DoxyCompactList}\item 
+\Hypertarget{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}\label{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87} 
+typedef bool(\texorpdfstring{$\ast$}{*} {\bfseries vs\+::templ\+::loadfn\+\_\+t}) (const char \texorpdfstring{$\ast$}{*}path, pugi\+::xml\+\_\+document \&)
+\begin{DoxyCompactList}\small\item\em Type of a function to load an xml document given a path. Used to load templates for {\ttfamily include} commands. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+karurochari 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}

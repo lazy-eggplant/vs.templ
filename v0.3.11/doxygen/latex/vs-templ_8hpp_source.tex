@@ -1,0 +1,161 @@
+\doxysection{vs-\/templ.hpp}
+\hypertarget{vs-templ_8hpp_source}{}\label{vs-templ_8hpp_source}\index{include/vs-\/templ.hpp@{include/vs-\/templ.hpp}}
+\mbox{\hyperlink{vs-templ_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <stack>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <pugixml.hpp>}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}symbols.hpp"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}logging.hpp"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{namespace\ }vs\{}
+\DoxyCodeLine{00027\ \textcolor{keyword}{namespace\ }templ\{}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\_t}}\{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ file\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ line\_start\ =\ -\/1,\ line\_end\ =\ -\/1,\ column\_start\ =\ -\/1,\ column\_end\ =\ -\/1;}
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ \ void\ (*logfn\_t)(log\_t::values,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\_t}}\&\ ctx);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ bool\ (*loadfn\_t)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ pugi::xml\_document\&);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}\{}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ default\_logfn(log\_t::values,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\_t}}\&\ ctx)\{\}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ default\_loadfn(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ pugi::xml\_document\&)\{\textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1repl}{repl}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ std::string\ ns\_prefix;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ uint64\_t\ seed;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}{loadfn\_t}}\ loadfn\ =\ default\_loadfn;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Final\ document\ to\ be\ shared}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ pugi::xml\_document\ compiled;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{//To\ track\ operations\ within\ the\ parser}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ std::stack<pugi::xml\_node>\ stack\_compiled;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ std::stack<pugi::xml\_node\_iterator>\ stack\_data;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ std::stack<std::pair<pugi::xml\_node\_iterator,pugi::xml\_node\_iterator>>\ stack\_template;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Stack-\/like\ table\ of\ symbols}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structvs_1_1templ_1_1symbol__map}{symbol\_map}}\ symbols;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Entry\ point\ in\ the\ root\ document.}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ pugi::xml\_node\ root\_data;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ uint64\_t\ seed\ =\ 0)\{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ init(root\_data,root\_template,prefix,logfn,loadfn,seed);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ \ uint64\_t\ seed\ =\ 0);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ reset();}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor_af1e9c40e232179830b24b01740a36ab7}{load\_env}}(std::map<std::string,symbol>\&\ env)\{symbols.reset(env);symbols.set(\textcolor{stringliteral}{"{}\$"{}},root\_data);\}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ pugi::xml\_document\&\ parse()\{\_parse(\{\});\textcolor{keywordflow}{return}\ compiled;\}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ns(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str)\{ns\_prefix\ =\ str;strings.prepare(str);\}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }order\_method\_t\{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ values\{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UNKNOWN\ =\ \ 0,\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ASC,\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DESC,\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RANDOM,}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ USE\_DOT\_EVAL\ =\ 16\ \textcolor{comment}{//For\ strings,\ split\ evaluation\ based\ on\ their\ dot\ groups.\ Valid\ for\ all\ methods.}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ values\ from\_string(std::string\_view\ str);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Precomputed\ string\ to\ avoid\ spawning\ an\ absurd\ number\ of\ small\ objects\ in\ heap\ at\ each\ cycle.}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }ns\_strings\{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ data\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//S:TAGS}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_RANGE\_TAG;}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_TAG;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_TAG;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *EMPTY\_TAG;}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *HEADER\_TAG;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOOTER\_TAG;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ITEM\_TAG;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ERROR\_TAG;}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *TEST\_TAG;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *CASE\_TAG;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *VALUE\_TAG;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ELEMENT\_TAG;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *TYPE\_ATTR;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *LOG\_TAG;}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *INCLUDE\_TAG;}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//S:PROPS}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_SRC\_PROP;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_FILTER\_PROP;}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_SORT\_BY\_PROP;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_ORDER\_BY\_PROP;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_OFFSET\_PROP;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_LIMIT\_PROP;}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_SRC\_PROP;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_FILTER\_PROP;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_ORDER\_BY\_PROP;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_OFFSET\_PROP;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *FOR\_PROPS\_LIMIT\_PROP;}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *VALUE\_PROP;}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *PROP\_NAME\_PROP;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *PROP\_VALUE\_PROP;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *WHEN\_PROP;}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ prepare(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ ns\_prefix);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \string~ns\_strings()\{\textcolor{keywordflow}{if}(data!=\textcolor{keyword}{nullptr})\textcolor{keyword}{delete}[]\ data;\}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \}strings;}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Transforming\ a\ string\ into\ a\ parsed\ symbol,\ setting\ an\ optional\ base\ root\ or\ leaving\ it\ to\ a\ default\ evaluation.}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ std::optional<concrete\_symbol>\ resolve\_expr(\textcolor{keyword}{const}\ std::string\_view\&\ str,\ \textcolor{keyword}{const}\ pugi::xml\_node*\ base=\textcolor{keyword}{nullptr})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_attribute>\ prepare\_props\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ order\_method\_t::values\ criterion);}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ std::vector<pugi::xml\_node>\ prepare\_children\_data(\textcolor{keyword}{const}\ pugi::xml\_node\&\ base,\ \textcolor{keywordtype}{int}\ limit,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filter,\ \textcolor{keyword}{const}\ std::vector<std::pair<std::string,order\_method\_t::values>>\&\ criteria);}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \_parse(std::optional<pugi::xml\_node\_iterator>\ stop\_at);}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ log(log\_t::values,\ \textcolor{keyword}{const}\ std::string\&)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \};}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \}}
+\DoxyCodeLine{00175\ \}}
+
+\end{DoxyCode}

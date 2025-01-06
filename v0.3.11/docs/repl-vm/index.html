@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Computing expressions - vs.templ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Computing expressions";
+        var mkdocs_page_input_path = "repl-vm.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> vs.templ
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Computing expressions</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#why-rpn">Why RPN?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#possible-extensions">Possible extensions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#options-for-implementation">Options for implementation</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../syntax/">Full Syntax reference</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Releases</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">vs.templ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Computing expressions</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/repl-vm.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
+They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
+The VM is going to run it, and the only element left on stack is taken as the final expression value.</p>
+<p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>
+<pre><code>: `#name-` `{i}` cat:*`
+</code></pre>
+<p>will return an expression of type string embedding the value <code>name-1</code>.</p>
+<p>Type casting should be explicit, but some operations like <code>concat</code> might cast automatically.<br />
+The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.</p>
+<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
+<h3 id="why-rpn">Why RPN?<a class="headerlink" href="#why-rpn" title="Permanent link">#</a></h3>
+<p>The reason for going with something like this are:</p>
+<ul>
+<li>to avoid a complex parser for what will end up being a quite marginal feature</li>
+<li>to avoid the arbitrary precedence rules usually associated to algebraic operator</li>
+<li>to be fast and easy to compile into native code via tcc if so desired (but for now it is just going to be interpreted)</li>
+</ul>
+<h3 id="possible-extensions">Possible extensions<a class="headerlink" href="#possible-extensions" title="Permanent link">#</a></h3>
+<p>I will probably allow braces, just for the sake of readability, and to avoid being explicit about the number of arguments a function should take.<br />
+At some point I might validate them if present just to highlight potential bugs.</p>
+<h3 id="options-for-implementation">Options for implementation<a class="headerlink" href="#options-for-implementation" title="Permanent link">#</a></h3>
+<p>Assumption: these programs are very short.<br />
+As such their source is not read in streaming, but it is all resident in memory while compiling.<br />
+This allows the usage of <code>string_views</code> and the buffer itself in place of allocating too many temporary objects in memory.<br />
+Hence, processing these expressions should be very memory efficient.</p>
+<ul>
+<li>Add the vm to this repo directly.</li>
+<li>Build a generic vm library for which specific instances can be generated downstream of a schema.<br />
+  This way it is easier to build different backends and integrate fast dispatching via perfect minimal hashing functions.</li>
+<li><del>Find a library already implementing this design and use that.</del> no success in that</li>
+</ul>
+<h2 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">#</a></h2>
+<h3 id="array-operators">Array operators<a class="headerlink" href="#array-operators" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>filter</code> <code>[container] F</code>, filters elements out of a container</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>map</code> <code>[expr] [container] M</code>, maps container based on a lambda</del></li>
+</ul>
+<h3 id="generic">Generic<a class="headerlink" href="#generic" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>dup</code> duplicate the last element on stack</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>nop</code> no operation</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>rem</code> remove last n elements from stack</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>swap</code> swap the two top elements</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>eval</code> (probably I will not expose this one) expose a nested repl vm</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>load</code> load variable on stack from the environment map</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>store</code> (probably I will not expose this one) store variable form stack to the environment map</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>log</code> to log errors/warning etc somewhere</li>
+</ul>
+<h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>cat</code> <code>[container] cat</code>, simplified version of <code>V</code> where based on the type, the 0 is used as initial and the reducer is the natural <code>+</code> operation</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>join</code> to join together strings on the stack with the first string.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>rcat</code> like cat but in reverse order</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>rjoin</code> like join but in reverse order</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>esc</code> escape number to string literal</li>
+</ul>
+<h3 id="boolean-operators">Boolean operators<a class="headerlink" href="#boolean-operators" title="Permanent link">#</a></h3>
+<p>Boolean types are not directly supported. They are just integers with extra semantic.</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>if</code> <code>[false] [true] [condition] ?</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>and</code> <code>or</code> <code>not</code> as expected (they are bitwise)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>xor</code> <code>nor</code> <code>nand</code> as expected (they are bitwise).</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>true</code> <code>false</code> to load those values in stack.</li>
+</ul>
+<h3 id="comparison-operators">Comparison operators<a class="headerlink" href="#comparison-operators" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>eq</code> <code>neq</code> <code>bg</code> <code>bge</code> <code>lt</code> <code>lte</code> for integers &amp; floats</li>
+<li class="task-list-item"><input type="checkbox" disabled/> For strings we have at least three criteria, which is making these operations harder to handle<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Typical comparison based on lexicographic comparison</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Dot comparison, introduced by <code>vs</code> to handle nesting</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Natural comparison, where for example $20&lt;100$</li>
+</ul>
+</li>
+</ul>
+<h3 id="common-algebraic-operators">Common algebraic operators<a class="headerlink" href="#common-algebraic-operators" title="Permanent link">#</a></h3>
+<p>And all the typical math operations as usual</p>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>mod</code> (and mnemonic versions too)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>pow</code> <code>log</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>count.0</code> &amp; <code>count.1</code></li>
+</ul>
+<h3 id="cast">Cast<a class="headerlink" href="#cast" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.str</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.int</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.float</code></li>
+</ul>
+<h3 id="special">Special<a class="headerlink" href="#special" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>PIPE</code> and <code>APOS</code> to escape <code>|</code> and ``` respectively</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>(</code> &amp; <code>)</code> as nop just to enable formatting in expression (not enforced, but the LSP might check)</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>rem</code> to tag the prior tag as comment (remove the last element from stack)</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../syntax/" class="btn btn-neutral float-right" title="Full Syntax reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../syntax/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
