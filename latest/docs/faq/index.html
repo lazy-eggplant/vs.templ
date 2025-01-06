@@ -67,6 +67,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Releases</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
@@ -98,14 +100,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="is-there-a-sax-implementation">Is there a SAX implementation?<a class="headerlink" href="#is-there-a-sax-implementation" title="Permanent link">#</a></h2>
+                <h2 id="why-not-xslt">Why not XSLT?<a class="headerlink" href="#why-not-xslt" title="Permanent link">#</a></h2>
+<p><code>vs-templ</code> was first developed in the context of <a href="https://github.com/karurochori/vs-fltk">vs</a> to express static, yet parametric, components.<br />
+While the XML ecosystem is often reliant on XSLT as a preprocessor, this option was quickly dismissed in the parent project for several reasons:</p>
+<ul>
+<li>The rest of the <code>vs</code> is based on <code>pugixml</code>. The only lightweight XSLT 1.0 implementation which is decently licensed is <a href="https://gitlab.gnome.org/GNOME/libxslt">libxslt</a> based on <a href="https://gitlab.gnome.org/GNOME/libxml2">libxml2</a>.<br />
+  Because of that, a trivial integration would have been quite wasteful: an additional serialization and parsing stage is needed to move the tree structure between libraries.</li>
+<li>The scope of XSLT, even in its very first version was excessive &amp; its syntax just verbose. This is mostly a result of <code>xpath</code> being too powerful of a tool.</li>
+<li>At some point <code>vs</code> will come with dynamic native components, and the idea is for them to match in syntax and behaviour the extended tags introduced by this preprocessor. A custom implementation is the only way to ensure a seamless integration between the two.</li>
+</ul>
+<p>Hence, <code>vs</code> vendors <code>vs.templ</code> its own XSLT-ish preprocessor.<br />
+Still, nothing about its semantics or syntax is directly tied to <code>vs</code>, so I am distributing it as a separate package, hoping it can reach a wider adoption.</p>
+<h2 id="why-not-handlebars-or-mustache">Why not <a href="https://handlebarsjs.com/">handlebars</a> or <a href="https://mustache.github.io/">mustache</a><a class="headerlink" href="#why-not-handlebars-or-mustache" title="Permanent link">#</a></h2>
+<p>That class of templating solutions cannot understand XML. As such, the resulting generation can be unsound.</p>
+<h2 id="is-there-a-sax-implementation">Is there a SAX implementation?<a class="headerlink" href="#is-there-a-sax-implementation" title="Permanent link">#</a></h2>
 <p>No, there is not.
 Some features don&rsquo;t strictly require a DOM, but they don&rsquo;t really translate well in terms of a pull parser.<br />
 The memory peak usage would not be much better either for many reasonable templates, so there is no real incentive to implement this preprocessor based on a different backend for now.<br />
 Still, if you want to do so you are very welcome!</p>
 <h2 id="can-we-support-other-input-formats-for-the-dataset">Can we support other input formats for the dataset?<a class="headerlink" href="#can-we-support-other-input-formats-for-the-dataset" title="Permanent link">#</a></h2>
 <p>In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.<br />
-However, native integration of SQLite as a data-source will happen for sure at some point.</p>
+However, a native integration of SQLite to use it as data-source is almost surely going to happen at some point.</p>
               
             </div>
           </div><footer>

@@ -69,6 +69,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Releases</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
@@ -118,10 +120,12 @@ A full list of feasible expression types:</p>
 <li>Empty expression, generally representing errors</li>
 <li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped)</li>
 <li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
-<li>Paths, of which three forms exists:</li>
+<li>Paths, of which three forms exists:<ul>
 <li>those starting with <code>$</code>. This special symbol is used to mark the nearest scope in the data XML being visited, or root if none.</li>
 <li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
+</ul>
+</li>
 </ul>
 <p>Path expressions will continue with one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
 If terminated with <code>~prop-name</code> the relevant attribute is selected.
@@ -134,8 +138,8 @@ There are also two special meta-properties which can be accessed this way:</p>
 Those are run by a stack VM and can be sparingly used to perform more complex tasks.<br />
 They return a single expression in one of the other real types.<br />
 The full specifications of these meta-expressions can be found <a href="../repl-vm/">here</a>.<br />
-For most scenarios, the only ones really needed are casts, integer math operations and <code>cat</code> to merge strings.</p>
-<p>No further combination or format is allowed in expression. Else, those might lead to undefined behaviour.<br />
+For most scenarios, only a minor subset is going to be useful, like some basic integer maths, comparisons and <code>cat</code> to merge strings.</p>
+<p>No further combination or format is allowed in expression. Else, their parsing will fail.<br />
 However, the preprocessor should not generally throw exceptions, only emit error or warning logs.</p>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h3>
 <p>Using the following XML file as reference:</p>
@@ -156,16 +160,44 @@ However, the preprocessor should not generally throw exceptions, only emit error
 <li>Assuming a for cycle in <code>/hello/</code>, its children will be navigated and <code>$~attribute-a</code> will be resolved in <code>value-0</code> and <code>value-1</code>.</li>
 </ul>
 <h2 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h2>
-<p>Operators acting over elements will use information from the current static data sub-path to further generate a parametrized version of what shown in their children on the template tree.</p>
-<h3 id="for-range"><code>for-range</code><a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
+<p>Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.<br />
+There are several to control flow or add content to the final document.</p>
+<h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
+<p>To introduce the result of a (meta) expression in the tree.<br />
+<strong>Integers</strong> and <strong>floats</strong> are automatically serialized before adding them to the page.<br />
+<strong>strings</strong> are just appended.<br />
+<strong>attributes</strong> are interpreted as strings.<br />
+<strong>nodes</strong> are added as subtree.</p>
+<p><code>value</code> accepts an expression <code>src</code> as argument, by default set to <code>$</code>.<br />
+If the expression fails, its body will be used instead.</p>
+<h4 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:value src=&quot;:...&quot;&gt;This fails, so this text will be used&lt;/s:value&gt;
+&lt;s:value src=&quot;: `1` `2` +&quot;&gt;Since the operation is ok and returns `3` as integer, this text will not show up&lt;/s:value&gt;
+</code></pre>
+<h3 id="element">element<a class="headerlink" href="#element" title="Permanent link">#</a></h3>
+<p>This command is usedto generate a new element whose type is by an expression passed via the attribute <code>s:type</code> (this one is specifically namespaced).<br />
+Any other property and child will be preserved.</p>
+<p>In case of failure, the tag is dropped.</p>
+<h4 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:element s:type=&quot;#tag-name&quot; prop-1=&quot;Hello&quot;&gt;Content&lt;/s:element&gt;
+&lt;s:element s:type=&quot;:&quot; prop-1=&quot;Hello&quot;&gt;This will not be shown as the expression is not valid&lt;/s:element&gt;
+</code></pre>
+<h3 id="for-range">for-range<a class="headerlink" href="#for-range" title="Permanent link">#</a></h3>
 <ul>
 <li><code>tag</code> is the name of the symbol where the current value will be stored. If empty the default <code>$</code> is used.</li>
 <li><code>from</code> starting value.</li>
 <li><code>to</code> final value.</li>
 <li><code>step</code> step of increment. It can be negative. If so <code>to&lt;from</code> must hold true.</li>
 </ul>
-<p>Infinite cycles are detected before execution, in which case no cycle will run. Unlike other <code>for</code> variants, there is no header, footer or empty child. Anything inside a <code>for-range</code> is interpreted as <code>item</code>.</p>
-<h3 id="for-for-props"><code>for</code> &amp; <code>for-props</code><a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h3>
+<p>Infinite cycles are detected before execution, in which case no step will run. Unlike other <code>for</code> variants, there is no header, footer or empty child. Anything inside a <code>for-range</code> is interpreted as <code>item</code>.</p>
+<h4 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:for-range tag=&quot;i&quot; from=&quot;0&quot; to=&quot;10&quot; step=&quot;1&quot;&gt;
+    &lt;s:for-range tag=&quot;j&quot; from=&quot;0&quot; to=&quot;: `{i}`&quot; step=&quot;1&quot;&gt;
+        &lt;s:value src=&quot;: `{j}` `{i}` mul&quot; /&gt;
+    &lt;/s:for-range&gt;
+&lt;/s:for-range&gt;
+</code></pre>
+<h3 id="for-for-props">for &amp; for-props<a class="headerlink" href="#for-for-props" title="Permanent link">#</a></h3>
 <p>To iterate over children and props of an element respectively.<br />
 Aside from that, they mostly share the same interface.</p>
 <ul>
@@ -188,15 +220,8 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>item</code>: the main body</li>
 <li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
-<p>The symbol <code>$$</code> gets loaded with the entry number while iterating, so that it is possible to count which one we are at.</p>
-<h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
-<p>To introduce the result of a (meta) expression in the tree.<br />
-Numbers are serialized and added, strings are introduced as they are, attributes as strings and nodes are just appended as children.<br />
-It accepts an expression <code>src</code> as argument, by default set to <code>$</code>.</p>
-<h3 id="element"><code>element</code><a class="headerlink" href="#element" title="Permanent link">#</a></h3>
-<p>To generate a new element whose type is determined by an expression <code>s:type</code> (this attribute is specifically namespaced).<br />
-Any other property and child will be preserved.</p>
-<h3 id="check-case"><code>check</code> &amp; <code>case</code><a class="headerlink" href="#check-case" title="Permanent link">#</a></h3>
+<p>The symbol <code>$$</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.</p>
+<h3 id="test-case">test &amp; case<a class="headerlink" href="#test-case" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
 Inside the body of <code>test</code> we have one or more <code>case</code>.<br />
 Attributes for <code>case</code>:</p>
@@ -205,7 +230,7 @@ Attributes for <code>case</code>:</p>
 <li><code>when</code> an expression to compare against.</li>
 </ul>
 <p>The order of <code>case</code> elements is important and determines the overall flow.</p>
-<h3 id="log"><code>log</code><a class="headerlink" href="#log" title="Permanent link">#</a></h3>
+<h3 id="log">log<a class="headerlink" href="#log" title="Permanent link">#</a></h3>
 <p>Optional argument <code>type</code> set to:</p>
 <ul>
 <li><code>notify</code> when something should be logged, but there is no fault or suspicious behaviour ongoing.</li>
@@ -218,22 +243,37 @@ Attributes for <code>case</code>:</p>
 It just means that there is no way to recover it, and downstream code will have to live with its failure.<br />
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.<br />
 For example the inclusion of a file which does not exist can adopt the content of the <code>include</code> tag as fallback.</p>
+<h3 id="include">include<a class="headerlink" href="#include" title="Permanent link">#</a></h3>
+<p>Add in place the file defined in <code>src</code>. If not found, it uses the content inside <code>include</code>. External files will have their root removed when included.<br />
+File loading for a single <code>include</code> instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.<br />
+<code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.<br />
+There is no caching provided by <code>vs.templ</code>, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.</p>
+<p>Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
+<h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;s:include src=&quot;component.xml&quot;&gt;
+    &lt;h1&gt;Placeholder title&lt;/h1&gt;
+    &lt;p&gt;This will be used if the import fails. Leave empty if not needed&lt;/p&gt;
+&lt;/s:include&gt;
+</code></pre>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
-<h3 id="forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx"><code>for.SUB-ATTR.[prop/value].xxx</code> &amp; <code>for-props.SUB-ATTR.[prop/value].xxx</code><a class="headerlink" href="#forsub-attrpropvaluexxx-for-propssub-attrpropvaluexxx" title="Permanent link">#</a></h3>
+<h3 id="forsub-attrxxx-for-propssub-attrxxx">for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx<a class="headerlink" href="#forsub-attrxxx-for-propssub-attrxxx" title="Permanent link">#</a></h3>
 <p>As prop, attribute variants of <code>for</code> and <code>for-props</code>. They add attributes/values to the node they are defined within.</p>
-<h3 id="valuexxx"><code>value.xxx</code><a class="headerlink" href="#valuexxx" title="Permanent link">#</a></h3>
+<h3 id="valuexxx">value.xxx<a class="headerlink" href="#valuexxx" title="Permanent link">#</a></h3>
 <p>As for the element version, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
-<h3 id="propxxx"><code>prop.xxx</code><a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
-<p>To generate new property whose name is determined by an expression and assign whatever values was assigned to <code>prop.xxx</code>.</p>
-<h3 id="when"><code>when</code><a class="headerlink" href="#when" title="Permanent link">#</a></h3>
+<h3 id="propxxx">prop.xxx<a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
+<p>To generate new property whose name and value are determined by the pair passed as value.</p>
+<h4 id="examples_4">Examples<a class="headerlink" href="#examples_4" title="Permanent link">#</a></h4>
+<pre><code class="language-xml">&lt;tag s:prop.0=&quot;#hello|#world&quot; s:prop.1=&quot;#hallo|#Welt&quot;/&gt;
+</code></pre>
+<h3 id="when">when<a class="headerlink" href="#when" title="Permanent link">#</a></h3>
 <p>To test if the current element should be shown, if and only if the expression is <code>true</code>.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../repl-vm/" class="btn btn-neutral float-left" title="Computing expressions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../releases/v0.3.5/" class="btn btn-neutral float-right" title="V0.3.5">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../releases/v0.3.11/" class="btn btn-neutral float-right" title="V0.3.11">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -263,7 +303,7 @@ For example the inclusion of a file which does not exist can adopt the content o
       <span><a href="../repl-vm/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../releases/v0.3.5/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../releases/v0.3.11/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

@@ -67,6 +67,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Releases</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
@@ -104,11 +106,11 @@ Static templates can be seen as extremely simple programs which are interpreted 
 They consume input data also formatted as XML, and generate some output XML file.<br />
 In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.</p>
 <h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">#</a></h2>
-<pre><code>vs.tmpl &lt;template-file&gt; &lt;data-file&gt; [namespace=`s:`]
+<pre><code class="language-bash">vs.tmpl &lt;template-file&gt; &lt;data-file&gt; [namespace=`s:`]
 </code></pre>
 <p>Unlike its usage in vs.fltk, template must be specified on its own, as it cannot be inferred.</p>
 <p>There is also an alternative format:</p>
-<pre><code>vs.tmpl [namespace=`s:`]
+<pre><code class="language-bash">vs.tmpl [namespace=`s:`]
 </code></pre>
 <p>with both files added via pipes, like <code>vs.tmpl &lt;(cat template.xml) &lt;(cat data.xml)</code></p>
 <h2 id="syntax-quick-reference">Syntax quick reference<a class="headerlink" href="#syntax-quick-reference" title="Permanent link">#</a></h2>

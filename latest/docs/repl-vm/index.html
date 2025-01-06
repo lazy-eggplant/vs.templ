@@ -73,6 +73,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Releases</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
@@ -138,20 +140,20 @@ Hence, processing these expressions should be very memory efficient.</p>
 <h2 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">#</a></h2>
 <h3 id="array-operators">Array operators<a class="headerlink" href="#array-operators" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>filter</code> <code>[container] F</code>, filters elements out of a container</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>map</code> <code>[expr] [container] M</code>, maps container based on a lambda</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>filter</code> <code>[container] F</code>, filters elements out of a container</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>map</code> <code>[expr] [container] M</code>, maps container based on a lambda</del></li>
 </ul>
 <h3 id="generic">Generic<a class="headerlink" href="#generic" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>dup</code> duplicate the last element on stack</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>dup</code> duplicate the last element on stack</li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>nop</code> no operation</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>erase</code> remove last n elements from stack</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>rem</code> remove last n elements from stack</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>swap</code> swap the two top elements</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>eval</code> (probably I will not expose this one) expose a nested repl vm</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>load</code> load variable on stack from the environment map</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>store</code> (probably I will not expose this one) store variable form stack to the environment map</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>eval</code> (probably I will not expose this one) expose a nested repl vm</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>load</code> load variable on stack from the environment map</del></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <del><code>store</code> (probably I will not expose this one) store variable form stack to the environment map</del></li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>log</code> to log errors/warning etc somewhere</li>
 </ul>
 <h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
@@ -172,7 +174,13 @@ Hence, processing these expressions should be very memory efficient.</p>
 </ul>
 <h3 id="comparison-operators">Comparison operators<a class="headerlink" href="#comparison-operators" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>eq</code> <code>neq</code> <code>bg</code> <code>bge</code> <code>lse</code> for integers &amp; floats</li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>eq</code> <code>neq</code> <code>bg</code> <code>bge</code> <code>lt</code> <code>lte</code> for integers &amp; floats</li>
+<li class="task-list-item"><input type="checkbox" disabled/> For strings we have at least three criteria, which is making these operations harder to handle<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Typical comparison based on lexicographic comparison</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Dot comparison, introduced by <code>vs</code> to handle nesting</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Natural comparison, where for example $20&lt;100$</li>
+</ul>
+</li>
 </ul>
 <h3 id="common-algebraic-operators">Common algebraic operators<a class="headerlink" href="#common-algebraic-operators" title="Permanent link">#</a></h3>
 <p>And all the typical math operations as usual</p>
@@ -183,9 +191,9 @@ Hence, processing these expressions should be very memory efficient.</p>
 </ul>
 <h3 id="cast">Cast<a class="headerlink" href="#cast" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>as.string</code></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>as.integer</code></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>as.float</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.str</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.int</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.float</code></li>
 </ul>
 <h3 id="special">Special<a class="headerlink" href="#special" title="Permanent link">#</a></h3>
 <ul class="task-list">

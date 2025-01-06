@@ -12,10 +12,10 @@
 namespace vs{
 namespace templ{
 
-const float EPS = 10e-5;
+void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, loadfn_t _loadfn, uint64_t seed){
+    if(_logfn!=nullptr)logfn=_logfn;
+    if(_loadfn!=nullptr)loadfn=_loadfn;
 
-void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, uint64_t seed){
-    logfn=_logfn;
     stack_template.emplace(root_template.begin(),root_template.end());
     stack_compiled.emplace(compiled);
     this->root_data=root_data;
@@ -47,6 +47,8 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
     str[str_len]=0;
 
     pugi::xml_node ref;
+    if(base!=nullptr) ref = *base;
+
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
         if(_str[_str.length()-1]=='f')return (float)atof(str);
@@ -72,6 +74,12 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
         else if(std::holds_alternative<const pugi::xml_attribute>(tmp.value())){
             return std::get<const pugi::xml_attribute>(tmp.value());
         }
+        else if(std::holds_alternative<std::string>(tmp.value())){
+            return std::get<std::string>(tmp.value());
+        }
+        else if(std::holds_alternative<float>(tmp.value())){
+            return std::get<float>(tmp.value());
+        }
         if(close==str_len)return ref;        //End of string was met earlier
         idx=close+1;
     }
@@ -79,8 +87,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
 
         if(base==nullptr){
             auto tmp = symbols.resolve("$");
-            if(!tmp.has_value() || std::holds_alternative<const pugi::xml_node>(tmp.value())==false)return {};
-            else{
+            if(tmp.has_value() && std::holds_alternative<const pugi::xml_node>(tmp.value())){
                 ref=std::get<const pugi::xml_node>(tmp.value());
             }
         }
@@ -107,6 +114,15 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
     }
     //Process the terminal attributes and special properties name & text
     if(str[idx]=='~'){
+        //Special case to reduce complexity in expression.
+        //If no prefix is used, $ is asssumed as reference
+        if(idx==0 && base==nullptr){
+            auto tmp = symbols.resolve("$");
+            if(!tmp.has_value() || std::holds_alternative<const pugi::xml_node>(tmp.value())==false)return {};
+            else{
+                ref=std::get<const pugi::xml_node>(tmp.value());
+            }
+        }
         if(strcmp(str+idx+1,"!txt")==0) return ref.text().as_string();
         else if(strcmp(str+idx+1,"!tag")==0) return ref.name();
         else return ref.attribute(str+idx+1).as_string();
@@ -146,7 +162,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value")+
-        STRLEN("prop")+
+        STRLEN("prop.name")+STRLEN("prop.value")+
         STRLEN("when")
         ];
     int count=0;
@@ -169,7 +185,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         WRITE(TYPE_ATTR, "type");
 
     WRITE(LOG_TAG,"log");
-    WRITE(LOG_TAG,"include");
+    WRITE(INCLUDE_TAG,"include");
 
     WRITE(FOR_SRC_PROP,"for.src");
     WRITE(FOR_FILTER_PROP,"for.filter");
@@ -187,9 +203,10 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         
     WRITE(VALUE_PROP,"value"); 
 
-    WRITE(PROP_PROP,"prop");
+    WRITE(PROP_NAME_PROP,"prop.name");
+    WRITE(PROP_VALUE_PROP,"prop.value");
 
-    WRITE(PROP_PROP,"when");
+    WRITE(WHEN_PROP,"when");
 
 
 #   undef WRITE
@@ -350,7 +367,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
-                    const char* tag = current_template.first->attribute("tag").as_string();
+                    const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
@@ -362,6 +379,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
 
                     auto expr = resolve_expr(in);
+
 
                     //Only a node is acceptable in this context, otherwise show the error
                     if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
@@ -407,9 +425,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
     
-                                if(tag!=nullptr)symbols.set(tag,i);
-                                symbols.set("$",i);
-                                symbols.set("$$",counter);
+                                symbols.set(tag,i);
+                                symbols.set(std::string(tag) + "$",counter);    //TODO stack string
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
@@ -431,7 +448,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_PROPS_TAG)==0){
-                    const char* tag = current_template.first->attribute("tag").as_string();
+                    const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
@@ -476,9 +493,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
 
-                                if(tag!=nullptr)symbols.set(tag,i);
-                                symbols.set("$",i);
-                                symbols.set("$$",counter);
+                                symbols.set(tag,i);
+                                symbols.set(std::string(tag) + "$",counter);    //TODO stack string
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
@@ -503,6 +519,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     //It is possible for it to generate strange results as strings are not validated by pugi
                     auto symbol = resolve_expr(current_template.first->attribute(strings.TYPE_ATTR).as_string("$"));
                     if(!symbol.has_value()){
+                        current_template.first->parent().remove_child(*current_template.first);
                     }
                     else if(std::holds_alternative<std::string>(symbol.value())){
                         auto child = current_compiled.append_child(std::get<std::string>(symbol.value()).c_str());
@@ -589,8 +606,24 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.INCLUDE_TAG)==0){
-                    auto src = current_template.first->attribute("src").as_string(nullptr);
-                    log(log_t::ERROR, std::format("static operation `{}` not implemented yet",current_template.first->name()));
+                    //This is intentionally not an expression. Declarations of files to include should always be fully static to ensure they can be statically traced.
+                    auto src = current_template.first->attribute("src").as_string("");
+                    if(src[0]!=0){
+                        pugi::xml_document localdoc;
+                        if(loadfn(src,localdoc)){
+                            current_template.first->attribute("src").set_value("");
+                            current_template.first->remove_children();
+                            for(auto& child: localdoc.root().first_child().children()){
+                                current_template.first->append_copy(child);
+                            }
+                        }
+                        else log(log_t::WARNING, std::format("Unable to use file `{}`, the content of the `include` will be used instead",src));
+                    }
+                    
+                    stack_template.emplace(current_template.first->begin(),current_template.first->end());
+                    _parse(current_template.first);
+                    stack_compiled.emplace(current_compiled);
+                    
                 }
                 else {
                     log(log_t::ERROR, std::format("unrecognized static operation `{}`",current_template.first->name()));
@@ -610,10 +643,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
                     if(false){}
                     //Matches for.src.key.* even without named suffix
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.key")){
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){
                         int subgroup_length = 0;
-                        if(attr.name()[ns_prefix.length()+sizeof("for.src.key")-1]=='\0'){}
-                        else if(attr.name()[ns_prefix.length()+sizeof("for.src.key")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.src.key")-1+1;}
+                        if(attr.name()[ns_prefix.length()+sizeof("for.src")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for.src")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.src")-1+1;}
                         else {continue;}
 
 #                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
@@ -621,19 +654,16 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                                     memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
                                                     if(subgroup_length!=0){\
                                                         NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
-                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.src.key")-1+1,subgroup_length);\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.src")-1+1,subgroup_length);\
                                                     }\
                                                     NAME [sizeof(NAME)-1]=0;
 
                         //Compute all the other tags dynamically
-                        WRITE(FOR_SRC_KEY_PROP,"for.src.key");
-                        WRITE(FOR_SRC_VALUE_PROP,"for.src.value");
+                        WRITE(FOR_SRC_KEY_PROP,"for.src");
                         WRITE(FOR_SORT_BY_PROP,"for.sort-by");
                         WRITE(FOR_ORDER_BY_PROP,"for.order-by");
                         WRITE(FOR_LIMIT_PROP,"for.limit");
                         WRITE(FOR_OFFSET_PROP,"for.offset");
-                        WRITE(FOR_FORMAT_KEY_PROP,"for.format.key");
-                        WRITE(FOR_FORMAT_VALUE_PROP,"for.format.value");
 #                       undef WRITE
 
                         //Collect values
@@ -650,14 +680,40 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         auto expr = resolve_expr(in);
                         log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.")){
+                        /*Skip, already considered in the earlier block*/
+                    }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){
                         log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
                     }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.")){
+                        /*Skip, already considered in the earlier block*/
+                    }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
-                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                        auto pair = split_string(attr.value(),'|');
+                        if(pair.size()!=2){
+                            log(log_t::ERROR, std::format("unrecognized pair for prop operator `prop`"));
+                        }
+                        else{
+                            auto _name = resolve_expr(pair[0]);
+                            auto _value = resolve_expr(pair[1]);
+
+                            if(_name.has_value() && _value.has_value()){
+                               auto name = to_string(_name.value());
+                                auto value = to_string(_value.value());
+                                if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
+                                /*Error?*/
+                            }
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){
-                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                        auto val = resolve_expr(attr.value());
+                        auto attribute = last.append_attribute(attr.name()+ns_prefix.length()+sizeof("value.")-1);
+                        if(val.has_value()){
+                            auto v = to_string(val.value());
+                            if(v.has_value())attribute.set_value(v->c_str());
+                            /* Error? */
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"when")){
                         auto test  = get_or<int>(resolve_expr(attr.value()).value_or(false),false);

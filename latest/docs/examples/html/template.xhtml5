@@ -15,6 +15,10 @@
     <main class="container">
         <!--TODO: once more operations are defined add a more complex test for when-->
         <h1 s:when=": false">Hello!</h1>
+        <s:include src="./examples/html/header.xhtml5">
+            <h1>Placeholder title</h1>
+            <p>Description stuff</p>
+        </s:include>
         <table>
             <thead>
                 <tr>
@@ -24,12 +28,12 @@
                 </tr>
             </thead>
             <tbody>
-                <s:for src="/entry" sort-by="$~name|$~surname" filter=": true">
+                <s:for src="/entry" sort-by="~name|~surname" filter=": true">
                     <s:item>
                         <tr>
-                            <td><img s:value.src="$~pic" /></td>
+                            <td><img s:value.src="$~pic" s:prop.0="#width|#32px" /></td>
                             <td>
-                                <s:value src=": `$~surname` `$~name` `# ` join" />
+                                <s:value src=": `~surname` `~name` `# ` join" />
                             </td>
                             <td>
                                 <s:value src="$~!txt" />

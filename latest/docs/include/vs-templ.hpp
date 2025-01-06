@@ -32,11 +32,21 @@ struct logctx_t{
     const char* path = nullptr;
     int line_start = -1, line_end = -1, column_start = -1, column_end = -1;
 };
+
+/**
+ * @brief Type of a logging function passed to the preprocessor
+ */
 typedef  void (*logfn_t)(log_t::values, const char* str, const logctx_t& ctx);
+
+/**
+ * @brief Type of a function to load an xml document given a path. Used to load templates for `include` commands.
+ */
+typedef bool (*loadfn_t)(const char* path, pugi::xml_document&);
 
 struct preprocessor{
 
     inline static void default_logfn(log_t::values, const char* str, const logctx_t& ctx){}
+    inline static bool default_loadfn(const char* path, pugi::xml_document&){return false;}
 
     private:
         friend struct repl;
@@ -44,6 +54,7 @@ struct preprocessor{
         std::string ns_prefix;
         uint64_t seed;
         logfn_t logfn = default_logfn;
+        loadfn_t loadfn = default_loadfn;
 
         //Final document to be shared
         pugi::xml_document compiled;
@@ -60,12 +71,19 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, uint64_t seed = 0){
-            init(root_data,root_template,prefix,logfn,seed);
+        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, loadfn_t loadfn = default_loadfn, uint64_t seed = 0){
+            init(root_data,root_template,prefix,logfn,loadfn,seed);
         }
 
-        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, uint64_t seed = 0);
+        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, loadfn_t loadfn = default_loadfn,  uint64_t seed = 0);
         void reset();
+
+        /**
+         * @brief Reset the symbols and introduce an environment
+         * 
+         * @param env a table of symbols to introduce in the preprocessor
+         */
+        inline void load_env(std::map<std::string,symbol>& env){symbols.reset(env);symbols.set("$",root_data);}
 
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
@@ -128,7 +146,8 @@ struct preprocessor{
 
             const char *VALUE_PROP;
 
-            const char *PROP_PROP;
+            const char *PROP_NAME_PROP;
+            const char *PROP_VALUE_PROP;
 
             const char *WHEN_PROP;
 

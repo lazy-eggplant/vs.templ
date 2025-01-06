@@ -11,20 +11,26 @@
     with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xml)
 */
 
-#include "logging.hpp"
+#include <format>
 #include <pugixml.hpp>
+
 #include <vs-templ.hpp>
 
 #include <iostream>
 
 using namespace vs::templ;
 
-void logfn(log_t::values, const char* msg, const logctx_t&){
-    std::cerr<<msg<<"\n";
-    //TODO: Add contextual info
+void logfn(log_t::values type, const char* msg, const logctx_t&){
+    static const char* severity_table[] = {
+    "\033[31;1m[ERROR]\033[0m    : ",
+    "\033[33;1m[WARNING]\033[0m  : ",
+    "\033[41;30;1m[PANIC]\033[0m    : ",
+    "\033[34;1m[INFO]\033[0m     : ",
+    };
+    //TODO show context information
+    std::cerr<<std::format("{}{} \033[33;1m@\033[0m {}",severity_table[type],msg,"xxx")<<"\n";
 }
 
-//TODO: Support error logging on std::cerr. Maybe use VS_VERBOSE env variable to determine what is shown and if.
 int main(int argc, const char* argv[]){
     const char* ns_prefix="s:";
     if(argc==0 || argc > 4){
@@ -50,7 +56,7 @@ int main(int argc, const char* argv[]){
 
     }
 
-    preprocessor doc(data,tmpl,ns_prefix, logfn, seed);
+    preprocessor doc(data,tmpl,ns_prefix, logfn, +[](const char* path, pugi::xml_document& ref){auto result = ref.load_file(path);if(result.status==pugi::status_ok)return true;return false;}, seed);
     auto& result = doc.parse();
     
 
