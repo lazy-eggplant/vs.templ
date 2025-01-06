@@ -12,8 +12,6 @@
 namespace vs{
 namespace templ{
 
-const float EPS = 10e-5;
-
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, loadfn_t _loadfn, uint64_t seed){
     if(_logfn!=nullptr)logfn=_logfn;
     if(_loadfn!=nullptr)loadfn=_loadfn;
@@ -50,7 +48,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
 
     pugi::xml_node ref;
     if(base!=nullptr) ref = *base;
-    
+
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
         if(_str[_str.length()-1]=='f')return (float)atof(str);
