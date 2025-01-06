@@ -49,6 +49,8 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
     str[str_len]=0;
 
     pugi::xml_node ref;
+    if(base!=nullptr) ref = *base;
+    
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
         if(_str[_str.length()-1]=='f')return (float)atof(str);
@@ -116,7 +118,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
     if(str[idx]=='~'){
         //Special case to reduce complexity in expression.
         //If no prefix is used, $ is asssumed as reference
-        if(idx==0){
+        if(idx==0 && base==nullptr){
             auto tmp = symbols.resolve("$");
             if(!tmp.has_value() || std::holds_alternative<const pugi::xml_node>(tmp.value())==false)return {};
             else{
@@ -367,7 +369,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
-                    const char* tag = current_template.first->attribute("tag").as_string();
+                    const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
@@ -379,6 +381,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
 
                     auto expr = resolve_expr(in);
+
 
                     //Only a node is acceptable in this context, otherwise show the error
                     if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
@@ -424,9 +427,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
     
-                                if(tag!=nullptr)symbols.set(tag,i);
-                                symbols.set("$",i);
-                                symbols.set("$$",counter);
+                                symbols.set(tag,i);
+                                symbols.set(std::string(tag) + "$",counter);    //TODO stack string
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
@@ -448,7 +450,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_PROPS_TAG)==0){
-                    const char* tag = current_template.first->attribute("tag").as_string();
+                    const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
 
                     //TODO: filter has not defined syntax yet.
@@ -493,9 +495,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
 
-                                if(tag!=nullptr)symbols.set(tag,i);
-                                symbols.set("$",i);
-                                symbols.set("$$",counter);
+                                symbols.set(tag,i);
+                                symbols.set(std::string(tag) + "$",counter);    //TODO stack string
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
