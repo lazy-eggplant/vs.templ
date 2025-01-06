@@ -28,12 +28,12 @@
                 </tr>
             </thead>
             <tbody>
-                <s:for src="/entry" sort-by="$~name|$~surname" filter=": true">
+                <s:for src="/entry" sort-by="~name|~surname" filter=": true">
                     <s:item>
                         <tr>
                             <td><img s:value.src="$~pic" s:prop.0="#width|#32px" /></td>
                             <td>
-                                <s:value src=": `$~surname` `$~name` `# ` join" />
+                                <s:value src=": `~surname` `~name` `# ` join" />
                             </td>
                             <td>
                                 <s:value src="$~!txt" />
