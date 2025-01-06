@@ -1,1 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<test xmlns:s="vs.templ">
+    <data>
+    </data>
+
+    <template>
+        <doc>
+            <i>
+                <s:value src=": `2` `1` +" />
+            </i>
+            <i>
+                <s:value src=": `2` `1` *" />
+            </i>
+        </doc>
+    </template>
+
+    <expects>
+        <doc>
+            <i>3</i>
+            <i>2</i>
+        </doc>
+    </expects>
+</test>

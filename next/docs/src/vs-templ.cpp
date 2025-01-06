@@ -12,6 +12,7 @@
 namespace vs{
 namespace templ{
 
+
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, loadfn_t _loadfn, uint64_t seed){
     if(_logfn!=nullptr)logfn=_logfn;
     if(_loadfn!=nullptr)loadfn=_loadfn;
@@ -546,7 +547,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else{}
                 }
                 else if(strcmp(current_template.first->name(), strings.VALUE_TAG)==0){
-                    auto symbol = resolve_expr(current_template.first->attribute("src").as_string("$"));
+                    auto symbol = resolve_expr(current_template.first->attribute("src").as_string("{$}"));
                     if(!symbol.has_value()){
                         /*Show default content if search fails*/
                         stack_template.emplace(current_template.first->begin(),current_template.first->end());
@@ -575,7 +576,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 else if(strcmp(current_template.first->name(),strings.TEST_TAG)==0){
                     for(const auto& entry: current_template.first->children(strings.CASE_TAG)){
                         bool _continue =  entry.attribute("continue").as_bool(false);
-                        auto test = resolve_expr(entry.attribute("value").as_string("$"));
+                        auto test = resolve_expr(entry.attribute("value").as_string("{$}"));
 
                         auto when =  get_or<int>(resolve_expr(current_template.first->attribute("when").as_string(": false")).value_or(false),false);
                 
