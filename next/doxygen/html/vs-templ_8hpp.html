@@ -154,10 +154,14 @@ Typedefs</h2></td></tr>
 typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::logfn_t</b>) (log_t::values, const char *str, const <a class="el" href="structvs_1_1templ_1_1logctx__t.html">logctx_t</a> &amp;ctx)</td></tr>
 <tr class="memdesc:a4a80bfa4b3f465ed810c0c449c008b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a logging function passed to the preprocessor. <br /></td></tr>
 <tr class="separator:a4a80bfa4b3f465ed810c0c449c008b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6208f78845fd01fd4361b6142895fa87" id="r_a6208f78845fd01fd4361b6142895fa87"><td class="memItemLeft" align="right" valign="top"><a id="a6208f78845fd01fd4361b6142895fa87" name="a6208f78845fd01fd4361b6142895fa87"></a>
-typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::loadfn_t</b>) (const char *path, pugi::xml_document &amp;)</td></tr>
-<tr class="memdesc:a6208f78845fd01fd4361b6142895fa87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a function to load an xml document given a path. Used to load templates for <code>include</code> commands. <br /></td></tr>
-<tr class="separator:a6208f78845fd01fd4361b6142895fa87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3677d94640c2f285f79c24784f09365" id="r_af3677d94640c2f285f79c24784f09365"><td class="memItemLeft" align="right" valign="top"><a id="af3677d94640c2f285f79c24784f09365" name="af3677d94640c2f285f79c24784f09365"></a>
+typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::includefn_t</b>) (const char *path, pugi::xml_document &amp;)</td></tr>
+<tr class="memdesc:af3677d94640c2f285f79c24784f09365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a function to load an xml document given a path. Used to load templates for <code>include</code> commands. <br /></td></tr>
+<tr class="separator:af3677d94640c2f285f79c24784f09365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1634a83f1adb086f9f9cd29dcfe33e1" id="r_ae1634a83f1adb086f9f9cd29dcfe33e1"><td class="memItemLeft" align="right" valign="top"><a id="ae1634a83f1adb086f9f9cd29dcfe33e1" name="ae1634a83f1adb086f9f9cd29dcfe33e1"></a>
+typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::loadfn_t</b>) (const char *path, pugi::xml_document &amp;, const pugi::xml_node cfg)</td></tr>
+<tr class="memdesc:ae1634a83f1adb086f9f9cd29dcfe33e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a function to load an xml document given a path. Used to load data for <code>data</code> commands. <br /></td></tr>
+<tr class="separator:ae1634a83f1adb086f9f9cd29dcfe33e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>karurochari </dd></dl>

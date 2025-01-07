@@ -41,12 +41,18 @@ typedef  void (*logfn_t)(log_t::values, const char* str, const logctx_t& ctx);
 /**
  * @brief Type of a function to load an xml document given a path. Used to load templates for `include` commands.
  */
-typedef bool (*loadfn_t)(const char* path, pugi::xml_document&);
+typedef bool (*includefn_t)(const char* path, pugi::xml_document&);
+
+/**
+ * @brief Type of a function to load an xml document given a path. Used to load data for `data` commands.
+ */
+typedef bool (*loadfn_t)(const char* path, pugi::xml_document&, const pugi::xml_node cfg);
 
 struct preprocessor{
 
     inline static void default_logfn(log_t::values, const char* str, const logctx_t& ctx){}
-    inline static bool default_loadfn(const char* path, pugi::xml_document&){return false;}
+    inline static bool default_includefn(const char* path, pugi::xml_document&){return false;}
+    inline static bool default_loadfn(const char* path, pugi::xml_document&, const pugi::xml_node cfg){return false;}
 
     private:
         friend struct repl;
@@ -54,6 +60,7 @@ struct preprocessor{
         std::string ns_prefix;
         uint64_t seed;
         logfn_t logfn = default_logfn;
+        includefn_t includefn = default_includefn;
         loadfn_t loadfn = default_loadfn;
 
         //Final document to be shared
@@ -71,11 +78,11 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, loadfn_t loadfn = default_loadfn, uint64_t seed = 0){
-            init(root_data,root_template,prefix,logfn,loadfn,seed);
+        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, includefn_t includefn = default_includefn,  loadfn_t loadfn = default_loadfn, uint64_t seed = 0){
+            init(root_data,root_template,prefix,logfn,includefn,loadfn,seed);
         }
 
-        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, loadfn_t loadfn = default_loadfn,  uint64_t seed = 0);
+        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, includefn_t includefn = default_includefn,  loadfn_t loadfn = default_loadfn,  uint64_t seed = 0);
         void reset();
 
         /**

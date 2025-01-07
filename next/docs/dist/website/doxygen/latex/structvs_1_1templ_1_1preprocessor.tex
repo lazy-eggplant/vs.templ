@@ -3,11 +3,11 @@
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_a95fdf4e6c797432743dbd540a60e6e6c}\label{structvs_1_1templ_1_1preprocessor_a95fdf4e6c797432743dbd540a60e6e6c} 
-{\bfseries preprocessor} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\+\_\+t}} logfn=default\+\_\+logfn, \mbox{\hyperlink{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}{loadfn\+\_\+t}} loadfn=default\+\_\+loadfn, uint64\+\_\+t seed=0)
+\Hypertarget{structvs_1_1templ_1_1preprocessor_a93f053b71731ed3d4cbcb3f1278a4225}\label{structvs_1_1templ_1_1preprocessor_a93f053b71731ed3d4cbcb3f1278a4225} 
+{\bfseries preprocessor} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\+\_\+t}} logfn=default\+\_\+logfn, \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\+\_\+t}} includefn=default\+\_\+includefn, \mbox{\hyperlink{vs-templ_8hpp_ae1634a83f1adb086f9f9cd29dcfe33e1}{loadfn\+\_\+t}} loadfn=default\+\_\+loadfn, uint64\+\_\+t seed=0)
 \item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_a73e01d161fc276e7e76b51e152f28708}\label{structvs_1_1templ_1_1preprocessor_a73e01d161fc276e7e76b51e152f28708} 
-void {\bfseries init} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\+\_\+t}} logfn=default\+\_\+logfn, \mbox{\hyperlink{vs-templ_8hpp_a6208f78845fd01fd4361b6142895fa87}{loadfn\+\_\+t}} loadfn=default\+\_\+loadfn, uint64\+\_\+t seed=0)
+\Hypertarget{structvs_1_1templ_1_1preprocessor_a55199accf29c2052fdc8c73592698b13}\label{structvs_1_1templ_1_1preprocessor_a55199accf29c2052fdc8c73592698b13} 
+void {\bfseries init} (const pugi\+::xml\+\_\+node \&root\+\_\+data, const pugi\+::xml\+\_\+node \&root\+\_\+template, const char \texorpdfstring{$\ast$}{*}prefix="{}s\+:"{}, \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\+\_\+t}} logfn=default\+\_\+logfn, \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\+\_\+t}} includefn=default\+\_\+includefn, \mbox{\hyperlink{vs-templ_8hpp_ae1634a83f1adb086f9f9cd29dcfe33e1}{loadfn\+\_\+t}} loadfn=default\+\_\+loadfn, uint64\+\_\+t seed=0)
 \item 
 \Hypertarget{structvs_1_1templ_1_1preprocessor_adf816b5d9fd337b7d21e5add0495a2cf}\label{structvs_1_1templ_1_1preprocessor_adf816b5d9fd337b7d21e5add0495a2cf} 
 void {\bfseries reset} ()
@@ -26,8 +26,11 @@ void {\bfseries ns} (const char \texorpdfstring{$\ast$}{*}str)
 \Hypertarget{structvs_1_1templ_1_1preprocessor_a4ad8d7f459e74aedfeb356f17c1a38ea}\label{structvs_1_1templ_1_1preprocessor_a4ad8d7f459e74aedfeb356f17c1a38ea} 
 static void {\bfseries default\+\_\+logfn} (log\+\_\+t\+::values, const char \texorpdfstring{$\ast$}{*}str, const \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\+\_\+t}} \&ctx)
 \item 
-\Hypertarget{structvs_1_1templ_1_1preprocessor_a5258657feb6763d20d50345a6b2325a8}\label{structvs_1_1templ_1_1preprocessor_a5258657feb6763d20d50345a6b2325a8} 
-static bool {\bfseries default\+\_\+loadfn} (const char \texorpdfstring{$\ast$}{*}path, pugi\+::xml\+\_\+document \&)
+\Hypertarget{structvs_1_1templ_1_1preprocessor_a85998bcc51db1e9b11da660cb51352dc}\label{structvs_1_1templ_1_1preprocessor_a85998bcc51db1e9b11da660cb51352dc} 
+static bool {\bfseries default\+\_\+includefn} (const char \texorpdfstring{$\ast$}{*}path, pugi\+::xml\+\_\+document \&)
+\item 
+\Hypertarget{structvs_1_1templ_1_1preprocessor_a77e4f05c149424b702168e275ade4028}\label{structvs_1_1templ_1_1preprocessor_a77e4f05c149424b702168e275ade4028} 
+static bool {\bfseries default\+\_\+loadfn} (const char \texorpdfstring{$\ast$}{*}path, pugi\+::xml\+\_\+document \&, const pugi\+::xml\+\_\+node cfg)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Friends}
 \begin{DoxyCompactItemize}

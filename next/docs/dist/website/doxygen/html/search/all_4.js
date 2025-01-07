@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['preprocessor_0',['preprocessor',['../structvs_1_1templ_1_1preprocessor.html',1,'vs::templ']]]
+  ['load_5fenv_0',['load_env',['../structvs_1_1templ_1_1preprocessor.html#af1e9c40e232179830b24b01740a36ab7',1,'vs::templ::preprocessor']]],
+  ['loadfn_5ft_1',['loadfn_t',['../vs-templ_8hpp.html#ae1634a83f1adb086f9f9cd29dcfe33e1',1,'vs::templ']]],
+  ['log_5ft_2',['log_t',['../structvs_1_1templ_1_1log__t.html',1,'vs::templ']]],
+  ['logctx_5ft_3',['logctx_t',['../structvs_1_1templ_1_1logctx__t.html',1,'vs::templ']]],
+  ['logfn_5ft_4',['logfn_t',['../vs-templ_8hpp.html#a4a80bfa4b3f465ed810c0c449c008b66',1,'vs::templ']]]
 ];
