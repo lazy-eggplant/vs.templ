@@ -46,13 +46,13 @@ typedef bool (*includefn_t)(const char* path, pugi::xml_document&);
 /**
  * @brief Type of a function to load an xml document given a path. Used to load data for `data` commands.
  */
-typedef bool (*loadfn_t)(const char* path, pugi::xml_document&, const pugi::xml_node cfg);
+typedef bool (*loadfn_t)(const pugi::xml_node cfg, pugi::xml_document&);
 
 struct preprocessor{
 
     inline static void default_logfn(log_t::values, const char* str, const logctx_t& ctx){}
     inline static bool default_includefn(const char* path, pugi::xml_document&){return false;}
-    inline static bool default_loadfn(const char* path, pugi::xml_document&, const pugi::xml_node cfg){return false;}
+    inline static bool default_loadfn(const pugi::xml_node cfg, pugi::xml_document& ){return false;}
 
     private:
         friend struct repl;
