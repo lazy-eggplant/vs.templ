@@ -436,7 +436,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 auto frame_guard = symbols.guard();
     
                                 symbols.set(tag,i);
-                                symbols.set(std::string(tag) + "$",counter);    //TODO stack string
+                                symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
@@ -504,7 +504,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 auto frame_guard = symbols.guard();
 
                                 symbols.set(tag,i);
-                                symbols.set(std::string(tag) + "$",counter);    //TODO stack string
+                                symbols.set(std::string(tag) + ".k",i.name());
+                                symbols.set(std::string(tag) + ".v",i.value());
+                                symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
