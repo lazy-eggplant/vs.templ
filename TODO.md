@@ -44,13 +44,14 @@ This is a list of commands which are currently supported:
 
 ## `v0.4.1`
 
-- [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
+- [x] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
 - [x] Introduce command `data` to add external data sources and expose them in symbols.
 
 ## `v0.4.x`
 
 - [ ] Much more robust test-suite with higher coverage.
 - [ ] Optimization for lower-end systems by reducing explicit memory allocations if possible and adopting string views.
+- [ ] Support for string natural order (111 > 22).
 
 ## `v0.8.x`
 

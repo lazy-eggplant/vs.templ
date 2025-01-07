@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <cstring>
 #include <variant>
 #include <vector>
@@ -48,6 +49,13 @@ inline bool cexpr_streqv(const char* s, const char* c){return strcmp(s, c)==0;}
  * @return int 
  */
 int cmp_dot_str(const char* a, const char* b);
+
+//TODO: Add natural ordering
+
+namespace hash{
+    void MurmurHash3_x64_128 ( const void * key, const int len,
+                           const uint32_t seed, void * out );
+}
 
 }
 }

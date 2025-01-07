@@ -95,6 +95,8 @@ struct preprocessor{
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
 
+        std::array<uint64_t,2> hash(const symbol& ref);
+
     private:
         struct order_method_t{
             enum values{

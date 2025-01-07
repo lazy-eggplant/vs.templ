@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -242,7 +241,7 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
     {
         symbols.guard();
         for(auto& child: base.attributes()){
-            if(filter!=nullptr){
+            if(filter!=nullptr && filter[0]!=0){
                 repl testexpr(*this);
                 auto retexpr = testexpr.eval(filter+1);
                 if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
@@ -302,6 +301,12 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
                     else if(i<0)return false;
                 }
                 else return false;
+            }
+            else if(criterion.second==order_method_t::RANDOM){
+                std::array<uint64_t,2> hashA = hash(valA.value_or(0)), hashB = hash(valB.value_or(0));
+                if(hashA<hashB)return true;
+                else if(hashA>hashB) return false;
+                else return valA<valB;
             }
             else{
                 //TODO: methods not implemented. The dot variants are only valid for strings or string-like content. They uses `.` to nest the search in blocks, like for prop names.
@@ -764,6 +769,30 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
     }
 
     return;
+}
+
+std::array<uint64_t,2> preprocessor::hash(const symbol& ref){
+    uint64_t ret[2] = {0,0};
+
+    if(std::holds_alternative<int>(ref)){
+        hash::MurmurHash3_x64_128(&std::get<int>(ref),sizeof(int),seed,&ret);
+    }
+    else if(std::holds_alternative<float>(ref)){
+        hash::MurmurHash3_x64_128(&std::get<float>(ref),sizeof(float),seed,&ret);
+    }
+    else if(std::holds_alternative<std::string>(ref)){
+        auto str =std::get<std::string>(ref);
+        hash::MurmurHash3_x64_128(str.c_str(),str.size(),seed,&ret);
+    }
+    else if(std::holds_alternative<const pugi::xml_node>(ref)){
+        auto str = std::get<const pugi::xml_node>(ref).name();
+        hash::MurmurHash3_x64_128(str,strlen(str),seed,&ret);
+    }
+    else if(std::holds_alternative<const pugi::xml_attribute>(ref)){
+        auto str = std::get<const pugi::xml_attribute>(ref).name();
+        hash::MurmurHash3_x64_128(str,strlen(str),seed,&ret);
+    }
+    return std::array<uint64_t,2>{ret[0], ret[1]};
 }
 
 
