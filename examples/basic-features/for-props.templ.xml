@@ -1,0 +1,12 @@
+<doc xmlns:s="vs.templ">
+    <s:for in="/items/section-a">
+        <s:item>
+            ELEMENT:
+            <s:for-props in="$">
+                <s:item>
+                    <s:value src=":`#; ` `{$.v}` `#=` `{$.k}` cat:*" />
+                </s:item>
+            </s:for-props>
+        </s:item>
+    </s:for>
+</doc>
