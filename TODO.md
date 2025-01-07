@@ -45,6 +45,7 @@ This is a list of commands which are currently supported:
 ## `v0.4.1`
 
 - [ ] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
+- [ ] Introduce command `data` to add external data sources and expose them in symbols.
 
 ## `v0.4.x`
 

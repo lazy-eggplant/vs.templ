@@ -125,7 +125,7 @@ To iterate over children and props of an element respectively.
 Aside from that, they mostly share the same interface.
 
 - `tag`: the name of the symbol hosting the current XML node pointer. If empty, its default is `$`
-- `in`: must be specified and is a path expression
+- `src`: must be specified and is a path expression
 - `filter`: as an expression in the internal [custom language](./calc.md).
 - `sort-by`: (only available for `for`) list of `|` separated path expressions. Elements will be sorted giving priority from left to right
 - `order-by`: order preference for each field in the `sort-by` or the only one implicit for `for-props`.  
@@ -173,12 +173,18 @@ For example the inclusion of a file which does not exist can adopt the content o
 
 ### include
 
+> [!IMPORTANT]  
+> The full behaviour of this function is determined by downstream integration. 
+
 Add in place the file defined in `src`. If not found, it uses the content inside `include`. External files will have their root removed when included.  
 File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
 `src` is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.  
-There is no caching provided by `vs.templ`, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.
 
-Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.
+The functionality of `include` is not provided by `vs.templ` and requires downstream integration.  
+As such is no caching provided by `vs.templ`; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
+Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.  
+
+The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.
 
 #### Examples
 
@@ -188,6 +194,19 @@ Similarly, circular dependencies are not tested. It is up to you to use a load f
     <p>This will be used if the import fails. Leave empty if not needed</p>
 </s:include>
 ```
+
+### data
+
+> [!IMPORTANT]  
+> The full behaviour of this function is determined by downstream integration. 
+
+This command loads a data source in memory, and exposes it via a tag name.  
+Any property which is not `src` and `tag` will be exposed to the supplier function for parametrization.  
+Data retrieval is not part of `vs.templ`, so it is up to the downstream implementation to handle it as desired.  
+
+The CLI shipping with the library will not handle complex features like filtering, sorting etc.  
+The `src` passed is just being used as a regular fs path.
+
 
 ## Operators for properties
 
