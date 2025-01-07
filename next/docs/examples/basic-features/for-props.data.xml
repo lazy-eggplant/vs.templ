@@ -2,9 +2,6 @@
 `./build/vs.templ ./examples/basic-features/for-props.templ.xml ./examples/basic-features/for-props.data.xml`
 -->
 <items>
-    <section-a>
-        <item prop-a="Value B">Text B</item>
-        <item prop-a="Value A-1" prop-b="Value A-2" prop-c="Value A-3">Text A</item>
-        <item prop-a="Value C">Text C</item>
-    </section-a>
+    <section-a prop-a="Value A-1" prop-b="Value A-2" prop-c="Value A-3"></section-a>
+    <section-b prop-a="Value A-1" prop-b="Value A-2" prop-c="Value A-3"></section-b>
 </items>

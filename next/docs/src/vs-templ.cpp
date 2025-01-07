@@ -671,10 +671,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
                     if(false){}
                     //Matches for.src.key.* even without named suffix
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.src.")){
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.in.")){
                         int subgroup_length = 0;
-                        if(attr.name()[ns_prefix.length()+sizeof("for.src")-1]=='\0'){}
-                        else if(attr.name()[ns_prefix.length()+sizeof("for.src")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.src")-1+1;}
+                        if(attr.name()[ns_prefix.length()+sizeof("for.in")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for.in")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.in")-1+1;}
                         else {continue;}
 
 #                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
@@ -682,12 +682,12 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                                     memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
                                                     if(subgroup_length!=0){\
                                                         NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
-                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.src")-1+1,subgroup_length);\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.in")-1+1,subgroup_length);\
                                                     }\
                                                     NAME [sizeof(NAME)-1]=0;
 
                         //Compute all the other tags dynamically
-                        WRITE(FOR_SRC_KEY_PROP,"for.src");
+                        WRITE(FOR_IN_KEY_PROP,"for.in");
                         WRITE(FOR_SORT_BY_PROP,"for.sort-by");
                         WRITE(FOR_ORDER_BY_PROP,"for.order-by");
                         WRITE(FOR_LIMIT_PROP,"for.limit");
