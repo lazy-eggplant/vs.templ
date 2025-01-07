@@ -6,7 +6,7 @@
 
     <template>
         <document>
-            <s:for-props src="$/item/" order-by="desc">
+            <s:for-props in="$/item/" order-by="desc">
                 <s:item>
                     <s:value />s </s:item>
                 <s:error>banana</s:error>

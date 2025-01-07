@@ -25,7 +25,7 @@ and
 
 ```xml
 <ul>
-<s:for src="/items/" sort-by="~prop-a" order-by="desc">
+<s:for in="/items/" sort-by="~prop-a" order-by="desc">
     <s:item>
         <li><s:value src="~prop-a"/>: <s:value src="~!txt"/></li>
     </s:item>

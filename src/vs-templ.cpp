@@ -13,8 +13,9 @@ namespace vs{
 namespace templ{
 
 
-void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, loadfn_t _loadfn, uint64_t seed){
+void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, includefn_t _includefn, loadfn_t _loadfn, uint64_t seed){
     if(_logfn!=nullptr)logfn=_logfn;
+    if(_includefn!=nullptr)includefn=_includefn;
     if(_loadfn!=nullptr)loadfn=_loadfn;
 
     stack_template.emplace(root_template.begin(),root_template.end());
@@ -376,7 +377,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
-                    const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
+                    const char* in = current_template.first->attribute("in").as_string();
 
                     //TODO: filter has not defined syntax yet.
                     const char* filter = current_template.first->attribute("filter").as_string(nullptr);
@@ -457,7 +458,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 }
                 else if(strcmp(current_template.first->name(),strings.FOR_PROPS_TAG)==0){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
-                    const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
+                    const char* in = current_template.first->attribute("in").as_string();
 
                     //TODO: filter has not defined syntax yet.
                     const char* filter = current_template.first->attribute("filter").as_string(nullptr);
@@ -618,7 +619,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     auto src = current_template.first->attribute("src").as_string("");
                     if(src[0]!=0){
                         pugi::xml_document localdoc;
-                        if(loadfn(src,localdoc)){
+                        if(includefn(src,localdoc)){
                             current_template.first->attribute("src").set_value("");
                             current_template.first->remove_children();
                             for(auto& child: localdoc.root().first_child().children()){
@@ -696,7 +697,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 #                       undef WRITE
 
                         //Collect values
-                        const char* in = current_template.first->attribute("in").as_string(current_template.first->attribute("src").as_string());
+                        const char* in = current_template.first->attribute("in").as_string();
 
                         //TODO: filter has not defined syntax yet.
                         //const char* _filter = current_template.first->attribute("filter").as_string();
