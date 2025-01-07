@@ -105,7 +105,7 @@
 <li>A modern C++ toolchain supporting C++20</li>
 <li><code>meson</code> as the build system of choice</li>
 <li><code>pandoc</code> (optional) if you want to generate the documentation/man pages</li>
-<li><code>gperf</code> (optional) if you want to regenerate the command dispatchers</li>
+<li><del><code>gperf</code> (optional) if you want to regenerate the command dispatchers</del> not in use right now, when frozen will be removed this is its replacement.</li>
 <li><code>valgrind</code> (optional) to run some tests</li>
 </ul>
 <p>To build, test and install it you can just use normal meson commands like.</p>
@@ -117,7 +117,9 @@ meson install -C build
 <p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
 I might consider adding <code>cmake</code> later on to gain a wider compatibility.</p>
 <p>If <code>pugixml</code> is already provided as a dependency in the main project, that will be used.</p>
-<p>The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
+<p><code>vs.templ</code> requires you implement some features downstream to support all features.<br />
+If not provided, the library will still be usable, but the command tags <code>include</code> and <code>data</code> will not work as expected.<br />
+The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
 <h3 id="c-bindings">C bindings<a class="headerlink" href="#c-bindings" title="Permanent link">#</a></h3>
 <p>At this time, no C bindings are provided since all my downstream project don&rsquo;t need them, and pugixml is C++ only.<br />
 Still, the public interface is quite thin, so they can be easily introduced if so desired.</p>
