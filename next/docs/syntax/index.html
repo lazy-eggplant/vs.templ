@@ -202,7 +202,7 @@ Any other property and child will be preserved.</p>
 Aside from that, they mostly share the same interface.</p>
 <ul>
 <li><code>tag</code>: the name of the symbol hosting the current XML node pointer. If empty, its default is <code>$</code></li>
-<li><code>in</code>: must be specified and is a path expression</li>
+<li><code>src</code>: must be specified and is a path expression</li>
 <li><code>filter</code>: as an expression in the internal <a href="./calc.md">custom language</a>.</li>
 <li><code>sort-by</code>: (only available for <code>for</code>) list of <code>|</code> separated path expressions. Elements will be sorted giving priority from left to right</li>
 <li><code>order-by</code>: order preference for each field in the <code>sort-by</code> or the only one implicit for <code>for-props</code>.<br />
@@ -244,17 +244,33 @@ It just means that there is no way to recover it, and downstream code will have 
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.<br />
 For example the inclusion of a file which does not exist can adopt the content of the <code>include</code> tag as fallback.</p>
 <h3 id="include">include<a class="headerlink" href="#include" title="Permanent link">#</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>The full behaviour of this function is determined by downstream integration. </p>
+</div>
 <p>Add in place the file defined in <code>src</code>. If not found, it uses the content inside <code>include</code>. External files will have their root removed when included.<br />
 File loading for a single <code>include</code> instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.<br />
-<code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.<br />
-There is no caching provided by <code>vs.templ</code>, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.</p>
-<p>Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
+<code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.  </p>
+<p>The functionality of <code>include</code> is not provided by <code>vs.templ</code> and requires downstream integration.<br />
+As such is no caching provided by <code>vs.templ</code>; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.<br />
+Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.  </p>
+<p>The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.</p>
 <h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">#</a></h4>
 <pre><code class="language-xml">&lt;s:include src=&quot;component.xml&quot;&gt;
     &lt;h1&gt;Placeholder title&lt;/h1&gt;
     &lt;p&gt;This will be used if the import fails. Leave empty if not needed&lt;/p&gt;
 &lt;/s:include&gt;
 </code></pre>
+<h3 id="data">data<a class="headerlink" href="#data" title="Permanent link">#</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>The full behaviour of this function is determined by downstream integration. </p>
+</div>
+<p>This command loads a data source in memory, and exposes it via a tag name.<br />
+Any property which is not <code>src</code> and <code>tag</code> will be exposed to the supplier function for parametrization.<br />
+Data retrieval is not part of <code>vs.templ</code>, so it is up to the downstream implementation to handle it as desired.  </p>
+<p>The CLI shipping with the library will not handle complex features like filtering, sorting etc.<br />
+The <code>src</code> passed is just being used as a regular fs path.</p>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrxxx-for-propssub-attrxxx">for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx<a class="headerlink" href="#forsub-attrxxx-for-propssub-attrxxx" title="Permanent link">#</a></h3>

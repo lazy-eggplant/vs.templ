@@ -158,6 +158,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("element")+STRLEN("type")+
         STRLEN("log")+
         STRLEN("include")+
+        STRLEN("data")+
 
         STRLEN("for.src")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
@@ -187,6 +188,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 
     WRITE(LOG_TAG,"log");
     WRITE(INCLUDE_TAG,"include");
+    WRITE(DATA_TAG,"data");
 
     WRITE(FOR_SRC_PROP,"for.src");
     WRITE(FOR_FILTER_PROP,"for.filter");
@@ -624,6 +626,27 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             }
                         }
                         else log(log_t::WARNING, std::format("Unable to use file `{}`, the content of the `include` will be used instead",src));
+                    }
+                    
+                    stack_template.emplace(current_template.first->begin(),current_template.first->end());
+                    _parse(current_template.first);
+                    stack_compiled.emplace(current_compiled);
+                    
+                }
+                else if(strcmp(current_template.first->name(),strings.DATA_TAG)==0){
+                    //This is intentionally not an expression. Declarations of files to include should always be fully static to ensure they can be statically traced.
+                    auto src = current_template.first->attribute("src").as_string("");
+                    if(src[0]!=0){
+                        pugi::xml_document localdoc;
+                        //TODO: Its implementation is different
+                        /*if(loadfn(src,localdoc)){
+                            current_template.first->attribute("src").set_value("");
+                            current_template.first->remove_children();
+                            for(auto& child: localdoc.root().first_child().children()){
+                                current_template.first->append_copy(child);
+                            }
+                        }*/
+                        log(log_t::ERROR, std::format("The `data` command is currently not supported yet.",src));
                     }
                     
                     stack_template.emplace(current_template.first->begin(),current_template.first->end());

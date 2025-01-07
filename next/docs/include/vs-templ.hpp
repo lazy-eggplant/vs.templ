@@ -129,6 +129,7 @@ struct preprocessor{
             const char *LOG_TAG;
 
             const char *INCLUDE_TAG;
+            const char *DATA_TAG;
 
             //S:PROPS
             const char *FOR_SRC_PROP;
