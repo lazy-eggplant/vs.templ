@@ -71,6 +71,8 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.13/">V0.3.13</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
@@ -118,11 +120,12 @@ Their definition and usage is purposefully restricted to prevent arbitrary code 
 A full list of feasible expression types:</p>
 <ul>
 <li>Empty expression, generally representing errors</li>
-<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped)</li>
+<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped and not part of the final string)</li>
 <li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
+<li>Floating point numbers, like integers but always ending with <code>f</code></li>
 <li>Paths, of which three forms exists:<ul>
-<li>those starting with <code>$</code>. This special symbol is used to mark the nearest scope in the data XML being visited, or root if none.</li>
-<li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
+<li>those starting with <code>$</code>. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none.</li>
+<li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack. They can only appear as the first token.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
 </ul>
 </li>
@@ -220,7 +223,8 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>item</code>: the main body</li>
 <li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
-<p>The symbol <code>$$</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.</p>
+<p>The symbol <code>[tag].c</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.<br />
+For <code>for-props</code> there are also <code>[tag].k</code> and <code>[tag].v</code> for key and value of the prop. <code>[tag]</code> by default is <code>$</code>.</p>
 <h3 id="test-case">test &amp; case<a class="headerlink" href="#test-case" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
 Inside the body of <code>test</code> we have one or more <code>case</code>.<br />
