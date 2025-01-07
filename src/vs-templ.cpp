@@ -53,7 +53,7 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
 
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
-        if(_str[_str.length()-1]=='f')return (float)atof(str);
+        if(_str[_str.length()-1]=='f'){str[_str.length()-1]=0;return (float)atof(str);}
         else return atoi(str);
     }
     else if(str[0]==':') {

@@ -32,20 +32,15 @@ This is a list of commands which are currently supported:
   - [x] and for `filter` prop on for like cycles.
   - [x] replace numbers in for-range with these kinds of expressions.
   - [x] Evaluate their usage in when/is
-- [ ] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
+- [x] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
 - [x] Floating point numbers (same serialization as for integers, but ending in `f`).  
        Cannot be mixed with integers in operations, explicit casts are needed.
 
-# Milestones
+# Milestones"
 
-## `v0.3.13`
+## `v0.3.15`
 
 - [ ] Add support for all props-based which were left commands.
-
-## `v0.4.1`
-
-- [x] Add `random` as a proper `order-by` supported value (I must be able to specify the seed when building the document too).
-- [x] Introduce command `data` to add external data sources and expose them in symbols.
 
 ## `v0.4.x`
 
@@ -55,7 +50,7 @@ This is a list of commands which are currently supported:
 
 ## `v0.8.x`
 
-- [ ] Add sqlite backend in place of input XML data.
+- [ ] ~~Add sqlite backend in place of input XML data.~~ no longer needed, we can load data.
 
 ## `v1.0.0`
 

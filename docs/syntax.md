@@ -19,11 +19,12 @@ Their definition and usage is purposefully restricted to prevent arbitrary code 
 A full list of feasible expression types:
 
 - Empty expression, generally representing errors
-- String, automatically assigned from expressions starting with `#` (the prefix `#` is skipped)
+- String, automatically assigned from expressions starting with `#` (the prefix `#` is skipped and not part of the final string)
 - Integers (base 10), automatically assigned from expressions starting with a digit, `+`, `-` or `.`
+- Floating point numbers, like integers but always ending with `f`
 - Paths, of which three forms exists:
-  - those starting with `$`. This special symbol is used to mark the nearest scope in the data XML being visited, or root if none.
-  - Paths with arbitrary prefix `{var-name}` where `var-name`is searched for and resolved from the symbols' stack.
+  - those starting with `$`. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none.
+  - Paths with arbitrary prefix `{var-name}` where `var-name`is searched for and resolved from the symbols' stack. They can only appear as the first token.
   - Absolute paths starting from the root, with prefix `/`.
 
 Path expressions will continue with one or more tokens `/`-terminated representing the tag name being visited.  
@@ -143,7 +144,8 @@ Both `for` & `for-props` support the following list of children. You can use as 
 - `item`: the main body
 - `error`: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists `empty` is used)
 
-The symbol `$$` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.
+The symbol `[tag].c` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.  
+For `for-props` there are also `[tag].k` and `[tag].v` for key and value of the prop. `[tag]` by default is `$`.
 
 ### test & case
 
