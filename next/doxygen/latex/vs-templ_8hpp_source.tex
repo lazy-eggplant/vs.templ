@@ -32,13 +32,13 @@
 \DoxyCodeLine{00040\ }
 \DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ bool\ (*includefn\_t)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ pugi::xml\_document\&);}
 \DoxyCodeLine{00045\ }
-\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ bool\ (*loadfn\_t)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ pugi::xml\_document\&,\ \textcolor{keyword}{const}\ pugi::xml\_node\ cfg);}
+\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ bool\ (*loadfn\_t)(\textcolor{keyword}{const}\ pugi::xml\_node\ cfg,\ pugi::xml\_document\&);}
 \DoxyCodeLine{00050\ }
 \DoxyCodeLine{00051\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}\{}
 \DoxyCodeLine{00052\ }
 \DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ default\_logfn(log\_t::values,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structvs_1_1templ_1_1logctx__t}{logctx\_t}}\&\ ctx)\{\}}
 \DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ default\_includefn(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ pugi::xml\_document\&)\{\textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\}}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ default\_loadfn(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ pugi::xml\_document\&,\ \textcolor{keyword}{const}\ pugi::xml\_node\ cfg)\{\textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ default\_loadfn(\textcolor{keyword}{const}\ pugi::xml\_node\ cfg,\ pugi::xml\_document\&\ )\{\textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\}}
 \DoxyCodeLine{00056\ }
 \DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1repl}{repl}};}
@@ -47,7 +47,7 @@
 \DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ uint64\_t\ seed;}
 \DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn;}
 \DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\_t}}\ includefn\ =\ default\_includefn;}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vs-templ_8hpp_ae1634a83f1adb086f9f9cd29dcfe33e1}{loadfn\_t}}\ loadfn\ =\ default\_loadfn;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vs-templ_8hpp_a468c2563c4eff1c228ce32dd7ee3f319}{loadfn\_t}}\ loadfn\ =\ default\_loadfn;}
 \DoxyCodeLine{00065\ }
 \DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Final\ document\ to\ be\ shared}}
 \DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ pugi::xml\_document\ compiled;}
@@ -64,11 +64,11 @@
 \DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ pugi::xml\_node\ root\_data;}
 \DoxyCodeLine{00079\ }
 \DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\_t}}\ includefn\ =\ default\_includefn,\ \ \mbox{\hyperlink{vs-templ_8hpp_ae1634a83f1adb086f9f9cd29dcfe33e1}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ uint64\_t\ seed\ =\ 0)\{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor}{preprocessor}}(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\_t}}\ includefn\ =\ default\_includefn,\ \ \mbox{\hyperlink{vs-templ_8hpp_a468c2563c4eff1c228ce32dd7ee3f319}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ uint64\_t\ seed\ =\ 0)\{}
 \DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ init(root\_data,root\_template,prefix,logfn,includefn,loadfn,seed);}
 \DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\_t}}\ includefn\ =\ default\_includefn,\ \ \mbox{\hyperlink{vs-templ_8hpp_ae1634a83f1adb086f9f9cd29dcfe33e1}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ \ uint64\_t\ seed\ =\ 0);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_data,\ \textcolor{keyword}{const}\ pugi::xml\_node\&\ root\_template,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ prefix=\textcolor{stringliteral}{"{}s:"{}},\ \mbox{\hyperlink{vs-templ_8hpp_a4a80bfa4b3f465ed810c0c449c008b66}{logfn\_t}}\ logfn\ =\ default\_logfn,\ \mbox{\hyperlink{vs-templ_8hpp_af3677d94640c2f285f79c24784f09365}{includefn\_t}}\ includefn\ =\ default\_includefn,\ \ \mbox{\hyperlink{vs-templ_8hpp_a468c2563c4eff1c228ce32dd7ee3f319}{loadfn\_t}}\ loadfn\ =\ default\_loadfn,\ \ uint64\_t\ seed\ =\ 0);}
 \DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ reset();}
 \DoxyCodeLine{00087\ }
 \DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structvs_1_1templ_1_1preprocessor_af1e9c40e232179830b24b01740a36ab7}{load\_env}}(std::map<std::string,symbol>\&\ env)\{symbols.reset(env);symbols.set(\textcolor{stringliteral}{"{}\$"{}},root\_data);\}}

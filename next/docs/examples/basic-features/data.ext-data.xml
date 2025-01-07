@@ -1,9 +1,6 @@
-<!-- 
-Test with:
-`./build/vs.templ ./examples/basic-features/template-0.xml ./examples/basic-features/data-0.xml`
-from the source root.
+<!--
+`./build/vs.templ ./examples/basic-features/data.templ.xml ./examples/basic-features/data.data.xml`
 -->
-
 <items>
     <section-a>
         <item prop-a="Value 1">Text A</item>

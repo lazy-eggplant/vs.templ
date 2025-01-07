@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -635,25 +636,20 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     
                 }
                 else if(strcmp(current_template.first->name(),strings.DATA_TAG)==0){
-                    //This is intentionally not an expression. Declarations of files to include should always be fully static to ensure they can be statically traced.
-                    auto src = current_template.first->attribute("src").as_string("");
-                    if(src[0]!=0){
-                        pugi::xml_document localdoc;
-                        //TODO: Its implementation is different
-                        /*if(loadfn(src,localdoc)){
-                            current_template.first->attribute("src").set_value("");
-                            current_template.first->remove_children();
-                            for(auto& child: localdoc.root().first_child().children()){
-                                current_template.first->append_copy(child);
-                            }
-                        }*/
-                        log(log_t::ERROR, std::format("The `data` command is currently not supported yet.",src));
+                    pugi::xml_document localdoc;
+                    if(loadfn(*current_template.first,localdoc)){
+                        symbols.guard();
+                        symbols.set(current_template.first->attribute("tag").as_string("$"), localdoc.root());
+                        stack_template.emplace(current_template.first->begin(),current_template.first->end());
+                        _parse(current_template.first);
+                        stack_compiled.emplace(current_compiled); 
                     }
-                    
-                    stack_template.emplace(current_template.first->begin(),current_template.first->end());
-                    _parse(current_template.first);
-                    stack_compiled.emplace(current_compiled);
-                    
+                    else{
+                        log(log_t::ERROR, std::format("The `data` command was unable to load its content."));
+                        stack_template.emplace(current_template.first->begin(),current_template.first->end());
+                        _parse(current_template.first);
+                        stack_compiled.emplace(current_compiled); 
+                    }
                 }
                 else {
                     log(log_t::ERROR, std::format("unrecognized static operation `{}`",current_template.first->name()));
