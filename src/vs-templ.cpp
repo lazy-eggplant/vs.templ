@@ -589,8 +589,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         bool _continue =  entry.attribute("continue").as_bool(false);
                         auto test = resolve_expr(entry.attribute("value").as_string("{$}"));
 
-                        auto when =  get_or<int>(resolve_expr(current_template.first->attribute("when").as_string(": false")).value_or(false),false);
-                
+                        auto when =  get_or<int>(resolve_expr(entry.attribute("when").as_string(": false")).value_or(false),false);
+
                         if(when){
                             stack_template.emplace(entry.begin(),entry.end());
                             _parse(current_template.first);
