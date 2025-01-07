@@ -1,5 +1,5 @@
 <!--
-`./build/vs.templ ./examples/basic-features/data.templ.xml ./examples/basic-features/data.data.xml`
+The additional to be loaded on request by the template.
 -->
 <items>
     <section-a>

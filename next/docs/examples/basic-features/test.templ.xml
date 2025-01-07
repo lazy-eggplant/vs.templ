@@ -1,0 +1,13 @@
+<doc xmlns:s="vs.templ">
+    <s:test>
+        <s:case when=": true" continue="true">
+            <h1>Hello 1</h1>
+        </s:case>
+        <s:case when=": true">
+            <h1>Hello 2</h1>
+        </s:case>
+        <s:case when=": false">
+            <h1>Hello</h1>
+        </s:case>
+    </s:test>
+</doc>
