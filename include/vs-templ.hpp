@@ -68,7 +68,6 @@ struct preprocessor{
 
         //To track operations within the parser
         std::stack<pugi::xml_node> stack_compiled;
-        std::stack<pugi::xml_node_iterator> stack_data;
         std::stack<std::pair<pugi::xml_node_iterator,pugi::xml_node_iterator>> stack_template;
 
         //Stack-like table of symbols
