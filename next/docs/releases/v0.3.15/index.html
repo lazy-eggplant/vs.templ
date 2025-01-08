@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>V0.3.7 - vs.templ</title>
+    <title>V0.3.15 - vs.templ</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "V0.3.7";
-        var mkdocs_page_input_path = "releases/v0.3.7.md";
+        var mkdocs_page_name = "V0.3.15";
+        var mkdocs_page_input_path = "releases/v0.3.15.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -69,13 +69,13 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../v0.3.13/">V0.3.13</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../v0.3.15/">V0.3.15</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">V0.3.15</a>
+    <ul class="current">
+    </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../v0.3.5/">V0.3.5</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">V0.3.7</a>
-    <ul class="current">
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../v0.3.7/">V0.3.7</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../v0.3.9/">V0.3.9</a>
                   </li>
@@ -95,9 +95,9 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Releases</li>
-      <li class="breadcrumb-item active">V0.3.7</li>
+      <li class="breadcrumb-item active">V0.3.15</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/releases/v0.3.7.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/releases/v0.3.15.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -105,29 +105,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="v037">v0.3.7<a class="headerlink" href="#v037" title="Permanent link">#</a></h2>
-<p>This release brings many new features which further expand the capabilities of <code>vs.templ</code>:</p>
-<ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced a more robust logging infrastructure at all levels. Now errors and warnings are better logged.<ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced <code>log</code> tag</li>
-</ul>
-</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced <a href="../../repl-vm/">meta-expressions</a> with their RPN virtual machine to support more complex evaluations.<br />
-       A good number of operators have been implemented so far, with most of the architectural bits ironed out.</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced <code>filter</code> for loops now that we have meta-expressions.</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> A significantly improved documentation.</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> Initial work to support prop-based commands.</li>
-</ul>
-<p>The <code>in</code> attribute for cycles has been removed in favour of <code>src</code> to make it more consistent.<br />
-No further breaking change is expected from v0.3.5 for templates, but the public interface itself has.<br />
-You might need to slightly refactor current code, and provide an explicit logging function.<br />
-Next release is expected to be the very last for v0.3.x.</p>
+                <h2 id="v0315">v0.3.15<a class="headerlink" href="#v0315" title="Permanent link">#</a></h2>
+<p>All done! The last <code>for</code> and <code>for-props</code> prop based commands have been completed.<br />
+With this development of functionality for <code>vs.templ</code> is done.</p>
+<p>There are minor features planned for the <code>v0.4.x</code> branch, but most will be documentation, better examples, formal XML schemas and testing infrastructure.<br />
+Once that is done we are going straight to <code>v.1</code> if there are no architectural problems being discovered in the meanwhile.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../v0.3.5/" class="btn btn-neutral float-left" title="V0.3.5"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../v0.3.9/" class="btn btn-neutral float-right" title="V0.3.9">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../v0.3.13/" class="btn btn-neutral float-left" title="V0.3.13"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../v0.3.5/" class="btn btn-neutral float-right" title="V0.3.5">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -154,10 +142,10 @@ Next release is expected to be the very last for v0.3.x.</p>
         </span>
     
     
-      <span><a href="../v0.3.5/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../v0.3.13/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../v0.3.9/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../v0.3.5/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
