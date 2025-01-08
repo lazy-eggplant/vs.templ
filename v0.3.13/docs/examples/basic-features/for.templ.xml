@@ -1,0 +1,13 @@
+<doc xmlns:s="vs.templ">
+    <!--The element-based commands-->
+    <stuff>
+        <s:for in="/items">
+            <s:item>
+                <s:value src=":`#; ` `~!txt` `#=` `~prop-a` cat:*" />
+            </s:item>
+        </s:for>
+    </stuff>
+    <!--The prop-based commands-->
+    <stuff s:for.in.0="/items" s:for.sort-by.0="desc"
+        s:for.key.0="{$~prop-a}" s:for.value.0="{$~!txt}" />
+</doc>

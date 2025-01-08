@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test xmlns:s="vs.templ">
+    <data>
+        <items>
+            <section-a>
+                <item prop-a="Value 1">Text A</item>
+                <item prop-a="Value 2">Text B</item>
+                <item prop-a="Value 3">Text C</item>
+            </section-a>
+            <section-b>
+                <item prop-a="Value 1">Text A</item>
+                <item prop-a="Value 2">Text B</item>
+                <item prop-a="Value 3">Text C</item>
+            </section-b>
+        </items>
+    </data>
+
+    <template>
+        <document>
+            <h1>Section A</h1>
+            <ul>
+                <s:for in="$/items/section-a/" sort-by="~prop-a" order-by="desc">
+                    <s:item>
+                        <li><s:value src="$~prop-a" />: <s:value src="$~!txt" /></li>
+                    </s:item>
+                </s:for>
+            </ul>
+
+            <h1>Section B</h1>
+            <ul>
+                <s:for in="$/items/section-b/" sort-by="~prop-a" order-by="desc">
+                    <s:header>
+                        <h3>Header</h3>
+                    </s:header>
+                    <s:footer>
+                        <h3>Footer</h3>
+                    </s:footer>
+                    <s:item>
+                        <li><s:value src="~prop-a" />: <s:value src="~!txt" /></li>
+                    </s:item>
+                </s:for>
+            </ul>
+
+            <h1>Section C</h1>
+            <ul>
+                <s:for in="$/items/section-c/" sort-by="~prop-a" order-by="desc">
+                    <s:header>
+                        <h3>Header</h3>
+                    </s:header>
+                    <s:footer>
+                        <h3>Footer</h3>
+                    </s:footer>
+                    <s:item>
+                        <li><s:value src="$~prop-a" />: <s:value src="$~!txt" /></li>
+                    </s:item>
+                    <s:empty>No content!</s:empty>
+                </s:for>
+            </ul>
+        </document>
+    </template>
+
+    <expects>
+        <document>
+            <h1>Section A</h1>
+            <ul>
+                <li>Value 3: Text C</li>
+                <li>Value 2: Text B</li>
+                <li>Value 1: Text A</li>
+            </ul>
+            <h1>Section B</h1>
+            <ul>
+                <h3>Header</h3>
+                <li>Value 3: Text C</li>
+                <li>Value 2: Text B</li>
+                <li>Value 1: Text A</li>
+                <h3>Footer</h3>
+            </ul>
+            <h1>Section C</h1>
+            <ul>No content!</ul>
+        </document>
+    </expects>
+</test>

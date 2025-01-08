@@ -1,0 +1,135 @@
+<!-- I need to learn this syntax :( -->
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="anyElement" />
+    </start>
+    <define name="anyElement">
+        <element>
+            <anyName><except><nsName ns="vs-templ"></nsName></except></anyName>
+            <ref name="both-attr"/>
+            <mixed>
+                <zeroOrMore>
+                    <ref name="both"/>  
+                </zeroOrMore>
+            </mixed>
+        </element>
+    </define>
+
+    <define name="anyAttributes">
+        <zeroOrMore>
+            <attribute>
+                <anyName><except><nsName ns="vs-templ"></nsName></except></anyName>
+            </attribute>
+        </zeroOrMore>
+    </define>
+
+    <define name="static-attr" ns="vs-templ">   <!--why I need it here for tags but local for props?-->
+        <zeroOrMore>
+            <choice>
+                <attribute name="eee" ns="vs-templ"></attribute>
+            </choice>
+        </zeroOrMore>
+    </define>
+
+    <!--Put all definitions s:tag in here-->
+    <define name="static" ns="vs-templ">
+        <choice>
+            <element name="for-range">
+                <optional><attribute name="from"/></optional>
+                <optional><attribute name="to"/></optional>
+                <optional><attribute name="step"/></optional>
+                <mixed>
+                    <zeroOrMore>
+                        <ref name="both"></ref>
+                    </zeroOrMore>
+                </mixed>
+            </element>
+            <element name="for">
+                <optional><attribute name="tag"/></optional>
+                <choice><attribute name="in"/><attribute name="src"/></choice>
+                <optional><attribute name="filter-by"/></optional>
+                <optional><attribute name="sort-by"/></optional>
+                <optional><attribute name="order-by"/></optional>
+                <mixed>
+                    <zeroOrMore>
+                        <choice>
+                            <element name="header">
+                                <mixed>
+                                    <zeroOrMore>
+                                        <ref name="both"></ref>
+                                    </zeroOrMore>
+                                </mixed>
+                            </element>
+                            <element name="footer">
+                                <mixed>
+                                    <zeroOrMore>
+                                        <ref name="both"></ref>
+                                    </zeroOrMore>
+                                </mixed>
+                            </element>
+                            <element name="item">
+                                <mixed>
+                                    <zeroOrMore>
+                                        <ref name="both"></ref>
+                                    </zeroOrMore>
+                                </mixed>
+                            </element>
+                            <element name="error">
+                                <mixed>
+                                    <zeroOrMore>
+                                        <ref name="both"></ref>
+                                    </zeroOrMore>
+                                </mixed>
+                            </element>
+                            <element name="empty">
+                                <mixed>
+                                    <zeroOrMore>
+                                        <ref name="both"></ref>
+                                    </zeroOrMore>
+                                </mixed>
+                            </element>
+                        </choice>
+                    </zeroOrMore>
+                </mixed>
+            </element>
+            <!--<element name="for-prop"></element>-->
+            <element name="element">
+                <mixed>
+                    <zeroOrMore>
+                        <ref name="both"></ref>
+                    </zeroOrMore>
+                </mixed>
+            </element>
+            <element name="value">
+                <mixed>
+                    <zeroOrMore>
+                        <ref name="both"></ref>
+                    </zeroOrMore>
+                </mixed>
+            </element>
+            <element name="calc">
+                <mixed>
+                    <zeroOrMore>
+                        <ref name="both"></ref>
+                    </zeroOrMore>
+                </mixed>
+            </element>
+        </choice>
+    </define>
+
+    <!--Element collection to allow both s:tags and the rest within the same document-->
+    <define name="both">
+        <choice>
+            <ref name="static"/>
+            <ref name="anyElement"/>
+        </choice>
+    </define>
+
+    <define name="both-attr">
+        <choice>
+            <ref name="static-attr"/>
+            <ref name="anyAttributes"/>
+        </choice>
+    </define>
+</grammar>
