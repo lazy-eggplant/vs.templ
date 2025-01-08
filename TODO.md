@@ -19,7 +19,7 @@ This is a list of commands which are currently supported:
 
 ## Props based
 
-- [ ] for
+- [x] for
 - [ ] for-prop
 - [x] value
 - [x] prop (dual of element)
@@ -36,7 +36,7 @@ This is a list of commands which are currently supported:
 - [x] Floating point numbers (same serialization as for integers, but ending in `f`).  
        Cannot be mixed with integers in operations, explicit casts are needed.
 
-# Milestones"
+# Milestones
 
 ## `v0.3.15`
 

@@ -9,28 +9,30 @@ The VM is going to run it, and the only element left on stack is taken as the fi
 For example, assuming the environment had `i` set to `1`:
 
 ```
-: `#name-` `{i}` cat:*`
+: `{i}` `#name-` cat:*`
 ```
 
 will return an expression of type string embedding the value `name-1`.
 
-Type casting should be explicit, but some operations like `concat` might cast automatically.  
-The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.
+Type casting must generally be explicit, but some operators might have automatic casting to simplify code.  
+The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.  
+The character `|` should never be used as it interfere with the serialization of tuples used by `vs.templ`.  
+Escaping sequences are defined for \` and `|` as well.
 
 ## Design
 
 ### Why RPN?
 
-The reason for going with something like this are:
+Several reasons:
 
 - to avoid a complex parser for what will end up being a quite marginal feature
-- to avoid the arbitrary precedence rules usually associated to algebraic operator
-- to be fast and easy to compile into native code via tcc if so desired (but for now it is just going to be interpreted)
+- it avoids the arbitrary precedence rules usually associated with algebraic operator
+- to be fast and easy to compile into native code if so desired (but for now a vm is all we need)
 
 ### Possible extensions
 
-I will probably allow braces, just for the sake of readability, and to avoid being explicit about the number of arguments a function should take.  
-At some point I might validate them if present just to highlight potential bugs.
+I will probably allow braces as NOP operators, just as syntax sugar to improve readability.  
+At some point they could get validated in LSP, so that potential bugs are highlit.
 
 ### Options for implementation
 
