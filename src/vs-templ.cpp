@@ -744,7 +744,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                                 auto pair = split_string(_prop,'|');
                                 if(pair.size()!=2){
-                                    log(log_t::ERROR, std::format("unrecognized pair for prop operator `prop`"));
+                                    log(log_t::ERROR, std::format("unrecognized pair for prop command `for`"));
                                 }
                                 else{
                                     auto _name = resolve_expr(pair[0]);
@@ -765,8 +765,82 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.")){
                         /*Skip, already considered in the earlier block*/
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){
-                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.prop")){
+                        int subgroup_length = 0;
+                        if(attr.name()[ns_prefix.length()+sizeof("for-props.prop")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for-props.prop")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for-props.prop")-1+1;}
+                        else {continue;}
+
+#                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
+                                                    memcpy(NAME,ns_prefix.data(),ns_prefix.length());\
+                                                    memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
+                                                    if(subgroup_length!=0){\
+                                                        NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for-props.prop")-1+1,subgroup_length);\
+                                                    }\
+                                                    NAME [sizeof(NAME)-1]=0;
+
+                        //Compute all the other tags dynamically
+                        WRITE(FOR_TAG_PROP,"for-props.tag");
+                        WRITE(FOR_IN_PROP,"for-props.in");
+                        WRITE(FOR_FILTER_PROP,"for-props.filter");
+                        WRITE(FOR_ORDER_BY_PROP,"for-props.order-by");
+                        WRITE(FOR_LIMIT_PROP,"for-props.limit");
+                        WRITE(FOR_OFFSET_PROP,"for-props.offset");
+                        WRITE(FOR_PROP_PROP,"for-props.prop");
+#                       undef WRITE
+
+                        const char* tag = current_template.first->attribute(FOR_TAG_PROP).as_string("$");
+                        const char* in = current_template.first->attribute(FOR_IN_PROP).as_string();
+
+                        const char* _prop = current_template.first->attribute(FOR_PROP_PROP).as_string();
+                        const char* filter = current_template.first->attribute(FOR_FILTER_PROP).as_string(nullptr);
+                        const char* _order_by = current_template.first->attribute(FOR_ORDER_BY_PROP).as_string();
+
+                        int limit = get_or<int>(resolve_expr(current_template.first->attribute(FOR_LIMIT_PROP).as_string("0")).value_or(0),0);
+                        int offset = get_or<int>(resolve_expr(current_template.first->attribute(FOR_OFFSET_PROP).as_string("0")).value_or(0),0);
+
+                        auto expr = resolve_expr(in);
+
+                        if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                            //Maybe error?
+                        }
+                        else{
+                            auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_method_t::from_string(_order_by));
+
+                            if(good_data.size()==0){
+                                //Do nothing; Maybe warning?
+                            }
+                            else{
+                                //Items (iterate)
+                                int counter = 0;
+                                for(auto& i : good_data){
+                                    auto frame_guard = symbols.guard();
+
+                                    symbols.set(tag,i);
+                                    symbols.set(std::string(tag) + ".k",i.name());
+                                    symbols.set(std::string(tag) + ".v",i.value());
+                                    symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
+
+                                    auto pair = split_string(_prop,'|');
+                                    if(pair.size()!=2){
+                                        log(log_t::ERROR, std::format("unrecognized pair for prop command `for-prop`"));
+                                    }
+                                    else{
+                                        auto _name = resolve_expr(pair[0]);
+                                        auto _value = resolve_expr(pair[1]);
+
+                                        if(_name.has_value() && _value.has_value()){
+                                            auto name = to_string(_name.value());
+                                            auto value = to_string(_value.value());
+                                            if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
+                                            /*Error?*/
+                                        }
+                                    }
+                                    counter++;
+                                }
+                            }
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.")){
                         /*Skip, already considered in the earlier block*/
@@ -774,7 +848,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
                         auto pair = split_string(attr.value(),'|');
                         if(pair.size()!=2){
-                            log(log_t::ERROR, std::format("unrecognized pair for prop operator `prop`"));
+                            log(log_t::ERROR, std::format("unrecognized pair for prop command `prop`"));
                         }
                         else{
                             auto _name = resolve_expr(pair[0]);

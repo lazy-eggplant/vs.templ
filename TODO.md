@@ -20,7 +20,7 @@ This is a list of commands which are currently supported:
 ## Props based
 
 - [x] for
-- [ ] for-prop
+- [x] for-prop
 - [x] value
 - [x] prop (dual of element)
 - [x] when
@@ -40,17 +40,13 @@ This is a list of commands which are currently supported:
 
 ## `v0.3.15`
 
-- [ ] Add support for all props-based which were left commands.
+- [x] Add support for all props-based which were left commands.
 
 ## `v0.4.x`
 
 - [ ] Much more robust test-suite with higher coverage.
 - [ ] Optimization for lower-end systems by reducing explicit memory allocations if possible and adopting string views.
 - [ ] Support for string natural order (111 > 22).
-
-## `v0.8.x`
-
-- [ ] ~~Add sqlite backend in place of input XML data.~~ no longer needed, we can load data.
 
 ## `v1.0.0`
 

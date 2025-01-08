@@ -1,27 +1,7 @@
-## v0.3.13
+## v0.3.15
 
-A new intermediate release before moving to `v0.4.x`.  
-Surprisingly, whatever was originally scheduled for `v0.3.13` has been delayed again, and other features took the spot!  
-So, yeah, the attribute version of `for-props` and `for` are yet to come (at least they are covered in the examples).
+All done! The last `for` and `for-props` prop based commands have been completed.  
+With this development of functionality for `vs.templ` is done.
 
-The revised plan is for the two missing commands to be in `v0.3.15`, and then we move straight to the new minor.  
-At that point the development here will slow down as all core features made their way in the codebase.  
-I will be resuming work on `vs.fltk`.
-
-### New features
-
-- `data` command has been added to introduce external data sources in the template.
-- `random` order support in `order-by` for `for` loops. Stable random ordering depending on a seed number.
-- Examples! LOTS OF EXAMPLEEES! And improved tests.
-- We now have the [most blazingly fast web server](https://github.com/lazy-eggplant/vs.http) based on `vs.templ` (according to source myself)!
-
-### Bug fixes
-
-- `test/case` fixed to match the intended specs.
-- Fixed behaviour of `for-prop` tag command to ensure good symbols are provided in the loop scope.
-- Fixed handling of floating point numbers in expressions.
-
-### Breaking changes
-
-- Reverted and fixed `src` in for cycles to `in` as it initially was.
-- Changed the preprocessor interface to introduce the new `loadfn` (the name has been recycled from before, the older `loadfn` is now `includefn`)
+There are minor features planned for the `v0.4.x` branch, but most will be documentation, better examples, formal XML schemas and testing infrastructure.  
+Once that is done we are going straight to `v.1` if there are no architectural problems being discovered in the meanwhile.
