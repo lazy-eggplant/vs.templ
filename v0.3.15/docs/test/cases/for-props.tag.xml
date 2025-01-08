@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test xmlns:s="vs.templ">
+    <data>
+        <item prop-c="cruel" prop-a="hello" prop-b="world" />
+    </data>
+
+    <template>
+        <document>
+            <s:for-props in="$/item/" order-by="desc">
+                <s:item>
+                    <s:value />s </s:item>
+                <s:error>banana</s:error>
+            </s:for-props>
+        </document>
+    </template>
+
+    <expects>
+        <document>cruels worlds hellos </document>
+    </expects>
+</test>

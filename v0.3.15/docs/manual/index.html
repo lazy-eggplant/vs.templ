@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>User Manual - vs.templ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "User Manual";
+        var mkdocs_page_input_path = "manual.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> vs.templ
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">User Manual</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../syntax/">Full Syntax reference</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Releases</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.13/">V0.3.13</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.15/">V0.3.15</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">vs.templ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">User Manual</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/manual.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p><code>vs-templ</code> is a simple preprocessor for XML files.<br />
+It can be used statically generate new files from a template definition.<br />
+Static templates can be seen as extremely simple programs which are interpreted by this preprocessor.<br />
+They consume input data also formatted as XML, and generate some output XML file.<br />
+In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.</p>
+<h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">#</a></h2>
+<pre><code class="language-bash">vs.tmpl &lt;template-file&gt; &lt;data-file&gt; [namespace=`s:`]
+</code></pre>
+<p>Unlike its usage in vs.fltk, template must be specified on its own, as it cannot be inferred.</p>
+<p>There is also an alternative format:</p>
+<pre><code class="language-bash">vs.tmpl [namespace=`s:`]
+</code></pre>
+<p>with both files added via pipes, like <code>vs.tmpl &lt;(cat template.xml) &lt;(cat data.xml)</code></p>
+<h2 id="syntax-quick-reference">Syntax quick reference<a class="headerlink" href="#syntax-quick-reference" title="Permanent link">#</a></h2>
+<p><code>vs.templ</code> uses special elements and attributes to determine the actions to be performed by the preprocessor.<br />
+They are scoped under the namespace <code>s</code>, or any custom defined one.<br />
+This man page only covers a quick syntax reference.<br />
+If you are looking for the full specs, please check the <a href="https://github.com/KaruroChori/vs-templ">official repository</a>.</p>
+<p>TODO: write cheat sheet of syntax here.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../for-developers/" class="btn btn-neutral float-left" title="Information for developers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../repl-vm/" class="btn btn-neutral float-right" title="Computing expressions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../for-developers/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../repl-vm/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

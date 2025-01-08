@@ -1,0 +1,30 @@
+\doxysection{logging.\+hpp}
+\hypertarget{logging_8hpp_source}{}\label{logging_8hpp_source}\index{include/logging.hpp@{include/logging.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }vs\{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }templ\{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structvs_1_1templ_1_1log__t}{log\_t}}\{}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{enum}\ values\{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ ERROR,\ WARNING,\ PANIC,\ INFO}
+\DoxyCodeLine{00011\ \ \ \ \ \};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ values\ \_type;}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ std::string\ \_msg;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structvs_1_1templ_1_1log__t}{log\_t}}(values\ type,\ std::string\ msg):\_type(type),\_msg(msg)\{\}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ values\ type()\textcolor{keyword}{\ const}\{\textcolor{keywordflow}{return}\ \_type;\}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ msg()\textcolor{keyword}{\ const}\{\textcolor{keywordflow}{return}\ \_msg;\}}
+\DoxyCodeLine{00021\ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \}}
+\DoxyCodeLine{00024\ \}}
+
+\end{DoxyCode}
