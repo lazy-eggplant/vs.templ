@@ -1,6 +1,6 @@
 <!-- 
 Test with:
-`./build/vs.templ ./examples/basic-features/template-0.xml ./examples/basic-features/data-0.xml`
+`./build/vs.templ ./examples/basic-features/old.templ.xml ./examples/basic-features/old.data.xml`
 from the source root.
 -->
 

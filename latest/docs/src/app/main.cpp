@@ -31,6 +31,21 @@ void logfn(log_t::values type, const char* msg, const logctx_t&){
     std::cerr<<std::format("{}{} \033[33;1m@\033[0m {}",severity_table[type],msg,"xxx")<<"\n";
 }
 
+bool loadfn (const pugi::xml_node ctx,pugi::xml_document& ref){
+    auto path = ctx.attribute("src").as_string(nullptr);
+    if(path==nullptr)return false;
+    
+    auto result = ref.load_file(path);
+    if(result.status==pugi::status_ok)return true;
+    return false;
+}
+
+bool includefn (const char* path, pugi::xml_document& ref){
+    auto result = ref.load_file(path);
+    if(result.status==pugi::status_ok)return true;
+    return false;
+}
+
 int main(int argc, const char* argv[]){
     const char* ns_prefix="s:";
     if(argc==0 || argc > 4){
@@ -56,7 +71,7 @@ int main(int argc, const char* argv[]){
 
     }
 
-    preprocessor doc(data,tmpl,ns_prefix, logfn, +[](const char* path, pugi::xml_document& ref){auto result = ref.load_file(path);if(result.status==pugi::status_ok)return true;return false;}, seed);
+    preprocessor doc(data,tmpl,ns_prefix, logfn, includefn, loadfn, seed);
     auto& result = doc.parse();
     
 

@@ -71,6 +71,8 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.13/">V0.3.13</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
@@ -118,11 +120,12 @@ Their definition and usage is purposefully restricted to prevent arbitrary code 
 A full list of feasible expression types:</p>
 <ul>
 <li>Empty expression, generally representing errors</li>
-<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped)</li>
+<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped and not part of the final string)</li>
 <li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
+<li>Floating point numbers, like integers but always ending with <code>f</code></li>
 <li>Paths, of which three forms exists:<ul>
-<li>those starting with <code>$</code>. This special symbol is used to mark the nearest scope in the data XML being visited, or root if none.</li>
-<li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack.</li>
+<li>those starting with <code>$</code>. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none.</li>
+<li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack. They can only appear as the first token.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
 </ul>
 </li>
@@ -220,7 +223,8 @@ Aside from that, they mostly share the same interface.</p>
 <li><code>item</code>: the main body</li>
 <li><code>error</code>: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists <code>empty</code> is used)</li>
 </ul>
-<p>The symbol <code>$$</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.</p>
+<p>The symbol <code>[tag].c</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.<br />
+For <code>for-props</code> there are also <code>[tag].k</code> and <code>[tag].v</code> for key and value of the prop. <code>[tag]</code> by default is <code>$</code>.</p>
 <h3 id="test-case">test &amp; case<a class="headerlink" href="#test-case" title="Permanent link">#</a></h3>
 <p>To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.<br />
 Inside the body of <code>test</code> we have one or more <code>case</code>.<br />
@@ -244,17 +248,33 @@ It just means that there is no way to recover it, and downstream code will have 
 Error means that there is a capability recognized when it was raised for the system to rectify this issue.<br />
 For example the inclusion of a file which does not exist can adopt the content of the <code>include</code> tag as fallback.</p>
 <h3 id="include">include<a class="headerlink" href="#include" title="Permanent link">#</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>The full behaviour of this function is determined by downstream integration.</p>
+</div>
 <p>Add in place the file defined in <code>src</code>. If not found, it uses the content inside <code>include</code>. External files will have their root removed when included.<br />
 File loading for a single <code>include</code> instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.<br />
-<code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.<br />
-There is no caching provided by <code>vs.templ</code>, if you need it you will have to implement it as part of the load function passed to the preprocessor constructor.</p>
-<p>Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
+<code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.</p>
+<p>The functionality of <code>include</code> is not provided by <code>vs.templ</code> and requires downstream integration.<br />
+As such is no caching provided by <code>vs.templ</code>; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.<br />
+Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
+<p>The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.</p>
 <h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">#</a></h4>
 <pre><code class="language-xml">&lt;s:include src=&quot;component.xml&quot;&gt;
     &lt;h1&gt;Placeholder title&lt;/h1&gt;
     &lt;p&gt;This will be used if the import fails. Leave empty if not needed&lt;/p&gt;
 &lt;/s:include&gt;
 </code></pre>
+<h3 id="data">data<a class="headerlink" href="#data" title="Permanent link">#</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>The full behaviour of this function is determined by downstream integration.</p>
+</div>
+<p>This command loads a data source in memory, and exposes it via a tag name.<br />
+Any property which is not <code>src</code> and <code>tag</code> will be exposed to the supplier function for parametrization.<br />
+Data retrieval is not part of <code>vs.templ</code>, so it is up to the downstream implementation to handle it as desired.</p>
+<p>The CLI shipping with the library will not handle complex features like filtering, sorting etc.<br />
+The <code>src</code> passed is just being used as a regular fs path.</p>
 <h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrxxx-for-propssub-attrxxx">for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx<a class="headerlink" href="#forsub-attrxxx-for-propssub-attrxxx" title="Permanent link">#</a></h3>

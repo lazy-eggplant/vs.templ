@@ -19,7 +19,7 @@
         <document>
             <h1>Section A</h1>
             <ul>
-                <s:for in="$/items/section-a/" sort-by="$~prop-a" order-by="desc">
+                <s:for in="$/items/section-a/" sort-by="~prop-a" order-by="desc">
                     <s:item>
                         <li><s:value src="$~prop-a" />: <s:value src="$~!txt" /></li>
                     </s:item>
@@ -28,7 +28,7 @@
 
             <h1>Section B</h1>
             <ul>
-                <s:for in="$/items/section-b/" sort-by="$~prop-a" order-by="desc">
+                <s:for in="$/items/section-b/" sort-by="~prop-a" order-by="desc">
                     <s:header>
                         <h3>Header</h3>
                     </s:header>
@@ -36,14 +36,14 @@
                         <h3>Footer</h3>
                     </s:footer>
                     <s:item>
-                        <li><s:value src="$~prop-a" />: <s:value src="$~!txt" /></li>
+                        <li><s:value src="~prop-a" />: <s:value src="~!txt" /></li>
                     </s:item>
                 </s:for>
             </ul>
 
             <h1>Section C</h1>
             <ul>
-                <s:for in="$/items/section-c/" sort-by="$~prop-a" order-by="desc">
+                <s:for in="$/items/section-c/" sort-by="~prop-a" order-by="desc">
                     <s:header>
                         <h3>Header</h3>
                     </s:header>
