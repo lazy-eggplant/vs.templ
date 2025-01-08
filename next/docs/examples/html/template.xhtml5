@@ -13,7 +13,6 @@
 
 <body>
     <main class="container">
-        <!--TODO: once more operations are defined add a more complex test for when-->
         <h1 s:when=": false">Hello!</h1>
         <s:include src="./examples/html/header.xhtml5">
             <h1>Placeholder title</h1>

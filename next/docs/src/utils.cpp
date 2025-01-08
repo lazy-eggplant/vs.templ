@@ -25,7 +25,6 @@ int cmp_dot_str(const char* a, const char* b){
         if(va.at(i)<vb.at(i))return -1;
         else if(va.at(i)>vb.at(i))return 1;
     }
-    //TODO: Implement logic
     return -1;
 }
 
