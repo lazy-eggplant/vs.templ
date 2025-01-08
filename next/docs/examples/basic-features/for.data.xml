@@ -2,7 +2,9 @@
 `./build/vs.templ ./examples/basic-features/for.templ.xml ./examples/basic-features/for.data.xml`
 -->
 <items>
+    <item prop-a="Value-E">Text E</item>
     <item prop-a="Value-B">Text B</item>
     <item prop-a="Value-A-1" prop-b="Value A-2" prop-c="Value A-3">Text A</item>
     <item prop-a="Value-C">Text C</item>
+    <item prop-a="Value-F">Text F</item>
 </items>
