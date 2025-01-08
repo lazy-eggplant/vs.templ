@@ -1,46 +1,4 @@
-# Supported commands
-
-This is a list of commands which are currently supported:
-
-## Block based:
-
-- [x] `for-range`
-- [x] `for`
-  - [x] base structure
-  - [x] filter
-  - [x] sort & order
-  - [x] limit & offset
-- [x] `for-prop` (mostly a copy & paste from `for`)
-- [x] `value`
-- [x] `element`
-- [x] `when`/`is`
-- [x] `log` to add entries to the logging data
-- [x] `include` to append template files
-
-## Props based
-
-- [x] for
-- [x] for-prop
-- [x] value
-- [x] prop (dual of element)
-- [x] when
-
-## Missing features
-
-- [x] Stack based language.
-  - [x] Stack based evaluations for `eval` element
-  - [x] and for `filter` prop on for like cycles.
-  - [x] replace numbers in for-range with these kinds of expressions.
-  - [x] Evaluate their usage in when/is
-- [x] Introduce the hashing functions needed to perform RAND ordering in `order-by`.
-- [x] Floating point numbers (same serialization as for integers, but ending in `f`).  
-       Cannot be mixed with integers in operations, explicit casts are needed.
-
 # Milestones
-
-## `v0.3.15`
-
-- [x] Add support for all props-based which were left commands.
 
 ## `v0.4.x`
 
