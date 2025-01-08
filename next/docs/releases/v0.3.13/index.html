@@ -113,17 +113,19 @@
 <p>A new intermediate release before moving to <code>v0.4.x</code>.<br />
 Surprisingly, whatever was originally scheduled for <code>v0.3.13</code> has been delayed again, and other features took the spot!<br />
 So, yeah, the attribute version of <code>for-props</code> and <code>for</code> are yet to come (at least they are covered in the examples).</p>
+<p>The revised milestones are the two missing commands in <code>v0.3.15</code>, and then we move straight to the new minor.<br />
+At that point the development here will slow down as all core features made their way in the codebase, and a can resume work on <code>vs.fltk</code>.</p>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">#</a></h3>
 <ul>
-<li><code>data</code> command has been added to introduce external data souces in the template.</li>
+<li><code>data</code> command has been added to introduce external data sources in the template.</li>
 <li><code>random</code> order support in <code>order-by</code> for <code>for</code> loops. Stable random ordering depending on a seed number.</li>
 <li>Examples! LOTS OF EXAMPLEEES! And improved tests.</li>
 <li>We now have the <a href="https://github.com/lazy-eggplant/vs.http">most blazingly fast web server</a> based on <code>vs.templ</code> (according to source myself)!</li>
 </ul>
 <h3 id="bug-fixes">Bug fixes<a class="headerlink" href="#bug-fixes" title="Permanent link">#</a></h3>
 <ul>
-<li><code>test/case</code> fixed to match specs.</li>
-<li>Fixed behaviour of <code>for-prop</code> tag command to ensure good symbols are provided in the loop.</li>
+<li><code>test/case</code> fixed to match the intended specs.</li>
+<li>Fixed behaviour of <code>for-prop</code> tag command to ensure good symbols are provided in the loop scope.</li>
 <li>Fixed handling of floating point numbers in expressions.</li>
 </ul>
 <h3 id="breaking-changes">Breaking changes<a class="headerlink" href="#breaking-changes" title="Permanent link">#</a></h3>
