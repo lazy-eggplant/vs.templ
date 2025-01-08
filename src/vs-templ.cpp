@@ -1,12 +1,11 @@
 #include <algorithm>
-#include <iostream>
 #include <string>
 #include <string_view>
 #include <variant>
-#include <vs-templ.hpp>
-#include <stack-lang.hpp>
 #include <format>
 
+#include "vs-templ.hpp"
+#include "stack-lang.hpp"
 #include "logging.hpp"
 #include "utils.hpp"
 
@@ -30,12 +29,11 @@ void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& r
 void preprocessor::reset(){
     symbols.reset();
     stack_template=decltype(stack_template)();
-    stack_data=decltype(stack_data)();
     stack_compiled=decltype(stack_compiled)();
 }
 
 void preprocessor::log(log_t::values type, const std::string& str) const{
-    //TODO: Add prefix & stuff in here like for vs.fltk
+    //TODO: Add contextual information.
     logctx_t ctx;
     logfn(type,str.data(),ctx);
 }
@@ -386,7 +384,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string();
 
-                    //TODO: filter has not defined syntax yet.
                     const char* filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
@@ -467,7 +464,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string();
 
-                    //TODO: filter has not defined syntax yet.
                     const char* filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
