@@ -112,22 +112,24 @@
 They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
 The VM is going to run it, and the only element left on stack is taken as the final expression value.</p>
 <p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>
-<pre><code>: `#name-` `{i}` cat:*`
+<pre><code>: `{i}` `#name-` cat:*`
 </code></pre>
 <p>will return an expression of type string embedding the value <code>name-1</code>.</p>
-<p>Type casting should be explicit, but some operations like <code>concat</code> might cast automatically.<br />
-The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.</p>
+<p>Type casting must generally be explicit, but some operators might have automatic casting to simplify code.<br />
+The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.<br />
+The character <code>|</code> should never be used as it interfere with the serialization of tuples used by <code>vs.templ</code>.<br />
+Escaping sequences are defined for ` and <code>|</code> as well.</p>
 <h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
 <h3 id="why-rpn">Why RPN?<a class="headerlink" href="#why-rpn" title="Permanent link">#</a></h3>
-<p>The reason for going with something like this are:</p>
+<p>Several reasons:</p>
 <ul>
 <li>to avoid a complex parser for what will end up being a quite marginal feature</li>
-<li>to avoid the arbitrary precedence rules usually associated to algebraic operator</li>
-<li>to be fast and easy to compile into native code via tcc if so desired (but for now it is just going to be interpreted)</li>
+<li>it avoids the arbitrary precedence rules usually associated with algebraic operator</li>
+<li>to be fast and easy to compile into native code if so desired (but for now a vm is all we need)</li>
 </ul>
 <h3 id="possible-extensions">Possible extensions<a class="headerlink" href="#possible-extensions" title="Permanent link">#</a></h3>
-<p>I will probably allow braces, just for the sake of readability, and to avoid being explicit about the number of arguments a function should take.<br />
-At some point I might validate them if present just to highlight potential bugs.</p>
+<p>I will probably allow braces as NOP operators, just as syntax sugar to improve readability.<br />
+At some point they could get validated in LSP, so that potential bugs are highlit.</p>
 <h3 id="options-for-implementation">Options for implementation<a class="headerlink" href="#options-for-implementation" title="Permanent link">#</a></h3>
 <p>Assumption: these programs are very short.<br />
 As such their source is not read in streaming, but it is all resident in memory while compiling.<br />
