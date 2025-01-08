@@ -2,10 +2,10 @@
 #include <string>
 #include <string_view>
 #include <variant>
-#include <vs-templ.hpp>
-#include <stack-lang.hpp>
 #include <format>
 
+#include "vs-templ.hpp"
+#include "stack-lang.hpp"
 #include "logging.hpp"
 #include "utils.hpp"
 
@@ -29,12 +29,11 @@ void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& r
 void preprocessor::reset(){
     symbols.reset();
     stack_template=decltype(stack_template)();
-    stack_data=decltype(stack_data)();
     stack_compiled=decltype(stack_compiled)();
 }
 
 void preprocessor::log(log_t::values type, const std::string& str) const{
-    //TODO: Add prefix & stuff in here like for vs.fltk
+    //TODO: Add contextual information.
     logctx_t ctx;
     logfn(type,str.data(),ctx);
 }
@@ -385,7 +384,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string();
 
-                    //TODO: filter has not defined syntax yet.
                     const char* filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
@@ -466,7 +464,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string();
 
-                    //TODO: filter has not defined syntax yet.
                     const char* filter = current_template.first->attribute("filter").as_string(nullptr);
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
@@ -676,10 +673,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
                     if(false){}
                     //Matches for.src.key.* even without named suffix
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.in.")){
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.prop")){
                         int subgroup_length = 0;
-                        if(attr.name()[ns_prefix.length()+sizeof("for.in")-1]=='\0'){}
-                        else if(attr.name()[ns_prefix.length()+sizeof("for.in")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.in")-1+1;}
+                        if(attr.name()[ns_prefix.length()+sizeof("for.prop")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for.prop")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.prop")-1+1;}
                         else {continue;}
 
 #                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
@@ -687,37 +684,159 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                                     memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
                                                     if(subgroup_length!=0){\
                                                         NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
-                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.in")-1+1,subgroup_length);\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.prop")-1+1,subgroup_length);\
                                                     }\
                                                     NAME [sizeof(NAME)-1]=0;
 
                         //Compute all the other tags dynamically
-                        WRITE(FOR_IN_KEY_PROP,"for.in");
+                        WRITE(FOR_TAG_PROP,"for.tag");
+                        WRITE(FOR_IN_PROP,"for.in");
+                        WRITE(FOR_FILTER_PROP,"for.filter");
                         WRITE(FOR_SORT_BY_PROP,"for.sort-by");
                         WRITE(FOR_ORDER_BY_PROP,"for.order-by");
                         WRITE(FOR_LIMIT_PROP,"for.limit");
                         WRITE(FOR_OFFSET_PROP,"for.offset");
+                        WRITE(FOR_PROP_PROP,"for.prop");
 #                       undef WRITE
 
-                        //Collect values
-                        const char* in = current_template.first->attribute("in").as_string();
+                        const char* tag = current_template.first->attribute(FOR_TAG_PROP).as_string("$");
+                        const char* in = current_template.first->attribute(FOR_IN_PROP).as_string();
 
-                        //TODO: filter has not defined syntax yet.
-                        //const char* _filter = current_template.first->attribute("filter").as_string();
-                        const char* _sort_by = current_template.first->attribute("sort-by").as_string();
-                        const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
+                        const char* _prop = current_template.first->attribute(FOR_PROP_PROP).as_string();
+                        const char* filter = current_template.first->attribute(FOR_FILTER_PROP).as_string(nullptr);
+                        const char* _sort_by = current_template.first->attribute(FOR_SORT_BY_PROP).as_string();
+                        const char* _order_by = current_template.first->attribute(FOR_ORDER_BY_PROP).as_string("asc");
 
-                        int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
-                        int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
-                        
+                        int limit = get_or<int>(resolve_expr(current_template.first->attribute(FOR_LIMIT_PROP).as_string("0")).value_or(0),0);
+                        int offset = get_or<int>(resolve_expr(current_template.first->attribute(FOR_OFFSET_PROP).as_string("0")).value_or(0),0);
+
                         auto expr = resolve_expr(in);
-                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+
+
+                        if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                            //Do nothing; Maybe warning?
+                        }
+                        else{
+                            std::vector<std::pair<std::string,order_method_t::values>> criteria;
+                            //Build criteria
+                            {
+                                auto orders = split_string(_order_by,'|');
+                                int c = 0;
+                                //Apply order directive with wrapping in case not enough cases are specified.
+                                for(auto& i:split_string(_sort_by,'|')){
+                                    criteria.emplace_back(i,order_method_t::from_string(orders[c%orders.size()]));
+                                    c++;
+                                }
+                            }
+                            auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
+
+                            //Items (iterate)
+                            int counter = 0;
+                            for(auto& i : good_data){
+                                auto frame_guard = symbols.guard();
+    
+                                symbols.set(tag,i);
+                                symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
+
+                                auto pair = split_string(_prop,'|');
+                                if(pair.size()!=2){
+                                    log(log_t::ERROR, std::format("unrecognized pair for prop command `for`"));
+                                }
+                                else{
+                                    auto _name = resolve_expr(pair[0]);
+                                    auto _value = resolve_expr(pair[1]);
+
+                                    if(_name.has_value() && _value.has_value()){
+                                        auto name = to_string(_name.value());
+                                        auto value = to_string(_value.value());
+                                        if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
+                                        /*Error?*/
+                                    }
+                                }
+                                
+                                counter++;
+                            }
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.")){
                         /*Skip, already considered in the earlier block*/
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.src.")){
-                        log(log_t::ERROR, std::format("static operation `{}` not yet implemented",attr.name()));
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.prop")){
+                        int subgroup_length = 0;
+                        if(attr.name()[ns_prefix.length()+sizeof("for-props.prop")-1]=='\0'){}
+                        else if(attr.name()[ns_prefix.length()+sizeof("for-props.prop")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for-props.prop")-1+1;}
+                        else {continue;}
+
+#                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
+                                                    memcpy(NAME,ns_prefix.data(),ns_prefix.length());\
+                                                    memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
+                                                    if(subgroup_length!=0){\
+                                                        NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for-props.prop")-1+1,subgroup_length);\
+                                                    }\
+                                                    NAME [sizeof(NAME)-1]=0;
+
+                        //Compute all the other tags dynamically
+                        WRITE(FOR_TAG_PROP,"for-props.tag");
+                        WRITE(FOR_IN_PROP,"for-props.in");
+                        WRITE(FOR_FILTER_PROP,"for-props.filter");
+                        WRITE(FOR_ORDER_BY_PROP,"for-props.order-by");
+                        WRITE(FOR_LIMIT_PROP,"for-props.limit");
+                        WRITE(FOR_OFFSET_PROP,"for-props.offset");
+                        WRITE(FOR_PROP_PROP,"for-props.prop");
+#                       undef WRITE
+
+                        const char* tag = current_template.first->attribute(FOR_TAG_PROP).as_string("$");
+                        const char* in = current_template.first->attribute(FOR_IN_PROP).as_string();
+
+                        const char* _prop = current_template.first->attribute(FOR_PROP_PROP).as_string();
+                        const char* filter = current_template.first->attribute(FOR_FILTER_PROP).as_string(nullptr);
+                        const char* _order_by = current_template.first->attribute(FOR_ORDER_BY_PROP).as_string();
+
+                        int limit = get_or<int>(resolve_expr(current_template.first->attribute(FOR_LIMIT_PROP).as_string("0")).value_or(0),0);
+                        int offset = get_or<int>(resolve_expr(current_template.first->attribute(FOR_OFFSET_PROP).as_string("0")).value_or(0),0);
+
+                        auto expr = resolve_expr(in);
+
+                        if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                            //Maybe error?
+                        }
+                        else{
+                            auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_method_t::from_string(_order_by));
+
+                            if(good_data.size()==0){
+                                //Do nothing; Maybe warning?
+                            }
+                            else{
+                                //Items (iterate)
+                                int counter = 0;
+                                for(auto& i : good_data){
+                                    auto frame_guard = symbols.guard();
+
+                                    symbols.set(tag,i);
+                                    symbols.set(std::string(tag) + ".k",i.name());
+                                    symbols.set(std::string(tag) + ".v",i.value());
+                                    symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
+
+                                    auto pair = split_string(_prop,'|');
+                                    if(pair.size()!=2){
+                                        log(log_t::ERROR, std::format("unrecognized pair for prop command `for-prop`"));
+                                    }
+                                    else{
+                                        auto _name = resolve_expr(pair[0]);
+                                        auto _value = resolve_expr(pair[1]);
+
+                                        if(_name.has_value() && _value.has_value()){
+                                            auto name = to_string(_name.value());
+                                            auto value = to_string(_value.value());
+                                            if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
+                                            /*Error?*/
+                                        }
+                                    }
+                                    counter++;
+                                }
+                            }
+                        }
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.")){
                         /*Skip, already considered in the earlier block*/
@@ -725,7 +844,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
                         auto pair = split_string(attr.value(),'|');
                         if(pair.size()!=2){
-                            log(log_t::ERROR, std::format("unrecognized pair for prop operator `prop`"));
+                            log(log_t::ERROR, std::format("unrecognized pair for prop command `prop`"));
                         }
                         else{
                             auto _name = resolve_expr(pair[0]);

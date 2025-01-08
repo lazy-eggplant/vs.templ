@@ -8,6 +8,5 @@
         </s:for>
     </stuff>
     <!--The prop-based commands-->
-    <stuff s:for.in.0="/items" s:for.sort-by.0="desc"
-        s:for.key.0="{$~prop-a}" s:for.value.0="{$~!txt}" />
+    <stuff s:for.in="/items" s:for.sort-by="~prop-a" s:for.order-by="desc" s:for.prop="~prop-a|~!txt" />
 </doc>

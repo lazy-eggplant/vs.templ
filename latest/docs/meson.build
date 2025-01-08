@@ -1,7 +1,7 @@
 project(
   'vs-templ',
   ['cpp'],
-  version: '0.3.13',
+  version: '0.3.15',
   meson_version: '>= 1.1',
   default_options: ['cpp_std=c++20'],
 )
@@ -12,7 +12,11 @@ cmake = import('cmake')
 
 pugixml_dep = dependency('pugixml', version: '>=1.14', required: false)
 if pugixml_dep.found() == false
-  pugixml_proj = subproject('pugixml')
+  pugixml_opts = []
+  if host_machine.cpu() == 'wasm32'
+    pugixml_opts += ['no_exceptions=true']
+  endif 
+  pugixml_proj = subproject('pugixml', default_options:pugixml_opts)
   pugixml_dep = pugixml_proj.get_variable('pugixml_dep')
 endif
 

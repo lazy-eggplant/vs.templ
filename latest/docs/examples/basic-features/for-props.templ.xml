@@ -8,5 +8,5 @@
         </s:for-props>
     </stuff>
     <!--The prop-based commands-->
-    <stuff s:for-props.in.0="/items/section-b" s:for-props.sort-by.0="desc" s:for-props.key.0="{$.k}" s:for-props.value.0="{$.v}" />
+    <stuff s:for-props.in="/items/section-b" s:for-props.order-by="desc" s:for-props.prop="{$.k}|{$.v}" />
 </doc>
