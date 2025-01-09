@@ -1,0 +1,15 @@
+<!-- 
+./build/vs.templ ./examples/advanced/html/template.xml ./examples/advanced/html/data.0.xml
+-->
+
+<entry title="Page 0">
+    <item name="Mirko" surname="Natalin" pic="assets/pics/mirkonatalin.jpeg">
+        Biography here. Lorem ispum dolor sit amen...
+    </item>
+    <item name="Ai" surname="Takanashi" pic="assets/pics/aitakanashi.jpeg">
+        Biography here. Lorem ispum dolor sit amen...
+    </item>
+    <item name="Sam" surname="Toiretto" pic="assets/pics/samtoiretto.jpeg">
+        Biography here. Lorem ispum dolor sit amen...
+    </item>
+</entry>
