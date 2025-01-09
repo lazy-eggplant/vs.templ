@@ -48,7 +48,7 @@
         {
           value: "HTML Generation",
           template: "./examples/advanced/html/templ.xml",
-          data: "./examples/advanced/html/data.xml",
+          data: "./examples/advanced/html/data.0.xml",
         },
       ],
     },
@@ -193,7 +193,7 @@
     <PaneGroup direction="vertical">
       <Pane defaultSize={50}>
         <nav style="padding-left:0px;">
-          <div class="logo"><a href="/">vs.templ</a></div>
+          <div class="logo"><a href="https://lazy-eggplant.github.io/vs.templ">vs.templ</a></div>
           <div class="tabs">
             <a
               onclick={() => change_view("template")}
