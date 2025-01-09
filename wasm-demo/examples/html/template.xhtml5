@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:s="vs.templ">
+
+<head>
+    <title>
+        <s:value src="/entry~title" />
+    </title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+</head>
+
+<body>
+    <main class="container">
+        <h1 s:when=": false">Hello!</h1>
+        <s:include src="./examples/html/header.xhtml5">
+            <h1>Placeholder title</h1>
+            <p>Description stuff</p>
+        </s:include>
+        <table>
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Bio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <s:for in="$/entry" sort-by="~name|~surname" filter=": true">
+                    <s:item>
+                        <tr>
+                            <td><img s:value.src="$~pic" s:prop.0="#width|#32px" /></td>
+                            <td>
+                                <s:value src=": `~surname` `~name` `# ` join" />
+                            </td>
+                            <td>
+                                <s:value src="$~!txt" />
+                            </td>
+                        </tr>
+                    </s:item>
+                    <s:empty>
+                        <tr>
+                            <td colspan="3">No entries</td>
+                        </tr>
+                    </s:empty>
+                </s:for>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </main>
+</body>
+
+</html>
