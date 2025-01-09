@@ -1,0 +1,5 @@
+<!-- 
+./build/vs.templ ./examples/advanced/html/template.xml ./examples/advanced/html/data.1.xml
+-->
+<entry title="Page 1">
+</entry>

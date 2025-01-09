@@ -1,7 +1,7 @@
 <document xmlns:s="vs.templ">
     <h1>Section A</h1>
     <ul>
-        <s:data tag="DATA" src="./examples/basic-features/data.ext-data.xml">
+        <s:data tag="DATA" src="./examples/basics/data/ext-data.xml">
             <s:for in="{DATA}/items/section-b/" sort-by="$~prop-a" order-by="desc">
                 <s:header>
                     <h3>Header</h3>
