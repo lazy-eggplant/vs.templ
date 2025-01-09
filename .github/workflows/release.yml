@@ -41,6 +41,7 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     permissions:
       contents: write
+      pages: write
     steps:
       - uses: actions/checkout@v4
       - uses: mlugg/setup-zig@v1
@@ -58,6 +59,23 @@ jobs:
         with:
           files: |
             ./build/vs.templ.js
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Build wasm-demo
+        run: |
+          cp -R examples ./dist/wasm-demo/static
+          cp ./build/vs.templ.js ./dist/wasm-demo/static
+          cd ./dist/wasm-demo
+          bun install
+          bun run build
+      - name: Deploy wasm-demo
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/wasm-demo/build/
+          destination_dir: wasm-demo
+
   docs:
     uses: ./.github/workflows/docs.yml
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}

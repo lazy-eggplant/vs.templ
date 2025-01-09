@@ -14,7 +14,7 @@
 <body>
     <main class="container">
         <h1 s:when=": false">Hello!</h1>
-        <s:include src="./examples/html/header.xhtml5">
+        <s:include src="./examples/advanced/html/header.template.xml">
             <h1>Placeholder title</h1>
             <p>Description stuff</p>
         </s:include>

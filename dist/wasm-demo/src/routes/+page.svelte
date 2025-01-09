@@ -14,31 +14,41 @@
     PreopenDirectory,
   } from "@bjorn3/browser_wasi_shim";
 
+  const example_basic_entry = (str, title)=> {
+    return {
+          value: str,
+          title: title ?? `s:${str}`,
+          template: `./examples/basics/${str}/templ.xml`,
+          data: `./examples/basics/${str}/data.xml`
+    };
+  }
+
   const examples = [
     {
       title: "Basics",
       items: [
-        {
-          value: "default",
-          title: "Hello world",
-          template: "./examples/basics/default/template.xml",
-          data: "./examples/basics/default/data.xml",
-        },
-        {
-          value: "for",
-          title: "s:for",
-          template: "./examples/basics/for/template.xml",
-          data: "./examples/basics/for/data.xml",
-        },
+        example_basic_entry("default", "Hello world!"),
+        example_basic_entry("value"),
+        example_basic_entry("element"),
+        example_basic_entry("for-range"),
+        example_basic_entry("for"),
+        example_basic_entry("for-props"),
+        example_basic_entry("test"),
+        example_basic_entry("data"),
+        //example_basic_entry("include"),
       ],
+    },
+    {
+      title: "Expressions",
+      items: [],
     },
     {
       title: "Demos",
       items: [
         {
           value: "HTML Generation",
-          template: "./examples/advanced/html/template.xml",
-          data: "./examples/advanced/html/data.xml",
+          template: "./examples/advanced/html/templ.xml",
+          data: "./examples/advanced/html/data.0.xml",
         },
       ],
     },
@@ -183,7 +193,7 @@
     <PaneGroup direction="vertical">
       <Pane defaultSize={50}>
         <nav style="padding-left:0px;">
-          <div class="logo"><a href="/">vs.templ</a></div>
+          <div class="logo"><a href="https://lazy-eggplant.github.io/vs.templ">vs.templ</a></div>
           <div class="tabs">
             <a
               onclick={() => change_view("template")}
