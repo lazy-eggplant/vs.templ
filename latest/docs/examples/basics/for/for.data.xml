@@ -1,5 +1,5 @@
 <!--
-`./build/vs.templ ./examples/basic-features/for.templ.xml ./examples/basic-features/for.data.xml`
+`./build/vs.templ ./examples/basics/for/templ.xml ./examples/basics/for/data.xml`
 -->
 <items>
     <item prop-a="Value-E">Text E</item>
