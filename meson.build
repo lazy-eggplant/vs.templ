@@ -6,7 +6,7 @@ project(
   default_options: ['cpp_std=c++20'],
 )
 
-add_project_arguments( ['-Wno-vla-cxx-extension'], language: 'cpp')
+add_project_arguments(['-Wno-vla-cxx-extension'], language: 'cpp')
 
 cmake = import('cmake')
 
@@ -15,8 +15,8 @@ if pugixml_dep.found() == false
   pugixml_opts = []
   if host_machine.cpu() == 'wasm32'
     pugixml_opts += ['no_exceptions=true']
-  endif 
-  pugixml_proj = subproject('pugixml', default_options:pugixml_opts)
+  endif
+  pugixml_proj = subproject('pugixml', default_options: pugixml_opts)
   pugixml_dep = pugixml_proj.get_variable('pugixml_dep')
 endif
 
@@ -24,7 +24,7 @@ frozen_proj = cmake.subproject('frozen')
 frozen_dep = frozen_proj.dependency('frozen')
 
 vs_templ_lib = library(
-  'vs-templ-lib',
+  'vs-templ',
   [
     'src/vs-templ.cpp',
     'src/utils.cpp',

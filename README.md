@@ -1,5 +1,4 @@
 > [!WARNING]  
-> Some features are still missing, they are tracked in the [TODO](./TODO.md) file.  
 > Documentation is an ongoing effort.
 
 `vs-templ` is a simple preprocessor for XML files.  
@@ -53,9 +52,12 @@ This repository is also providing a self-contained CLI utility as a system utili
 
 ### As a library
 
-If you want to integrate `vs-templ` in your own application or contribute to its development, [this](./docs/for-developers.md) is where to start.
+`vs-templ` is specifically intended to be embedded in other applications.  
+If you want to integrate `vs-templ` in your own, [this](./docs/for-developers.md) is where to start.
 
 ### Via its CLI
+
+This repo also provides a minimal wrapper to use it via command line.
 
 ```
 vs.tmpl <template-file> <data-file> [namespace=`s:`]
@@ -76,7 +78,7 @@ meson setup build
 meson install -C build
 ```
 
-should work on most systems. I highly suggest a dry run by setting `DESTDIR` to ensure expected behaviour.
+should work on most systems. I highly suggest a dry run by setting `DESTDIR` somewhere safe to ensure expected behaviour.
 
 ## Projects using `vs.templ`
 
