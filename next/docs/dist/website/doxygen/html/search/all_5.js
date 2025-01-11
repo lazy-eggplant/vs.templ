@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['preprocessor_0',['preprocessor',['../structvs_1_1templ_1_1preprocessor.html',1,'vs::templ']]]
+  ['ns_0',['ns',['../structvs_1_1templ_1_1preprocessor.html#a5540b0ab2840f888c58f9666788692c2',1,'vs::templ::preprocessor']]]
 ];

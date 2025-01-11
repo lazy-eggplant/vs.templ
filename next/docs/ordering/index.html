@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Information for developers - vs.templ</title>
+    <title>Ordering - vs.templ</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Information for developers";
-        var mkdocs_page_input_path = "for-developers.md";
+        var mkdocs_page_name = "Ordering";
+        var mkdocs_page_input_path = "ordering.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -47,18 +47,26 @@
                 <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Information for developers</a>
-    <ul class="current">
-    </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
                 </li>
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../ordering/">Ordering</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Ordering</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#encoding-ordering">Encoding ordering</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#lexicographic-ordering">Lexicographic ordering</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pseudo-random-ordering">Pseudo-random ordering</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dot-modifier">Dot modifier</a>
+    </li>
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -98,9 +106,9 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Information for developers</li>
+      <li class="breadcrumb-item active">Ordering</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/for-developers.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/ordering.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -108,40 +116,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="building">Building<a class="headerlink" href="#building" title="Permanent link">#</a></h2>
-<ul>
-<li>A modern C++ toolchain supporting C++20</li>
-<li><code>meson</code> as the build system of choice</li>
-<li><code>pandoc</code> (optional) if you want to generate the documentation/man pages</li>
-<li><del><code>gperf</code> (optional) if you want to regenerate the command dispatchers</del> not in use right now, when frozen will be removed this is its replacement.</li>
-<li><code>valgrind</code> (optional) to run some tests</li>
-</ul>
-<p>To build, test and install it you can just use normal meson commands like.</p>
-<pre><code class="language-bash">meson setup build
-meson compile -C build
-meson install -C build
-</code></pre>
-<h2 id="embedding-it">Embedding it<a class="headerlink" href="#embedding-it" title="Permanent link">#</a></h2>
-<p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
-I might consider adding <code>cmake</code> later on to gain a wider compatibility.</p>
-<p>If <code>pugixml</code> is already provided as a dependency in the main project, that will be used.</p>
-<p><code>vs.templ</code> requires you implement some features downstream to support all features.<br />
-If not provided, the library will still be usable, but the command tags <code>include</code> and <code>data</code> will not work as expected.<br />
-The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
-<h3 id="c-bindings">C bindings<a class="headerlink" href="#c-bindings" title="Permanent link">#</a></h3>
-<p>At this time, no C bindings are provided. My downstream project don&rsquo;t need them, and pugixml is C++ only.<br />
-Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.</p>
-<h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">#</a></h2>
-<p>Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
-Semantic versioning will be followed after <code>v1.0.0</code>.<br />
-Before that, any release can and will have breaking changes.</p>
-<p>Versions ending with an odd revision number are meant for proper for releases, while even numbers are only for in-dev stages.</p>
+                <h2 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">#</a></h2>
+<h3 id="encoding-ordering">Encoding ordering<a class="headerlink" href="#encoding-ordering" title="Permanent link">#</a></h3>
+<h3 id="lexicographic-ordering">Lexicographic ordering<a class="headerlink" href="#lexicographic-ordering" title="Permanent link">#</a></h3>
+<h3 id="pseudo-random-ordering">Pseudo-random ordering<a class="headerlink" href="#pseudo-random-ordering" title="Permanent link">#</a></h3>
+<h3 id="dot-modifier">Dot modifier<a class="headerlink" href="#dot-modifier" title="Permanent link">#</a></h3>
+<h2 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">#</a></h2>
+<h2 id="integers">Integers<a class="headerlink" href="#integers" title="Permanent link">#</a></h2>
+<h2 id="floats">Floats<a class="headerlink" href="#floats" title="Permanent link">#</a></h2>
+<h2 id="booleans">Booleans<a class="headerlink" href="#booleans" title="Permanent link">#</a></h2>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../faq/" class="btn btn-neutral float-left" title="FAQ"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../manual/" class="btn btn-neutral float-right" title="User Manual">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../repl-vm/" class="btn btn-neutral float-right" title="Computing expressions">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -168,10 +157,10 @@ Before that, any release can and will have breaking changes.</p>
         </span>
     
     
-      <span><a href="../faq/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../manual/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../repl-vm/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
