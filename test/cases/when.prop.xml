@@ -7,7 +7,6 @@
         <identity>
             <h1 s:when=": false"></h1>
             <h2 s:when=": true"></h2>
-
         </identity>
     </template>
 

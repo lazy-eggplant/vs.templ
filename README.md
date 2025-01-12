@@ -1,16 +1,17 @@
 > [!WARNING]  
 > Documentation is an ongoing effort.
 
-`vs-templ` is a simple preprocessor for XML files.  
-It can be used to statically generate new files from a template definition and a data source.  
-Static templates can be seen as extremely simple programs serialized in XML which are interpreted by this preprocessor.
-They consume input data (also XML) to generated output XML.
+`vs-templ` is a simple XML preprocessor.  
+It can be used to statically generate new files from a _template_ definition and a _data source_.  
+Static templates can be seen as extremely simple programs which are themselves serialized as XML, and interpreted by this preprocessor.  
+While running, they consume input data (also XML, but could be anything else in principle) to generated output XML.
 
-Details about the syntax & supported features are covered in a [dedicated page](https://lazy-eggplant.github.io/vs.templ/next/docs), or you might want to check some [examples](https://lazy-eggplant.github.io/vs.templ/wasm-demo/).
+Details about the syntax & supported features are covered in a [dedicated page](https://lazy-eggplant.github.io/vs.templ/next/docs).  
+You might want to check some [examples](https://lazy-eggplant.github.io/vs.templ/wasm-demo/) for a less verbose introduction to the syntax.
 
-## Examples
+### Typical template definition
 
-### Simple `for` cycle
+Given an XML data source:
 
 ```xml
 <items>
@@ -20,7 +21,7 @@ Details about the syntax & supported features are covered in a [dedicated page](
 </items>
 ```
 
-and
+and a template:
 
 ```xml
 <ul>
@@ -32,7 +33,7 @@ and
 </ul>
 ```
 
-results in
+once processed, the final result will be:
 
 ```xml
 <ul>
@@ -42,34 +43,42 @@ results in
 </ul>
 ```
 
-For more examples check the [online playground](https://lazy-eggplant.github.io/vs.templ/wasm-demo/)!
+For more examples, please check the [online playground](https://lazy-eggplant.github.io/vs.templ/wasm-demo/).
 
 ## Usage
 
-The functionality of this template builder is exposed as a library.  
-You can link it to your own application either statically or dynamically.
-This repository is also providing a self-contained CLI utility as a system utility.
+This preprocessor can be used in one of two ways:
 
 ### As a library
 
-`vs-templ` is specifically intended to be embedded in other applications.  
-If you want to integrate `vs-templ` in your own, [this](./docs/for-developers.md) is where to start.
+`vs.templ` is specifically intended to be embedded in other applications.  
+You can use it either as a dynamic or a static library.  
+If you want to integrate `vs.templ` in your own codebase, [this](./docs/for-developers.md) is where to start.
 
 ### Via its CLI
 
-This repo also provides a minimal wrapper to use it via command line.
+This repo provides a minimal standalone wrapper to access most features offered by this library from command line.
 
-```
-vs.tmpl <template-file> <data-file> [namespace=`s:`]
+```bash
+vs.templ <template-file> <data-file> [namespace=`s:`]
 ```
 
 There is also an alternative format:
 
-```
-vs.tmpl [namespace=`s:`]
+```bash
+vs.templ [namespace=`s:`]
 ```
 
 with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xml)`
+
+#### vs.templ.js
+
+If you don't want to install `vs.templ`, it can be used standalone if you have a compatible WASM runtime on your system.  
+WASM builds are attached to releases.
+
+```bash
+bun run ./vs.templ.js [...]
+```
 
 ## Installation
 
@@ -78,7 +87,8 @@ meson setup build
 meson install -C build
 ```
 
-should work on most systems. I highly suggest a dry run by setting `DESTDIR` somewhere safe to ensure expected behaviour.
+This works on most systems.  
+Still, to ensure expected behaviour, I highly suggest a dry run by setting `DESTDIR` somewhere safe.
 
 ## Projects using `vs.templ`
 
@@ -97,3 +107,5 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 
 Hence, `vs` vendors its own XSLT-ish preprocessor.  
 Still, nothing about its semantics or syntax is directly tied to `vs`, so I am distributing it as a separate package, hoping it can reach a wider adoption.
+
+If you have more questions, I collected some in a [FAQ](./docs/faq.md) document.

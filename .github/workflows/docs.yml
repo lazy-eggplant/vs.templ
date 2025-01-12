@@ -28,8 +28,8 @@ jobs:
             python3-pip \
             python3-setuptools
           python3 -m pip install mkdocs mkdocs-github-admonitions-plugin mkdocs-get-deps pymdown-extensions mdx_truly_sane_lists
-          doxygen
-          mkdocs build
+          doxygen ./dist/configs/Doxyfile
+          mkdocs build -f ./dist/configs/mkdocs.yml
           bun install -g gh-pages
           touch package.json #Needed, as I am not using one in this repo.
       #- name: Deploy

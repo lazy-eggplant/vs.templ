@@ -77,11 +77,27 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
+        /**
+         * @brief Construct a new preprocessor object
+         * 
+         * @param root_data 
+         * @param root_template 
+         * @param prefix 
+         * @param logfn 
+         * @param includefn 
+         * @param loadfn 
+         * @param seed 
+         */
         inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, includefn_t includefn = default_includefn,  loadfn_t loadfn = default_loadfn, uint64_t seed = 0){
             init(root_data,root_template,prefix,logfn,includefn,loadfn,seed);
         }
 
         void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, includefn_t includefn = default_includefn,  loadfn_t loadfn = default_loadfn,  uint64_t seed = 0);
+        
+        /**
+         * @brief 
+         * 
+         */
         void reset();
 
         /**
@@ -91,7 +107,18 @@ struct preprocessor{
          */
         inline void load_env(std::map<std::string,symbol>& env){symbols.reset(env);symbols.set("$",root_data);}
 
+        /**
+         * @brief 
+         * 
+         * @return pugi::xml_document& 
+         */
         inline pugi::xml_document& parse(){_parse({});return compiled;}
+        
+        /**
+         * @brief 
+         * 
+         * @param str 
+         */
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
 
         std::array<uint64_t,2> hash(const symbol& ref);

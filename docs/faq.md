@@ -17,7 +17,7 @@ Still, nothing about its semantics or syntax is directly tied to `vs`, so I am d
 
 ## Why not [handlebars](https://handlebarsjs.com/) or [mustache](https://mustache.github.io/)
 
-That class of templating solutions cannot understand XML. As such, the resulting generation can be unsound.
+That class of templating solutions cannot understand XML. As such, the resulting generation might not be proper XML.
 
 ## Is there a SAX implementation?
 
@@ -29,4 +29,7 @@ Still, if you want to do so you are very welcome!
 ## Can we support other input formats for the dataset?
 
 In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.  
-However, a native integration of SQLite to use it as data-source is almost surely going to happen at some point.
+However, a native integration of SQLite to use it as data-source is almost surely going to happen at some point.  
+
+For the time being, you can offer external data sources of whatever type by implementing the optional `loadfn` downstream.  
+This would allow `vs.templ` to indirectly work with any data source you want.
