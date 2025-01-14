@@ -200,7 +200,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push(std::get<int>(t));
                 else if(std::holds_alternative<float>(t))stack.push((int)std::get<float>(t));
-                else if(std::holds_alternative<std::string>(t))stack.push(atoi(std::get<std::string>(t).c_str()));
+                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);int result{};std::from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
@@ -209,7 +209,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push((float)std::get<int>(t));
                 else if(std::holds_alternative<float>(t))stack.push(std::get<float>(t));
-                else if(std::holds_alternative<std::string>(t))stack.push((float)atof(std::get<std::string>(t).c_str()));
+                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);float result{};std::from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},

@@ -52,8 +52,8 @@ std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view
 
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
-        if(_str[_str.length()-1]=='f'){str[_str.length()-1]=0;return (float)atof(str);}
-        else return atoi(str);
+        if(_str[_str.length()-1]=='f'){str[_str.length()-1]=0;float result{};std::from_chars(str,str+_str.length()-1,result);return result;}
+        else{int result{};std::from_chars(str,str+_str.length(),result);return result;}
     }
     else if(str[0]==':') {
         repl r(*this);
