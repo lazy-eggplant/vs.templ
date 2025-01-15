@@ -114,7 +114,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
+                <div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This document was originally just a draft to keep as reference while implementing the RPN vm.<br />
+ As such, its content does not fully represent features has they have been implemented.<br />
+ Also, some functions reported as <em>not implemented</em> will never be, or some are yet to report.</p>
+</div>
+<p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
 They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
 The VM is going to run it, and the only element left on stack is taken as the final expression value.</p>
 <p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>

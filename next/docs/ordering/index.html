@@ -58,13 +58,9 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Ordering</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#encoding-ordering">Encoding ordering</a>
+    <li class="toctree-l2"><a class="reference internal" href="#asc-desc">ASC &amp; DESC</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#lexicographic-ordering">Lexicographic ordering</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#pseudo-random-ordering">Pseudo-random ordering</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#dot-modifier">Dot modifier</a>
+    <li class="toctree-l2"><a class="reference internal" href="#random">RANDOM</a>
     </li>
     </ul>
                 </li>
@@ -116,15 +112,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">#</a></h2>
-<h3 id="encoding-ordering">Encoding ordering<a class="headerlink" href="#encoding-ordering" title="Permanent link">#</a></h3>
-<h3 id="lexicographic-ordering">Lexicographic ordering<a class="headerlink" href="#lexicographic-ordering" title="Permanent link">#</a></h3>
-<h3 id="pseudo-random-ordering">Pseudo-random ordering<a class="headerlink" href="#pseudo-random-ordering" title="Permanent link">#</a></h3>
-<h3 id="dot-modifier">Dot modifier<a class="headerlink" href="#dot-modifier" title="Permanent link">#</a></h3>
-<h2 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">#</a></h2>
-<h2 id="integers">Integers<a class="headerlink" href="#integers" title="Permanent link">#</a></h2>
-<h2 id="floats">Floats<a class="headerlink" href="#floats" title="Permanent link">#</a></h2>
-<h2 id="booleans">Booleans<a class="headerlink" href="#booleans" title="Permanent link">#</a></h2>
+                <p>Ordering criteria are used in two situations:</p>
+<ul>
+<li>in <code>order-by</code> attributes of cycles of every type except <code>for-range</code></li>
+<li>as basic boolean binary operator in the RPN vm</li>
+</ul>
+<h2 id="order-types">Order types<a class="headerlink" href="#order-types" title="Permanent link">#</a></h2>
+<h3 id="asc-desc"><code>ASC</code> &amp; <code>DESC</code><a class="headerlink" href="#asc-desc" title="Permanent link">#</a></h3>
+<h3 id="random"><code>RANDOM</code><a class="headerlink" href="#random" title="Permanent link">#</a></h3>
+<p>Data of any type is first hashed.
+For integers, floats and booleans this only involves their immediate data.<br />
+For strings the characters buffer. Order will be based on the numerical comparison of the hash.<br />
+For strings adopting the dot notation, each token is handled separately in hashing and comparing.</p>
+<h2 id="comparison-operators-for-supported-types">Comparison operators for supported types.<a class="headerlink" href="#comparison-operators-for-supported-types" title="Permanent link">#</a></h2>
+<h3 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">#</a></h3>
+<h3 id="integers">Integers<a class="headerlink" href="#integers" title="Permanent link">#</a></h3>
+<h3 id="floats">Floats<a class="headerlink" href="#floats" title="Permanent link">#</a></h3>
+<h3 id="booleans">Booleans<a class="headerlink" href="#booleans" title="Permanent link">#</a></h3>
+<h3 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">#</a></h3>
+<h4 id="natural-ordering">Natural ordering<a class="headerlink" href="#natural-ordering" title="Permanent link">#</a></h4>
+<h4 id="lexicographic-ordering">Lexicographic ordering<a class="headerlink" href="#lexicographic-ordering" title="Permanent link">#</a></h4>
+<h4 id="pseudo-random-ordering">Pseudo-random ordering<a class="headerlink" href="#pseudo-random-ordering" title="Permanent link">#</a></h4>
+<h4 id="dot-modifier">Dot modifier<a class="headerlink" href="#dot-modifier" title="Permanent link">#</a></h4>
               
             </div>
           </div><footer>
