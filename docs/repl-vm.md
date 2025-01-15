@@ -2,6 +2,11 @@
 title: Computing expressions
 ---
 
+> [!WARNING]  
+> This document was originally just a draft to keep as reference while implementing the RPN vm.  
+> As such, its content does not fully represent features has they have been implemented.  
+> Also, some functions reported as _not implemented_ will never be, or some are yet to report.
+
 Tentative specs for higher order expressions to add some degree of freedom in calculations.  
 They are still interpreted as expression, starting with `:`. The content of the expression represent the serialization of a program in reverse polish notation (RPN).  
 The VM is going to run it, and the only element left on stack is taken as the final expression value.

@@ -2,7 +2,7 @@
 title: FAQ
 ---
 
-## Why not XSLT?
+## Why not using XSLT?
 
 `vs-templ` was first developed in the context of [vs](https://github.com/karurochori/vs-fltk) to express static, yet parametric, components.  
 While the XML ecosystem is often reliant on XSLT as a preprocessor, this option was quickly dismissed in the parent project for several reasons:
@@ -15,21 +15,21 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 Hence, `vs` vendors `vs.templ` its own XSLT-ish preprocessor.  
 Still, nothing about its semantics or syntax is directly tied to `vs`, so I am distributing it as a separate package, hoping it can reach a wider adoption.
 
-## Why not [handlebars](https://handlebarsjs.com/) or [mustache](https://mustache.github.io/)
+## Why not [handlebars](https://handlebarsjs.com/) or [mustache](https://mustache.github.io/)?
 
-That class of templating solutions cannot understand XML. As such, the resulting generation might not be proper XML.
+This class of templating solutions cannot understand XML.  
+As such, the resulting generation will not ensure something syntactically correct is generated.
 
 ## Is there a SAX implementation?
 
-No, there is not.
+No, there is not.  
 Some features don't strictly require a DOM, but they don't really translate well in terms of a pull parser.  
-The memory peak usage would not be much better either for many reasonable templates, so there is no real incentive to implement this preprocessor based on a different backend for now.  
-Still, if you want to do so you are very welcome!
+The memory peak usage would not be much better either for most reasonable templates, so there is no real incentive to implement this preprocessor based on a different backend for now.  
+If one needs to access data sources with thousands or millions of entries before processing and setting the window of interest, external sources are the right approach, and they are fully supported.  
+That way, there is no need to load the entire data source in memory as it would happen with an XML file.
 
 ## Can we support other input formats for the dataset?
 
 In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.  
-However, a native integration of SQLite to use it as data-source is almost surely going to happen at some point.  
-
 For the time being, you can offer external data sources of whatever type by implementing the optional `loadfn` downstream.  
-This would allow `vs.templ` to indirectly work with any data source you want.
+This allows `vs.templ` to indirectly work with any data source you desire.

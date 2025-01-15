@@ -12,7 +12,8 @@
 - [ ] Optimization for lower-end systems by reducing explicit memory allocations if possible and adopting string views.
 - [ ] Support for string natural order (111 > 22).
 - [ ] Properly show ctx information while logging
-- [ ] Expose a mechanism to allow externally defined expressions? Not sure about this one, but it might be good when embedding this library.
+- [ ] Expose a mechanism to allow externally defined expressions? Not sure about this one, but it might be good when embedding this library.\
+- [ ] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
 
 ## `v1.0.0`
 
