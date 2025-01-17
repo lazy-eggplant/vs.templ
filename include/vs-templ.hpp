@@ -124,33 +124,31 @@ struct preprocessor{
         std::array<uint64_t,2> hash(const symbol& ref);
 
     private:
-        struct order_method_t{
+        struct order_t{
             //TODO: legacy to be removed
-            enum values{
+            /*enum values{
                 UNKNOWN =  0, 
                 ASC, 
                 DESC, 
                 RANDOM,
 
                 USE_DOT_EVAL = 16 //For strings, split evaluation based on their dot groups. Valid for all methods.
-            };
+            };*/
 
             enum class method_t{
                 DEFAULT,ASC,DESC,RANDOM
-            }method;
+            }method = method_t::DEFAULT;
 
             enum class type_t{
                 DEFAULT,
                 STRING,NATURAL_STRING,LEXI_STRING,
                 INTEGER,
                 FLOAT
-            }type;
+            }type = type_t::DEFAULT;
 
             struct modifiers_t{
-                bool dot : 1;   //It has effect only on strings
+                bool dot : 1 =false;   //It has effect only on strings
             }modifiers;
-
-            static values from_string(std::string_view str);
         };
 
         //Precomputed string to avoid spawning an absurd number of small objects in heap at each cycle.
@@ -209,21 +207,23 @@ struct preprocessor{
 
         }strings;
 
+        order_t order_from_string(std::string_view str);
+
         enum class compare_result{
+            FAILED_CAST = -3,
             NOT_COMPARABLE = -2,
             LESS = -1,
             EQUAL = 0,
             BIGGER = 1,
         };
-
-        static compare_result compare_symbols(const symbol& a, const symbol& b, order_method_t method);
+        static compare_result compare_symbols(const symbol& a, const symbol& b, order_t method);
 
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
         std::optional<symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
 
-        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_method_t::values criterion);
+        std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_t criterion);
 
-        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char *filter, const std::vector<std::pair<std::string,order_method_t::values>>& criteria);
+        std::vector<pugi::xml_node> prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char *filter, const std::vector<std::pair<std::string,order_t>>& criteria);
 
         void _parse(std::optional<pugi::xml_node_iterator> stop_at);
 

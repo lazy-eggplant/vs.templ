@@ -38,7 +38,7 @@ void preprocessor::log(log_t::values type, const std::string& str) const{
     logfn(type,str.data(),ctx);
 }
 
-preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_method_t method){
+preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_t method){
     //TODO: Implement
     return compare_result::NOT_COMPARABLE;
 }
@@ -138,13 +138,17 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
     return {};
 }
 
-preprocessor::order_method_t::values preprocessor::order_method_t::from_string(std::string_view str){
-    bool dot_eval=false;
-    if(str[0]=='.')dot_eval=true;
-    if((std::string_view(str.begin()+dot_eval, str.end()) == std::string_view("asc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|ASC);
-    else if((std::string_view(str.begin()+dot_eval, str.end()) == std::string_view("desc")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|DESC);
-    else if((std::string_view(str.begin()+dot_eval, str.end()) == std::string_view("random")))return (values)((dot_eval?USE_DOT_EVAL:UNKNOWN)|RANDOM);
-    else return order_method_t::UNKNOWN;
+preprocessor::order_t preprocessor::order_from_string(std::string_view str){
+    order_t tmp;
+    if(str[0]=='.'){tmp.modifiers.dot=true;}
+    if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("asc"))){tmp.method=order_t::method_t::ASC;}
+    else if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("desc"))){tmp.method=order_t::method_t::DESC;}
+    else if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("random"))){tmp.method=order_t::method_t::RANDOM;}
+    else{
+        log(log_t::WARNING,std::format("`{}` is not a valid criterion for comparison",str));
+    }
+
+    return tmp;
 }
 
 
@@ -222,14 +226,14 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 #   undef STRLEN
 }
 
-std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_method_t::values criterion){
+std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_t criterion){
     auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
-        if(criterion==order_method_t::ASC){
+        if(criterion.method==order_t::method_t::ASC){
             int cmp =  strcmp(a.name(),b.name());
             if(cmp==-1)return true;
             else return false;
         }
-        else if(criterion==order_method_t::DESC){
+        else if(criterion.method==order_t::method_t::DESC){
             int cmp =  strcmp(a.name(),b.name());
             if(cmp==1)return true;
             else return false;
@@ -271,21 +275,21 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
     return {};
 }
 
-std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char* filter, const std::vector<std::pair<std::string,order_method_t::values>>& criteria){
+std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_node& base, int limit, int offset, const char* filter, const std::vector<std::pair<std::string,order_t>>& criteria){
     auto cmp_fn = [&](const pugi::xml_node& a, const pugi::xml_node& b)->int{
         for(auto& criterion: criteria){
             auto valA = resolve_expr(criterion.first.c_str(),&a);
             auto valB = resolve_expr(criterion.first.c_str(),&b);
 
-            if(criterion.second==order_method_t::ASC){
+            if(criterion.second.method==order_t::method_t::ASC){
                 if(valA<valB)return true;
                 else if(valA>valB) return false;
             }
-            else if(criterion.second==order_method_t::DESC){
+            else if(criterion.second.method==order_t::method_t::DESC){
                 if(valA<valB)return false;
                 else if(valA>valB) return true;
             }
-            else if(criterion.second==(order_method_t::ASC | order_method_t::USE_DOT_EVAL)){
+            else if(criterion.second.method==order_t::method_t::ASC && criterion.second.modifiers.dot){
                 if(valA.has_value() && std::holds_alternative<std::string>(valA.value()) && valB.has_value() && std::holds_alternative<std::string>(valB.value())){
                     const std::string& strA = std::get<std::string>(valA.value());
                     const std::string& strB = std::get<std::string>(valB.value());
@@ -296,7 +300,7 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
                 }
                 else return false;
             }
-            else if(criterion.second==(order_method_t::DESC | order_method_t::USE_DOT_EVAL)){
+            else if(criterion.second.method==order_t::method_t::DESC && criterion.second.modifiers.dot){
                 if(valA.has_value() && std::holds_alternative<std::string>(valA.value()) && valB.has_value() && std::holds_alternative<std::string>(valB.value())){
                     const std::string& strA = std::get<std::string>(valA.value());
                     const std::string& strB = std::get<std::string>(valB.value());
@@ -307,7 +311,7 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
                 }
                 else return false;
             }
-            else if(criterion.second==order_method_t::RANDOM){
+            else if(criterion.second.method==order_t::method_t::RANDOM){
                 std::array<uint64_t,2> hashA = hash(valA.value_or(0)), hashB = hash(valB.value_or(0));
                 if(hashA<hashB)return true;
                 else if(hashA>hashB) return false;
@@ -409,14 +413,14 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                     else{
-                        std::vector<std::pair<std::string,order_method_t::values>> criteria;
+                        std::vector<std::pair<std::string,order_t>> criteria;
                         //Build criteria
                         {
                             auto orders = split_string(_order_by,'|');
                             int c = 0;
                             //Apply order directive with wrapping in case not enough cases are specified.
                             for(auto& i:split_string(_sort_by,'|')){
-                                criteria.emplace_back(i,order_method_t::from_string(orders[c%orders.size()]));
+                                criteria.emplace_back(i,order_from_string(orders[c%orders.size()]));
                                 c++;
                             }
                         }
@@ -487,7 +491,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                     else{
-                        auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_method_t::from_string(_order_by));
+                        auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
 
                         if(good_data.size()==0){
                             for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
@@ -723,14 +727,14 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             //Do nothing; Maybe warning?
                         }
                         else{
-                            std::vector<std::pair<std::string,order_method_t::values>> criteria;
+                            std::vector<std::pair<std::string,order_t>> criteria;
                             //Build criteria
                             {
                                 auto orders = split_string(_order_by,'|');
                                 int c = 0;
                                 //Apply order directive with wrapping in case not enough cases are specified.
                                 for(auto& i:split_string(_sort_by,'|')){
-                                    criteria.emplace_back(i,order_method_t::from_string(orders[c%orders.size()]));
+                                    criteria.emplace_back(i,order_from_string(orders[c%orders.size()]));
                                     c++;
                                 }
                             }
@@ -808,7 +812,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             //Maybe error?
                         }
                         else{
-                            auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_method_t::from_string(_order_by));
+                            auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
 
                             if(good_data.size()==0){
                                 //Do nothing; Maybe warning?
