@@ -52,12 +52,12 @@ struct repl{
             size_t operands;
         };
 
-        std::stack<concrete_symbol> stack;
+        std::stack<symbol> stack;
 
         const preprocessor& ctx;
 
         struct command_t{
-            error_t (*fn)(std::stack<concrete_symbol>& stack, size_t N);
+            error_t (*fn)(std::stack<symbol>& stack, size_t N);
             int min_arity = 1;
             int max_arity = min_arity;
             int default_arity = min_arity;
@@ -69,8 +69,8 @@ struct repl{
 
         repl(const preprocessor& _ctx);
 
-        std::optional<concrete_symbol> eval(const char* expr) noexcept;     
-        bool push_operand(const concrete_symbol& ref)noexcept;
+        std::optional<symbol> eval(const char* expr) noexcept;     
+        bool push_operand(const symbol& ref)noexcept;
 };
 
 }

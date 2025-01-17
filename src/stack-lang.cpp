@@ -12,7 +12,7 @@
 #include "stack-lang.hpp"
 
 #define VS_OPERATOR_N_MATH_HELPER(OPERATOR) \
-{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+{ +[](std::stack<symbol>& stack, size_t N){\
     enum {NONE, INT, FLOAT} type = NONE;\
     int ret_i = 0;\
     float ret_f = 0.0;\
@@ -39,7 +39,7 @@
 }, 2, MAX_ARITY}
 
 #define VS_OPERATOR_1_MATH_HELPER(OPERATOR) \
-{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+{ +[](std::stack<symbol>& stack, size_t N){\
     enum {NONE, INT, FLOAT} type;\
     int ret_i;\
     float ret_f;\
@@ -62,7 +62,7 @@
 }, 1}
 
 #define VS_OPERATOR_CMP_HELPER(OPERATOR) \
-{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+{ +[](std::stack<symbol>& stack, size_t N){\
     auto a = std::move(stack.top());\
     stack.pop();\
     if(std::holds_alternative<int>(a)){\
@@ -86,7 +86,7 @@
 }, 2}
 
 #define VS_OPERATOR_N_HELPER(OPERATOR, TYPE) \
-{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+{ +[](std::stack<symbol>& stack, size_t N){\
     TYPE ret = TYPE ();\
     for(size_t i = 0;i<N;i++){\
         auto tmp = std::move(stack.top());\
@@ -100,7 +100,7 @@
 }, 2, MAX_ARITY}
 
 #define VS_OPERATOR_1_HELPER(OPERATOR, TYPE) \
-{ +[](std::stack<concrete_symbol>& stack, size_t N){\
+{ +[](std::stack<symbol>& stack, size_t N){\
     TYPE ret;\
     auto tmp = std::move(stack.top());\
     stack.pop();\
@@ -115,24 +115,24 @@ namespace vs{
 namespace templ{
 
 
-bool repl::push_operand(const concrete_symbol& ref)noexcept{
+bool repl::push_operand(const symbol& ref)noexcept{
     stack.push(ref);
     //TODO: for now the assumption is no memory failure
     return true;
 }
 
-std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
+std::optional<symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
     static frozen::unordered_map<frozen::string, command_t, 38> commands = {
-            {"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
-            {"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
-            {")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}},
+            {"nop", {+[](std::stack<symbol>& stack, size_t N){return error_t::OK;}, 0}},
+            {"(", {+[](std::stack<symbol>& stack, size_t N){return error_t::OK;}, 0}},
+            {")", {+[](std::stack<symbol>& stack, size_t N){return error_t::OK;}, 0}},
 
-            {"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(size_t i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
-            {"dup", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(stack.top());return repl::error_t::OK;}, 1}},
+            {"rem", {+[](std::stack<symbol>& stack, size_t N){for(size_t i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
+            {"dup", {+[](std::stack<symbol>& stack, size_t N){stack.push(stack.top());return repl::error_t::OK;}, 1}},
 
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
-            {"join", {+[](std::stack<concrete_symbol>& stack, size_t N){
+            {"join", {+[](std::stack<symbol>& stack, size_t N){
                             std::string ret;
                             std::string sep;
                             {
@@ -195,7 +195,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
             //{"lsh", VS_OPERATOR_N_HELPER(<<=,int)},
             //{"rsh", VS_OPERATOR_N_HELPER(>>=,int)},
 
-            {"as.int", {+[](std::stack<concrete_symbol>& stack, size_t N){
+            {"as.int", {+[](std::stack<symbol>& stack, size_t N){
                 auto t=std::move(stack.top());
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push(std::get<int>(t));
@@ -204,7 +204,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
-            {"as.float", {+[](std::stack<concrete_symbol>& stack, size_t N){
+            {"as.float", {+[](std::stack<symbol>& stack, size_t N){
                 auto t=std::move(stack.top());
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push((float)std::get<int>(t));
@@ -213,7 +213,7 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
-            {"as.str", {+[](std::stack<concrete_symbol>& stack, size_t N){
+            {"as.str", {+[](std::stack<symbol>& stack, size_t N){
                 auto t=std::move(stack.top());
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push(std::to_string(std::get<int>(t)));
@@ -225,11 +225,11 @@ std::optional<concrete_symbol> repl::eval(const char* expr) noexcept{
 
 
             ///Constants
-            {"APOS", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push("`");return error_t::OK;}, 0}},
-            {"PIPE", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push("|");return error_t::OK;}, 0}},
-            {"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}},
-            {"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}},
-            {"?", {+[](std::stack<concrete_symbol>& stack, size_t N){
+            {"APOS", {+[](std::stack<symbol>& stack, size_t N){stack.push("`");return error_t::OK;}, 0}},
+            {"PIPE", {+[](std::stack<symbol>& stack, size_t N){stack.push("|");return error_t::OK;}, 0}},
+            {"true", {+[](std::stack<symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}},
+            {"false", {+[](std::stack<symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}},
+            {"?", {+[](std::stack<symbol>& stack, size_t N){
                 auto condition = stack.top();
                 stack.pop();
                 auto if_true = stack.top();

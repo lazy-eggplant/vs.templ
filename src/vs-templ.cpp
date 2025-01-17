@@ -38,10 +38,16 @@ void preprocessor::log(log_t::values type, const std::string& str) const{
     logfn(type,str.data(),ctx);
 }
 
+preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_method_t method){
+    //TODO: Implement
+    return compare_result::NOT_COMPARABLE;
+}
+
+
 //TODO: The next release of pugixml will have support for string_views directly. 
 //      As such, the double buffer to add \0 around will no longer be needed.
 //      Once that is done, please revise this function to make it much faster.
-std::optional<concrete_symbol> preprocessor::resolve_expr(const std::string_view& _str, const pugi::xml_node* base) const{
+std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, const pugi::xml_node* base) const{
     int str_len = _str.size(); 
     char str[str_len+1];
     memcpy(str,_str.data(),str_len+1);

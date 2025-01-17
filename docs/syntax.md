@@ -3,8 +3,7 @@ title: Full Syntax reference
 ---
 
 > [!WARNING]  
-> This documentation reflects the expected functionality for v0.5.0.  
-> Some features are still missing, progress is tracked in the repository and on the todo file in root.
+> While all core features have been implemented, documentation efforts are still ongoing.
 
 `vs.templ` uses special elements and attributes to define which actions the preprocessor should perform.  
 These XML entities are scoped under the namespace `s` by default, but the user can set up a custom one as well.  

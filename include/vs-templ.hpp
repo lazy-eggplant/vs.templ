@@ -125,6 +125,7 @@ struct preprocessor{
 
     private:
         struct order_method_t{
+            //TODO: legacy to be removed
             enum values{
                 UNKNOWN =  0, 
                 ASC, 
@@ -133,6 +134,21 @@ struct preprocessor{
 
                 USE_DOT_EVAL = 16 //For strings, split evaluation based on their dot groups. Valid for all methods.
             };
+
+            enum class method_t{
+                DEFAULT,ASC,DESC,RANDOM
+            }method;
+
+            enum class type_t{
+                DEFAULT,
+                STRING,NATURAL_STRING,LEXI_STRING,
+                INTEGER,
+                FLOAT
+            }type;
+
+            struct modifiers_t{
+                bool dot : 1;   //It has effect only on strings
+            }modifiers;
 
             static values from_string(std::string_view str);
         };
@@ -193,8 +209,17 @@ struct preprocessor{
 
         }strings;
 
+        enum class compare_result{
+            NOT_COMPARABLE = -2,
+            LESS = -1,
+            EQUAL = 0,
+            BIGGER = 1,
+        };
+
+        static compare_result compare_symbols(const symbol& a, const symbol& b, order_method_t method);
+
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
-        std::optional<concrete_symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
+        std::optional<symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
 
         std::vector<pugi::xml_attribute> prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_method_t::values criterion);
 

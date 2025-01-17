@@ -9,7 +9,7 @@ struct command_entry_t{
 };
 
 %{
-auto op_if = +[](std::stack<concrete_symbol>& stack, size_t N){
+auto op_if = +[](std::stack<symbol>& stack, size_t N){
     auto condition = stack.top();
     stack.pop();
     auto if_true = stack.top();
@@ -24,10 +24,10 @@ auto op_if = +[](std::stack<concrete_symbol>& stack, size_t N){
 %}
 
 %%
-"nop", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}
-"(", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}
-")", {+[](std::stack<concrete_symbol>& stack, size_t N){return error_t::OK;}, 0}
-"rem", {+[](std::stack<concrete_symbol>& stack, size_t N){for(int i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}
+"nop", {+[](std::stack<symbol>& stack, size_t N){return error_t::OK;}, 0}
+"(", {+[](std::stack<symbol>& stack, size_t N){return error_t::OK;}, 0}
+")", {+[](std::stack<symbol>& stack, size_t N){return error_t::OK;}, 0}
+"rem", {+[](std::stack<symbol>& stack, size_t N){for(int i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}
 "cat", VS_OPERATOR_N_HELPER(+=,std::string)
 "add", VS_OPERATOR_N_MATH_HELPER(+=)
 "+", VS_OPERATOR_N_MATH_HELPER(+=)
@@ -47,7 +47,7 @@ auto op_if = +[](std::stack<concrete_symbol>& stack, size_t N){
 "!", VS_OPERATOR_1_HELPER(~,int)
 "count.1", VS_OPERATOR_1_HELPER(__builtin_popcount,int)
 "count.0", VS_OPERATOR_1_HELPER(sizeof(int)*8-__builtin_popcount,int)
-"true", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}
-"false", {+[](std::stack<concrete_symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}
+"true", {+[](std::stack<symbol>& stack, size_t N){stack.push(true);return error_t::OK;}, 0}
+"false", {+[](std::stack<symbol>& stack, size_t N){stack.push(false);return error_t::OK;}, 0}
 "?", {op_if, 3, 3}
 %%
