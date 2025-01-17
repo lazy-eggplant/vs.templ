@@ -138,12 +138,12 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordtype">size_t</span> operands;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        };</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        std::stack&lt;concrete_symbol&gt; stack;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        std::stack&lt;symbol&gt; stack;</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keyword">const</span> preprocessor&amp; ctx;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keyword">struct </span>command_t{</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            error_t (*fn)(std::stack&lt;concrete_symbol&gt;&amp; stack, <span class="keywordtype">size_t</span> N);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            error_t (*fn)(std::stack&lt;symbol&gt;&amp; stack, <span class="keywordtype">size_t</span> N);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordtype">int</span> min_arity = 1;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordtype">int</span> max_arity = min_arity;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="keywordtype">int</span> default_arity = min_arity;</div>
@@ -155,8 +155,8 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        repl(<span class="keyword">const</span> preprocessor&amp; _ctx);</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        std::optional&lt;concrete_symbol&gt; <a class="code hl_function" href="structvs_1_1templ_1_1repl.html#a6b79ea7b823837fe08473c829f87a50c">eval</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* expr) <span class="keyword">noexcept</span>;     </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordtype">bool</span> push_operand(<span class="keyword">const</span> concrete_symbol&amp; ref)<span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        std::optional&lt;symbol&gt; <a class="code hl_function" href="structvs_1_1templ_1_1repl.html#a6b53522d54a1ac674ed8cecdb0e3c14b">eval</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* expr) <span class="keyword">noexcept</span>;     </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordtype">bool</span> push_operand(<span class="keyword">const</span> symbol&amp; ref)<span class="keyword">noexcept</span>;</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>};</div>
 </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
@@ -164,7 +164,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
 <div class="ttc" id="astructvs_1_1templ_1_1repl_1_1token__ret__t_html"><div class="ttname"><a href="structvs_1_1templ_1_1repl_1_1token__ret__t.html">vs::templ::repl::token_ret_t</a></div><div class="ttdef"><b>Definition</b> stack-lang.hpp:12</div></div>
 <div class="ttc" id="astructvs_1_1templ_1_1repl_html"><div class="ttname"><a href="structvs_1_1templ_1_1repl.html">vs::templ::repl</a></div><div class="ttdef"><b>Definition</b> stack-lang.hpp:11</div></div>
-<div class="ttc" id="astructvs_1_1templ_1_1repl_html_a6b79ea7b823837fe08473c829f87a50c"><div class="ttname"><a href="structvs_1_1templ_1_1repl.html#a6b79ea7b823837fe08473c829f87a50c">vs::templ::repl::eval</a></div><div class="ttdeci">std::optional&lt; concrete_symbol &gt; eval(const char *expr) noexcept</div><div class="ttdef"><b>Definition</b> stack-lang.cpp:124</div></div>
+<div class="ttc" id="astructvs_1_1templ_1_1repl_html_a6b53522d54a1ac674ed8cecdb0e3c14b"><div class="ttname"><a href="structvs_1_1templ_1_1repl.html#a6b53522d54a1ac674ed8cecdb0e3c14b">vs::templ::repl::eval</a></div><div class="ttdeci">std::optional&lt; symbol &gt; eval(const char *expr) noexcept</div><div class="ttdef"><b>Definition</b> stack-lang.cpp:124</div></div>
 <div class="ttc" id="avs-templ_8hpp_html"><div class="ttname"><a href="vs-templ_8hpp.html">vs-templ.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
