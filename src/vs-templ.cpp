@@ -38,8 +38,66 @@ void preprocessor::log(log_t::values type, const std::string& str) const{
     logfn(type,str.data(),ctx);
 }
 
+
+//TODO: Implement
 preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_t method){
-    //TODO: Implement
+    //Apply defaults if not specified
+    if(method.type==order_t::type_t::DEFAULT){
+        if(std::holds_alternative<int>(a))method.type=order_t::type_t::INTEGER;
+        else if(std::holds_alternative<float>(a))method.type=order_t::type_t::FLOAT;
+        else if(std::holds_alternative<std::string>(a))method.type=order_t::type_t::STRING;//TODO: move to `order_t::type_t::NATURAL_STRING`
+        else if(std::holds_alternative<const pugi::xml_node>(a))method.type=order_t::type_t::NODE;
+    }
+
+    if(method.method==order_t::method_t::DEFAULT){
+        method.method=order_t::method_t::ASC;
+    }
+
+    //Simle cases to handle via std overloads
+    if(
+        (std::holds_alternative<int>(a) && std::holds_alternative<int>(b) && method.type==order_t::type_t::INTEGER)||
+        (std::holds_alternative<int>(a) && std::holds_alternative<int>(b) && method.type==order_t::type_t::BOOLEAN)||
+        (std::holds_alternative<float>(a) && std::holds_alternative<float>(b) && method.type==order_t::type_t::FLOAT)
+    ){
+        if(method.method==order_t::method_t::ASC) return (a<b)?compare_result::LESS: ( (a>b)? compare_result::BIGGER : compare_result::EQUAL);
+        else if(method.method==order_t::method_t::DESC) return (a<b)?compare_result::BIGGER: ( (a>b)? compare_result::LESS : compare_result::EQUAL);
+        else if(method.method==order_t::method_t::RANDOM){
+            auto hash_a = preprocessor::hash(a);
+            auto hash_b = preprocessor::hash(b);
+            return (hash_a<hash_b)?compare_result::LESS: ( (hash_a>hash_b)? compare_result::BIGGER : compare_result::EQUAL);
+        }
+    }
+    else if(std::holds_alternative<const pugi::xml_node>(a) && std::holds_alternative<const pugi::xml_node>(b) && method.type==order_t::type_t::NODE){
+        
+    }
+    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::STRING){
+        const auto& _a = std::get<std::string>(a), _b = std::get<std::string>(b);
+        if(method.modifiers.dot){
+            auto i = cmp_dot_str(_a.c_str(), _b.c_str());
+            if(method.method==order_t::method_t::ASC) return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);
+            else if(method.method==order_t::method_t::DESC) return (i<0)?compare_result::BIGGER: ( (i>0)? compare_result::LESS : compare_result::EQUAL);
+            else if(method.method==order_t::method_t::RANDOM){
+                //TODO: not implemented yet
+            }
+        }
+        else{
+            if(method.method==order_t::method_t::ASC) return (_a<_b)?compare_result::LESS: ( (_a>_b)? compare_result::BIGGER : compare_result::EQUAL);
+            else if(method.method==order_t::method_t::DESC) return (_a<_b)?compare_result::BIGGER: ( (_a>_b)? compare_result::LESS : compare_result::EQUAL);
+            else if(method.method==order_t::method_t::RANDOM){
+                auto hash_a = preprocessor::hash(a);
+                auto hash_b = preprocessor::hash(b);
+                return (hash_a<hash_b)?compare_result::LESS: ( (hash_a>hash_b)? compare_result::BIGGER : compare_result::EQUAL);
+            }
+        } 
+    }
+    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::LEXI_STRING){
+        
+    }
+    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::NATURAL_STRING){
+        //https://github.com/sourcefrog/natsort
+    }
+    //Cannot have pugi::xml_attribute since it has been resolved by the time it gets here.
+
     return compare_result::NOT_COMPARABLE;
 }
 
@@ -139,6 +197,7 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
 }
 
 preprocessor::order_t preprocessor::order_from_string(std::string_view str){
+    //TODO: extend to specify type. Syntax: `type:method`
     order_t tmp;
     if(str[0]=='.'){tmp.modifiers.dot=true;}
     if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("asc"))){tmp.method=order_t::method_t::ASC;}
@@ -228,22 +287,10 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 
 std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_t criterion){
     auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
-        if(criterion.method==order_t::method_t::ASC){
-            int cmp =  strcmp(a.name(),b.name());
-            if(cmp==-1)return true;
-            else return false;
-        }
-        else if(criterion.method==order_t::method_t::DESC){
-            int cmp =  strcmp(a.name(),b.name());
-            if(cmp==1)return true;
-            else return false;
-        }
-        else{
-            //TODO: methods not implemented. The dot variants are only valid for strings or string-like content. They uses `.` to nest the search in blocks, like for prop names.
-            //Random is based on the hash of the value. It requires to be stable: as such, a fast hashing function is needed (externally supplied, C++ has none).
-        }
-        
-        return false;
+        //Not ideal due to its additional cast to string... but the code is so much easier... so for now it will stay.
+        auto cmp_res = compare_symbols(a.name(), b.name(), criterion);
+        if(cmp_res==compare_result::LESS)return true;
+        else return false;
     };
     
     std::vector<pugi::xml_attribute> dataset;
@@ -281,47 +328,10 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
             auto valA = resolve_expr(criterion.first.c_str(),&a);
             auto valB = resolve_expr(criterion.first.c_str(),&b);
 
-            if(criterion.second.method==order_t::method_t::ASC){
-                if(valA<valB)return true;
-                else if(valA>valB) return false;
-            }
-            else if(criterion.second.method==order_t::method_t::DESC){
-                if(valA<valB)return false;
-                else if(valA>valB) return true;
-            }
-            else if(criterion.second.method==order_t::method_t::ASC && criterion.second.modifiers.dot){
-                if(valA.has_value() && std::holds_alternative<std::string>(valA.value()) && valB.has_value() && std::holds_alternative<std::string>(valB.value())){
-                    const std::string& strA = std::get<std::string>(valA.value());
-                    const std::string& strB = std::get<std::string>(valB.value());
-
-                    auto i = cmp_dot_str(strA.c_str(), strB.c_str());
-                    if(i<0)return true;
-                    else if(i>0)return false;
-                }
-                else return false;
-            }
-            else if(criterion.second.method==order_t::method_t::DESC && criterion.second.modifiers.dot){
-                if(valA.has_value() && std::holds_alternative<std::string>(valA.value()) && valB.has_value() && std::holds_alternative<std::string>(valB.value())){
-                    const std::string& strA = std::get<std::string>(valA.value());
-                    const std::string& strB = std::get<std::string>(valB.value());
-
-                    auto i = cmp_dot_str(strA.c_str(), strB.c_str());
-                    if(i>0)return true;
-                    else if(i<0)return false;
-                }
-                else return false;
-            }
-            else if(criterion.second.method==order_t::method_t::RANDOM){
-                std::array<uint64_t,2> hashA = hash(valA.value_or(0)), hashB = hash(valB.value_or(0));
-                if(hashA<hashB)return true;
-                else if(hashA>hashB) return false;
-                else return valA<valB;
-            }
-            else{
-                //TODO: methods not implemented. The dot variants are only valid for strings or string-like content. They uses `.` to nest the search in blocks, like for prop names.
-                //Random is based on the hash of the value. It requires to be stable: as such, a fast hashing function is needed (externally supplied, C++ has none).
-
-            }
+            if(!valA.has_value() || !valB.has_value())continue;
+            auto cmp_res = compare_symbols(*valA, *valB, criterion.second);
+            if(cmp_res==compare_result::LESS)return true;
+            else if(cmp_res==compare_result::BIGGER)return false;
         }
         return false;
     };

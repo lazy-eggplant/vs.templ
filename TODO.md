@@ -9,6 +9,8 @@
 ## `v0.4.2`
 
 - [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
+  - [x] Centralize `symbol` comparisons in a single function
+  - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
   - [ ] Support for string natural order (111 > 22).
   - [ ] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
   - [ ] String support in RPN

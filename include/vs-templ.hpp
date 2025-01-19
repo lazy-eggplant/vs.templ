@@ -125,26 +125,18 @@ struct preprocessor{
 
     private:
         struct order_t{
-            //TODO: legacy to be removed
-            /*enum values{
-                UNKNOWN =  0, 
-                ASC, 
-                DESC, 
-                RANDOM,
-
-                USE_DOT_EVAL = 16 //For strings, split evaluation based on their dot groups. Valid for all methods.
-            };*/
-
             enum class method_t{
                 DEFAULT,ASC,DESC,RANDOM
-            }method = method_t::DEFAULT;
+            }method : 4 = method_t::DEFAULT;
 
             enum class type_t{
                 DEFAULT,
                 STRING,NATURAL_STRING,LEXI_STRING,
                 INTEGER,
-                FLOAT
-            }type = type_t::DEFAULT;
+                FLOAT,
+                BOOLEAN,
+                NODE
+            }type : 4 = type_t::DEFAULT;
 
             struct modifiers_t{
                 bool dot : 1 =false;   //It has effect only on strings
@@ -216,7 +208,16 @@ struct preprocessor{
             EQUAL = 0,
             BIGGER = 1,
         };
-        static compare_result compare_symbols(const symbol& a, const symbol& b, order_t method);
+
+        /**
+         * @brief Comparisons between two symbols. Types must strictly be the same, explicit cast needed via expressions.
+         * 
+         * @param a 
+         * @param b 
+         * @param method 
+         * @return compare_result 
+         */
+        compare_result compare_symbols(const symbol& a, const symbol& b, order_t method);
 
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
         std::optional<symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;
