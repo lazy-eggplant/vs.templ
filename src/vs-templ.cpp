@@ -77,7 +77,23 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
             if(method.method==order_t::method_t::ASC) return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);
             else if(method.method==order_t::method_t::DESC) return (i<0)?compare_result::BIGGER: ( (i>0)? compare_result::LESS : compare_result::EQUAL);
             else if(method.method==order_t::method_t::RANDOM){
-                //TODO: not implemented yet
+                auto va = split_string(std::get<std::string>(a).c_str(), '.');
+                auto vb = split_string(std::get<std::string>(b).c_str(), '.');
+
+                if(va.size()<vb.size())return compare_result::LESS;
+                else if(va.size()>vb.size())return compare_result::BIGGER;
+
+                for(size_t i =0;i<va.size();i++){
+                    std::array<uint64_t,2> hash_a = {0,0};
+                    std::array<uint64_t,2> hash_b = {0,0};
+
+                    hash::MurmurHash3_x64_128(va.at(i).data(),va.at(i).size(),seed,&hash_a);
+                    hash::MurmurHash3_x64_128(vb.at(i).data(),vb.at(i).size(),seed,&hash_b);
+
+                    if(hash_a<hash_b)return compare_result::LESS;
+                    else if(hash_a>hash_b)return compare_result::BIGGER;
+                }
+                return compare_result::EQUAL;
             }
         }
         else{

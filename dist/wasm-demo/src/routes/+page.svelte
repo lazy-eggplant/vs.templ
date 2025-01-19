@@ -57,6 +57,7 @@
   let editorRef: HTMLDivElement;
   let readerRef: HTMLDivElement;
   let terminalRef: HTMLDivElement;
+  let genButtonRef: HTMLButtonElement;
 
   let editor: any;
   let reader: any;
@@ -139,6 +140,7 @@
       await (await fetch("vs.templ.js")).arrayBuffer()
     );
     module = new WebAssembly.Module(data);
+    genButtonRef.disabled=false;
   });
 
   $effect(() => {
@@ -219,7 +221,9 @@
             <select
               bind:value={example}
               onchange={async () => {
+                genButtonRef.disabled=true;
                 await apply_example();
+                genButtonRef.disabled=false;
               }}
             >
               {#each examples as group}
@@ -234,7 +238,9 @@
             </select>
           </div>
           <button
+            bind:this={genButtonRef}
             onclick={async () => {
+              genButtonRef.disabled=true;
               change_view(current_view as "template" | "data" | "extra");
               term.reset();
               await compute();
@@ -244,7 +250,8 @@
               else
                 iframeRef.src =
                   "data:text/xml;charset=utf-8," + encodeURI(generated_xml);
-            }}>Generate</button
+              genButtonRef.disabled=false;
+            }} disabled>Generate</button
           >
         </nav>
 
@@ -348,6 +355,11 @@
 
       &:hover {
         background-color: rgb(31, 105, 24);
+      }
+
+      &:disabled{
+        background-color: rgb(81, 105, 79);
+        cursor:wait;
       }
     }
 

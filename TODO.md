@@ -12,7 +12,7 @@
   - [x] Centralize `symbol` comparisons in a single function
   - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
   - [ ] Support for string natural order (111 > 22).
-  - [ ] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
+  - [x] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
   - [ ] String support in RPN
 
 ## `v0.4.3`
