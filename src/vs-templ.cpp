@@ -249,6 +249,7 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
         STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
         
         STRLEN("value")+
+        STRLEN("enable")+
         STRLEN("prop.name")+STRLEN("prop.value")+
         STRLEN("when")
         ];
@@ -290,6 +291,8 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
     WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
         
     WRITE(VALUE_PROP,"value"); 
+
+    WRITE(ENABLE_PROP,"enable"); 
 
     WRITE(PROP_NAME_PROP,"prop.name");
     WRITE(PROP_VALUE_PROP,"prop.value");
@@ -896,10 +899,20 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                     else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){
                         auto val = resolve_expr(attr.value());
-                        auto attribute = last.append_attribute(attr.name()+ns_prefix.length()+sizeof("value.")-1);
                         if(val.has_value()){
+                            auto attribute = last.append_attribute(attr.name()+ns_prefix.length()+sizeof("value.")-1);
                             auto v = to_string(val.value());
                             if(v.has_value())attribute.set_value(v->c_str());
+                            /* Error? */
+                        }
+                    }
+                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"enable.")){
+                        auto val = resolve_expr(attr.value());
+                        if(val.has_value() && std::holds_alternative<int>(*val)){
+                            auto v = (val.value());
+                            if(std::get<int>(*val)==true){
+                                last.append_attribute(attr.name()+ns_prefix.length()+sizeof("enable.")-1);
+                            }
                             /* Error? */
                         }
                     }

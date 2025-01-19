@@ -109,6 +109,7 @@ And all the typical math operations as usual
 - [x] `as.str`
 - [x] `as.int`
 - [x] `as.float`
+- [x] `as.bool`
 
 ### Special
 

@@ -3,17 +3,19 @@
 ## `v0.4.1`
 
 - [x] In the UI for the demo, lock button to generate while fetching examples
-- [ ] In the UI for the demo, add a loader as the first boot is quite slow
-- [ ] Fill in the docs at least of the public interface
+- [x] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
+  - [x] Centralize `symbol` comparisons in a single function
+  - [x] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
+  - [x] String support in RPN (only default criterion for now)
+- [x] `s:enable` as prop command
 
 ## `v0.4.2`
 
 - [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
-  - [x] Centralize `symbol` comparisons in a single function
   - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
   - [ ] Support for string natural order (111 > 22).
-  - [x] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
-  - [x] String support in RPN (only default criterion for now)
+- [ ] In the UI for the demo, add a loader as the first boot is quite slow
+- [ ] Fill in the docs at least of the public interface
 
 ## `v0.4.3`
 

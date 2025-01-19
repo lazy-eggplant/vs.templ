@@ -220,6 +220,10 @@ As prop, attribute variants of `for` and `for-props`. They add attributes/values
 
 As for the element version, to introduce the value of an expression as value of a prop `xxx`.
 
+### enable.xxx
+
+If the condition is true, the prop `xxx` is added with no specific value.
+
 ### prop.xxx
 
 To generate new property whose name and value are determined by the pair passed as value.

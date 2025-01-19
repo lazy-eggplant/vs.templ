@@ -69,26 +69,20 @@
     stack.pop();\
     ctx->compare_symbols(a,b,preprocessor::order_t{});\
     if(std::holds_alternative<int>(a)){\
-        auto b = std::move(stack.top());\
-        stack.pop();\
         if(std::holds_alternative<int>(b)){\
             stack.push(std::get<int>(a) OPERATOR std::get<int>(b));\
         }\
         else return error_t::WRONG_TYPE;\
     }\
     else if(std::holds_alternative<float>(a)){\
-        auto b = std::move(stack.top());\
-        stack.pop();\
         if(std::holds_alternative<float>(b)){\
             stack.push( std::get<float>(a) OPERATOR  std::get<float>(b));\
         }\
         else return error_t::WRONG_TYPE;\
     }\
     else if(std::holds_alternative<std::string>(a)){\
-        auto b = std::move(stack.top());\
-        stack.pop();\
-        if(std::holds_alternative<float>(b)){\
-            stack.push( std::get<float>(a) OPERATOR  std::get<float>(b));\
+        if(std::holds_alternative<std::string>(b)){\
+            stack.push( std::get<std::string>(a) OPERATOR  std::get<std::string>(b));\
         }\
         else return error_t::WRONG_TYPE;\
     }\
@@ -134,7 +128,7 @@ bool repl::push_operand(const symbol& ref)noexcept{
 
 std::optional<symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 38> commands = {
+    static frozen::unordered_map<frozen::string, command_t, 39> commands = {
             {"nop", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return error_t::OK;}, 0}},
             {"(", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return error_t::OK;}, 0}},
             {")", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return error_t::OK;}, 0}},
@@ -212,6 +206,18 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 if(std::holds_alternative<int>(t))stack.push(std::get<int>(t));
                 else if(std::holds_alternative<float>(t))stack.push((int)std::get<float>(t));
                 else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);int result{};std::from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
+                else return error_t::WRONG_TYPE;
+                return error_t::OK;
+            }, 1}},
+            {"as.bool", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
+                auto t=std::move(stack.top());
+                stack.pop();
+                if(std::holds_alternative<int>(t))stack.push(std::get<int>(t)&1);
+                else if(std::holds_alternative<std::string>(t)){
+                    auto& str = std::get<std::string>(t);
+                    if(str=="false")stack.push(1);
+                    else if(str=="true")stack.push(0);
+                }
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
