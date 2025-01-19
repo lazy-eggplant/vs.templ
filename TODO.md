@@ -2,7 +2,7 @@
 
 ## `v0.4.1`
 
-- [ ] In the UI for the demo, lock button to generate while fetching examples
+- [x] In the UI for the demo, lock button to generate while fetching examples
 - [ ] In the UI for the demo, add a loader as the first boot is quite slow
 - [ ] Fill in the docs at least of the public interface
 
@@ -13,7 +13,7 @@
   - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
   - [ ] Support for string natural order (111 > 22).
   - [x] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
-  - [ ] String support in RPN
+  - [x] String support in RPN (only default criterion for now)
 
 ## `v0.4.3`
 

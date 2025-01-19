@@ -54,6 +54,25 @@ struct preprocessor{
     inline static bool default_includefn(const char* path, pugi::xml_document&){return false;}
     inline static bool default_loadfn(const pugi::xml_node cfg, pugi::xml_document& ){return false;}
 
+    struct order_t{
+        enum class method_t{
+            DEFAULT,ASC,DESC,RANDOM
+        }method : 4 = method_t::DEFAULT;
+
+        enum class type_t{
+            DEFAULT,
+            STRING,NATURAL_STRING,LEXI_STRING,
+            INTEGER,
+            FLOAT,
+            BOOLEAN,
+            NODE
+        }type : 4 = type_t::DEFAULT;
+
+        struct modifiers_t{
+            bool dot : 1 =false;   //It has effect only on strings
+        }modifiers;
+    };
+
     private:
         friend struct repl;
 
@@ -121,28 +140,9 @@ struct preprocessor{
          */
         inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
 
-        std::array<uint64_t,2> hash(const symbol& ref);
+        std::array<uint64_t,2> hash(const symbol& ref) const;
 
     private:
-        struct order_t{
-            enum class method_t{
-                DEFAULT,ASC,DESC,RANDOM
-            }method : 4 = method_t::DEFAULT;
-
-            enum class type_t{
-                DEFAULT,
-                STRING,NATURAL_STRING,LEXI_STRING,
-                INTEGER,
-                FLOAT,
-                BOOLEAN,
-                NODE
-            }type : 4 = type_t::DEFAULT;
-
-            struct modifiers_t{
-                bool dot : 1 =false;   //It has effect only on strings
-            }modifiers;
-        };
-
         //Precomputed string to avoid spawning an absurd number of small objects in heap at each cycle.
         struct ns_strings{
             private:
@@ -217,7 +217,7 @@ struct preprocessor{
          * @param method 
          * @return compare_result 
          */
-        compare_result compare_symbols(const symbol& a, const symbol& b, order_t method);
+        compare_result compare_symbols(const symbol& a, const symbol& b, order_t method) const;
 
         //Transforming a string into a parsed symbol, setting an optional base root or leaving it to a default evaluation.
         std::optional<symbol> resolve_expr(const std::string_view& str, const pugi::xml_node* base=nullptr) const;

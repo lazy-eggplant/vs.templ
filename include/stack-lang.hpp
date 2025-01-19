@@ -57,7 +57,7 @@ struct repl{
         const preprocessor& ctx;
 
         struct command_t{
-            error_t (*fn)(std::stack<symbol>& stack, size_t N);
+            error_t (*fn)(std::stack<symbol>& stack, size_t N, const preprocessor* ctx);
             int min_arity = 1;
             int max_arity = min_arity;
             int default_arity = min_arity;

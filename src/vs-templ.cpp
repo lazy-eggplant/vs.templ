@@ -40,7 +40,7 @@ void preprocessor::log(log_t::values type, const std::string& str) const{
 
 
 //TODO: Implement
-preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_t method){
+preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_t method) const{
     //Apply defaults if not specified
     if(method.type==order_t::type_t::DEFAULT){
         if(std::holds_alternative<int>(a))method.type=order_t::type_t::INTEGER;
@@ -926,7 +926,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
     return;
 }
 
-std::array<uint64_t,2> preprocessor::hash(const symbol& ref){
+std::array<uint64_t,2> preprocessor::hash(const symbol& ref) const{
     uint64_t ret[2] = {0,0};
 
     if(std::holds_alternative<int>(ref)){

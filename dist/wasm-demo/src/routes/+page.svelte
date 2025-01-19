@@ -14,14 +14,14 @@
     PreopenDirectory,
   } from "@bjorn3/browser_wasi_shim";
 
-  const example_basic_entry = (str, title)=> {
+  const example_basic_entry = (str, title) => {
     return {
-          value: str,
-          title: title ?? `s:${str}`,
-          template: `./examples/basics/${str}/templ.xml`,
-          data: `./examples/basics/${str}/data.xml`
+      value: str,
+      title: title ?? `s:${str}`,
+      template: `./examples/basics/${str}/templ.xml`,
+      data: `./examples/basics/${str}/data.xml`,
     };
-  }
+  };
 
   const examples = [
     {
@@ -139,8 +139,9 @@
     const data = new Uint8Array(
       await (await fetch("vs.templ.js")).arrayBuffer()
     );
+
     module = new WebAssembly.Module(data);
-    genButtonRef.disabled=false;
+    genButtonRef.disabled = false;
   });
 
   $effect(() => {
@@ -195,7 +196,9 @@
     <PaneGroup direction="vertical">
       <Pane defaultSize={50}>
         <nav style="padding-left:0px;">
-          <div class="logo"><a href="https://lazy-eggplant.github.io/vs.templ">vs.templ</a></div>
+          <div class="logo">
+            <a href="https://lazy-eggplant.github.io/vs.templ">vs.templ</a>
+          </div>
           <div class="tabs">
             <a
               onclick={() => change_view("template")}
@@ -221,9 +224,9 @@
             <select
               bind:value={example}
               onchange={async () => {
-                genButtonRef.disabled=true;
+                genButtonRef.disabled = true;
                 await apply_example();
-                genButtonRef.disabled=false;
+                genButtonRef.disabled = false;
               }}
             >
               {#each examples as group}
@@ -240,7 +243,7 @@
           <button
             bind:this={genButtonRef}
             onclick={async () => {
-              genButtonRef.disabled=true;
+              genButtonRef.disabled = true;
               change_view(current_view as "template" | "data" | "extra");
               term.reset();
               await compute();
@@ -250,8 +253,9 @@
               else
                 iframeRef.src =
                   "data:text/xml;charset=utf-8," + encodeURI(generated_xml);
-              genButtonRef.disabled=false;
-            }} disabled>Generate</button
+              genButtonRef.disabled = false;
+            }}
+            disabled>Generate</button
           >
         </nav>
 
@@ -357,9 +361,9 @@
         background-color: rgb(31, 105, 24);
       }
 
-      &:disabled{
+      &:disabled {
         background-color: rgb(81, 105, 79);
-        cursor:wait;
+        cursor: wait;
       }
     }
 
