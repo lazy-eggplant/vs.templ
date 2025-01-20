@@ -58,6 +58,10 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ordering/">Ordering</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
                 </li>
               </ul>
@@ -78,6 +82,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.4.1/">V0.4.1</a>
                   </li>
               </ul>
       </div>
@@ -125,8 +131,8 @@ I might consider adding <code>cmake</code> later on to gain a wider compatibilit
 If not provided, the library will still be usable, but the command tags <code>include</code> and <code>data</code> will not work as expected.<br />
 The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
 <h3 id="c-bindings">C bindings<a class="headerlink" href="#c-bindings" title="Permanent link">#</a></h3>
-<p>At this time, no C bindings are provided since all my downstream project don&rsquo;t need them, and pugixml is C++ only.<br />
-Still, the public interface is quite thin, so they can be easily introduced if so desired.</p>
+<p>At this time, no C bindings are provided. My downstream project don&rsquo;t need them, and pugixml is C++ only.<br />
+Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.</p>
 <h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">#</a></h2>
 <p>Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
 Semantic versioning will be followed after <code>v1.0.0</code>.<br />

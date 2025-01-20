@@ -55,6 +55,10 @@
                 <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ordering/">Ordering</a>
+                </li>
+              </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Computing expressions</a>
     <ul class="current">
@@ -85,6 +89,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.4.1/">V0.4.1</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -110,7 +116,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
+                <div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This document was originally just a draft to keep as reference while implementing the RPN vm.<br />
+ As such, its content does not fully represent features has they have been implemented.<br />
+ Also, some functions reported as <em>not implemented</em> will never be, or some are yet to report.</p>
+</div>
+<p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
 They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
 The VM is going to run it, and the only element left on stack is taken as the final expression value.</p>
 <p>For example, assuming the environment had <code>i</code> set to <code>1</code>:</p>
@@ -200,6 +212,7 @@ Hence, processing these expressions should be very memory efficient.</p>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.str</code></li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.int</code></li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.float</code></li>
+<li class="task-list-item"><input type="checkbox" disabled checked/> <code>as.bool</code></li>
 </ul>
 <h3 id="special">Special<a class="headerlink" href="#special" title="Permanent link">#</a></h3>
 <ul class="task-list">
@@ -211,7 +224,7 @@ Hence, processing these expressions should be very memory efficient.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ordering/" class="btn btn-neutral float-left" title="Ordering"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../syntax/" class="btn btn-neutral float-right" title="Full Syntax reference">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -239,7 +252,7 @@ Hence, processing these expressions should be very memory efficient.</p>
         </span>
     
     
-      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../ordering/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../syntax/" style="color: #fcfcfc">Next &raquo;</a></span>

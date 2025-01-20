@@ -1,7 +1,0 @@
-<doc xmlns:s="vs.templ">
-    <s:value src=":...">This fails, so this text will be used</s:value>
-    <br />
-    <s:value src=": `1` `2` +">Since the operation is ok and returns `3` as integer, this text will
-        not
-        show up</s:value>
-</doc>

@@ -58,6 +58,10 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ordering/">Ordering</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
                 </li>
               </ul>
@@ -78,6 +82,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.4.1/">V0.4.1</a>
                   </li>
               </ul>
       </div>
@@ -104,7 +110,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="why-not-xslt">Why not XSLT?<a class="headerlink" href="#why-not-xslt" title="Permanent link">#</a></h2>
+                <h2 id="why-not-using-xslt">Why not using XSLT?<a class="headerlink" href="#why-not-using-xslt" title="Permanent link">#</a></h2>
 <p><code>vs-templ</code> was first developed in the context of <a href="https://github.com/karurochori/vs-fltk">vs</a> to express static, yet parametric, components.<br />
 While the XML ecosystem is often reliant on XSLT as a preprocessor, this option was quickly dismissed in the parent project for several reasons:</p>
 <ul>
@@ -115,16 +121,19 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 </ul>
 <p>Hence, <code>vs</code> vendors <code>vs.templ</code> its own XSLT-ish preprocessor.<br />
 Still, nothing about its semantics or syntax is directly tied to <code>vs</code>, so I am distributing it as a separate package, hoping it can reach a wider adoption.</p>
-<h2 id="why-not-handlebars-or-mustache">Why not <a href="https://handlebarsjs.com/">handlebars</a> or <a href="https://mustache.github.io/">mustache</a><a class="headerlink" href="#why-not-handlebars-or-mustache" title="Permanent link">#</a></h2>
-<p>That class of templating solutions cannot understand XML. As such, the resulting generation can be unsound.</p>
+<h2 id="why-not-handlebars-or-mustache">Why not <a href="https://handlebarsjs.com/">handlebars</a> or <a href="https://mustache.github.io/">mustache</a>?<a class="headerlink" href="#why-not-handlebars-or-mustache" title="Permanent link">#</a></h2>
+<p>This class of templating solutions cannot understand XML.<br />
+As such, the resulting generation will not ensure something syntactically correct is generated.</p>
 <h2 id="is-there-a-sax-implementation">Is there a SAX implementation?<a class="headerlink" href="#is-there-a-sax-implementation" title="Permanent link">#</a></h2>
-<p>No, there is not.
+<p>No, there is not.<br />
 Some features don&rsquo;t strictly require a DOM, but they don&rsquo;t really translate well in terms of a pull parser.<br />
-The memory peak usage would not be much better either for many reasonable templates, so there is no real incentive to implement this preprocessor based on a different backend for now.<br />
-Still, if you want to do so you are very welcome!</p>
+The memory peak usage would not be much better either for most reasonable templates, so there is no real incentive to implement this preprocessor based on a different backend for now.<br />
+If one needs to access data sources with thousands or millions of entries before processing and setting the window of interest, external sources are the right approach, and they are fully supported.<br />
+That way, there is no need to load the entire data source in memory as it would happen with an XML file.</p>
 <h2 id="can-we-support-other-input-formats-for-the-dataset">Can we support other input formats for the dataset?<a class="headerlink" href="#can-we-support-other-input-formats-for-the-dataset" title="Permanent link">#</a></h2>
 <p>In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.<br />
-However, a native integration of SQLite to use it as data-source is almost surely going to happen at some point.</p>
+For the time being, you can offer external data sources of whatever type by implementing the optional <code>loadfn</code> downstream.<br />
+This allows <code>vs.templ</code> to indirectly work with any data source you desire.</p>
               
             </div>
           </div><footer>

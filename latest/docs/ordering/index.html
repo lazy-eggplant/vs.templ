@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Ordering - vs.templ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Ordering";
+        var mkdocs_page_input_path = "ordering.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> vs.templ
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Ordering</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#asc-desc">ASC &amp; DESC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#random">RANDOM</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../syntax/">Full Syntax reference</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Releases</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.13/">V0.3.13</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.15/">V0.3.15</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.4.1/">V0.4.1</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">vs.templ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Ordering</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/ordering.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p>Ordering criteria are used in two situations:</p>
+<ul>
+<li>in the <code>order-by</code> attributes of cycles for each type but <code>for-range</code></li>
+<li>as basic boolean binary operator in the RPN virtual machine</li>
+</ul>
+<p>The two implementations are not unified, so feature parity is desired but not intrinsic.</p>
+<h2 id="order-types">Order types<a class="headerlink" href="#order-types" title="Permanent link">#</a></h2>
+<h3 id="asc-desc"><code>ASC</code> &amp; <code>DESC</code><a class="headerlink" href="#asc-desc" title="Permanent link">#</a></h3>
+<p>Whatever ordinal is assigned to the entries, sorting is just based on an ascending or descending order.</p>
+<h3 id="random"><code>RANDOM</code><a class="headerlink" href="#random" title="Permanent link">#</a></h3>
+<p>Data of any type is first hashed, and <code>ASC</code> is applied to those hashes.
+For integers, floats and booleans this just involves their immediate data.<br />
+For strings the characters buffer is used as the hash source. If the dot notation is needed, each token separated by <code>.</code> will be hashed and compared on its own.
+Nodes should not be directly compared. Doing so is not illegal, just nonsensical.</p>
+<h2 id="comparison-operators-for-supported-types">Comparison operators for supported types.<a class="headerlink" href="#comparison-operators-for-supported-types" title="Permanent link">#</a></h2>
+<h3 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">#</a></h3>
+<p>Nodes should not be directly compared. Doing so is not illegal, just nonsensical and UB. A more precise semantic for this case might be introduced later on.</p>
+<h3 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">#</a></h3>
+<p>By default, they are cast to string before evaluation.</p>
+<h3 id="integers">Integers<a class="headerlink" href="#integers" title="Permanent link">#</a></h3>
+<p>Comparison as expected from any basic math class.</p>
+<h3 id="floats">Floats<a class="headerlink" href="#floats" title="Permanent link">#</a></h3>
+<p>Comparison as expected from any basic math class.</p>
+<h3 id="booleans">Booleans<a class="headerlink" href="#booleans" title="Permanent link">#</a></h3>
+<p><code>true</code> is smaller than <code>false</code>.</p>
+<h3 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">#</a></h3>
+<p>Strings are by far the most complex to handle as multiple criteria are possible.<br />
+Strings </p>
+<h4 id="encoding-ordering">Encoding ordering<a class="headerlink" href="#encoding-ordering" title="Permanent link">#</a></h4>
+<p>Based on the binary representation of UTF-8 encoding.</p>
+<h4 id="natural-ordering">Natural ordering<a class="headerlink" href="#natural-ordering" title="Permanent link">#</a></h4>
+<p><code>hello10</code> bigger than <code>hello2</code>.</p>
+<h4 id="lexicographic-ordering">Lexicographic ordering<a class="headerlink" href="#lexicographic-ordering" title="Permanent link">#</a></h4>
+<p>For symbols in the Latin alphabet this is more or less equivalent to the encoding ordering.<br />
+However, different languages have totally different customary approaches, and are not often based on alphabets.<br />
+Basically any criteria rooted in linguistic arguments goes in here.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../manual/" class="btn btn-neutral float-left" title="User Manual"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../repl-vm/" class="btn btn-neutral float-right" title="Computing expressions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../manual/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../repl-vm/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
