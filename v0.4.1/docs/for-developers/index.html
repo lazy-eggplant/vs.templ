@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Information for developers - vs.templ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Information for developers";
+        var mkdocs_page_input_path = "for-developers.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> vs.templ
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Information for developers</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ordering/">Ordering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../syntax/">Full Syntax reference</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Releases</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.13/">V0.3.13</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.15/">V0.3.15</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.4.1/">V0.4.1</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">vs.templ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Information for developers</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/for-developers.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="building">Building<a class="headerlink" href="#building" title="Permanent link">#</a></h2>
+<ul>
+<li>A modern C++ toolchain supporting C++20</li>
+<li><code>meson</code> as the build system of choice</li>
+<li><code>pandoc</code> (optional) if you want to generate the documentation/man pages</li>
+<li><del><code>gperf</code> (optional) if you want to regenerate the command dispatchers</del> not in use right now, when frozen will be removed this is its replacement.</li>
+<li><code>valgrind</code> (optional) to run some tests</li>
+</ul>
+<p>To build, test and install it you can just use normal meson commands like.</p>
+<pre><code class="language-bash">meson setup build
+meson compile -C build
+meson install -C build
+</code></pre>
+<h2 id="embedding-it">Embedding it<a class="headerlink" href="#embedding-it" title="Permanent link">#</a></h2>
+<p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
+I might consider adding <code>cmake</code> later on to gain a wider compatibility.</p>
+<p>If <code>pugixml</code> is already provided as a dependency in the main project, that will be used.</p>
+<p><code>vs.templ</code> requires you implement some features downstream to support all features.<br />
+If not provided, the library will still be usable, but the command tags <code>include</code> and <code>data</code> will not work as expected.<br />
+The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
+<h3 id="c-bindings">C bindings<a class="headerlink" href="#c-bindings" title="Permanent link">#</a></h3>
+<p>At this time, no C bindings are provided. My downstream project don&rsquo;t need them, and pugixml is C++ only.<br />
+Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.</p>
+<h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">#</a></h2>
+<p>Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
+Semantic versioning will be followed after <code>v1.0.0</code>.<br />
+Before that, any release can and will have breaking changes.</p>
+<p>Versions ending with an odd revision number are meant for proper for releases, while even numbers are only for in-dev stages.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../faq/" class="btn btn-neutral float-left" title="FAQ"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../manual/" class="btn btn-neutral float-right" title="User Manual">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../faq/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../manual/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
