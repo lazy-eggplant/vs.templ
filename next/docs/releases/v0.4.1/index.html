@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>V0.3.15 - vs.templ</title>
+    <title>V0.4.1 - vs.templ</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "V0.3.15";
-        var mkdocs_page_input_path = "releases/v0.3.15.md";
+        var mkdocs_page_name = "V0.4.1";
+        var mkdocs_page_input_path = "releases/v0.4.1.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -73,9 +73,7 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../v0.3.13/">V0.3.13</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">V0.3.15</a>
-    <ul class="current">
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../v0.3.15/">V0.3.15</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../v0.3.5/">V0.3.5</a>
                   </li>
@@ -83,7 +81,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../v0.3.9/">V0.3.9</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../v0.4.1/">V0.4.1</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">V0.4.1</a>
+    <ul class="current">
+    </ul>
                   </li>
               </ul>
       </div>
@@ -101,9 +101,9 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Releases</li>
-      <li class="breadcrumb-item active">V0.3.15</li>
+      <li class="breadcrumb-item active">V0.4.1</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/releases/v0.3.15.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/releases/v0.4.1.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -111,17 +111,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="v0315">v0.3.15<a class="headerlink" href="#v0315" title="Permanent link">#</a></h2>
-<p>All done! The last <code>for</code> and <code>for-props</code> prop based commands have been completed.<br />
-With this development of functionality for <code>vs.templ</code> is done.</p>
-<p>There are minor features planned for the <code>v0.4.x</code> branch, but most will be documentation, better examples, formal XML schemas and testing infrastructure.<br />
-Once that is done we are going straight to <code>v1</code> if there are no architectural problems being discovered in the meanwhile.</p>
+                <p>This first revision of the new minor has no real incompatibility with the previous one, but it fixes or introduces several new features.,</p>
+<h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">#</a></h2>
+<p>As expected, this update as well as the next few ones will be light on new features, mostly focusing on documentation, fixes and architectural improvements.<br />
+Still, using the library for its intended purpose exposes some sharp edges, which will be taken care. This is what is new in this release:</p>
+<ul>
+<li>Centralize <code>symbol</code> comparisons have been extended and centralized in a single function serving the entire code base.</li>
+<li>Strings will now support ordering based on the dot modifier even when <code>random</code> is used.</li>
+<li>There is default support for string comparisons in the boolean operators of the RPN. Several fixes have been resolved for the other comparisons as well.</li>
+<li>A new prop command <code>s:enable.*</code>. It conditionally adds a prop if the condition is true.<br />
+  This might be reworked in <code>s:when.*</code> as this override does not conflict with the other <code>s:when</code>, but no decision has been taken yet.</li>
+</ul>
+<h2 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">#</a></h2>
+<ul>
+<li>Several conversions are now locale-independent.</li>
+<li>In the UI for the demo, lock button to generate while fetching examples.</li>
+<li>Many fixes in the docs and demo examples.</li>
+</ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../v0.3.13/" class="btn btn-neutral float-left" title="V0.3.13"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../v0.3.5/" class="btn btn-neutral float-right" title="V0.3.5">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../v0.3.9/" class="btn btn-neutral float-left" title="V0.3.9"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
@@ -148,10 +159,8 @@ Once that is done we are going straight to <code>v1</code> if there are no archi
         </span>
     
     
-      <span><a href="../v0.3.13/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../v0.3.9/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../v0.3.5/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
