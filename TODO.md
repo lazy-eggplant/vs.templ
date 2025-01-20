@@ -1,14 +1,5 @@
 # Milestones
 
-## `v0.4.1`
-
-- [x] In the UI for the demo, lock button to generate while fetching examples
-- [x] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
-  - [x] Centralize `symbol` comparisons in a single function
-  - [x] Strings in dot notation when ordering by random should apply hashing and comparison to each block sequentially.
-  - [x] String support in RPN (only default criterion for now)
-- [x] `s:enable` as prop command
-
 ## `v0.4.2`
 
 - [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
