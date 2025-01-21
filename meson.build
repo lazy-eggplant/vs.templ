@@ -22,6 +22,7 @@ endif
 
 frozen_dep = dependency('frozen')
 ff_dep = dependency('fast_float')
+natsort_dep = dependency('natsort')
 
 vs_templ_lib = library(
   'vs-templ',
