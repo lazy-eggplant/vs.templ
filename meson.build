@@ -11,7 +11,7 @@ add_project_arguments(['-Wno-vla-cxx-extension'], language: 'cpp')
 cmake = import('cmake')
 
 pugixml_dep = dependency('pugixml', version: '>=1.14', required: false)
-if pugixml_dep.found() == false
+if pugixml_dep.found() == false or host_machine.cpu() == 'wasm32'
   pugixml_opts = []
   if host_machine.cpu() == 'wasm32'
     pugixml_opts += ['no_exceptions=true']

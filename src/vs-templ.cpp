@@ -3,7 +3,15 @@
 #include <string_view>
 #include <variant>
 #include <format>
+
+#if (defined(__GNUC__) && __GNUC__ >= 13) || (defined(__clang__) && __clang_major__ >= 20) ||  (defined(_MSC_VER) &&  _MSC_VER >= 1910)
 #include <charconv>
+using std::from_chars;
+#else
+#include <fast_float/fast_float.h>
+using fast_float::from_chars;
+#endif
+
 
 #include "vs-templ.hpp"
 #include "stack-lang.hpp"
@@ -133,8 +141,8 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
 
     int idx = 0;
     if(str[0]=='.' || str[0]=='+' || str[0]=='-' || (str[0]>'0' && str[0]<'9')){
-        if(_str[_str.length()-1]=='f'){str[_str.length()-1]=0;float result{};std::from_chars(str,str+_str.length()-1,result);return result;}
-        else{int result{};std::from_chars(str,str+_str.length(),result);return result;}
+        if(_str[_str.length()-1]=='f'){str[_str.length()-1]=0;float result{};from_chars(str,str+_str.length()-1,result);return result;}
+        else{int result{};from_chars(str,str+_str.length(),result);return result;}
     }
     else if(str[0]==':') {
         repl r(*this);

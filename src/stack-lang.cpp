@@ -1,9 +1,16 @@
-#include <charconv>
 #include <cmath>
 #include <format>
 #include <string>
 #include <string_view>
 #include <variant>
+
+#if (defined(__GNUC__) && __GNUC__ >= 13) || (defined(__clang__) && __clang_major__ >= 20) ||  (defined(_MSC_VER) &&  _MSC_VER >= 1910)
+#include <charconv>
+using std::from_chars;
+#else
+#include <fast_float/fast_float.h>
+using fast_float::from_chars;
+#endif
 
 #include <frozen/unordered_map.h>
 #include <frozen/string.h>
@@ -205,7 +212,7 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push(std::get<int>(t));
                 else if(std::holds_alternative<float>(t))stack.push((int)std::get<float>(t));
-                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);int result{};std::from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
+                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);int result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
@@ -226,7 +233,7 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 stack.pop();
                 if(std::holds_alternative<int>(t))stack.push((float)std::get<int>(t));
                 else if(std::holds_alternative<float>(t))stack.push(std::get<float>(t));
-                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);float result{};std::from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
+                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);float result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
@@ -296,7 +303,7 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 if(expr[i]==':'){
                     if(expr[i+1]=='*'){arity = stack.size();}
                     else{
-                        std::from_chars(expr+i+1, expr+current+end, arity,10);
+                        from_chars(expr+i+1, expr+current+end, arity,10);
                     }
                 }
 
