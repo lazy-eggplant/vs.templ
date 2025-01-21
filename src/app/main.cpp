@@ -47,6 +47,10 @@ bool includefn (const char* path, pugi::xml_document& ref){
 }
 
 int main(int argc, const char* argv[]){
+    //Workaround to avoid problems with pugixml... but it is not perfect. 
+    //The solution is to never use `as_float` and always handle them externally.
+    std::setlocale(LC_ALL, "C");
+
     const char* ns_prefix="s:";
     if(argc==0 || argc > 4){
         std::cerr<<"Wrong usage:\n\t"<<argv[0]<<" <template-file> <data-file> [namespace=`s:`]\nOR\t "<<argv[0]<<"[namespace=`s:`] and two input streams\n";

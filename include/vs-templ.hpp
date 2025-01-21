@@ -191,7 +191,6 @@ struct preprocessor{
             const char *PROP_NAME_PROP;
             const char *PROP_VALUE_PROP;
 
-            const char *ENABLE_PROP;
 
             const char *WHEN_PROP;
 
