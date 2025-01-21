@@ -1,7 +1,7 @@
 project(
   'vs-templ',
   ['cpp'],
-  version: '0.4.1',
+  version: '0.4.2',
   meson_version: '>= 1.1',
   default_options: ['cpp_std=c++20'],
 )
@@ -20,8 +20,8 @@ if pugixml_dep.found() == false
   pugixml_dep = pugixml_proj.get_variable('pugixml_dep')
 endif
 
-frozen_proj = cmake.subproject('frozen')
-frozen_dep = frozen_proj.dependency('frozen')
+frozen_dep = dependency('frozen')
+ff_dep = dependency('fast_float')
 
 vs_templ_lib = library(
   'vs-templ',
@@ -32,7 +32,7 @@ vs_templ_lib = library(
     'src/logging.cpp',
     'src/stack-lang.cpp',
   ],
-  dependencies: [pugixml_dep, frozen_dep],
+  dependencies: [pugixml_dep, frozen_dep, ff_dep],
   include_directories: ['include'],
   install: not meson.is_subproject(),
 )

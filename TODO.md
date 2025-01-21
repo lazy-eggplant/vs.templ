@@ -1,6 +1,6 @@
 # Milestones
 
-## `v0.4.2`
+## `v0.4.3`
 
 - [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
   - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
@@ -8,7 +8,7 @@
 - [ ] In the UI for the demo, add a loader as the first boot is quite slow
 - [ ] Fill in the docs at least of the public interface
 
-## `v0.4.3`
+## `v0.4.5`
 
 - [ ] Properly show ctx information while logging
 
