@@ -119,7 +119,7 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 <li>The scope of XSLT, even in its very first version was excessive &amp; its syntax just verbose. This is mostly a result of <code>xpath</code> being too powerful of a tool.</li>
 <li>At some point <code>vs</code> will come with dynamic native components, and the idea is for them to match in syntax and behaviour the extended tags introduced by this preprocessor. A custom implementation is the only way to ensure a seamless integration between the two.</li>
 </ul>
-<p>Hence, <code>vs</code> vendors <code>vs.templ</code> its own XSLT-ish preprocessor.<br />
+<p>Hence, <code>vs</code> vendors <em>vs.templ</em> its own XSLT-ish preprocessor.<br />
 Still, nothing about its semantics or syntax is directly tied to <code>vs</code>, so I am distributing it as a separate package, hoping it can reach a wider adoption.</p>
 <h2 id="why-not-handlebars-or-mustache">Why not <a href="https://handlebarsjs.com/">handlebars</a> or <a href="https://mustache.github.io/">mustache</a>?<a class="headerlink" href="#why-not-handlebars-or-mustache" title="Permanent link">#</a></h2>
 <p>This class of templating solutions cannot understand XML.<br />
@@ -133,7 +133,7 @@ That way, there is no need to load the entire data source in memory as it would 
 <h2 id="can-we-support-other-input-formats-for-the-dataset">Can we support other input formats for the dataset?<a class="headerlink" href="#can-we-support-other-input-formats-for-the-dataset" title="Permanent link">#</a></h2>
 <p>In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.<br />
 For the time being, you can offer external data sources of whatever type by implementing the optional <code>loadfn</code> downstream.<br />
-This allows <code>vs.templ</code> to indirectly work with any data source you desire.</p>
+This allows <em>vs.templ</em> to indirectly work with any data source you desire.</p>
               
             </div>
           </div><footer>

@@ -130,7 +130,9 @@ For strings the characters buffer is used as the hash source. If the dot notatio
 Nodes should not be directly compared. Doing so is not illegal, just nonsensical.</p>
 <h2 id="comparison-operators-for-supported-types">Comparison operators for supported types.<a class="headerlink" href="#comparison-operators-for-supported-types" title="Permanent link">#</a></h2>
 <h3 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">#</a></h3>
-<p>Nodes should not be directly compared. Doing so is not illegal, just nonsensical and UB. A more precise semantic for this case might be introduced later on.</p>
+<p>Nodes should not be directly compared.<br />
+Doing so is not illegal, just nonsensical and UB.<br />
+A more precise semantic for this case might be introduced later on.</p>
 <h3 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">#</a></h3>
 <p>By default, they are cast to string before evaluation.</p>
 <h3 id="integers">Integers<a class="headerlink" href="#integers" title="Permanent link">#</a></h3>
@@ -140,8 +142,7 @@ Nodes should not be directly compared. Doing so is not illegal, just nonsensical
 <h3 id="booleans">Booleans<a class="headerlink" href="#booleans" title="Permanent link">#</a></h3>
 <p><code>true</code> is smaller than <code>false</code>.</p>
 <h3 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">#</a></h3>
-<p>Strings are by far the most complex to handle as multiple criteria are possible.<br />
-Strings </p>
+<p>Strings are by far the most complex to handle as multiple criteria are possible.</p>
 <h4 id="encoding-ordering">Encoding ordering<a class="headerlink" href="#encoding-ordering" title="Permanent link">#</a></h4>
 <p>Based on the binary representation of UTF-8 encoding.</p>
 <h4 id="natural-ordering">Natural ordering<a class="headerlink" href="#natural-ordering" title="Permanent link">#</a></h4>
