@@ -50,6 +50,15 @@ inline bool cexpr_streqv(const char* s, const char* c){return strcmp(s, c)==0;}
  */
 int cmp_dot_str(const char* a, const char* b);
 
+/**
+ * @brief Compare two strings (natural comparison) assuming the dot notation for ordering nested fields
+ * 
+ * @param a 
+ * @param b 
+ * @return int 
+ */
+int cmp_dot_natstr(const char* a, const char* b);
+
 //TODO: Add natural ordering
 
 namespace hash{

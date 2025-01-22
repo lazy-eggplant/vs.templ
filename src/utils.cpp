@@ -1,4 +1,5 @@
 #include <utils.hpp>
+#include <strnatcmp.h>
 
 namespace vs{
 namespace templ{
@@ -21,12 +22,31 @@ int cmp_dot_str(const char* a, const char* b){
     if(va.size()<vb.size())return -1;
     else if(va.size()>vb.size())return 1;
 
-    for(size_t i =0;i<va.size();i++){
+    for(size_t i=0;i<va.size();i++){
         if(va.at(i)<vb.at(i))return -1;
         else if(va.at(i)>vb.at(i))return 1;
     }
-    return -1;
+    return 0;
 }
+
+int cmp_dot_natstr(const char* a, const char* b){
+    auto va = split_string(a, '.');
+    auto vb = split_string(b, '.');
+
+    if(va.size()<vb.size())return -1;
+    else if(va.size()>vb.size())return 1;
+
+    for(size_t i=0;i<va.size();i++){
+        //TODO: Implement the view version of strnatcmp, otherwise I am forced to perform these bad allocations
+        std::string a = std::string(va.at(i));
+        std::string b = std::string(vb.at(i));
+        auto ret = strnatcmp(a.c_str(),b.c_str());
+        if(ret<0)return -1;
+        else if(ret>0)return 1;
+    }
+    return 0;
+}
+
 
 namespace hash{
 

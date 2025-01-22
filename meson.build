@@ -33,7 +33,7 @@ vs_templ_lib = library(
     'src/logging.cpp',
     'src/stack-lang.cpp',
   ],
-  dependencies: [pugixml_dep, frozen_dep, ff_dep],
+  dependencies: [pugixml_dep, frozen_dep, ff_dep, natsort_dep],
   include_directories: ['include'],
   install: not meson.is_subproject(),
 )

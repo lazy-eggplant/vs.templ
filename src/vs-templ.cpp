@@ -3,6 +3,7 @@
 #include <string_view>
 #include <variant>
 #include <format>
+#include <strnatcmp.h>
 
 #if (defined(__GNUC__) && __GNUC__ >= 13) || (defined(__clang__) && __clang_major__ >= 20) ||  (defined(_MSC_VER) &&  _MSC_VER >= 1910)
 #include <charconv>
@@ -54,7 +55,7 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
     if(method.type==order_t::type_t::DEFAULT){
         if(std::holds_alternative<int>(a))method.type=order_t::type_t::INTEGER;
         else if(std::holds_alternative<float>(a))method.type=order_t::type_t::FLOAT;
-        else if(std::holds_alternative<std::string>(a))method.type=order_t::type_t::STRING;//TODO: move to `order_t::type_t::NATURAL_STRING`
+        else if(std::holds_alternative<std::string>(a))method.type=order_t::type_t::NATURAL_STRING;
         else if(std::holds_alternative<const pugi::xml_node>(a))method.type=order_t::type_t::NODE;
     }
 
@@ -79,12 +80,11 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
     else if(std::holds_alternative<const pugi::xml_node>(a) && std::holds_alternative<const pugi::xml_node>(b) && method.type==order_t::type_t::NODE){
         
     }
-    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::STRING){
+    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && (method.type==order_t::type_t::STRING || method.type==order_t::type_t::NATURAL_STRING ) ){
         const auto& _a = std::get<std::string>(a), _b = std::get<std::string>(b);
         if(method.modifiers.dot){
-            auto i = cmp_dot_str(_a.c_str(), _b.c_str());
-            if(method.method==order_t::method_t::ASC) return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);
-            else if(method.method==order_t::method_t::DESC) return (i<0)?compare_result::BIGGER: ( (i>0)? compare_result::LESS : compare_result::EQUAL);
+            if(method.method==order_t::method_t::ASC){auto i = (method.type==order_t::type_t::NATURAL_STRING)?cmp_dot_natstr(_a.c_str(), _b.c_str()):cmp_dot_str(_a.c_str(), _b.c_str());return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);}
+            else if(method.method==order_t::method_t::DESC){auto i = -((method.type==order_t::type_t::NATURAL_STRING)?cmp_dot_natstr(_a.c_str(), _b.c_str()):cmp_dot_str(_a.c_str(), _b.c_str())); return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);}
             else if(method.method==order_t::method_t::RANDOM){
                 auto va = split_string(std::get<std::string>(a).c_str(), '.');
                 auto vb = split_string(std::get<std::string>(b).c_str(), '.');
@@ -106,8 +106,8 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
             }
         }
         else{
-            if(method.method==order_t::method_t::ASC) return (_a<_b)?compare_result::LESS: ( (_a>_b)? compare_result::BIGGER : compare_result::EQUAL);
-            else if(method.method==order_t::method_t::DESC) return (_a<_b)?compare_result::BIGGER: ( (_a>_b)? compare_result::LESS : compare_result::EQUAL);
+            if(method.method==order_t::method_t::ASC){auto cmp = (method.type==order_t::type_t::NATURAL_STRING)?strnatcmp(_a.c_str(),_b.c_str()):strcmp(_a.c_str(),_b.c_str()); return (cmp<0)?compare_result::LESS: ( (cmp>0)? compare_result::BIGGER : compare_result::EQUAL);}
+            else if(method.method==order_t::method_t::DESC){auto cmp = -((method.type==order_t::type_t::NATURAL_STRING)?strnatcmp(_a.c_str(),_b.c_str()):strcmp(_a.c_str(),_b.c_str())); return (cmp<0)?compare_result::LESS: ( (cmp>0)? compare_result::BIGGER : compare_result::EQUAL);}
             else if(method.method==order_t::method_t::RANDOM){
                 auto hash_a = preprocessor::hash(a);
                 auto hash_b = preprocessor::hash(b);
@@ -116,10 +116,7 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
         } 
     }
     else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::LEXI_STRING){
-        
-    }
-    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::NATURAL_STRING){
-        //https://github.com/sourcefrog/natsort
+        //TODO: not implemented
     }
     //Cannot have pugi::xml_attribute since it has been resolved by the time it gets here.
 
