@@ -17,9 +17,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Build
         run: |
           sudo apt install -y \
@@ -27,17 +24,9 @@ jobs:
             graphviz \
             python3-pip \
             python3-setuptools
-          python3 -m pip install mkdocs mkdocs-github-admonitions-plugin mkdocs-get-deps pymdown-extensions mdx_truly_sane_lists
+          python3 -m pip install mkdocs mkdocs-material mkdocs-github-admonitions-plugin mkdocs-get-deps pymdown-extensions mdx_truly_sane_lists
           doxygen ./dist/configs/Doxyfile
           mkdocs build -f ./dist/configs/mkdocs.yml
-          bun install -g gh-pages
-          touch package.json #Needed, as I am not using one in this repo.
-      #- name: Deploy
-      #  run: |
-      #    git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-      #    gh-pages -d dist/website -e . -u "github-actions-bot <support+actions@github.com>"
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
