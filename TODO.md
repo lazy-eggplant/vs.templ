@@ -4,13 +4,13 @@
 
 - [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
   - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
-  - [ ] Support for string natural order (111 > 22).
-- [ ] In the UI for the demo, add a loader as the first boot is quite slow
-- [ ] Fill in the docs at least of the public interface
+  - [x] Support for string natural order (111 > 22).
 
 ## `v0.4.5`
 
 - [ ] Properly show ctx information while logging
+- [ ] In the UI for the demo, add a loader as the first boot is quite slow
+- [ ] Fill in the docs at least of the public interface
 
 ## `v0.4.x`
 

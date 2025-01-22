@@ -25,9 +25,9 @@ I might consider adding `cmake` later on to gain a wider compatibility.
 
 If `pugixml` is already provided as a dependency in the main project, that will be used.
 
-`vs.templ` requires you implement some features downstream to support all features.  
+_vs.templ_ requires you implement some features downstream to support all features.  
 If not provided, the library will still be usable, but the command tags `include` and `data` will not work as expected.  
-The CLI in `src/app` shows everything that is needed to use `vs.templ` as a library.
+The CLI in `src/app` shows everything that is needed to use _vs.templ_ as a library.
 
 ### C bindings
 

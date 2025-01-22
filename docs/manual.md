@@ -26,7 +26,7 @@ with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xm
 
 ## Syntax quick reference
 
-`vs.templ` uses special elements and attributes to determine the actions to be performed by the preprocessor.  
+_vs.templ_ uses special elements and attributes to determine the actions to be performed by the preprocessor.  
 They are scoped under the namespace `s`, or any custom defined one.  
 This man page only covers a quick syntax reference.  
 If you are looking for the full specs, please check the [official repository](https://github.com/KaruroChori/vs-templ).

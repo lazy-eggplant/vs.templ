@@ -2,6 +2,12 @@
 <test xmlns:s="vs.templ">
     <data>
         <items>
+            <section-0>
+                <item prop-a="b.c01.d2">Text A</item>
+                <item prop-a="aa.c0.2">Text B</item>
+                <item prop-a="cc.c1.2">Text C</item>
+                <item prop-a="b.c2.d2">Text D</item>
+            </section-0>
             <section-a>
                 <item prop-a="Value 1">Text A</item>
                 <item prop-a="Value 2">Text B</item>
@@ -17,6 +23,14 @@
 
     <template>
         <document>
+            <h1>Section 0</h1>
+            <ul>
+                <s:for in="$/items/section-0/" sort-by="~prop-a" order-by=".desc">
+                    <s:item>
+                        <li><s:value src="$~prop-a" />: <s:value src="$~!txt" /></li>
+                    </s:item>
+                </s:for>
+            </ul>
             <h1>Section A</h1>
             <ul>
                 <s:for in="$/items/section-a/" sort-by="~prop-a" order-by="desc">
@@ -61,6 +75,13 @@
 
     <expects>
         <document>
+            <h1>Section 0</h1>
+            <ul>
+                <li>cc.c1.2: Text C</li>
+                <li>b.c2.d2: Text D</li>
+                <li>b.c01.d2: Text A</li>
+                <li>aa.c0.2: Text B</li>
+            </ul>
             <h1>Section A</h1>
             <ul>
                 <li>Value 3: Text C</li>

@@ -7,12 +7,14 @@
         <identity>
             <h1 s:when=": false"></h1>
             <h2 s:when=": true"></h2>
+            <h1 s:when=": true" s:when.attr1=": true" s:when.attr2=": false"></h1>
         </identity>
     </template>
 
     <expects>
         <identity>
             <h2></h2>
+            <h1 attr1=""></h1>
         </identity>
     </expects>
 </test>

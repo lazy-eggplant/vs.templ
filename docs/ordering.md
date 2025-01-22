@@ -22,7 +22,9 @@ Nodes should not be directly compared. Doing so is not illegal, just nonsensical
 
 ### Nodes
 
-Nodes should not be directly compared. Doing so is not illegal, just nonsensical and UB. A more precise semantic for this case might be introduced later on.
+Nodes should not be directly compared.  
+Doing so is not illegal, just nonsensical and UB.  
+A more precise semantic for this case might be introduced later on.
 
 ### Attributes
 
@@ -42,8 +44,7 @@ Comparison as expected from any basic math class.
 
 ### Strings
 
-Strings are by far the most complex to handle as multiple criteria are possible.  
-Strings 
+Strings are by far the most complex to handle as multiple criteria are possible.
 
 #### Encoding ordering
 

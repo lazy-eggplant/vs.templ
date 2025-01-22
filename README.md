@@ -51,9 +51,9 @@ This preprocessor can be used in one of two ways:
 
 ### As a library
 
-`vs.templ` is specifically intended to be embedded in other applications.  
+_vs.templ_ is specifically intended to be embedded in other applications.  
 You can use it either as a dynamic or a static library.  
-If you want to integrate `vs.templ` in your own codebase, [this](./docs/for-developers.md) is where to start.
+If you want to integrate _vs.templ_ in your own codebase, [this](./docs/for-developers.md) is where to start.
 
 ### Via its CLI
 
@@ -73,7 +73,7 @@ with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xm
 
 #### vs.templ.js
 
-If you don't want to install `vs.templ`, it can be used standalone if you have a compatible WASM runtime on your system.  
+If you don't want to install _vs.templ_, it can be used standalone if you have a compatible WASM runtime on your system.  
 WASM builds are attached to releases.
 
 ```bash
@@ -84,16 +84,19 @@ bun run ./vs.templ.js [...]
 
 ```bash
 meson setup build
+#In a real world context you might want something more complex, like:
+#meson setup -Db_lto=true -Db_thinlto_cache=true -Db_lto_mode=thin --reconfigure build/ --buildtype=release
+
 meson install -C build
 ```
 
 This works on most systems.  
 Still, to ensure expected behaviour, I highly suggest a dry run by setting `DESTDIR` somewhere safe.
 
-## Projects using `vs.templ`
+## Projects using _vs.templ_
 
-- [vs](https://github.com/KaruroChori/vs-fltk) the parent project from which `vs.templ` derived.
-- [vs.http](https://github.com/lazy-eggplant/vs.http) an HTTP server built around `vs.templ`.
+- [vs](https://github.com/KaruroChori/vs-fltk) the parent project from which _vs.templ_ derived.
+- [vs.http](https://github.com/lazy-eggplant/vs.http) an HTTP server built around _vs.templ_.
 
 ## Why?
 

@@ -12,7 +12,7 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 - The scope of XSLT, even in its very first version was excessive & its syntax just verbose. This is mostly a result of `xpath` being too powerful of a tool.
 - At some point `vs` will come with dynamic native components, and the idea is for them to match in syntax and behaviour the extended tags introduced by this preprocessor. A custom implementation is the only way to ensure a seamless integration between the two.
 
-Hence, `vs` vendors `vs.templ` its own XSLT-ish preprocessor.  
+Hence, `vs` vendors _vs.templ_ its own XSLT-ish preprocessor.  
 Still, nothing about its semantics or syntax is directly tied to `vs`, so I am distributing it as a separate package, hoping it can reach a wider adoption.
 
 ## Why not [handlebars](https://handlebarsjs.com/) or [mustache](https://mustache.github.io/)?
@@ -32,4 +32,4 @@ That way, there is no need to load the entire data source in memory as it would 
 
 In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.  
 For the time being, you can offer external data sources of whatever type by implementing the optional `loadfn` downstream.  
-This allows `vs.templ` to indirectly work with any data source you desire.
+This allows _vs.templ_ to indirectly work with any data source you desire.

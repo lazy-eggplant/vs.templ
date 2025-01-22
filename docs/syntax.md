@@ -5,26 +5,27 @@ title: Full Syntax reference
 > [!WARNING]  
 > While all core features have been implemented, documentation efforts are still ongoing.
 
-`vs.templ` uses special elements and attributes to define which actions the preprocessor should perform.  
-These XML entities are scoped under the namespace `s` by default, but the user can set up a custom one as well.  
-Please, notice that pugixml on which vs.templ is based does not have a full understanding of XML and namespaces are not covered.  
-As such, they only operate as fancy prefixes at this scale.
+_vs.templ_ uses special elements and attributes to define actions for the preprocessor to perform.  
+These XML entities are scoped with the prefix determined by the URI _vs.templ_. Conventionally, the prefix used is `s`, but users can set up their own.  
+Please, notice that _pugixml_, on which _vs.templ_ is based, does not have a full understanding of XML, and namespaces are in the list of features not covered.  
+As such, this preprocessor will not really perform any actual validation, if not for its own prefix.
 
 ## Expressions
 
-Several of the attributes introduced by `vs.templ` accept expressions and not just simple literal values.
-Expression can are used to access elements and attributes of the data XML, in addition to represent native types like integers or strings.  
-Their definition and usage is purposefully restricted to prevent arbitrary code to be run.  
-A full list of feasible expression types:
+Most of the attributes introduced by _vs.templ_ accept expressions, and not just simple literal values.
+Expression can are used to access elements and attributes from the data source, or they can represent native types like _integers_, _floats_ and _strings_.  
+Their definition and usage is purposefully restricted, to prevent the execution of arbitrary code.  
+This is a full list of all expression types:
 
-- Empty expression, generally representing errors
-- String, automatically assigned from expressions starting with `#` (the prefix `#` is skipped and not part of the final string)
-- Integers (base 10), automatically assigned from expressions starting with a digit, `+`, `-` or `.`
-- Floating point numbers, like integers but always ending with `f`
-- Paths, of which three forms exists:
-  - those starting with `$`. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none.
+- **Empty** expression, a pseudo-value often used to represent errors
+- **String**, automatically assigned from expressions starting with `#` (the prefix `#` is skipped and not part of the final string)
+- **Integers** (base 10), automatically assigned from expressions starting with a digit, `+`, `-` or `.`
+- **Floating point numbers**, like integers but always ending with `f`
+- **Paths**, of which few forms exists:
   - Paths with arbitrary prefix `{var-name}` where `var-name`is searched for and resolved from the symbols' stack. They can only appear as the first token.
+  - Those starting with `$`. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none. It is a shorthand for `{$}`.
   - Absolute paths starting from the root, with prefix `/`.
+  - Paths starting with `~`, an attribute rooted on `{$}`.
 
 Path expressions will continue with one or more tokens `/`-terminated representing the tag name being visited.  
 If terminated with `~prop-name` the relevant attribute is selected.
@@ -40,7 +41,7 @@ The full specifications of these meta-expressions can be found [here](repl-vm.md
 For most scenarios, only a minor subset is going to be useful, like some basic integer maths, comparisons and `cat` to merge strings.
 
 No further combination or format is allowed in expression. Else, their parsing will fail.  
-However, the preprocessor should not generally throw exceptions, only emit error or warning logs.
+However, the preprocessor will not generally throw exceptions, the preferred mechanism is to emit log messages and continue.
 
 ### Examples
 
@@ -63,7 +64,7 @@ Using the following XML file as reference:
 - `/hello/world~!txt` is evaluated as `text-0`
 - Assuming a for cycle in `/hello/`, its children will be navigated and `$~attribute-a` will be resolved in `value-0` and `value-1`.
 
-## Operators for elements
+## Element-based operators
 
 Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.  
 There are several to control flow or add content to the final document.
@@ -124,7 +125,7 @@ Infinite cycles are detected before execution, in which case no step will run. U
 To iterate over children and props of an element respectively.  
 Aside from that, they mostly share the same interface.
 
-- `tag`: the name of the symbol hosting the current XML node pointer. If empty, its default is `$`
+- `tag`: the name of the symbol hosting the current XML node pointer. If left empty, its default is assumed to be `$`
 - `in`: must be specified and is a path expression
 - `filter`: as an expression in the internal [custom language](./calc.md).
 - `sort-by`: (only available for `for`) list of `|` separated path expressions. Elements will be sorted giving priority from left to right
@@ -181,8 +182,8 @@ Add in place the file defined in `src`. If not found, it uses the content inside
 File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
 `src` is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.
 
-The functionality of `include` is not provided by `vs.templ` and requires downstream integration.  
-As such is no caching provided by `vs.templ`; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
+The functionality of `include` is not provided by _vs.templ_ and requires downstream integration.  
+As such is no caching provided by _vs.templ_; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
 Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.
 
 The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.
@@ -203,12 +204,12 @@ The CLI shipping with this library has a very limited implementation which will 
 
 This command loads a data source in memory, and exposes it via a tag name.  
 Any property which is not `src` and `tag` will be exposed to the supplier function for parametrization.  
-Data retrieval is not part of `vs.templ`, so it is up to the downstream implementation to handle it as desired.
+Data retrieval is not part of _vs.templ_, so it is up to the downstream implementation to handle it as desired.
 
 The CLI shipping with the library will not handle complex features like filtering, sorting etc.  
 The `src` passed is just being used as a regular fs path.
 
-## Operators for properties
+## Property-based operators
 
 `xxx` are used as tags to identify groups under which multiple attributes should be used.
 

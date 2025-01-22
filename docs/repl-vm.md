@@ -21,7 +21,7 @@ will return an expression of type string embedding the value `name-1`.
 
 Type casting must generally be explicit, but some operators might have automatic casting to simplify code.  
 The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.  
-The character `|` should never be used as it interfere with the serialization of tuples used by `vs.templ`.  
+The character `|` should never be used as it interfere with the serialization of tuples used by _vs.templ_.  
 Escaping sequences are defined for \` and `|` as well.
 
 ## Design
