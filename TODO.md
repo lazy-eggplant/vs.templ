@@ -2,11 +2,16 @@
 
 ## `v0.4.3`
 
-- [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
-  - [ ] Extend `order-by` to support explicit types for comparison (extremely optional)
-  - [x] Support for string natural order (111 > 22).
+- [x] Basic support for natural ordering (in commands only, not vm for now)
+- [x] Extend `order-by` to support explicit types for comparison (extremely optional)
+- [x] Fixing the WASM build
 
 ## `v0.4.5`
+
+- [ ] Stringview version of `strnatcmp` to optimize the dot comparisons
+- [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
+
+## `v0.4.7`
 
 - [ ] Properly show ctx information while logging
 - [ ] In the UI for the demo, add a loader as the first boot is quite slow

@@ -220,15 +220,31 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
 
 preprocessor::order_t preprocessor::order_from_string(std::string_view str){
     //TODO: extend to specify type. Syntax: `type:method`
+    int offset = 0;
     order_t tmp;
-    if(str[0]=='.'){tmp.modifiers.dot=true;}
-    if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("asc"))){tmp.method=order_t::method_t::ASC;}
-    else if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("desc"))){tmp.method=order_t::method_t::DESC;}
-    else if((std::string_view(str.begin()+tmp.modifiers.dot, str.end()) == std::string_view("random"))){tmp.method=order_t::method_t::RANDOM;}
+    if(str.starts_with(".")){tmp.modifiers.dot=true;offset++;}
+    std::string_view pstr = std::string_view(str.begin()+offset, str.end());
+    if((pstr.starts_with("asc"))){tmp.method=order_t::method_t::ASC;offset+=std::string_view("asc").length();}
+    else if(pstr.starts_with("desc")){tmp.method=order_t::method_t::DESC;offset+=std::string_view("desc").length();}
+    else if(pstr.starts_with("random")){tmp.method=order_t::method_t::RANDOM;offset+=std::string_view("random").length();}
     else{
-        log(log_t::WARNING,std::format("`{}` is not a valid criterion for comparison",str));
+        log(log_t::WARNING,std::format("`{}` is not a valid criterion for comparison",pstr));
     }
 
+    pstr = std::string_view(str.begin()+offset, str.end());
+
+    //Technically this would allow things like `.arc:hello:i` but to be honest I am not concerned with that
+    if(pstr==":i" || pstr==":int" || pstr==":integer")tmp.type=order_t::type_t::INTEGER;
+    else if(pstr==":f" || pstr==":float")tmp.type=order_t::type_t::FLOAT;
+    else if(pstr==":b" || pstr==":bool"|| pstr==":boolean")tmp.type=order_t::type_t::BOOLEAN;
+    else if(pstr==":s" || pstr==":str"|| pstr==":string")tmp.type=order_t::type_t::STRING;
+    else if(pstr==":ns" || pstr==":natstr" || pstr==":natural-string")tmp.type=order_t::type_t::NATURAL_STRING;
+    else if(pstr==":ls" || pstr==":lexistr" || pstr==":lexi-string")tmp.type=order_t::type_t::LEXI_STRING;
+    else if(pstr==":n" || pstr==":node")tmp.type=order_t::type_t::NODE;
+    else if(pstr.length()>0){
+        log(log_t::WARNING,std::format("`{}` is not a valid type for comparison",pstr));
+    }
+    
     return tmp;
 }
 
