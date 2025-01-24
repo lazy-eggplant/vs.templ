@@ -150,47 +150,16 @@ struct preprocessor{
             public:
 
             //S:TAGS
-            const char *FOR_RANGE_TAG;
 
-            const char *FOR_TAG;
-            const char *FOR_PROPS_TAG;
                 const char *EMPTY_TAG;
                 const char *HEADER_TAG;
                 const char *FOOTER_TAG;
                 const char *ITEM_TAG;
                 const char *ERROR_TAG;
 
-            const char *TEST_TAG;
                 const char *CASE_TAG;
 
-            const char *VALUE_TAG;
-            const char *ELEMENT_TAG;
                 const char *TYPE_ATTR;
-
-            const char *LOG_TAG;
-
-            const char *INCLUDE_TAG;
-            const char *DATA_TAG;
-
-            //S:PROPS
-            const char *FOR_SRC_PROP;
-            const char *FOR_FILTER_PROP;
-            const char *FOR_SORT_BY_PROP;
-            const char *FOR_ORDER_BY_PROP;
-            const char *FOR_OFFSET_PROP;
-            const char *FOR_LIMIT_PROP;
-
-            const char *FOR_PROPS_SRC_PROP;
-            const char *FOR_PROPS_FILTER_PROP;
-            const char *FOR_PROPS_ORDER_BY_PROP;
-            const char *FOR_PROPS_OFFSET_PROP;
-            const char *FOR_PROPS_LIMIT_PROP;
-
-            const char *VALUE_PROP;
-
-            const char *PROP_NAME_PROP;
-            const char *PROP_VALUE_PROP;
-
 
             const char *WHEN_PROP;
 

@@ -263,66 +263,23 @@ void preprocessor::ns_strings::prepare(const char * ns_prefix){
 
     if(data!=nullptr)delete []data;
     data = new char[
-        STRLEN("for-range")+
-        STRLEN("for")+STRLEN("for-props")+STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
-        STRLEN("test")+STRLEN("case")+
-        STRLEN("value")+
-        STRLEN("eval")+
+        STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
+        STRLEN("case")+
         STRLEN("element")+STRLEN("type")+
-        STRLEN("log")+
-        STRLEN("include")+
-        STRLEN("data")+
-
-        STRLEN("for.src")+STRLEN("for.filter")+STRLEN("for.sort-by")+STRLEN("for.order-by")+STRLEN("for.offset")+STRLEN("for.limit")+
-        STRLEN("for-props.src")+STRLEN("for-props.filter")+STRLEN("for.order-by")+STRLEN("for-props.offset")+STRLEN("for-props.limit")+
-        
-        STRLEN("value")+
-        STRLEN("prop.name")+STRLEN("prop.value")+
         STRLEN("when")
         ];
     int count=0;
     
-    WRITE(FOR_RANGE_TAG,"for-range");
-
-    WRITE(FOR_TAG,"for");
-    WRITE(FOR_PROPS_TAG,"for-props");
         WRITE(EMPTY_TAG,"empty");
         WRITE(HEADER_TAG,"header");
         WRITE(FOOTER_TAG,"footer");
         WRITE(ITEM_TAG,"item");
         WRITE(ERROR_TAG,"error");
 
-    WRITE(TEST_TAG,"test");
         WRITE(CASE_TAG,"case");
 
-    WRITE(VALUE_TAG,"value");
-    WRITE(ELEMENT_TAG,"element");
         WRITE(TYPE_ATTR, "type");
-
-    WRITE(LOG_TAG,"log");
-    WRITE(INCLUDE_TAG,"include");
-    WRITE(DATA_TAG,"data");
-
-    WRITE(FOR_SRC_PROP,"for.src");
-    WRITE(FOR_FILTER_PROP,"for.filter");
-    WRITE(FOR_SORT_BY_PROP,"for.sort-by");
-    WRITE(FOR_ORDER_BY_PROP,"for.order-by");
-    WRITE(FOR_OFFSET_PROP,"for.offset")
-    WRITE(FOR_LIMIT_PROP,"for.limit");
-
-
-    WRITE(FOR_PROPS_SRC_PROP,"for.src");
-    WRITE(FOR_PROPS_FILTER_PROP,"for.filter");
-    WRITE(FOR_PROPS_ORDER_BY_PROP,"for.order-by");
-    WRITE(FOR_PROPS_OFFSET_PROP,"for.offset");
-    WRITE(FOR_PROPS_LIMIT_PROP,"for.limit");
         
-    WRITE(VALUE_PROP,"value"); 
-
-
-    WRITE(PROP_NAME_PROP,"prop.name");
-    WRITE(PROP_VALUE_PROP,"prop.value");
-
     WRITE(WHEN_PROP,"when");
 
 
