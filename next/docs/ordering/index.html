@@ -701,6 +701,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.4.3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.4.3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -892,36 +913,43 @@
 <li>in the <code>order-by</code> attributes of cycles for each type but <code>for-range</code></li>
 <li>as basic boolean binary operator in the RPN virtual machine</li>
 </ul>
-<p>The two implementations are not unified, so feature parity is desired but not intrinsic.</p>
+<p>The two implementations are not unified, so feature parity is desirable but not intrinsic.</p>
 <h2 id="order-types">Order types<a class="headerlink" href="#order-types" title="Permanent link">#</a></h2>
 <h3 id="asc-desc"><code>ASC</code> &amp; <code>DESC</code><a class="headerlink" href="#asc-desc" title="Permanent link">#</a></h3>
 <p>Whatever ordinal is assigned to the entries, sorting is just based on an ascending or descending order.</p>
 <h3 id="random"><code>RANDOM</code><a class="headerlink" href="#random" title="Permanent link">#</a></h3>
-<p>Data of any type is first hashed, and <code>ASC</code> is applied to those hashes.
+<p>Data of any type is first hashed, and <code>asc</code> is applied to those hashes.
 For integers, floats and booleans this just involves their immediate data.<br />
 For strings the characters buffer is used as the hash source. If the dot notation is needed, each token separated by <code>.</code> will be hashed and compared on its own.
 Nodes should not be directly compared. Doing so is not illegal, just nonsensical.</p>
 <h2 id="comparison-operators-for-supported-types">Comparison operators for supported types.<a class="headerlink" href="#comparison-operators-for-supported-types" title="Permanent link">#</a></h2>
 <h3 id="nodes">Nodes<a class="headerlink" href="#nodes" title="Permanent link">#</a></h3>
-<p>Nodes should not be directly compared.<br />
+<p>Via suffix <code>:n</code> or <code>:node</code>.<br />
+Nodes should not be directly compared.<br />
 Doing so is not illegal, just nonsensical and UB.<br />
 A more precise semantic for this case might be introduced later on.</p>
-<h3 id="attributes">Attributes<a class="headerlink" href="#attributes" title="Permanent link">#</a></h3>
-<p>By default, they are cast to string before evaluation.</p>
+<h3 id="attributes"><del>Attributes</del><a class="headerlink" href="#attributes" title="Permanent link">#</a></h3>
+<p>They are always cast to string before evaluation. So they will not be compared as XML nodes.</p>
 <h3 id="integers">Integers<a class="headerlink" href="#integers" title="Permanent link">#</a></h3>
-<p>Comparison as expected from any basic math class.</p>
+<p>Via suffix <code>:i</code>, <code>:int</code> or <code>:integer</code>.<br />
+Comparison as expected from any basic math class.</p>
 <h3 id="floats">Floats<a class="headerlink" href="#floats" title="Permanent link">#</a></h3>
-<p>Comparison as expected from any basic math class.</p>
+<p>Via suffix <code>:f</code>, `:float``.<br />
+Comparison as expected from any basic math class.</p>
 <h3 id="booleans">Booleans<a class="headerlink" href="#booleans" title="Permanent link">#</a></h3>
-<p><code>true</code> is smaller than <code>false</code>.</p>
+<p>Via suffix <code>:b</code>, <code>:bool</code> or <code>:boolean</code>.<br />
+<code>true</code> is smaller than <code>false</code>.</p>
 <h3 id="strings">Strings<a class="headerlink" href="#strings" title="Permanent link">#</a></h3>
 <p>Strings are by far the most complex to handle as multiple criteria are possible.</p>
 <h4 id="encoding-ordering">Encoding ordering<a class="headerlink" href="#encoding-ordering" title="Permanent link">#</a></h4>
-<p>Based on the binary representation of UTF-8 encoding.</p>
+<p>Via suffix <code>:s</code>, <code>:str</code> or <code>:string</code>.
+Based on the binary representation of UTF-8 encoding.</p>
 <h4 id="natural-ordering">Natural ordering<a class="headerlink" href="#natural-ordering" title="Permanent link">#</a></h4>
-<p><code>hello10</code> bigger than <code>hello2</code>.</p>
+<p>Via suffix <code>:ns</code>, <code>:natstr</code> or <code>:natural-string</code>.
+<code>hello10</code> bigger than <code>hello2</code>.</p>
 <h4 id="lexicographic-ordering">Lexicographic ordering<a class="headerlink" href="#lexicographic-ordering" title="Permanent link">#</a></h4>
-<p>For symbols in the Latin alphabet this is more or less equivalent to the encoding ordering.<br />
+<p>Via suffix <code>:ls</code>, <code>:lexistr</code> or <code>:lexi-string</code>.
+For symbols in the Latin alphabet this is more or less equivalent to the encoding ordering.<br />
 However, different languages have totally different customary approaches, and are not often based on alphabets.<br />
 Basically any criteria rooted in linguistic arguments goes in here.</p>
 
