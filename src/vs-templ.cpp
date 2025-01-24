@@ -23,6 +23,10 @@ namespace vs{
 namespace templ{
 
 
+static inline bool cmd_cmp(const char* a, const std::string_view& b){
+    return strncmp(a,b.data(),b.size())==0;
+};
+
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, includefn_t _includefn, loadfn_t _loadfn, uint64_t seed){
     if(_logfn!=nullptr)logfn=_logfn;
     if(_includefn!=nullptr)includefn=_includefn;
@@ -158,9 +162,6 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
         else if(std::holds_alternative<int>(tmp.value())){
             return std::get<int>(tmp.value());
         }
-        else if(std::holds_alternative<const pugi::xml_attribute>(tmp.value())){
-            return std::get<const pugi::xml_attribute>(tmp.value());
-        }
         else if(std::holds_alternative<std::string>(tmp.value())){
             return std::get<std::string>(tmp.value());
         }
@@ -244,7 +245,7 @@ preprocessor::order_t preprocessor::order_from_string(std::string_view str){
     else if(pstr.length()>0){
         log(log_t::WARNING,std::format("`{}` is not a valid type for comparison",pstr));
     }
-    
+
     return tmp;
 }
 
@@ -564,10 +565,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             for(auto& i : good_data){
                                 auto frame_guard = symbols.guard();
 
-                                symbols.set(tag,i);
+                                symbols.set(tag,i.value());
                                 symbols.set(std::string(tag) + ".k",i.name());
                                 symbols.set(std::string(tag) + ".v",i.value());
-                                symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
+                                symbols.set(std::string(tag) + ".c",counter);
 
                                 for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
                                     stack_template.emplace(el.begin(),el.end());
@@ -633,9 +634,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else if(std::holds_alternative<float>(symbol.value())){
                             current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(std::get<float>(symbol.value())).c_str());
                         }
-                        else if(std::holds_alternative<const pugi::xml_attribute>(symbol.value())) {
-                            current_compiled.append_child(pugi::node_pcdata).set_value(std::get<const pugi::xml_attribute>(symbol.value()).as_string());
-                        }
                         else if(std::holds_alternative<std::string>(symbol.value())) {
                             current_compiled.append_child(pugi::node_pcdata).set_value(std::get<std::string>(symbol.value()).c_str());
                         }
@@ -698,6 +696,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     stack_compiled.emplace(current_compiled);
                     
                 }
+                else if(current_template.first->name()+3==std::string_view("data")){}
                 else if(strcmp(current_template.first->name(),strings.DATA_TAG)==0){
                     pugi::xml_document localdoc;
                     if(loadfn(*current_template.first,localdoc)){
@@ -872,10 +871,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 for(auto& i : good_data){
                                     auto frame_guard = symbols.guard();
 
-                                    symbols.set(tag,i);
+                                    symbols.set(tag,i.value());
                                     symbols.set(std::string(tag) + ".k",i.name());
                                     symbols.set(std::string(tag) + ".v",i.value());
-                                    symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
+                                    symbols.set(std::string(tag) + ".c",counter);
 
                                     auto pair = split_string(_prop,'|');
                                     if(pair.size()!=2){
@@ -974,10 +973,6 @@ std::array<uint64_t,2> preprocessor::hash(const symbol& ref) const{
     }
     else if(std::holds_alternative<const pugi::xml_node>(ref)){
         auto str = std::get<const pugi::xml_node>(ref).name();
-        hash::MurmurHash3_x64_128(str,strlen(str),seed,&ret);
-    }
-    else if(std::holds_alternative<const pugi::xml_attribute>(ref)){
-        auto str = std::get<const pugi::xml_attribute>(ref).name();
         hash::MurmurHash3_x64_128(str,strlen(str),seed,&ret);
     }
     return std::array<uint64_t,2>{ret[0], ret[1]};

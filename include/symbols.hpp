@@ -11,7 +11,7 @@ namespace vs{
 namespace templ{
 
 //Symbol which can be saved in the table. Now they are the same as symbol
-typedef std::variant<int,const pugi::xml_node, const pugi::xml_attribute, std::string, float> symbol;
+typedef std::variant<int,const pugi::xml_node, std::string, float> symbol;
 
 std::optional<std::string> to_string(const symbol& val);
 
