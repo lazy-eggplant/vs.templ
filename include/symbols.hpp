@@ -11,9 +11,16 @@ namespace vs{
 namespace templ{
 
 //Symbol which can be saved in the table. Now they are the same as symbol
-typedef std::variant<int,const pugi::xml_node, std::string, float> symbol;
+struct symbol : std::variant<int,const pugi::xml_node, std::string, float> {
+    using std::variant<int,const pugi::xml_node, std::string, float> :: variant ;
+    std::optional<std::string> to_string(){
+        if(std::holds_alternative<int>(*this))return std::to_string(std::get<int>(*this));
+        else if(std::holds_alternative<float>(*this))return std::to_string(std::get<float>(*this));
+        else if(std::holds_alternative<std::string>(*this))return std::get<std::string>(*this);
+        else return {};
+    }
+};
 
-std::optional<std::string> to_string(const symbol& val);
 
 //Utility class to implement a list of symbols. Use for `for` like structures in pattern matching.
 struct symbol_map{

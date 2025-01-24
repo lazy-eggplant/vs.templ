@@ -32,15 +32,6 @@ const T& get_or(const auto& ref, const T& defval) noexcept{
  */
 std::vector<std::string_view> split_string (const char* str, char delim);
 
-///Compute a const string size at comptime
-inline constexpr std::size_t cexpr_strlen(const char* s){return std::char_traits<char>::length(s);}
-
-///Compare strings where the right one is defined at comptime
-inline bool cexpr_strneqv(const char* s, const char* c){return strncmp(s, c, cexpr_strlen(c))==0;}
-
-///Compare strings where the right one is defined at comptime
-inline bool cexpr_streqv(const char* s, const char* c){return strcmp(s, c)==0;}
-
 
 /**
  * @brief Compare two strings assuming the dot notation for ordering nested fields

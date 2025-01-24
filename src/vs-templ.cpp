@@ -22,10 +22,15 @@ using fast_float::from_chars;
 namespace vs{
 namespace templ{
 
+//Helpers just to make the code less of a mess
+template<class T>
+static inline constexpr bool is (const auto& v) { return std::holds_alternative<T>(v); }
+ 
+template<class T>
+static inline constexpr auto& as (const auto& v) { return std::get<T>(v); }
 
-static inline bool cmd_cmp(const char* a, const std::string_view& b){
-    return strncmp(a,b.data(),b.size())==0;
-};
+///Compare strings where the right one is defined at comptime
+static inline bool cexpr_strneqv(const char* s, const char* c){return strncmp(s, c, std::char_traits<char>::length(c))==0;}
 
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, includefn_t _includefn, loadfn_t _loadfn, uint64_t seed){
     if(_logfn!=nullptr)logfn=_logfn;
@@ -57,10 +62,10 @@ void preprocessor::log(log_t::values type, const std::string& str) const{
 preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_t method) const{
     //Apply defaults if not specified
     if(method.type==order_t::type_t::DEFAULT){
-        if(std::holds_alternative<int>(a))method.type=order_t::type_t::INTEGER;
-        else if(std::holds_alternative<float>(a))method.type=order_t::type_t::FLOAT;
-        else if(std::holds_alternative<std::string>(a))method.type=order_t::type_t::NATURAL_STRING;
-        else if(std::holds_alternative<const pugi::xml_node>(a))method.type=order_t::type_t::NODE;
+        if(is<int>(a))method.type=order_t::type_t::INTEGER;
+        else if(is<float>(a))method.type=order_t::type_t::FLOAT;
+        else if(is<std::string>(a))method.type=order_t::type_t::NATURAL_STRING;
+        else if(is<const pugi::xml_node>(a))method.type=order_t::type_t::NODE;
     }
 
     if(method.method==order_t::method_t::DEFAULT){
@@ -69,9 +74,9 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
 
     //Simle cases to handle via std overloads
     if(
-        (std::holds_alternative<int>(a) && std::holds_alternative<int>(b) && method.type==order_t::type_t::INTEGER)||
-        (std::holds_alternative<int>(a) && std::holds_alternative<int>(b) && method.type==order_t::type_t::BOOLEAN)||
-        (std::holds_alternative<float>(a) && std::holds_alternative<float>(b) && method.type==order_t::type_t::FLOAT)
+        (is<int>(a) && is<int>(b) && method.type==order_t::type_t::INTEGER)||
+        (is<int>(a) && is<int>(b) && method.type==order_t::type_t::BOOLEAN)||
+        (is<float>(a) && is<float>(b) && method.type==order_t::type_t::FLOAT)
     ){
         if(method.method==order_t::method_t::ASC) return (a<b)?compare_result::LESS: ( (a>b)? compare_result::BIGGER : compare_result::EQUAL);
         else if(method.method==order_t::method_t::DESC) return (a<b)?compare_result::BIGGER: ( (a>b)? compare_result::LESS : compare_result::EQUAL);
@@ -81,17 +86,17 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
             return (hash_a<hash_b)?compare_result::LESS: ( (hash_a>hash_b)? compare_result::BIGGER : compare_result::EQUAL);
         }
     }
-    else if(std::holds_alternative<const pugi::xml_node>(a) && std::holds_alternative<const pugi::xml_node>(b) && method.type==order_t::type_t::NODE){
+    else if(is<const pugi::xml_node>(a) && is<const pugi::xml_node>(b) && method.type==order_t::type_t::NODE){
         
     }
-    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && (method.type==order_t::type_t::STRING || method.type==order_t::type_t::NATURAL_STRING ) ){
-        const auto& _a = std::get<std::string>(a), _b = std::get<std::string>(b);
+    else if(is<std::string>(a) && is<std::string>(b) && (method.type==order_t::type_t::STRING || method.type==order_t::type_t::NATURAL_STRING ) ){
+        const auto& _a = as<std::string>(a), _b = as<std::string>(b);
         if(method.modifiers.dot){
             if(method.method==order_t::method_t::ASC){auto i = (method.type==order_t::type_t::NATURAL_STRING)?cmp_dot_natstr(_a.c_str(), _b.c_str()):cmp_dot_str(_a.c_str(), _b.c_str());return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);}
             else if(method.method==order_t::method_t::DESC){auto i = -((method.type==order_t::type_t::NATURAL_STRING)?cmp_dot_natstr(_a.c_str(), _b.c_str()):cmp_dot_str(_a.c_str(), _b.c_str())); return (i<0)?compare_result::LESS: ( (i>0)? compare_result::BIGGER : compare_result::EQUAL);}
             else if(method.method==order_t::method_t::RANDOM){
-                auto va = split_string(std::get<std::string>(a).c_str(), '.');
-                auto vb = split_string(std::get<std::string>(b).c_str(), '.');
+                auto va = split_string(as<std::string>(a).c_str(), '.');
+                auto vb = split_string(as<std::string>(b).c_str(), '.');
 
                 if(va.size()<vb.size())return compare_result::LESS;
                 else if(va.size()>vb.size())return compare_result::BIGGER;
@@ -119,7 +124,7 @@ preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, cons
             }
         } 
     }
-    else if(std::holds_alternative<std::string>(a) && std::holds_alternative<std::string>(b) && method.type==order_t::type_t::LEXI_STRING){
+    else if(is<std::string>(a) && is<std::string>(b) && method.type==order_t::type_t::LEXI_STRING){
         //TODO: not implemented
     }
     //Cannot have pugi::xml_attribute since it has been resolved by the time it gets here.
@@ -156,17 +161,17 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
         str[close]=0;
         auto tmp = symbols.resolve(std::string_view(str+1,str+close));
         if(!tmp.has_value())return {};
-        else if(std::holds_alternative<const pugi::xml_node>(tmp.value())){
-            ref=std::get<const pugi::xml_node>(tmp.value());
+        else if(is<const pugi::xml_node>(tmp.value())){
+            ref=as<const pugi::xml_node>(tmp.value());
         }
-        else if(std::holds_alternative<int>(tmp.value())){
-            return std::get<int>(tmp.value());
+        else if(is<int>(tmp.value())){
+            return as<int>(tmp.value());
         }
-        else if(std::holds_alternative<std::string>(tmp.value())){
-            return std::get<std::string>(tmp.value());
+        else if(is<std::string>(tmp.value())){
+            return as<std::string>(tmp.value());
         }
-        else if(std::holds_alternative<float>(tmp.value())){
-            return std::get<float>(tmp.value());
+        else if(is<float>(tmp.value())){
+            return as<float>(tmp.value());
         }
         if(close==str_len)return ref;        //End of string was met earlier
         idx=close+1;
@@ -175,8 +180,8 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
 
         if(base==nullptr){
             auto tmp = symbols.resolve("$");
-            if(tmp.has_value() && std::holds_alternative<const pugi::xml_node>(tmp.value())){
-                ref=std::get<const pugi::xml_node>(tmp.value());
+            if(tmp.has_value() && is<const pugi::xml_node>(tmp.value())){
+                ref=as<const pugi::xml_node>(tmp.value());
             }
         }
         else ref=*base;
@@ -206,9 +211,9 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
         //If no prefix is used, $ is asssumed as reference
         if(idx==0 && base==nullptr){
             auto tmp = symbols.resolve("$");
-            if(!tmp.has_value() || std::holds_alternative<const pugi::xml_node>(tmp.value())==false)return {};
+            if(!tmp.has_value() || is<const pugi::xml_node>(tmp.value())==false)return {};
             else{
-                ref=std::get<const pugi::xml_node>(tmp.value());
+                ref=as<const pugi::xml_node>(tmp.value());
             }
         }
         if(strcmp(str+idx+1,"!txt")==0) return ref.text().as_string();
@@ -340,8 +345,8 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
             if(filter!=nullptr && filter[0]!=0){
                 repl testexpr(*this);
                 auto retexpr = testexpr.eval(filter+1);
-                if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
-                if(std::get<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                if(is<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                if(as<int>(retexpr.value_or(true))==false)continue; //Skip logic.
             }
 
             dataset.push_back(child);
@@ -384,8 +389,8 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
             if(filter!=nullptr){
                 repl testexpr(*this);
                 auto retexpr = testexpr.eval(filter+1);
-                if(std::holds_alternative<int>(retexpr.value_or(true))==false)continue; //Skip logic.
-                if(std::get<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                if(is<int>(retexpr.value_or(true))==false)continue; //Skip logic.
+                if(as<int>(retexpr.value_or(true))==false)continue; //Skip logic.
             }
             dataset.push_back(child);
         }
@@ -422,7 +427,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
             }
             //Special handling of static element
             if(strncmp(current_template.first->name(),ns_prefix.c_str(),ns_prefix.length())==0) {
-                if(strcmp(current_template.first->name(),strings.FOR_RANGE_TAG)==0){
+                auto cmd  = current_template.first->name()+ns_prefix.length();
+                if(strcmp(cmd,"for-range")==0){
                     const char* tag = current_template.first->attribute("tag").as_string();
                     int from = get_or<int>(resolve_expr(current_template.first->attribute("from").as_string("0")).value_or(0),0);
                     int to = get_or<int>(resolve_expr(current_template.first->attribute("to").as_string("0")).value_or(0),0);
@@ -440,7 +446,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         stack_compiled.emplace(current_compiled);
                     }
                 }
-                else if(strcmp(current_template.first->name(),strings.FOR_TAG)==0){
+                else if(strcmp(cmd,"for")==0){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string();
 
@@ -455,7 +461,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
 
                     //Only a node is acceptable in this context, otherwise show the error
-                    if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                    if(!expr.has_value() || !is<const pugi::xml_node>(expr.value())){ 
                         for(const auto& el: current_template.first->children(strings.ERROR_TAG)){
                             stack_template.emplace(el.begin(),el.end());
                             _parse(current_template.first);
@@ -474,7 +480,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 c++;
                             }
                         }
-                        auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
+                        auto good_data = prepare_children_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
 
                         if(good_data.size()==0){
                             for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
@@ -520,7 +526,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                 }
-                else if(strcmp(current_template.first->name(),strings.FOR_PROPS_TAG)==0){
+                else if(strcmp(cmd,"for-props")==0){
                     const char* tag = current_template.first->attribute("tag").as_string("$");
                     const char* in = current_template.first->attribute("in").as_string();
 
@@ -533,7 +539,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     auto expr = resolve_expr(in);
 
                     //Only a node is acceptable in this context, otherwise show the error
-                    if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                    if(!expr.has_value() || !is<const pugi::xml_node>(expr.value())){ 
                         for(const auto& el: current_template.first->children(strings.ERROR_TAG)){
                             stack_template.emplace(el.begin(),el.end());
                             _parse(current_template.first);
@@ -541,7 +547,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                     else{
-                        auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
+                        auto good_data = prepare_props_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
 
                         if(good_data.size()==0){
                             for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
@@ -589,14 +595,14 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                 }
-                else if(strcmp(current_template.first->name(), strings.ELEMENT_TAG)==0){
+                else if(strcmp(cmd,"element")==0){
                     //It is possible for it to generate strange results as strings are not validated by pugi
                     auto symbol = resolve_expr(current_template.first->attribute(strings.TYPE_ATTR).as_string("$"));
                     if(!symbol.has_value()){
                         current_template.first->parent().remove_child(*current_template.first);
                     }
-                    else if(std::holds_alternative<std::string>(symbol.value())){
-                        auto child = current_compiled.append_child(std::get<std::string>(symbol.value()).c_str());
+                    else if(is<std::string>(symbol.value())){
+                        auto child = current_compiled.append_child(as<std::string>(symbol.value()).c_str());
                         for(auto& attr : current_template.first->attributes()){
                             if(strcmp(attr.name(),strings.TYPE_ATTR)!=0)child.append_attribute(attr.name()).set_value(attr.value());
                         }
@@ -606,8 +612,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         _parse(current_template.first);
                         stack_compiled.emplace(current_compiled);
                     }
-                    else if(std::holds_alternative<const pugi::xml_node>(symbol.value())){
-                        auto child = current_compiled.append_child(std::get<const pugi::xml_node>(symbol.value()).text().as_string());
+                    else if(is<const pugi::xml_node>(symbol.value())){
+                        auto child = current_compiled.append_child(as<const pugi::xml_node>(symbol.value()).text().as_string());
                         for(auto& attr : current_template.first->attributes()){
                             if(strcmp(attr.name(),strings.TYPE_ATTR)!=0)child.append_attribute(attr.name()).set_value(attr.value());
                         }
@@ -619,7 +625,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                     else{}
                 }
-                else if(strcmp(current_template.first->name(), strings.VALUE_TAG)==0){
+                else if(strcmp(cmd,"value")==0){
                     auto symbol = resolve_expr(current_template.first->attribute("src").as_string("{$}"));
                     if(!symbol.has_value()){
                         /*Show default content if search fails*/
@@ -628,22 +634,22 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         stack_compiled.emplace(current_compiled);
                     }
                     else{
-                        if(std::holds_alternative<int>(symbol.value())){
-                            current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(std::get<int>(symbol.value())).c_str());
+                        if(is<int>(symbol.value())){
+                            current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(as<int>(symbol.value())).c_str());
                         }
-                        else if(std::holds_alternative<float>(symbol.value())){
-                            current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(std::get<float>(symbol.value())).c_str());
+                        else if(is<float>(symbol.value())){
+                            current_compiled.append_child(pugi::node_pcdata).set_value(std::to_string(as<float>(symbol.value())).c_str());
                         }
-                        else if(std::holds_alternative<std::string>(symbol.value())) {
-                            current_compiled.append_child(pugi::node_pcdata).set_value(std::get<std::string>(symbol.value()).c_str());
+                        else if(is<std::string>(symbol.value())) {
+                            current_compiled.append_child(pugi::node_pcdata).set_value(as<std::string>(symbol.value()).c_str());
                         }
-                        else if(std::holds_alternative<const pugi::xml_node>(symbol.value())) {
-                            auto tmp = std::get<const pugi::xml_node>(symbol.value());
+                        else if(is<const pugi::xml_node>(symbol.value())) {
+                            auto tmp = as<const pugi::xml_node>(symbol.value());
                             current_compiled.append_copy(tmp);
                         }
                     }
                 }
-                else if(strcmp(current_template.first->name(),strings.TEST_TAG)==0){
+                else if(strcmp(cmd,"test")==0){
                     for(const auto& entry: current_template.first->children(strings.CASE_TAG)){
                         bool _continue =  entry.attribute("continue").as_bool(false);
                         auto test = resolve_expr(entry.attribute("value").as_string("{$}"));
@@ -659,7 +665,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                 }
-                else if(strcmp(current_template.first->name(),strings.LOG_TAG)==0){
+                else if(strcmp(cmd,"log")==0){
                     auto _type = current_template.first->attribute("type").as_string("info");
                     auto _msg = resolve_expr(current_template.first->attribute("type").as_string(""));
                     log_t::values type = log_t::PANIC;
@@ -670,13 +676,13 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(strcmp(_type,"warning")==0)type=log_t::WARNING;
                     else {/*....*/}
                     if(_msg.has_value()){
-                        if(std::holds_alternative<std::string>(_msg.value()))log(type,std::get<std::string>(_msg.value()));
-                        else if(std::holds_alternative<int>(_msg.value()))log(type,std::to_string(std::get<int>(_msg.value())));
-                        else if(std::holds_alternative<float>(_msg.value()))log(type,std::to_string(std::get<float>(_msg.value())));
+                        if(is<std::string>(_msg.value()))log(type,as<std::string>(_msg.value()));
+                        else if(is<int>(_msg.value()))log(type,std::to_string(as<int>(_msg.value())));
+                        else if(is<float>(_msg.value()))log(type,std::to_string(as<float>(_msg.value())));
                         else{/*...*/}
                     }
                 }
-                else if(strcmp(current_template.first->name(),strings.INCLUDE_TAG)==0){
+                else if(strcmp(cmd,"include")==0){
                     //This is intentionally not an expression. Declarations of files to include should always be fully static to ensure they can be statically traced.
                     auto src = current_template.first->attribute("src").as_string("");
                     if(src[0]!=0){
@@ -696,8 +702,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     stack_compiled.emplace(current_compiled);
                     
                 }
-                else if(current_template.first->name()+3==std::string_view("data")){}
-                else if(strcmp(current_template.first->name(),strings.DATA_TAG)==0){
+                else if(strcmp(cmd,"data")==0){
                     pugi::xml_document localdoc;
                     if(loadfn(*current_template.first,localdoc)){
                         symbols.guard();
@@ -729,12 +734,13 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
             for(const auto& attr :current_template.first->attributes()){
                 //Special handling of static attribute rewrite rules
                 if(strncmp(attr.name(), ns_prefix.c_str(), ns_prefix.length())==0){
+                    auto cmd  = attr.name()+ns_prefix.length();
                     if(false){}
                     //Matches for.src.key.* even without named suffix
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.prop")){
+                    else if(cexpr_strneqv(cmd,"for.prop")){
                         int subgroup_length = 0;
-                        if(attr.name()[ns_prefix.length()+sizeof("for.prop")-1]=='\0'){}
-                        else if(attr.name()[ns_prefix.length()+sizeof("for.prop")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for.prop")-1+1;}
+                        if(cmd[sizeof("for.prop")-1]=='\0'){}
+                        else if(cmd[sizeof("for.prop")-1]=='.'){subgroup_length=strlen(cmd)+sizeof("for.prop")-1+1;}
                         else {continue;}
 
 #                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
@@ -742,7 +748,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                                     memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
                                                     if(subgroup_length!=0){\
                                                         NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
-                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for.prop")-1+1,subgroup_length);\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,cmd+sizeof("for.prop")-1+1,subgroup_length);\
                                                     }\
                                                     NAME [sizeof(NAME)-1]=0;
 
@@ -771,7 +777,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         auto expr = resolve_expr(in);
 
 
-                        if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                        if(!expr.has_value() || !is<const pugi::xml_node>(expr.value())){ 
                             //Do nothing; Maybe warning?
                         }
                         else{
@@ -786,7 +792,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                     c++;
                                 }
                             }
-                            auto good_data = prepare_children_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
+                            auto good_data = prepare_children_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
 
                             //Items (iterate)
                             int counter = 0;
@@ -805,8 +811,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                     auto _value = resolve_expr(pair[1]);
 
                                     if(_name.has_value() && _value.has_value()){
-                                        auto name = to_string(_name.value());
-                                        auto value = to_string(_value.value());
+                                        auto name = _name->to_string();
+                                        auto value = _value->to_string();
                                         if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
                                         /*Error?*/
                                     }
@@ -816,13 +822,13 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             }
                         }
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for.")){
+                    else if(cexpr_strneqv(cmd,"for.")){
                         /*Skip, already considered in the earlier block*/
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.prop")){
+                    else if(cexpr_strneqv(cmd,"for-props.prop")){
                         int subgroup_length = 0;
-                        if(attr.name()[ns_prefix.length()+sizeof("for-props.prop")-1]=='\0'){}
-                        else if(attr.name()[ns_prefix.length()+sizeof("for-props.prop")-1]=='.'){subgroup_length=strlen(attr.name())-ns_prefix.length()+sizeof("for-props.prop")-1+1;}
+                        if(cmd[sizeof("for-props.prop")-1]=='\0'){}
+                        else if(cmd[sizeof("for-props.prop")-1]=='.'){subgroup_length=strlen(cmd)+sizeof("for-props.prop")-1+1;}
                         else {continue;}
 
 #                       define WRITE(NAME,VALUE)    char NAME [ns_prefix.length()+sizeof(VALUE)-1+subgroup_length+1];\
@@ -830,7 +836,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                                     memcpy(NAME+ns_prefix.length(),VALUE,std::char_traits<char>::length(VALUE));\
                                                     if(subgroup_length!=0){\
                                                         NAME [ns_prefix.length()+std::char_traits<char>::length(VALUE)]='.';\
-                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,attr.name()+ns_prefix.length()+sizeof("for-props.prop")-1+1,subgroup_length);\
+                                                        memcpy(NAME+ns_prefix.length()+std::char_traits<char>::length(VALUE)+1,cmd+sizeof("for-props.prop")-1+1,subgroup_length);\
                                                     }\
                                                     NAME [sizeof(NAME)-1]=0;
 
@@ -856,11 +862,11 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                         auto expr = resolve_expr(in);
 
-                        if(!expr.has_value() || !std::holds_alternative<const pugi::xml_node>(expr.value())){ 
+                        if(!expr.has_value() || !is<const pugi::xml_node>(expr.value())){ 
                             //Maybe error?
                         }
                         else{
-                            auto good_data = prepare_props_data(std::get<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
+                            auto good_data = prepare_props_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
 
                             if(good_data.size()==0){
                                 //Do nothing; Maybe warning?
@@ -885,8 +891,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                         auto _value = resolve_expr(pair[1]);
 
                                         if(_name.has_value() && _value.has_value()){
-                                            auto name = to_string(_name.value());
-                                            auto value = to_string(_value.value());
+                                            auto name = _name->to_string();
+                                            auto value = _value->to_string();
                                             if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
                                             /*Error?*/
                                         }
@@ -896,10 +902,10 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             }
                         }
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"for-props.")){
+                    else if(cexpr_strneqv(cmd,"for-props.")){
                         /*Skip, already considered in the earlier block*/
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"prop.")){
+                    else if(cexpr_strneqv(cmd,"prop.")){
                         auto pair = split_string(attr.value(),'|');
                         if(pair.size()!=2){
                             log(log_t::ERROR, std::format("unrecognized pair for prop command `prop`"));
@@ -909,33 +915,33 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             auto _value = resolve_expr(pair[1]);
 
                             if(_name.has_value() && _value.has_value()){
-                               auto name = to_string(_name.value());
-                                auto value = to_string(_value.value());
+                               auto name = _name->to_string();
+                                auto value = _value->to_string();
                                 if(name.has_value() && value.has_value())last.append_attribute(name.value().c_str()).set_value(value.value().c_str());
                                 /*Error?*/
                             }
                         }
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"value.")){
+                    else if(cexpr_strneqv(cmd,"value.")){
                         auto val = resolve_expr(attr.value());
                         if(val.has_value()){
-                            auto attribute = last.append_attribute(attr.name()+ns_prefix.length()+sizeof("value.")-1);
-                            auto v = to_string(val.value());
+                            auto attribute = last.append_attribute(cmd+sizeof("value.")-1);
+                            auto v = val->to_string();
                             if(v.has_value())attribute.set_value(v->c_str());
                             /* Error? */
                         }
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"when.")){
+                    else if(cexpr_strneqv(cmd,"when.")){
                         auto val = resolve_expr(attr.value());
-                        if(val.has_value() && std::holds_alternative<int>(*val)){
+                        if(val.has_value() && is<int>(*val)){
                             auto v = (val.value());
-                            if(std::get<int>(*val)==true){
-                                last.append_attribute(attr.name()+ns_prefix.length()+sizeof("when.")-1);
+                            if(as<int>(*val)==true){
+                                last.append_attribute(cmd+sizeof("when.")-1);
                             }
                             /* Error? */
                         }
                     }
-                    else if(cexpr_strneqv(attr.name()+ns_prefix.length(),"when")){
+                    else if(cexpr_strneqv(cmd,"when")){
                         //Skip, already done
                     }
                     else {log(log_t::ERROR, std::format("unrecognized static operation `{}`",attr.name()));}
@@ -961,18 +967,18 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 std::array<uint64_t,2> preprocessor::hash(const symbol& ref) const{
     uint64_t ret[2] = {0,0};
 
-    if(std::holds_alternative<int>(ref)){
-        hash::MurmurHash3_x64_128(&std::get<int>(ref),sizeof(int),seed,&ret);
+    if(is<int>(ref)){
+        hash::MurmurHash3_x64_128(&as<int>(ref),sizeof(int),seed,&ret);
     }
-    else if(std::holds_alternative<float>(ref)){
-        hash::MurmurHash3_x64_128(&std::get<float>(ref),sizeof(float),seed,&ret);
+    else if(is<float>(ref)){
+        hash::MurmurHash3_x64_128(&as<float>(ref),sizeof(float),seed,&ret);
     }
-    else if(std::holds_alternative<std::string>(ref)){
-        auto str =std::get<std::string>(ref);
+    else if(is<std::string>(ref)){
+        auto str =as<std::string>(ref);
         hash::MurmurHash3_x64_128(str.c_str(),str.size(),seed,&ret);
     }
-    else if(std::holds_alternative<const pugi::xml_node>(ref)){
-        auto str = std::get<const pugi::xml_node>(ref).name();
+    else if(is<const pugi::xml_node>(ref)){
+        auto str = as<const pugi::xml_node>(ref).name();
         hash::MurmurHash3_x64_128(str,strlen(str),seed,&ret);
     }
     return std::array<uint64_t,2>{ret[0], ret[1]};

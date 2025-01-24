@@ -26,16 +26,16 @@ using fast_float::from_chars;
     for(size_t i = 0;i<N;i++){\
         auto tmp = std::move(stack.top());\
         stack.pop();\
-        if(type!=FLOAT && std::holds_alternative<int>(tmp)){\
+        if(type!=FLOAT && is<int>(tmp)){\
             auto& ret = ret_i;\
-            if(i==0)ret=std::get<int>(tmp);\
-            else ret OPERATOR ( std::get<int>(tmp) );\
+            if(i==0)ret=as<int>(tmp);\
+            else ret OPERATOR ( as<int>(tmp) );\
             type = INT;\
         }\
-        else if(type!=INT && std::holds_alternative<float>(tmp)){\
+        else if(type!=INT && is<float>(tmp)){\
             auto& ret = ret_f;\
-            if(i==0)ret=std::get<float>(tmp);\
-            else ret OPERATOR ( std::get<float>(tmp) );\
+            if(i==0)ret=as<float>(tmp);\
+            else ret OPERATOR ( as<float>(tmp) );\
             type = FLOAT;\
         }\
         else return error_t::WRONG_TYPE;\
@@ -52,14 +52,14 @@ using fast_float::from_chars;
     float ret_f;\
     auto tmp = std::move(stack.top());\
     stack.pop();\
-    if(std::holds_alternative<int>(tmp)){\
+    if(is<int>(tmp)){\
         auto& ret = ret_i;\
-        ret = OPERATOR ( std::get<int>(tmp) );\
+        ret = OPERATOR ( as<int>(tmp) );\
         type = INT;\
     }\
-    else if(std::holds_alternative<float>(tmp)){\
+    else if(is<float>(tmp)){\
         auto& ret = ret_f;\
-        ret = OPERATOR ( std::get<float>(tmp) );\
+        ret = OPERATOR ( as<float>(tmp) );\
         type = FLOAT;\
     }\
     else return error_t::WRONG_TYPE;\
@@ -75,21 +75,21 @@ using fast_float::from_chars;
     auto b = std::move(stack.top());\
     stack.pop();\
     ctx->compare_symbols(a,b,preprocessor::order_t{});\
-    if(std::holds_alternative<int>(a)){\
-        if(std::holds_alternative<int>(b)){\
-            stack.push(std::get<int>(a) OPERATOR std::get<int>(b));\
+    if(is<int>(a)){\
+        if(is<int>(b)){\
+            stack.push(as<int>(a) OPERATOR as<int>(b));\
         }\
         else return error_t::WRONG_TYPE;\
     }\
-    else if(std::holds_alternative<float>(a)){\
-        if(std::holds_alternative<float>(b)){\
-            stack.push( std::get<float>(a) OPERATOR  std::get<float>(b));\
+    else if(is<float>(a)){\
+        if(is<float>(b)){\
+            stack.push( as<float>(a) OPERATOR  as<float>(b));\
         }\
         else return error_t::WRONG_TYPE;\
     }\
-    else if(std::holds_alternative<std::string>(a)){\
-        if(std::holds_alternative<std::string>(b)){\
-            stack.push( std::get<std::string>(a) OPERATOR  std::get<std::string>(b));\
+    else if(is<std::string>(a)){\
+        if(is<std::string>(b)){\
+            stack.push( as<std::string>(a) OPERATOR  as<std::string>(b));\
         }\
         else return error_t::WRONG_TYPE;\
     }\
@@ -103,8 +103,8 @@ using fast_float::from_chars;
     for(size_t i = 0;i<N;i++){\
         auto tmp = std::move(stack.top());\
         stack.pop();\
-        if(std::holds_alternative<  TYPE >(tmp))\
-            ret OPERATOR ( std::get< TYPE >(tmp) );\
+        if(is<  TYPE >(tmp))\
+            ret OPERATOR ( as< TYPE >(tmp) );\
         else return error_t::WRONG_TYPE;\
     }\
     stack.push(ret);\
@@ -116,8 +116,8 @@ using fast_float::from_chars;
     TYPE ret;\
     auto tmp = std::move(stack.top());\
     stack.pop();\
-    if(std::holds_alternative<  TYPE >(tmp))\
-        ret = OPERATOR ( std::get< TYPE >(tmp) );\
+    if(is<  TYPE >(tmp))\
+        ret = OPERATOR ( as< TYPE >(tmp) );\
     else return error_t::WRONG_TYPE;\
     stack.push(ret);\
     return error_t::OK;\
@@ -125,6 +125,14 @@ using fast_float::from_chars;
 
 namespace vs{
 namespace templ{
+
+
+//Helpers just to make the code less of a mess
+template<class T>
+static inline constexpr bool is (const auto& v) { return std::holds_alternative<T>(v); }
+ 
+template<class T>
+static inline constexpr auto& as (const auto& v) { return std::get<T>(v); }
 
 
 bool repl::push_operand(const symbol& ref)noexcept{
@@ -150,16 +158,16 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                             {
                                 auto tmp = std::move(stack.top());
                                 stack.pop();
-                                if(std::holds_alternative<std::string>(tmp))
-                                    sep = std::move( std::get<std::string>(tmp) );
+                                if(is<std::string>(tmp))
+                                    sep = std::move( as<std::string>(tmp) );
                                 else return error_t::WRONG_TYPE;
                             }
                             for(size_t i = 1;i<N;i++){
                                 auto tmp = std::move(stack.top());
                                 stack.pop();
-                                if(std::holds_alternative<std::string>(tmp)){
-                                    if(i!=1)ret += sep + ( std::get<std::string>(tmp) );
-                                    else ret+=( std::get<std::string>(tmp) );
+                                if(is<std::string>(tmp)){
+                                    if(i!=1)ret += sep + ( as<std::string>(tmp) );
+                                    else ret+=( as<std::string>(tmp) );
                                 }
                                 else return error_t::WRONG_TYPE;
                             }
@@ -210,18 +218,18 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
             {"as.int", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
                 stack.pop();
-                if(std::holds_alternative<int>(t))stack.push(std::get<int>(t));
-                else if(std::holds_alternative<float>(t))stack.push((int)std::get<float>(t));
-                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);int result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
+                if(is<int>(t))stack.push(as<int>(t));
+                else if(is<float>(t))stack.push((int)as<float>(t));
+                else if(is<std::string>(t)){auto& str = as<std::string>(t);int result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
             {"as.bool", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
                 stack.pop();
-                if(std::holds_alternative<int>(t))stack.push(std::get<int>(t)&1);
-                else if(std::holds_alternative<std::string>(t)){
-                    auto& str = std::get<std::string>(t);
+                if(is<int>(t))stack.push(as<int>(t)&1);
+                else if(is<std::string>(t)){
+                    auto& str = as<std::string>(t);
                     if(str=="false")stack.push(1);
                     else if(str=="true")stack.push(0);
                 }
@@ -231,18 +239,18 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
             {"as.float", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
                 stack.pop();
-                if(std::holds_alternative<int>(t))stack.push((float)std::get<int>(t));
-                else if(std::holds_alternative<float>(t))stack.push(std::get<float>(t));
-                else if(std::holds_alternative<std::string>(t)){auto& str = std::get<std::string>(t);float result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
+                if(is<int>(t))stack.push((float)as<int>(t));
+                else if(is<float>(t))stack.push(as<float>(t));
+                else if(is<std::string>(t)){auto& str = as<std::string>(t);float result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
             {"as.str", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
                 stack.pop();
-                if(std::holds_alternative<int>(t))stack.push(std::to_string(std::get<int>(t)));
-                else if(std::holds_alternative<float>(t))stack.push(std::to_string(std::get<float>(t)));
-                else if(std::holds_alternative<std::string>(t))stack.push(std::get<std::string>(t));
+                if(is<int>(t))stack.push(std::to_string(as<int>(t)));
+                else if(is<float>(t))stack.push(std::to_string(as<float>(t)));
+                else if(is<std::string>(t))stack.push(as<std::string>(t));
                 else return error_t::WRONG_TYPE;
                 return error_t::OK;
             }, 1}},
@@ -260,8 +268,8 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 stack.pop();
                 auto if_false = stack.top();
                 stack.pop();
-                if(!std::holds_alternative<int>(condition))return error_t::WRONG_TYPE;
-                if((std::get<int>(condition)&1)==0)stack.push(if_true);
+                if(!is<int>(condition))return error_t::WRONG_TYPE;
+                if((as<int>(condition)&1)==0)stack.push(if_true);
                 else stack.push(if_false);
                 return error_t::OK;
             }, 3, 3}},
@@ -355,46 +363,6 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
 
 repl::repl(const preprocessor& _ctx):ctx(_ctx){}
 
-/*
-bool repl::parse(const char* str){
-    bool is_operand=false;
-
-    for(int i=0;str[i]!=0;){
-        {   //Skip trailing whitespace
-            int j=i;
-            for(;(str[j]==' ' || str[j]=='\t' || str[j]=='\n') && str[j]!='\0';j++);
-            i=j;
-            if(str[j]=='\0')break;
-        }
-
-        if(str[i]=='`'){is_operand=!is_operand;i++;}
-
-        if(is_operand){
-            int j=i,old=i;
-            for(;str[j]!='`' && str[j]!='\0';j++);
-            is_operand=false;
-            i=j;
-            if(str[j]!='\0')i++;
-
-            std::string ss(str+old,str+j);
-            printf("Found operand %s\n", ss.c_str());
-
-        }
-        else{
-            int j=i,old=i;
-            for(;str[j]!=' ' && str[j]!='\t' && str[j]!='\n' && str[j]!='`' && str[j]!='\0';j++);
-            is_operand=false;
-            i=j;
-            if(str[j]!='\0')i++;    //Evaluate again the last character over the next cycle.
-
-            std::string ss(str+old,str+j);
-            printf("Found operator %s\n", ss.c_str());
-        }
-    }
-
-    return false;
-}
-*/
 
 repl::token_ret_t repl::parse_token(const char* str, size_t max_length){
     bool is_operand=false;
