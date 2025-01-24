@@ -1,139 +1,1158 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Full Syntax reference - vs.templ</title>
-    <link rel="stylesheet" href="../css/theme.css" />
-    <link rel="stylesheet" href="../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
     
-      <script>
-        // Current page data
-        var mkdocs_page_name = "Full Syntax reference";
-        var mkdocs_page_input_path = "syntax.md";
-        var mkdocs_page_url = null;
-      </script>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../repl-vm/">
+      
+      
+        <link rel="next" href="../releases/v0.3.11/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
     
-    <!--[if lt IE 9]>
-      <script src="../js/html5shiv.min.js"></script>
-    <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-      <script>hljs.highlightAll();</script> 
-</head>
+    
+      
+        <title>Full Syntax reference - vs.templ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a40c8224.min.css">
+      
+      
 
-<body class="wy-body-for-nav" role="document">
 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-    <div class="wy-side-scroll">
-      <div class="wy-side-nav-search">
-          <a href=".." class="icon icon-home"> vs.templ
-        </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
-  </form>
-</div>
-      </div>
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../faq/">FAQ</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../for-developers/">Information for developers</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../manual/">User Manual</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../ordering/">Ordering</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../repl-vm/">Computing expressions</a>
-                </li>
-              </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">Full Syntax reference</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a>
-    </li>
-    </ul>
-                </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Releases</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.11/">V0.3.11</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.13/">V0.3.13</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.15/">V0.3.15</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.5/">V0.3.5</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.7/">V0.3.7</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.3.9/">V0.3.9</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../releases/v0.4.1/">V0.4.1</a>
-                  </li>
-              </ul>
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#expressions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="vs.templ" class="md-header__button md-logo" aria-label="vs.templ" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            vs.templ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Full Syntax reference
+            
+          </span>
+        </div>
       </div>
     </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="..">vs.templ</a>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
         
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
       </nav>
-      <div class="wy-nav-content">
-        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Full Syntax reference</li>
-    <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/lazy-eggplant/vs.templ/edit/master/docs/syntax.md" class="icon icon-github"> Edit on GitHub</a>
-    </li>
-  </ul>
-  <hr/>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-            <div class="section" itemprop="articleBody">
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lazy-eggplant/vs.templ" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
               
-                <div class="admonition warning">
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="vs.templ" class="md-nav__button md-logo" aria-label="vs.templ" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    vs.templ
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lazy-eggplant/vs.templ" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../for-developers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Information for developers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User Manual
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ordering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ordering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repl-vm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Computing expressions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Full Syntax reference
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Full Syntax reference
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expressions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#element-based-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Element-based operators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Element-based operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    <span class="md-ellipsis">
+      value
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    <span class="md-ellipsis">
+      element
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      for-range
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="for-range">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-for-props" class="md-nav__link">
+    <span class="md-ellipsis">
+      for &amp; for-props
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      test &amp; case
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      log
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include" class="md-nav__link">
+    <span class="md-ellipsis">
+      include
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="include">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#property-based-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Property-based operators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Property-based operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forsub-attrxxx-for-propssub-attrxxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuexxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      value.xxx
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propxxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      prop.xxx
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="prop.xxx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when" class="md-nav__link">
+    <span class="md-ellipsis">
+      when
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whenxxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      when.xxx
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Releases
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Releases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.3.11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.3.13
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.3.15
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.3.5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.3.7
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.3.9
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.4.1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.4.1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.4.3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.4.3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expressions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Expressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#element-based-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Element-based operators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Element-based operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    <span class="md-ellipsis">
+      value
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#element" class="md-nav__link">
+    <span class="md-ellipsis">
+      element
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="element">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      for-range
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="for-range">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-for-props" class="md-nav__link">
+    <span class="md-ellipsis">
+      for &amp; for-props
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      test &amp; case
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      log
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#include" class="md-nav__link">
+    <span class="md-ellipsis">
+      include
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="include">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#property-based-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Property-based operators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Property-based operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forsub-attrxxx-for-propssub-attrxxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuexxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      value.xxx
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propxxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      prop.xxx
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="prop.xxx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when" class="md-nav__link">
+    <span class="md-ellipsis">
+      when
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whenxxx" class="md-nav__link">
+    <span class="md-ellipsis">
+      when.xxx
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Full Syntax reference</h1>
+
+<div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>While all core features have been implemented, documentation efforts are still ongoing.</p>
 </div>
-<p><code>vs.templ</code> uses special elements and attributes to define which actions the preprocessor should perform.<br />
-These XML entities are scoped under the namespace <code>s</code> by default, but the user can set up a custom one as well.<br />
-Please, notice that pugixml on which vs.templ is based does not have a full understanding of XML and namespaces are not covered.<br />
-As such, they only operate as fancy prefixes at this scale.</p>
+<p><em>vs.templ</em> uses special elements and attributes to define actions for the preprocessor to perform.<br />
+These XML entities are scoped with the prefix determined by the URI <em>vs.templ</em>. Conventionally, the prefix used is <code>s</code>, but users can set up their own.<br />
+Please, notice that <em>pugixml</em>, on which <em>vs.templ</em> is based, does not have a full understanding of XML, and namespaces are in the list of features not covered.<br />
+As such, this preprocessor will not really perform any actual validation, if not for its own prefix.</p>
 <h2 id="expressions">Expressions<a class="headerlink" href="#expressions" title="Permanent link">#</a></h2>
-<p>Several of the attributes introduced by <code>vs.templ</code> accept expressions and not just simple literal values.
-Expression can are used to access elements and attributes of the data XML, in addition to represent native types like integers or strings.<br />
-Their definition and usage is purposefully restricted to prevent arbitrary code to be run.<br />
-A full list of feasible expression types:</p>
+<p>Most of the attributes introduced by <em>vs.templ</em> accept expressions, and not just simple literal values.
+Expression can are used to access elements and attributes from the data source, or they can represent native types like <em>integers</em>, <em>floats</em> and <em>strings</em>.<br />
+Their definition and usage is purposefully restricted, to prevent the execution of arbitrary code.<br />
+This is a full list of all expression types:</p>
 <ul>
-<li>Empty expression, generally representing errors</li>
-<li>String, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped and not part of the final string)</li>
-<li>Integers (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
-<li>Floating point numbers, like integers but always ending with <code>f</code></li>
-<li>Paths, of which three forms exists:<ul>
-<li>those starting with <code>$</code>. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none.</li>
+<li><strong>Empty</strong> expression, a pseudo-value often used to represent errors</li>
+<li><strong>String</strong>, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped and not part of the final string)</li>
+<li><strong>Integers</strong> (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
+<li><strong>Floating point numbers</strong>, like integers but always ending with <code>f</code></li>
+<li><strong>Paths</strong>, of which few forms exists:<ul>
 <li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack. They can only appear as the first token.</li>
+<li>Those starting with <code>$</code>. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none. It is a shorthand for <code>{$}</code>.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
+<li>Paths starting with <code>~</code>, an attribute rooted on <code>{$}</code>.</li>
 </ul>
 </li>
 </ul>
@@ -150,7 +1169,7 @@ They return a single expression in one of the other real types.<br />
 The full specifications of these meta-expressions can be found <a href="../repl-vm/">here</a>.<br />
 For most scenarios, only a minor subset is going to be useful, like some basic integer maths, comparisons and <code>cat</code> to merge strings.</p>
 <p>No further combination or format is allowed in expression. Else, their parsing will fail.<br />
-However, the preprocessor should not generally throw exceptions, only emit error or warning logs.</p>
+However, the preprocessor will not generally throw exceptions, the preferred mechanism is to emit log messages and continue.</p>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h3>
 <p>Using the following XML file as reference:</p>
 <pre><code class="language-xml">&lt;hello&gt;
@@ -169,7 +1188,7 @@ However, the preprocessor should not generally throw exceptions, only emit error
 <li><code>/hello/world~!txt</code> is evaluated as <code>text-0</code></li>
 <li>Assuming a for cycle in <code>/hello/</code>, its children will be navigated and <code>$~attribute-a</code> will be resolved in <code>value-0</code> and <code>value-1</code>.</li>
 </ul>
-<h2 id="operators-for-elements">Operators for elements<a class="headerlink" href="#operators-for-elements" title="Permanent link">#</a></h2>
+<h2 id="element-based-operators">Element-based operators<a class="headerlink" href="#element-based-operators" title="Permanent link">#</a></h2>
 <p>Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.<br />
 There are several to control flow or add content to the final document.</p>
 <h3 id="value"><code>value</code><a class="headerlink" href="#value" title="Permanent link">#</a></h3>
@@ -211,7 +1230,7 @@ Any other property and child will be preserved.</p>
 <p>To iterate over children and props of an element respectively.<br />
 Aside from that, they mostly share the same interface.</p>
 <ul>
-<li><code>tag</code>: the name of the symbol hosting the current XML node pointer. If empty, its default is <code>$</code></li>
+<li><code>tag</code>: the name of the symbol hosting the current XML node pointer. If left empty, its default is assumed to be <code>$</code></li>
 <li><code>in</code>: must be specified and is a path expression</li>
 <li><code>filter</code>: as an expression in the internal <a href="./calc.md">custom language</a>.</li>
 <li><code>sort-by</code>: (only available for <code>for</code>) list of <code>|</code> separated path expressions. Elements will be sorted giving priority from left to right</li>
@@ -262,8 +1281,8 @@ For example the inclusion of a file which does not exist can adopt the content o
 <p>Add in place the file defined in <code>src</code>. If not found, it uses the content inside <code>include</code>. External files will have their root removed when included.<br />
 File loading for a single <code>include</code> instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.<br />
 <code>src</code> is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.</p>
-<p>The functionality of <code>include</code> is not provided by <code>vs.templ</code> and requires downstream integration.<br />
-As such is no caching provided by <code>vs.templ</code>; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.<br />
+<p>The functionality of <code>include</code> is not provided by <em>vs.templ</em> and requires downstream integration.<br />
+As such is no caching provided by <em>vs.templ</em>; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.<br />
 Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.</p>
 <p>The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.</p>
 <h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">#</a></h4>
@@ -279,73 +1298,78 @@ Similarly, circular dependencies are not tested. It is up to you to use a load f
 </div>
 <p>This command loads a data source in memory, and exposes it via a tag name.<br />
 Any property which is not <code>src</code> and <code>tag</code> will be exposed to the supplier function for parametrization.<br />
-Data retrieval is not part of <code>vs.templ</code>, so it is up to the downstream implementation to handle it as desired.</p>
+Data retrieval is not part of <em>vs.templ</em>, so it is up to the downstream implementation to handle it as desired.</p>
 <p>The CLI shipping with the library will not handle complex features like filtering, sorting etc.<br />
 The <code>src</code> passed is just being used as a regular fs path.</p>
-<h2 id="operators-for-properties">Operators for properties<a class="headerlink" href="#operators-for-properties" title="Permanent link">#</a></h2>
+<h2 id="property-based-operators">Property-based operators<a class="headerlink" href="#property-based-operators" title="Permanent link">#</a></h2>
 <p><code>xxx</code> are used as tags to identify groups under which multiple attributes should be used.</p>
 <h3 id="forsub-attrxxx-for-propssub-attrxxx">for.SUB-ATTR.xxx &amp; for-props.SUB-ATTR.xxx<a class="headerlink" href="#forsub-attrxxx-for-propssub-attrxxx" title="Permanent link">#</a></h3>
 <p>As prop, attribute variants of <code>for</code> and <code>for-props</code>. They add attributes/values to the node they are defined within.</p>
 <h3 id="valuexxx">value.xxx<a class="headerlink" href="#valuexxx" title="Permanent link">#</a></h3>
 <p>As for the element version, to introduce the value of an expression as value of a prop <code>xxx</code>.</p>
-<h3 id="enablexxx">enable.xxx<a class="headerlink" href="#enablexxx" title="Permanent link">#</a></h3>
-<p>If the condition is true, the prop <code>xxx</code> is added with no specific value.</p>
 <h3 id="propxxx">prop.xxx<a class="headerlink" href="#propxxx" title="Permanent link">#</a></h3>
 <p>To generate new property whose name and value are determined by the pair passed as value.</p>
 <h4 id="examples_4">Examples<a class="headerlink" href="#examples_4" title="Permanent link">#</a></h4>
 <pre><code class="language-xml">&lt;tag s:prop.0=&quot;#hello|#world&quot; s:prop.1=&quot;#hallo|#Welt&quot;/&gt;
 </code></pre>
 <h3 id="when">when<a class="headerlink" href="#when" title="Permanent link">#</a></h3>
-<p>To test if the current element should be shown, if and only if the expression is <code>true</code>.</p>
-              
+<p>To test if the current element should be rendered, if and only if the expression is <code>true</code>.</p>
+<h3 id="whenxxx">when.xxx<a class="headerlink" href="#whenxxx" title="Permanent link">#</a></h3>
+<p>If and only if the condition is true, the prop <code>xxx</code> is added as empty string. Else it is skipped.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
             </div>
-          </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../repl-vm/" class="btn btn-neutral float-left" title="Computing expressions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../releases/v0.3.11/" class="btn btn-neutral float-right" title="V0.3.11">Next <span class="icon icon-circle-arrow-right"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-  </div>
-
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
           
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-      </div>
-
-    </section>
-
-  </div>
-
-  <div class="rst-versions" role="note" aria-label="Versions">
-  <span class="rst-current-version" data-toggle="rst-current-version">
-    
-        <span>
-          <a href="https://github.com/lazy-eggplant/vs.templ" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
-        </span>
-    
-    
-      <span><a href="../repl-vm/" style="color: #fcfcfc">&laquo; Previous</a></span>
-    
-    
-      <span><a href="../releases/v0.3.11/" style="color: #fcfcfc">Next &raquo;</a></span>
-    
-  </span>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
 </div>
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = "..";</script>
-    <script src="../js/theme_extra.js"></script>
-    <script src="../js/theme.js"></script>
-      <script src="../search/main.js"></script>
-    <script>
-        jQuery(function () {
-            SphinxRtdTheme.Navigation.enable(true);
-        });
-    </script>
-
-</body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  </body>
 </html>

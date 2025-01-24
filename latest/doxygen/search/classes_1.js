@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['guard_5ft_0',['guard_t',['../structvs_1_1templ_1_1symbol__map_1_1guard__t.html',1,'vs::templ::symbol_map']]]
+  ['log_5ft_0',['log_t',['../structvs_1_1templ_1_1log__t.html',1,'vs::templ']]],
+  ['logctx_5ft_1',['logctx_t',['../structvs_1_1templ_1_1logctx__t.html',1,'vs::templ']]]
 ];
