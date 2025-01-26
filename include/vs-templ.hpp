@@ -138,36 +138,12 @@ struct preprocessor{
          * 
          * @param str 
          */
-        inline void ns(const char* str){ns_prefix = str;strings.prepare(str);}
+        inline void ns(const char* str){ns_prefix = str;}
 
         std::array<uint64_t,2> hash(const symbol& ref) const;
 
     private:
         //Precomputed string to avoid spawning an absurd number of small objects in heap at each cycle.
-        struct ns_strings{
-            private:
-                char* data = nullptr;
-            public:
-
-            //S:TAGS
-
-                const char *EMPTY_TAG;
-                const char *HEADER_TAG;
-                const char *FOOTER_TAG;
-                const char *ITEM_TAG;
-                const char *ERROR_TAG;
-
-                const char *CASE_TAG;
-
-                const char *TYPE_ATTR;
-
-            const char *WHEN_PROP;
-
-            void prepare(const char * ns_prefix);
-
-            inline ~ns_strings(){if(data!=nullptr)delete[] data;}
-
-        }strings;
 
         order_t order_from_string(std::string_view str);
 

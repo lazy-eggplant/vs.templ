@@ -1,14 +1,1 @@
-## v0.4.3
-
-Very minor release, just so that downstream code can take advantage of several fixes and new features.  
-Also, this release restores the WASM/WASI build which broke due to `from_chars` compatibility across toolchains.
-
-### New features
-
-- Natural ordering for strings is now supported in `order-by` by all commands (as the new default)
-- `order-by` directives can be typed, like `asc:float` or `asc:f` will parse entries as float and sort them accordingly.
-
-### Breaking
-
-- `s:enable.*` has been reworked as an overload of `s:when`. Use it as `s:when.*`.
-- Default string comparisons are now following natural ordering, which might break things.
+## v0.4.5

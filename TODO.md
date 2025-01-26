@@ -1,13 +1,9 @@
 # Milestones
 
-## `v0.4.3`
-
-- [x] Basic support for natural ordering (in commands only, not vm for now)
-- [x] Extend `order-by` to support explicit types for comparison (extremely optional)
-- [x] Fixing the WASM build
-
 ## `v0.4.5`
 
+- [x] Code cleanup.
+- [x] Speed up `O(nm)` children detection in cycles.
 - [ ] Stringview version of `strnatcmp` to optimize the dot comparisons
 - [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
 

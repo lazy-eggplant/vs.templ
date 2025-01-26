@@ -32,6 +32,36 @@ static inline constexpr auto& as (const auto& v) { return std::get<T>(v); }
 ///Compare strings where the right one is defined at comptime
 static inline bool cexpr_strneqv(const char* s, const char* c){return strncmp(s, c, std::char_traits<char>::length(c))==0;}
 
+///Compare strings where the right one is defined at comptime
+static inline bool nsstrcmp(const char* left, const std::string_view& ns, const char* name){
+    return (strncmp(left,ns.data(),ns.length())==0 && strcmp(left+ns.length(),name)==0);
+}
+
+template<size_t N, size_t M=1>
+static std::array<std::vector<pugi::xml_node>,N> pugi_ns_children(const pugi::xml_node& root, const std::string_view& ns, const std::array<const char*,N>& names){
+    std::array<std::vector<pugi::xml_node>,N> partitions;
+    partitions.fill(std::vector<pugi::xml_node>(N));    //TODO: This might add initializations of vectors which are not desired. Profile it.
+    for(auto it = root.children().begin();it!=root.children().end();it++){
+        int i = 0;
+        for(auto& name :names){
+            if(strncmp(it->name(),ns.data(),ns.length())==0 && strcmp(it->name()+ns.length(),name)==0){
+                partitions[i].push_back(*it);
+            }
+            i++;
+        }
+    }
+    return partitions;
+}
+
+static pugi::xml_attribute pugi_ns_attr(const pugi::xml_node& root, const std::string_view& ns, const char* name){
+    for(auto it = root.attributes().begin();it!=root.attributes().end();it++){
+        if(strncmp(it->name(),ns.data(),ns.length())==0 && strcmp(it->name()+ns.length(),name)==0){
+            return *it;
+        }
+    }
+    return {};
+}
+
 void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, includefn_t _includefn, loadfn_t _loadfn, uint64_t seed){
     if(_logfn!=nullptr)logfn=_logfn;
     if(_includefn!=nullptr)includefn=_includefn;
@@ -255,38 +285,6 @@ preprocessor::order_t preprocessor::order_from_string(std::string_view str){
 }
 
 
-void preprocessor::ns_strings::prepare(const char * ns_prefix){
-#   define WRITE(name,value) name=data+count;memcpy(data+count,ns_prefix,ns_prefix_len);memcpy(data+count+ns_prefix_len,value,std::char_traits<char>::length(value));data[count+ns_prefix_len+std::char_traits<char>::length(value)]=0;count+=ns_prefix_len+std::char_traits<char>::length(value)+1;
-#   define STRLEN(str) ns_prefix_len+std::char_traits<char>::length(str)+1
-
-    size_t ns_prefix_len=strlen(ns_prefix);
-
-    if(data!=nullptr)delete []data;
-    data = new char[
-        STRLEN("empty")+STRLEN("header")+STRLEN("footer")+STRLEN("item")+STRLEN("error")+
-        STRLEN("case")+
-        STRLEN("element")+STRLEN("type")+
-        STRLEN("when")
-        ];
-    int count=0;
-    
-        WRITE(EMPTY_TAG,"empty");
-        WRITE(HEADER_TAG,"header");
-        WRITE(FOOTER_TAG,"footer");
-        WRITE(ITEM_TAG,"item");
-        WRITE(ERROR_TAG,"error");
-
-        WRITE(CASE_TAG,"case");
-
-        WRITE(TYPE_ATTR, "type");
-        
-    WRITE(WHEN_PROP,"when");
-
-
-#   undef WRITE
-#   undef STRLEN
-}
-
 std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xml_node& base, int limit, int offset, const char *filter, order_t criterion){
     auto cmp_fn = [&](const pugi::xml_attribute& a, const pugi::xml_attribute& b)->int{
         //Not ideal due to its additional cast to string... but the code is so much easier... so for now it will stay.
@@ -377,7 +375,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
         if(current_template.first!=current_template.second){
             
-            auto _visible =  current_template.first->attribute(strings.WHEN_PROP).as_string(nullptr);
+            auto _visible = pugi_ns_attr(*current_template.first, ns_prefix, "when").as_string(nullptr);
             if(_visible!=nullptr){
                 auto test  = get_or<int>(resolve_expr(_visible).value_or(false),false);
                 if(!test){current_template.first++;continue;}
@@ -416,10 +414,11 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                     auto expr = resolve_expr(in);
 
+                    auto children = pugi_ns_children<5>(*current_template.first,ns_prefix,{"header","item","footer","empty", "error"});
 
                     //Only a node is acceptable in this context, otherwise show the error
                     if(!expr.has_value() || !is<const pugi::xml_node>(expr.value())){ 
-                        for(const auto& el: current_template.first->children(strings.ERROR_TAG)){
+                        for(const auto& el: children[4]){
                             stack_template.emplace(el.begin(),el.end());
                             _parse(current_template.first);
                             stack_compiled.emplace(current_compiled);
@@ -440,7 +439,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         auto good_data = prepare_children_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
 
                         if(good_data.size()==0){
-                            for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
+                            for(const auto& el: children[3]){
                                 stack_template.emplace(el.begin(),el.end());
                                 _parse(current_template.first);
                                 stack_compiled.emplace(current_compiled);
@@ -449,7 +448,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else{
                             //Header (once)
                             {
-                                for(const auto& el: current_template.first->children(strings.HEADER_TAG)){
+                                for(const auto& el: children[0]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
@@ -464,7 +463,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 symbols.set(tag,i);
                                 symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
 
-                                for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
+                                for(const auto& el: children[1]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
@@ -474,7 +473,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                             //Footer (once)
                             {
-                                for(const auto& el: current_template.first->children(strings.FOOTER_TAG)){
+                                for(const auto& el: children[2]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
@@ -495,9 +494,11 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     
                     auto expr = resolve_expr(in);
 
+                    auto children = pugi_ns_children<5>(*current_template.first,ns_prefix,{"header","item","footer","empty", "error"});
+
                     //Only a node is acceptable in this context, otherwise show the error
                     if(!expr.has_value() || !is<const pugi::xml_node>(expr.value())){ 
-                        for(const auto& el: current_template.first->children(strings.ERROR_TAG)){
+                        for(const auto& el: children[4]){
                             stack_template.emplace(el.begin(),el.end());
                             _parse(current_template.first);
                             stack_compiled.emplace(current_compiled);
@@ -507,7 +508,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         auto good_data = prepare_props_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter,order_from_string(_order_by));
 
                         if(good_data.size()==0){
-                            for(const auto& el: current_template.first->children(strings.EMPTY_TAG)){
+                            for(const auto& el : children[3]){
                                 stack_template.emplace(el.begin(),el.end());
                                 _parse(current_template.first);
                                 stack_compiled.emplace(current_compiled);
@@ -516,7 +517,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         else{
                             //Header (once)
                             {
-                                for(const auto& el: current_template.first->children(strings.HEADER_TAG)){
+                                for(const auto& el: children[0]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
@@ -533,7 +534,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 symbols.set(std::string(tag) + ".v",i.value());
                                 symbols.set(std::string(tag) + ".c",counter);
 
-                                for(const auto& el: current_template.first->children(strings.ITEM_TAG)){
+                                for(const auto& el: children[1]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
@@ -543,7 +544,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                             //Footer (once)
                             {
-                                for(const auto& el: current_template.first->children(strings.FOOTER_TAG)){
+                                for(const auto& el: children[2]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
@@ -554,14 +555,14 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                 }
                 else if(strcmp(cmd,"element")==0){
                     //It is possible for it to generate strange results as strings are not validated by pugi
-                    auto symbol = resolve_expr(current_template.first->attribute(strings.TYPE_ATTR).as_string("$"));
+                    auto symbol = resolve_expr(pugi_ns_attr(*current_template.first, ns_prefix, "type").as_string("$"));
                     if(!symbol.has_value()){
                         current_template.first->parent().remove_child(*current_template.first);
                     }
                     else if(is<std::string>(symbol.value())){
                         auto child = current_compiled.append_child(as<std::string>(symbol.value()).c_str());
                         for(auto& attr : current_template.first->attributes()){
-                            if(strcmp(attr.name(),strings.TYPE_ATTR)!=0)child.append_attribute(attr.name()).set_value(attr.value());
+                            if(nsstrcmp(attr.name(), ns_prefix, "attr"))child.append_attribute(attr.name()).set_value(attr.value());
                         }
                         stack_compiled.emplace(child);
 
@@ -572,7 +573,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(is<const pugi::xml_node>(symbol.value())){
                         auto child = current_compiled.append_child(as<const pugi::xml_node>(symbol.value()).text().as_string());
                         for(auto& attr : current_template.first->attributes()){
-                            if(strcmp(attr.name(),strings.TYPE_ATTR)!=0)child.append_attribute(attr.name()).set_value(attr.value());
+                            if(nsstrcmp(attr.name(), ns_prefix, "attr"))child.append_attribute(attr.name()).set_value(attr.value());
                         }
                         stack_compiled.emplace(child);
 
@@ -607,7 +608,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     }
                 }
                 else if(strcmp(cmd,"test")==0){
-                    for(const auto& entry: current_template.first->children(strings.CASE_TAG)){
+                    auto children = pugi_ns_children<1>(*current_template.first,ns_prefix,{"case"});
+
+                    for(const auto& entry: children[0]){
                         bool _continue =  entry.attribute("continue").as_bool(false);
                         auto test = resolve_expr(entry.attribute("value").as_string("{$}"));
 
