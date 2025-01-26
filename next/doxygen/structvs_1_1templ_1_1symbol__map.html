@@ -80,36 +80,190 @@ $(function() {
   <div class="headertitle"><div class="title">vs::templ::symbol_map Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Layered map of symbols with scoping enabled.  
+ <a href="structvs_1_1templ_1_1symbol__map.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="symbols_8hpp_source.html">symbols.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1symbol__map_1_1guard__t.html">guard_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility object used to simplify the process of creating and deleting layers of symbols.  <a href="structvs_1_1templ_1_1symbol__map_1_1guard__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a87393713c7936a93867c152738888fc0" id="r_a87393713c7936a93867c152738888fc0"><td class="memItemLeft" align="right" valign="top"><a id="a87393713c7936a93867c152738888fc0" name="a87393713c7936a93867c152738888fc0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>new_frame</b> ()</td></tr>
+<tr class="memdesc:a87393713c7936a93867c152738888fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open a new scope. <br /></td></tr>
 <tr class="separator:a87393713c7936a93867c152738888fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a602167f52d808247e989c80e9add12" id="r_a2a602167f52d808247e989c80e9add12"><td class="memItemLeft" align="right" valign="top"><a id="a2a602167f52d808247e989c80e9add12" name="a2a602167f52d808247e989c80e9add12"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>remove_frame</b> ()</td></tr>
+<tr class="memdesc:a2a602167f52d808247e989c80e9add12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete the last scope. <br /></td></tr>
 <tr class="separator:a2a602167f52d808247e989c80e9add12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a9c1949e923caa661556811bc0af97d" id="r_a8a9c1949e923caa661556811bc0af97d"><td class="memItemLeft" align="right" valign="top"><a id="a8a9c1949e923caa661556811bc0af97d" name="a8a9c1949e923caa661556811bc0af97d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr>
+<tr class="memdesc:a8a9c1949e923caa661556811bc0af97d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entirely clear the layered table. <br /></td></tr>
 <tr class="separator:a8a9c1949e923caa661556811bc0af97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cda817fcacd4e7b43ff522031ab3bf5" id="r_a5cda817fcacd4e7b43ff522031ab3bf5"><td class="memItemLeft" align="right" valign="top"><a id="a5cda817fcacd4e7b43ff522031ab3bf5" name="a5cda817fcacd4e7b43ff522031ab3bf5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> (std::map&lt; std::string, <a class="el" href="structvs_1_1templ_1_1symbol.html">symbol</a> &gt; &amp;src)</td></tr>
+<tr class="memitem:a5cda817fcacd4e7b43ff522031ab3bf5" id="r_a5cda817fcacd4e7b43ff522031ab3bf5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1symbol__map.html#a5cda817fcacd4e7b43ff522031ab3bf5">reset</a> (std::map&lt; std::string, <a class="el" href="structvs_1_1templ_1_1symbol.html">symbol</a> &gt; &amp;src)</td></tr>
+<tr class="memdesc:a5cda817fcacd4e7b43ff522031ab3bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the table and appply some initial data.  <br /></td></tr>
 <tr class="separator:a5cda817fcacd4e7b43ff522031ab3bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fcf6d0a56f118f94c01ce90d80cbacc" id="r_a1fcf6d0a56f118f94c01ce90d80cbacc"><td class="memItemLeft" align="right" valign="top"><a id="a1fcf6d0a56f118f94c01ce90d80cbacc" name="a1fcf6d0a56f118f94c01ce90d80cbacc"></a>
-std::optional&lt; <a class="el" href="structvs_1_1templ_1_1symbol.html">symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>resolve</b> (std::string_view _name) const</td></tr>
-<tr class="separator:a1fcf6d0a56f118f94c01ce90d80cbacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae86d0b866fe2575fc3e28a09007421d3" id="r_ae86d0b866fe2575fc3e28a09007421d3"><td class="memItemLeft" align="right" valign="top"><a id="ae86d0b866fe2575fc3e28a09007421d3" name="ae86d0b866fe2575fc3e28a09007421d3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (const std::string &amp;name, auto value)</td></tr>
-<tr class="separator:ae86d0b866fe2575fc3e28a09007421d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3b0b485610d61fed533be570ca5558c" id="r_ad3b0b485610d61fed533be570ca5558c"><td class="memItemLeft" align="right" valign="top"><a id="ad3b0b485610d61fed533be570ca5558c" name="ad3b0b485610d61fed533be570ca5558c"></a>
-<a class="el" href="structvs_1_1templ_1_1symbol__map_1_1guard__t.html">guard_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>guard</b> ()</td></tr>
+<tr class="memitem:addeb928f2c67c0eb38b415c9f94c9f04" id="r_addeb928f2c67c0eb38b415c9f94c9f04"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="structvs_1_1templ_1_1symbol.html">symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1symbol__map.html#addeb928f2c67c0eb38b415c9f94c9f04">resolve</a> (std::string_view name) const</td></tr>
+<tr class="memdesc:addeb928f2c67c0eb38b415c9f94c9f04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a symbol layer by layer until first match.  <br /></td></tr>
+<tr class="separator:addeb928f2c67c0eb38b415c9f94c9f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86db7391139cdbc991a107ce3b89ea7b" id="r_a86db7391139cdbc991a107ce3b89ea7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1symbol__map.html#a86db7391139cdbc991a107ce3b89ea7b">set</a> (const std::string &amp;name, const auto &amp;value)</td></tr>
+<tr class="memdesc:a86db7391139cdbc991a107ce3b89ea7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value of a symbol in the latest layer.  <br /></td></tr>
+<tr class="separator:a86db7391139cdbc991a107ce3b89ea7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3b0b485610d61fed533be570ca5558c" id="r_ad3b0b485610d61fed533be570ca5558c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvs_1_1templ_1_1symbol__map_1_1guard__t.html">guard_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1symbol__map.html#ad3b0b485610d61fed533be570ca5558c">guard</a> ()</td></tr>
+<tr class="memdesc:ad3b0b485610d61fed533be570ca5558c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare a new guarded layer for this table of symbols.  <br /></td></tr>
 <tr class="separator:ad3b0b485610d61fed533be570ca5558c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Layered map of symbols with scoping enabled. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad3b0b485610d61fed533be570ca5558c" name="ad3b0b485610d61fed533be570ca5558c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3b0b485610d61fed533be570ca5558c">&#9670;&#160;</a></span>guard()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structvs_1_1templ_1_1symbol__map_1_1guard__t.html">guard_t</a> vs::templ::symbol_map::guard </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Prepare a new guarded layer for this table of symbols. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structvs_1_1templ_1_1symbol__map_1_1guard__t.html" title="Utility object used to simplify the process of creating and deleting layers of symbols.">guard_t</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5cda817fcacd4e7b43ff522031ab3bf5" name="a5cda817fcacd4e7b43ff522031ab3bf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cda817fcacd4e7b43ff522031ab3bf5">&#9670;&#160;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vs::templ::symbol_map::reset </td>
+          <td>(</td>
+          <td class="paramtype">std::map&lt; std::string, <a class="el" href="structvs_1_1templ_1_1symbol.html">symbol</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clear the table and appply some initial data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>the initial data source to apply as first layer. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="addeb928f2c67c0eb38b415c9f94c9f04" name="addeb928f2c67c0eb38b415c9f94c9f04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addeb928f2c67c0eb38b415c9f94c9f04">&#9670;&#160;</a></span>resolve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structvs_1_1templ_1_1symbol.html">symbol</a> &gt; vs::templ::symbol_map::resolve </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find a symbol layer by layer until first match. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_name</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::optional&lt;symbol&gt; empty if no match </dd></dl>
+
+</div>
+</div>
+<a id="a86db7391139cdbc991a107ce3b89ea7b" name="a86db7391139cdbc991a107ce3b89ea7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86db7391139cdbc991a107ce3b89ea7b">&#9670;&#160;</a></span>set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vs::templ::symbol_map::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const auto &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the value of a symbol in the latest layer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td></td></tr>
+    <tr><td class="paramname">value</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="symbols_8hpp_source.html">symbols.hpp</a></li>
 </ul>
