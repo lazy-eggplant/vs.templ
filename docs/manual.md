@@ -6,7 +6,7 @@ title: User Manual
 It can be used statically generate new files from a template definition.  
 Static templates can be seen as extremely simple programs which are interpreted by this preprocessor.  
 They consume input data also formatted as XML, and generate some output XML file.  
-In theory, it is possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature.
+In theory, it is possible for data to be expressed in other formats (e.g. JSON) as well, but at the moment this is not a supported feature.
 
 ## CLI
 
@@ -14,7 +14,7 @@ In theory, it is possible for data to be expressed in other formats (eg. JSON) a
 vs.tmpl <template-file> <data-file> [namespace=`s:`]
 ```
 
-Unlike its usage in vs.fltk, template must be specified on its own, as it cannot be inferred.
+Unlike its usage in `vs.fltk`, template must be specified on its own, as it cannot be inferred form a request in the data file.
 
 There is also an alternative format:
 

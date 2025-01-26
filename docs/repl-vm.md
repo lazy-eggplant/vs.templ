@@ -53,22 +53,12 @@ Hence, processing these expressions should be very memory efficient.
 
 ## Operators
 
-### Array operators
-
-- [ ] ~~`count` `[expr] #`, count the dimensionality of expression returning a 1-dimensional scalar number~~
-- [ ] ~~`reduce` `[initial] [reducer] [container] V`, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)~~
-- [ ] ~~`filter` `[container] F`, filters elements out of a container~~
-- [ ] ~~`map` `[expr] [container] M`, maps container based on a lambda~~
-
 ### Generic
 
 - [x] `dup` duplicate the last element on stack
 - [x] `nop` no operation
 - [x] `rem` remove last n elements from stack
 - [ ] `swap` swap the two top elements
-- [ ] ~~`eval` (probably I will not expose this one) expose a nested repl vm~~
-- [ ] ~~`load` load variable on stack from the environment map~~
-- [ ] ~~`store` (probably I will not expose this one) store variable form stack to the environment map~~
 - [ ] `log` to log errors/warning etc somewhere
 
 ### String operators
@@ -98,7 +88,7 @@ Boolean types are not directly supported. They are just integers with extra sema
 
 ### Common algebraic operators
 
-And all the typical math operations as usual
+And all the typical maths operations as usual
 
 - [x] `+` `-` `*` `/` `mod` (and mnemonic versions too)
 - [ ] `pow` `log`

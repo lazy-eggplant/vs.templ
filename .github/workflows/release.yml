@@ -52,7 +52,7 @@ jobs:
           python3 -m pip install meson ninja
       - name: Configure and build
         run: |
-          meson setup --reconfigure build/ --buildtype=release --cross-file ./platforms/zig-wasm32.ini -Ddefault_library=static
+          meson setup --reconfigure build/ --buildtype=minsize --cross-file ./platforms/zig-wasm32.ini -Ddefault_library=static
           meson compile vs.templ:executable -C build
       - name: Add artifact
         uses: softprops/action-gh-release@v2

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Verify s:when and its overload s:when.*-->
+
 <test xmlns:s="vs.templ">
     <data>
     </data>

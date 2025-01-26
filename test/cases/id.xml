@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Trivial example just to verify what gets in gets out-->
+
 <test xmlns:s="vs.templ">
     <data>
     </data>

@@ -43,9 +43,11 @@ static std::array<std::vector<pugi::xml_node>,N> pugi_ns_children(const pugi::xm
     partitions.fill(std::vector<pugi::xml_node>(N));    //TODO: This might add initializations of vectors which are not desired. Profile it.
     for(auto it = root.children().begin();it!=root.children().end();it++){
         int i = 0;
+        if(strncmp(it->name(),ns.data(),ns.length())!=0)continue;
         for(auto& name :names){
-            if(strncmp(it->name(),ns.data(),ns.length())==0 && strcmp(it->name()+ns.length(),name)==0){
+            if(strcmp(it->name()+ns.length(),name)==0){
                 partitions[i].push_back(*it);
+                //break;
             }
             i++;
         }

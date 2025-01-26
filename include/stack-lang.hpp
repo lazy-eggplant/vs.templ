@@ -1,5 +1,4 @@
 #pragma once
-#include "utils.hpp"
 #include "vs-templ.hpp"
 #include <stack>
 #include <symbols.hpp>
@@ -8,22 +7,11 @@
 namespace vs{
 namespace templ{
 
+/**
+ * @brief 
+ * 
+ */
 struct repl{
-    struct token_ret_t{
-        enum {
-            OPERAND_FOUND, 
-            OPERATOR_FOUND,
-            SKIP,               //Whitespaces, comments etc.
-            INCOMPLETE,         //The current token is incomplete (or potentially incomplete). Waiting for more content to know.
-            ERROR,              //Generic syntax error.
-            END                 //End of message met. (\0) for example.
-        }msg;
-
-        size_t begin;           //Where we the token match starts
-        size_t end;             //Where the token match ends
-        size_t next;            //Where to jump before the next token is considered, avoiding irrelevant characters in the middle.
-    };
-
     enum struct error_t{
         OK,                     //No error actually everything ended up being right
         WRONG_TYPE,             //Type mismatch in the argument being used
@@ -47,6 +35,21 @@ struct repl{
     }
 
     private:
+        struct token_ret_t{
+            enum {
+                OPERAND_FOUND, 
+                OPERATOR_FOUND,
+                SKIP,               //Whitespaces, comments etc.
+                INCOMPLETE,         //The current token is incomplete (or potentially incomplete). Waiting for more content to know.
+                ERROR,              //Generic syntax error.
+                END                 //End of message met. (\0) for example.
+            }msg;
+
+            size_t begin;           //Where we the token match starts
+            size_t end;             //Where the token match ends
+            size_t next;            //Where to jump before the next token is considered, avoiding irrelevant characters in the middle.
+        };
+
         struct op_t{
             std::string_view name;
             size_t operands;

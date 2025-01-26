@@ -31,7 +31,7 @@ The CLI in `src/app` shows everything that is needed to use _vs.templ_ as a libr
 
 ### C bindings
 
-At this time, no C bindings are provided. My downstream project don't need them, and pugixml is C++ only.  
+At this time, no C bindings are provided. My downstream project needs not them, and pugixml is C++ only.  
 Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.
 
 ## Versioning
