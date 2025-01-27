@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../manual/">
+        <link rel="prev" href="../repl-vm/">
       
       
-        <link rel="next" href="../repl-vm/">
+        <link rel="next" href="../syntax/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Ordering - vs.templ</title>
+        <title>Sorting - vs.templ</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#order-types" class="md-skip">
+        <a href="#ordering-method" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ordering
+              Sorting
             
           </span>
         </div>
@@ -292,6 +292,26 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../repl-vm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Computing expressions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -306,7 +326,7 @@
           
   
   <span class="md-ellipsis">
-    Ordering
+    Sorting
   </span>
   
 
@@ -317,7 +337,7 @@
         
   
   <span class="md-ellipsis">
-    Ordering
+    Sorting
   </span>
   
 
@@ -337,13 +357,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#order-types" class="md-nav__link">
+  <a href="#ordering-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Order types
+      Ordering method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Order types">
+    <nav class="md-nav" aria-label="Ordering method">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -475,26 +495,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repl-vm/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Computing expressions
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -754,13 +754,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#order-types" class="md-nav__link">
+  <a href="#ordering-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Order types
+      Ordering method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Order types">
+    <nav class="md-nav" aria-label="Ordering method">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -906,15 +906,15 @@
   
 
 
-  <h1>Ordering</h1>
+  <h1>Sorting</h1>
 
-<p>Ordering criteria are used in two situations:</p>
+<p>Sorting criteria are used in two situations:</p>
 <ul>
-<li>in the <code>order-by</code> attributes of cycles for each type but <code>for-range</code></li>
+<li>in the <code>order-by</code> attributes of cycles, supported by all of them in some way except for <code>for-range</code></li>
 <li>as basic boolean binary operator in the RPN virtual machine</li>
 </ul>
 <p>The two implementations are not unified, so feature parity is desirable but not intrinsic.</p>
-<h2 id="order-types">Order types<a class="headerlink" href="#order-types" title="Permanent link">#</a></h2>
+<h2 id="ordering-method">Ordering method<a class="headerlink" href="#ordering-method" title="Permanent link">#</a></h2>
 <h3 id="asc-desc"><code>ASC</code> &amp; <code>DESC</code><a class="headerlink" href="#asc-desc" title="Permanent link">#</a></h3>
 <p>Whatever ordinal is assigned to the entries, sorting is just based on an ascending or descending order.</p>
 <h3 id="random"><code>RANDOM</code><a class="headerlink" href="#random" title="Permanent link">#</a></h3>

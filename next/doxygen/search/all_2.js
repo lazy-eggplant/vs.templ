@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['includefn_5ft_0',['includefn_t',['../vs-templ_8hpp.html#af3677d94640c2f285f79c24784f09365',1,'vs::templ']]]
+  ['guard_0',['guard',['../structvs_1_1templ_1_1symbol__map.html#ad3b0b485610d61fed533be570ca5558c',1,'vs::templ::symbol_map']]],
+  ['guard_5ft_1',['guard_t',['../structvs_1_1templ_1_1symbol__map_1_1guard__t.html',1,'vs::templ::symbol_map']]]
 ];

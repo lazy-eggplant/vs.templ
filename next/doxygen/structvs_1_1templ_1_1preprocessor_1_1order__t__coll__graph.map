@@ -1,5 +1,5 @@
 <map id="vs::templ::preprocessor::order_t" name="vs::templ::preprocessor::order_t">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,108,180,148"/>
+<area shape="rect" id="Node000001" title="Structure to defined the order mechanism for sorting." alt="" coords="5,108,180,148"/>
 <area shape="rect" id="Node000002" href="$structvs_1_1templ_1_1preprocessor_1_1order__t_1_1modifiers__t.html" title=" " alt="" coords="5,5,180,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,59,95,108,90,108,90,59"/>
 </map>

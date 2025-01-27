@@ -144,21 +144,24 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1logctx__t.html">vs::templ::logctx_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1ctx__log.html">vs::templ::ctx_log</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1preprocessor.html">vs::templ::preprocessor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1preprocessor_1_1order__t.html">vs::templ::preprocessor::order_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure to defined the order mechanism for sorting.  <a href="structvs_1_1templ_1_1preprocessor_1_1order__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1preprocessor_1_1order__t_1_1modifiers__t.html">vs::templ::preprocessor::order_t::modifiers_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvs_1_1templ_1_1preprocessor_1_1config__t.html">vs::templ::preprocessor::config_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a4a80bfa4b3f465ed810c0c449c008b66" id="r_a4a80bfa4b3f465ed810c0c449c008b66"><td class="memItemLeft" align="right" valign="top"><a id="a4a80bfa4b3f465ed810c0c449c008b66" name="a4a80bfa4b3f465ed810c0c449c008b66"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::logfn_t</b>) (log_t::values, const char *str, const <a class="el" href="structvs_1_1templ_1_1logctx__t.html">logctx_t</a> &amp;ctx)</td></tr>
-<tr class="memdesc:a4a80bfa4b3f465ed810c0c449c008b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a logging function passed to the preprocessor. <br /></td></tr>
-<tr class="separator:a4a80bfa4b3f465ed810c0c449c008b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e7455cc23ba6b170eb309d97d38b72a" id="r_a7e7455cc23ba6b170eb309d97d38b72a"><td class="memItemLeft" align="right" valign="top"><a id="a7e7455cc23ba6b170eb309d97d38b72a" name="a7e7455cc23ba6b170eb309d97d38b72a"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::logfn_t</b>) (log_t::values, const char *str, const <a class="el" href="structvs_1_1templ_1_1ctx__log.html">ctx_log</a> &amp;ctx)</td></tr>
+<tr class="memdesc:a7e7455cc23ba6b170eb309d97d38b72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a logging function passed to the preprocessor. <br /></td></tr>
+<tr class="separator:a7e7455cc23ba6b170eb309d97d38b72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3677d94640c2f285f79c24784f09365" id="r_af3677d94640c2f285f79c24784f09365"><td class="memItemLeft" align="right" valign="top"><a id="af3677d94640c2f285f79c24784f09365" name="af3677d94640c2f285f79c24784f09365"></a>
 typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><b>vs::templ::includefn_t</b>) (const char *path, pugi::xml_document &amp;)</td></tr>
 <tr class="memdesc:af3677d94640c2f285f79c24784f09365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a function to load an xml document given a path. Used to load templates for <code>include</code> commands. <br /></td></tr>

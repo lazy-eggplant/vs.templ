@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['remove_5fframe_0',['remove_frame',['../structvs_1_1templ_1_1symbol__map.html#a2a602167f52d808247e989c80e9add12',1,'vs::templ::symbol_map']]],
-  ['repl_1',['repl',['../structvs_1_1templ_1_1repl.html',1,'vs::templ']]],
-  ['reset_2',['reset',['../structvs_1_1templ_1_1symbol__map.html#a8a9c1949e923caa661556811bc0af97d',1,'vs::templ::symbol_map::reset()'],['../structvs_1_1templ_1_1symbol__map.html#a5cda817fcacd4e7b43ff522031ab3bf5',1,'vs::templ::symbol_map::reset(std::map&lt; std::string, symbol &gt; &amp;src)']]],
-  ['resolve_3',['resolve',['../structvs_1_1templ_1_1symbol__map.html#addeb928f2c67c0eb38b415c9f94c9f04',1,'vs::templ::symbol_map']]]
+  ['parse_0',['parse',['../structvs_1_1templ_1_1preprocessor.html#a1f1bc942dc64a7b834bbd32ad6975625',1,'vs::templ::preprocessor']]],
+  ['preprocessor_1',['preprocessor',['../structvs_1_1templ_1_1preprocessor.html',1,'vs::templ::preprocessor'],['../structvs_1_1templ_1_1preprocessor.html#a6686e53f7cd738f4cf5f9f51c6616f65',1,'vs::templ::preprocessor::preprocessor()']]]
 ];
