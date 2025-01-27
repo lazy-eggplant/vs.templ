@@ -235,6 +235,12 @@ To generate new property whose name and value are determined by the pair passed 
 
 To test if the current element should be rendered, if and only if the expression is `true`.
 
+#### Examples
+
+```xml
+<tag s:when=": false">Content will not be shown!</tag>
+```
+
 ### when.xxx
 
 If and only if the condition is true, the prop `xxx` is added as empty string. Else it is skipped.

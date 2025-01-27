@@ -64,17 +64,17 @@ static pugi::xml_attribute pugi_ns_attr(const pugi::xml_node& root, const std::s
     return {};
 }
 
-void preprocessor::init(const pugi::xml_node& root_data, const pugi::xml_node& root_template,const char* prefix, logfn_t _logfn, includefn_t _includefn, loadfn_t _loadfn, uint64_t seed){
-    if(_logfn!=nullptr)logfn=_logfn;
-    if(_includefn!=nullptr)includefn=_includefn;
-    if(_loadfn!=nullptr)loadfn=_loadfn;
+void preprocessor::init(const config_t& cfg){
+    if(cfg.logfn!=nullptr)logfn=cfg.logfn;
+    if(cfg.includefn!=nullptr)includefn=cfg.includefn;
+    if(cfg.loadfn!=nullptr)loadfn=cfg.loadfn;
 
-    stack_template.emplace(root_template.begin(),root_template.end());
+    stack_template.emplace(cfg.root_template.begin(),cfg.root_template.end());
     stack_compiled.emplace(compiled);
-    this->root_data=root_data;
-    this->seed=seed;
+    root_data=cfg.root_data;
+    seed=cfg.seed;
+    ns_prefix=cfg.ns;
     symbols.set("$",root_data);
-    ns(prefix);
 }
 
 void preprocessor::reset(){
@@ -85,7 +85,7 @@ void preprocessor::reset(){
 
 void preprocessor::log(log_t::values type, const std::string& str) const{
     //TODO: Add contextual information.
-    logctx_t ctx;
+    ctx_log ctx;
     logfn(type,str.data(),ctx);
 }
 

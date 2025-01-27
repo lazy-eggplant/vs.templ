@@ -1,11 +1,11 @@
-Ordering criteria are used in two situations:
+Sorting criteria are used in two situations:
 
-- in the `order-by` attributes of cycles for each type but `for-range`
+- in the `order-by` attributes of cycles, supported by all of them in some way except for `for-range`
 - as basic boolean binary operator in the RPN virtual machine
 
 The two implementations are not unified, so feature parity is desirable but not intrinsic.
 
-## Order types
+## Ordering method
 
 ### `ASC` & `DESC`
 

@@ -4,8 +4,9 @@
 
 - [x] Code cleanup.
 - [x] Speed up `O(nm)` children detection in cycles.
-- [ ] Stringview version of `strnatcmp` to optimize the dot comparisons
-- [ ] Rework the mechanisms used in `order-by` and fill missing comparisons in the RPN
+- [ ] `string_view` version of `strnatcmp` to optimize the dot comparisons
+- [x] Rework the mechanisms used in `order-by`
+- [ ] and fill missing comparisons in the RPN vm
 
 ## `v0.4.7`
 

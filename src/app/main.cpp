@@ -20,7 +20,7 @@
 
 using namespace vs::templ;
 
-void logfn(log_t::values type, const char* msg, const logctx_t&){
+void logfn(log_t::values type, const char* msg, const ctx_log&){
     static const char* severity_table[] = {
     "\033[31;1m[ERROR]\033[0m    : ",
     "\033[33;1m[WARNING]\033[0m  : ",
@@ -58,7 +58,7 @@ int main(int argc, const char* argv[]){
     }
 
     pugi::xml_document data, tmpl;
-    int seed = 0 ;
+    uint64_t seed = 0 ;
 
     if(argc>=2){
         {auto t = tmpl.load_file(argv[1]); if(!t){std::cerr<<t.description()<<" @ `template file`\n";exit(2);}}
@@ -75,7 +75,7 @@ int main(int argc, const char* argv[]){
 
     }
 
-    preprocessor doc(data,tmpl,ns_prefix, logfn, includefn, loadfn, seed);
+    preprocessor doc({data,tmpl,ns_prefix, logfn, includefn, loadfn, seed});
     auto& result = doc.parse();
     
 

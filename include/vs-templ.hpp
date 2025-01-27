@@ -27,7 +27,7 @@ namespace vs{
 namespace templ{
 
 
-struct logctx_t{
+struct ctx_log{
     const char* file = nullptr;
     const char* path = nullptr;
     int line_start = -1, line_end = -1, column_start = -1, column_end = -1;
@@ -36,7 +36,7 @@ struct logctx_t{
 /**
  * @brief Type of a logging function passed to the preprocessor
  */
-typedef  void (*logfn_t)(log_t::values, const char* str, const logctx_t& ctx);
+typedef  void (*logfn_t)(log_t::values, const char* str, const ctx_log& ctx);
 
 /**
  * @brief Type of a function to load an xml document given a path. Used to load templates for `include` commands.
@@ -49,30 +49,6 @@ typedef bool (*includefn_t)(const char* path, pugi::xml_document&);
 typedef bool (*loadfn_t)(const pugi::xml_node cfg, pugi::xml_document&);
 
 struct preprocessor{
-
-    inline static void default_logfn(log_t::values, const char* str, const logctx_t& ctx){}
-    inline static bool default_includefn(const char* path, pugi::xml_document&){return false;}
-    inline static bool default_loadfn(const pugi::xml_node cfg, pugi::xml_document& ){return false;}
-
-    struct order_t{
-        enum class method_t{
-            DEFAULT,ASC,DESC,RANDOM
-        }method : 4 = method_t::DEFAULT;
-
-        enum class type_t{
-            DEFAULT,
-            STRING,NATURAL_STRING,LEXI_STRING,
-            INTEGER,
-            FLOAT,
-            BOOLEAN,
-            NODE
-        }type : 4 = type_t::DEFAULT;
-
-        struct modifiers_t{
-            bool dot : 1 =false;   //It has effect only on strings
-        }modifiers;
-    };
-
     private:
         friend struct repl;
 
@@ -96,6 +72,43 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
+        inline static void default_logfn(log_t::values, const char* str, const ctx_log& ctx){}
+        inline static bool default_includefn(const char* path, pugi::xml_document&){return false;}
+        inline static bool default_loadfn(const pugi::xml_node cfg, pugi::xml_document& ){return false;}
+
+        /**
+        * @brief Structure to defined the order mechanism for sorting.
+        * 
+        */
+        struct order_t{
+            enum class method_t{
+                DEFAULT,ASC,DESC,RANDOM
+            }method : 4 = method_t::DEFAULT;
+
+            enum class type_t{
+                DEFAULT,
+                STRING,NATURAL_STRING,LEXI_STRING,
+                INTEGER,
+                FLOAT,
+                BOOLEAN,
+                NODE
+            }type : 4 = type_t::DEFAULT;
+
+            struct modifiers_t{
+                bool dot : 1 =false;   //It has effect only on strings
+            }modifiers;
+        };
+
+        struct config_t{
+            pugi::xml_node root_data;
+            pugi::xml_node root_template;
+            std::string ns="s";
+            logfn_t logfn = default_logfn;
+            includefn_t includefn = default_includefn;
+            loadfn_t loadfn = default_loadfn;
+            uint64_t seed = 0;
+        };
+
         /**
          * @brief Construct a new preprocessor object
          * 
@@ -107,11 +120,11 @@ struct preprocessor{
          * @param loadfn 
          * @param seed 
          */
-        inline preprocessor(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, includefn_t includefn = default_includefn,  loadfn_t loadfn = default_loadfn, uint64_t seed = 0){
-            init(root_data,root_template,prefix,logfn,includefn,loadfn,seed);
+        inline preprocessor(const config_t& cfg){
+            init(cfg);
         }
 
-        void init(const pugi::xml_node& root_data, const pugi::xml_node& root_template, const char* prefix="s:", logfn_t logfn = default_logfn, includefn_t includefn = default_includefn,  loadfn_t loadfn = default_loadfn,  uint64_t seed = 0);
+        void init(const config_t& cfg);
         
         /**
          * @brief 
@@ -133,12 +146,6 @@ struct preprocessor{
          */
         inline pugi::xml_document& parse(){_parse({});return compiled;}
         
-        /**
-         * @brief 
-         * 
-         * @param str 
-         */
-        inline void ns(const char* str){ns_prefix = str;}
 
         std::array<uint64_t,2> hash(const symbol& ref) const;
 

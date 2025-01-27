@@ -70,7 +70,7 @@ struct symbol_map{
         /**
          * @brief Find a symbol layer by layer until first match
          * 
-         * @param _name 
+         * @param name 
          * @return std::optional<symbol> empty if no match
          */
         std::optional<symbol> resolve(std::string_view name) const{
