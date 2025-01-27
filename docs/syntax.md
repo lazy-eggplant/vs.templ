@@ -5,14 +5,14 @@ title: Full Syntax reference
 > [!WARNING]  
 > While all core features have been implemented, documentation efforts are still ongoing.
 
-_vs.templ_ uses special elements and attributes to define actions for the preprocessor to perform.  
-These XML entities are scoped with the prefix determined by the URI _vs.templ_. Conventionally, the prefix used is `s`, but users can set up their own.  
-Please, notice that _pugixml_, on which _vs.templ_ is based, does not have a full understanding of XML, and namespaces are in the list of features not covered.  
+`vs.templ` uses special elements and attributes to define actions for the preprocessor to perform.  
+These XML entities are scoped with the prefix determined by the URI `vs.templ`. Conventionally, the prefix used is `s`, but users can set up their own.  
+Please, notice that _pugixml_, on which `vs.templ` is based, does not have a full understanding of XML, and namespaces are in the list of features not covered.  
 As such, this preprocessor will not really perform any actual validation, if not for its own prefix.
 
 ## Expressions
 
-Most of the attributes introduced by _vs.templ_ accept expressions, and not just simple literal values.
+Most of the attributes introduced by `vs.templ` accept expressions, and not just simple literal values.
 Expression can are used to access elements and attributes from the data source, or they can represent native types like _integers_, _floats_ and _strings_.  
 Their definition and usage is purposefully restricted, to prevent the execution of arbitrary code.  
 This is a full list of all expression types:
@@ -182,8 +182,8 @@ Add in place the file defined in `src`. If not found, it uses the content inside
 File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
 `src` is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.
 
-The functionality of `include` is not provided by _vs.templ_ and requires downstream integration.  
-As such is no caching provided by _vs.templ_; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
+The functionality of `include` is not provided by `vs.templ` and requires downstream integration.  
+As such is no caching provided by `vs.templ`; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
 Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.
 
 The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.
@@ -204,7 +204,7 @@ The CLI shipping with this library has a very limited implementation which will 
 
 This command loads a data source in memory, and exposes it via a tag name.  
 Any property which is not `src` and `tag` will be exposed to the supplier function for parametrization.  
-Data retrieval is not part of _vs.templ_, so it is up to the downstream implementation to handle it as desired.
+Data retrieval is not part of `vs.templ`, so it is up to the downstream implementation to handle it as desired.
 
 The CLI shipping with the library will not handle complex features like filtering, sorting etc.  
 The `src` passed is just being used as a regular fs path.

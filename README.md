@@ -1,17 +1,22 @@
 > [!WARNING]  
 > Documentation is an ongoing effort.
 
-`vs-templ` is a simple XML preprocessor.  
-It can be used to statically generate new files from a _template_ definition and a _data source_.  
-Static templates can be seen as extremely simple programs which are themselves serialized as XML, and interpreted by this preprocessor.  
-While running, they consume input data (also XML, but could be anything else in principle) to generated output XML.
+`vs.templ` is a simple XML preprocessor. Its design objectives are:
 
-Details about the syntax & supported features are covered in a [dedicated page](https://lazy-eggplant.github.io/vs.templ/next/docs).  
-You might want to check some [examples](https://lazy-eggplant.github.io/vs.templ/wasm-demo/) for a less verbose introduction to the syntax.
+- to be easily embeddable
+- low memory & storage footprint (special builds can make it viable on embedded devices)
 
-### Typical template definition
+It can be used to statically generate XML documents from a _template_ definition and one or more _data sources_.  
+Static templates can be seen as simple programs serialized in XML. `vs.templ` is a virtual machine which can run them.  
+Input is provided from the data sources (usually XML documents as well), and a new one is returned as output.
 
-Given an XML data source:
+You can check out our [playground](https://lazy-eggplant.github.io/vs.templ/wasm-demo/) to get familiar with `vs.templ` capabilities and syntax.
+If you want a more comprehensive and verbose description, you can check the [dedicated documentation](https://lazy-eggplant.github.io/vs.templ/next/docs).  
+We also [generate doxygen](https://lazy-eggplant.github.io/vs.templ/next/doxygen) documentation to support developers who want to integrate `vs.templ` in their own projects.
+
+### Quick example
+
+Given an XML data source
 
 ```xml
 <items>
@@ -21,7 +26,7 @@ Given an XML data source:
 </items>
 ```
 
-and a template:
+and a template
 
 ```xml
 <ul>
@@ -33,7 +38,7 @@ and a template:
 </ul>
 ```
 
-once processed, the final result will be:
+after processing by `vs.templ`, the final result will be:
 
 ```xml
 <ul>
@@ -51,9 +56,9 @@ This preprocessor can be used in one of two ways:
 
 ### As a library
 
-_vs.templ_ is specifically intended to be embedded in other applications.  
+`vs.templ` is specifically intended to be embedded in other applications.  
 You can use it either as a dynamic or a static library.  
-If you want to integrate _vs.templ_ in your own codebase, [this](./docs/for-developers.md) is where to start.
+If you want to integrate `vs.templ` in your own codebase, [this](./docs/for-developers.md) is where to start.
 
 ### Via its CLI
 
@@ -73,8 +78,8 @@ with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xm
 
 #### vs.templ.js
 
-If you don't want to install _vs.templ_, it can be used standalone if you have a compatible WASM runtime on your system.  
-WASM builds are attached to releases.
+If you don't want to install `vs.templ`, there is a standalone wasm/wasi build available in the release information.  
+To use it just run:
 
 ```bash
 bun run ./vs.templ.js [...]
@@ -82,25 +87,17 @@ bun run ./vs.templ.js [...]
 
 ## Installation
 
-```bash
-meson setup build
-#In a real world context you might want something more complex, like:
-#meson setup -Db_lto=true -Db_thinlto_cache=true -Db_lto_mode=thin --reconfigure build/ --buildtype=release
-
-meson install -C build
-```
-
-This works on most systems.  
+Check the [helper script](./scripts/build.sh). It will work out of the box on most systems.  
 Still, to ensure expected behaviour, I highly suggest a dry run by setting `DESTDIR` somewhere safe.
 
-## Projects using _vs.templ_
+## Projects using `vs.templ`
 
-- [vs](https://github.com/KaruroChori/vs-fltk) the parent project from which _vs.templ_ derived.
-- [vs.http](https://github.com/lazy-eggplant/vs.http) an HTTP server built around _vs.templ_.
+- [vs](https://github.com/KaruroChori/vs-fltk) the parent project from which `vs.templ` derived.
+- [vs.http](https://github.com/lazy-eggplant/vs.http) an HTTP server built around `vs.templ`.
 
 ## Why?
 
-`vs-templ` was first developed in the context of [vs](https://github.com/karurochori/vs-fltk) to express static, yet parametric, components.  
+`vs.templ` was first developed in the context of [vs](https://github.com/karurochori/vs-fltk) to express static, yet parametric, components.  
 While the XML ecosystem is often reliant on XSLT as a preprocessor, this option was quickly dismissed in the parent project for several reasons:
 
 - The rest of the `vs` is based on `pugixml`. The only lightweight XSLT 1.0 implementation which is decently licensed is [libxslt](https://gitlab.gnome.org/GNOME/libxslt) based on [libxml2](https://gitlab.gnome.org/GNOME/libxml2).  
