@@ -26,17 +26,10 @@
 namespace vs{
 namespace templ{
 
-
-struct ctx_log{
-    const char* file = nullptr;
-    const char* path = nullptr;
-    int line_start = -1, line_end = -1, column_start = -1, column_end = -1;
-};
-
 /**
  * @brief Type of a logging function passed to the preprocessor
  */
-typedef  void (*logfn_t)(log_t::values, const char* str, const ctx_log& ctx);
+typedef  void (*logfn_t)(log_t::values, const char* str, const log_t::ctx& ctx);
 
 /**
  * @brief Type of a function to load an xml document given a path. Used to load templates for `include` commands.
@@ -72,7 +65,7 @@ struct preprocessor{
         pugi::xml_node root_data;
 
     public:
-        inline static void default_logfn(log_t::values, const char* str, const ctx_log& ctx){}
+        inline static void default_logfn(log_t::values, const char* str, const log_t::ctx& ctx){}
         inline static bool default_includefn(const char* path, pugi::xml_document&){return false;}
         inline static bool default_loadfn(const pugi::xml_node cfg, pugi::xml_document& ){return false;}
 

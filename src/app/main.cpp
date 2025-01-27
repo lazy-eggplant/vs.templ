@@ -20,7 +20,7 @@
 
 using namespace vs::templ;
 
-void logfn(log_t::values type, const char* msg, const ctx_log&){
+void logfn(log_t::values type, const char* msg, const log_t::ctx&){
     static const char* severity_table[] = {
     "\033[31;1m[ERROR]\033[0m    : ",
     "\033[33;1m[WARNING]\033[0m  : ",

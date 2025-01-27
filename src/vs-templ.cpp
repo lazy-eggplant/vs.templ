@@ -85,7 +85,7 @@ void preprocessor::reset(){
 
 void preprocessor::log(log_t::values type, const std::string& str) const{
     //TODO: Add contextual information.
-    ctx_log ctx;
+    log_t::ctx ctx;
     logfn(type,str.data(),ctx);
 }
 

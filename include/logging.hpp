@@ -10,6 +10,12 @@ struct log_t{
         ERROR, WARNING, PANIC, INFO
     };
 
+    struct ctx{
+        const char* file = nullptr;
+        const char* path = nullptr;
+        int line_start = -1, line_end = -1, column_start = -1, column_end = -1;
+    };
+
     private:
         values _type;
         std::string _msg;
@@ -19,6 +25,9 @@ struct log_t{
         values type() const{return _type;}
         const std::string& msg() const{return _msg;}
 };
+
+
+
 
 }
 }
