@@ -295,6 +295,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#then-why-not-react-with-an-xml-writer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Then why not react with an XML writer?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#is-there-a-sax-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       Is there a SAX implementation?
@@ -673,6 +682,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#then-why-not-react-with-an-xml-writer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Then why not react with an XML writer?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#is-there-a-sax-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       Is there a SAX implementation?
@@ -711,7 +729,7 @@
   <h1>FAQ</h1>
 
 <h2 id="why-not-using-xslt">Why not using XSLT?<a class="headerlink" href="#why-not-using-xslt" title="Permanent link">#</a></h2>
-<p><code>vs-templ</code> was first developed in the context of <a href="https://github.com/karurochori/vs-fltk">vs</a> to express static, yet parametric, components.<br />
+<p><code>vs.templ</code> was first developed in the context of <a href="https://github.com/karurochori/vs-fltk">vs</a> to express static, yet parametric, components.<br />
 While the XML ecosystem is often reliant on XSLT as a preprocessor, this option was quickly dismissed in the parent project for several reasons:</p>
 <ul>
 <li>The rest of the <code>vs</code> is based on <code>pugixml</code>. The only lightweight XSLT 1.0 implementation which is decently licensed is <a href="https://gitlab.gnome.org/GNOME/libxslt">libxslt</a> based on <a href="https://gitlab.gnome.org/GNOME/libxml2">libxml2</a>.<br />
@@ -719,11 +737,18 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 <li>The scope of XSLT, even in its very first version was excessive &amp; its syntax just verbose. This is mostly a result of <code>xpath</code> being too powerful of a tool.</li>
 <li>At some point <code>vs</code> will come with dynamic native components, and the idea is for them to match in syntax and behaviour the extended tags introduced by this preprocessor. A custom implementation is the only way to ensure a seamless integration between the two.</li>
 </ul>
-<p>Hence, <code>vs</code> vendors <em>vs.templ</em> its own XSLT-ish preprocessor.<br />
+<p>Hence, <code>vs</code> vendors <code>vs.templ</code> its own XSLT-ish preprocessor.<br />
 Still, nothing about its semantics or syntax is directly tied to <code>vs</code>, so I am distributing it as a separate package, hoping it can reach a wider adoption.</p>
 <h2 id="why-not-handlebars-or-mustache">Why not <a href="https://handlebarsjs.com/">handlebars</a> or <a href="https://mustache.github.io/">mustache</a>?<a class="headerlink" href="#why-not-handlebars-or-mustache" title="Permanent link">#</a></h2>
 <p>This class of templating solutions cannot understand XML.<br />
 As such, the resulting generation will not ensure something syntactically correct is generated.</p>
+<h2 id="then-why-not-react-with-an-xml-writer">Then why not <code>react</code> with an XML writer?<a class="headerlink" href="#then-why-not-react-with-an-xml-writer" title="Permanent link">#</a></h2>
+<p>That is a fine option, and you will be able to leverage the flexibility of a full JavaScript runtime.<br />
+Well, its bloat as well, you cannot really avoid that.<br />
+On a modern system, the final release build of <code>vs.templ</code> as a shared <code>vs.templ</code> is less than 300kB.<br />
+If you need an embeddable solution for your pipelines, and you are already using <code>pugixml</code>, the cost of integrating <code>vs.templ</code> is virtually none.<br />
+Any other solution is going to be much more expensive.</p>
+<p>Even when used standalone, <code>vs.templ</code> shines: a fully static wasm/wasi build (so <code>libc</code>, <code>libc++</code>, <code>pugixml</code> and any other dependency bundled) is less 7MB.</p>
 <h2 id="is-there-a-sax-implementation">Is there a SAX implementation?<a class="headerlink" href="#is-there-a-sax-implementation" title="Permanent link">#</a></h2>
 <p>No, there is not.<br />
 Some features don&rsquo;t strictly require a DOM, but they don&rsquo;t really translate well in terms of a pull parser.<br />
@@ -733,7 +758,7 @@ That way, there is no need to load the entire data source in memory as it would 
 <h2 id="can-we-support-other-input-formats-for-the-dataset">Can we support other input formats for the dataset?<a class="headerlink" href="#can-we-support-other-input-formats-for-the-dataset" title="Permanent link">#</a></h2>
 <p>In theory, it would be possible for data to be expressed in other formats (eg. JSON) as well, but at the moment this is not a supported feature and is not likely going to be in scope for quite a while.<br />
 For the time being, you can offer external data sources of whatever type by implementing the optional <code>loadfn</code> downstream.<br />
-This allows <em>vs.templ</em> to indirectly work with any data source you desire.</p>
+This allows <code>vs.templ</code> to indirectly work with any data source you desire.</p>
 
 
 
