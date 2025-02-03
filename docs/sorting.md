@@ -5,6 +5,12 @@ Sorting criteria are used in two situations:
 
 The two implementations are not unified, so feature parity is desirable but not intrinsic.
 
+### For cycles
+
+Each entry is a pair `type:comparator` with type either `ASC`, `DESC` or `RANDOM`.  
+If not provided, comparator is assumed to be the default one.  
+As an alternative comparator we could have a one using `.` to separate values in tokens, and order them token by token.
+
 ## Ordering method
 
 ### `ASC` & `DESC`

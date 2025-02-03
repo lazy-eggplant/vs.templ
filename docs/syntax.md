@@ -3,7 +3,7 @@ title: Full Syntax reference
 ---
 
 > [!WARNING]  
-> While all core features have been implemented, documentation efforts are still ongoing.
+> While all core features have been implemented, but documentation efforts are still ongoing.
 
 `vs.templ` uses special elements and attributes to define actions for the preprocessor to perform.  
 These XML entities are scoped with the prefix determined by the URI `vs.templ`. Conventionally, the prefix used is `s`, but users can set up their own.  
@@ -66,33 +66,33 @@ Using the following XML file as reference:
 
 ## Element-based operators
 
-Element operators or tag operators are special elements either acting on their children or they use them as default value in case of failure.  
-There are several to control flow or add content to the final document.
+Element-based operators are special elements in the `vs.templ` namespace; they are used to control flow or add content in the final document.
 
 ### `value`
 
-To introduce the result of a (meta) expression in the tree.  
-**Integers** and **floats** are automatically serialized before adding them to the page.  
-**strings** are just appended.  
-**attributes** are interpreted as strings.  
-**nodes** are added as subtree.
+`value` is used to introduce the result of a (meta) expression in the final XML tree:
 
-`value` accepts an expression `src` as argument, by default set to `$`.  
-If the expression fails, its body will be used instead.
+- **Integers** and **floats** are automatically serialized before adding them to the page.
+- **strings** are just appended.
+- **attributes** are (like always) interpreted as strings.
+- **nodes** are added as subtrees.
+
+`value` accepts such expression via its `src` argument; by default, it is set to `$`.  
+If the computation for the expression fails for any reason, the body of `value` will be used in the final tree.
 
 #### Examples
 
 ```xml
-<s:value src=":...">This fails, so this text will be used</s:value>
+<s:value src=":...">This fails, so this text will be shown</s:value>
 <s:value src=": `1` `2` +">Since the operation is ok and returns `3` as integer, this text will not show up</s:value>
 ```
 
 ### element
 
-This command is usedto generate a new element whose type is by an expression passed via the attribute `s:type` (this one is specifically namespaced).  
+This command is used to generate a new element, whose type is determined by the expression resolved in the attribute `s:type` (this one is specifically scoped in `vs.templ` namespace).  
 Any other property and child will be preserved.
 
-In case of failure, the tag is dropped.
+In case of failure, the entire element and its children are dropped from the output document.
 
 #### Examples
 
@@ -103,12 +103,16 @@ In case of failure, the tag is dropped.
 
 ### for-range
 
+The simplest of the for cycles, not based on the input XML source. The following attributes are defined:
+
 - `tag` is the name of the symbol where the current value will be stored. If empty the default `$` is used.
-- `from` starting value.
-- `to` final value.
+- `from` starting value to count from.
+- `to` final value to reach.
 - `step` step of increment. It can be negative. If so `to<from` must hold true.
 
-Infinite cycles are detected before execution, in which case no step will run. Unlike other `for` variants, there is no header, footer or empty child. Anything inside a `for-range` is interpreted as `item`.
+Infinite cycles are detected before execution, in which case no step is run.  
+Unlike other `for` variants, there is no header, footer or empty child.  
+Everything inside a `for-range` body is interpreted as `item` to append in the generated document.
 
 #### Example
 
@@ -122,21 +126,18 @@ Infinite cycles are detected before execution, in which case no step will run. U
 
 ### for & for-props
 
-To iterate over children and props of an element respectively.  
-Aside from that, they mostly share the same interface.
+This pair of commands is used to respectively iterate over children or props of a base element.  
+They basically share the same interface with minimal differences:
 
 - `tag`: the name of the symbol hosting the current XML node pointer. If left empty, its default is assumed to be `$`
-- `in`: must be specified and is a path expression
-- `filter`: as an expression in the internal [custom language](./calc.md).
-- `sort-by`: (only available for `for`) list of `|` separated path expressions. Elements will be sorted giving priority from left to right
-- `order-by`: order preference for each field in the `sort-by` or the only one implicit for `for-props`.  
-  Each entry is a pair `type:comparator` with type either `ASC`, `DESC` or `RANDOM`.  
-  If not provided, comparator is assumed to be the default one.  
-  As an alternative comparator we could have a one using `.` to separate values in tokens, and order them token by token.
-- `limit`: maximum number of entries to be iterated. If 0 all of them will be considered, if positive that or the maximum number, if negative all but that number if possible o no content.
+- `in`: must be specified as a path expression (or a meta-expression resolving in one)
+- `filter`: as a meta-expression expressed in the internal [custom language](./calc.md).
+- `sort-by`: (only available for `for`) list of `|`-separated path expressions (or meta-expressions resolving as such)l elements will be sorted giving priority from left to right to the different criteria
+- `order-by`: order preference for each field in the `sort-by` or the only one implicit for `for-props`. Also `|`-separated. More details are described in the [sorting](./sorting.md) page
+- `limit`: maximum number of entries to be iterated. If 0 all of them will be considered, if positive up to that number, if negative all except the last n-th (o no content if too big).
 - `offset`: offset from start (of the filtered and ordered list of children)
 
-Both `for` & `for-props` support the following list of children. You can use as many instances of the same type as you want, they will be applied to the final document in the order they appear.
+Both `for` & `for-props` support the following types of children.
 
 - `header`: shown at the top of a non-empty container
 - `footer`: shown at the bottom of a non-empty container
@@ -144,49 +145,56 @@ Both `for` & `for-props` support the following list of children. You can use as 
 - `item`: the main body
 - `error`: shown if it was not possible to retrieve items (because of an error in the path for example; in case of empty lists `empty` is used)
 
+You can use as many instances of the same type as you want, they will be applied to the final document in the same order as they appear after grouping.
+
 The symbol `[tag].c` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.  
-For `for-props` there are also `[tag].k` and `[tag].v` for key and value of the prop. `[tag]` by default is `$`.
+For `for-props` there are also `[tag].k` and `[tag].v` for key and value of the prop. `[tag]` stands for the value determined by the `tag` property, and by default is `$`.
 
 ### test & case
 
-To perform conditional cut and paste in the final tree based on simple matches between a reference expression and some values.  
-Inside the body of `test` we have one or more `case`.  
+`test` is used to perform conditional cuts in the final tree, based on a cascade of expressions.  
+Inside each `test` we have one or more `case`.  
 Attributes for `case`:
 
 - `continue` default is `false`. If `true` it continues checking and executing even after a match. Else it will break.
-- `when` an expression to compare against.
+- `when` an expression to evaluate.
 
 The order of `case` elements is important and determines the overall flow.
 
 ### log
 
-Optional argument `type` set to:
+This one is used to send messages to the current logging interface.  
+It has an optional argument `type` which can be set to:
 
-- `notify` when something should be logged, but there is no fault or suspicious behaviour ongoing.
+- `info` when something should be logged, but there is no fault or suspicious behaviour ongoing (default value).
 - `ok` for tasks completed successfully
 - `error` when a condition prevents this activity from succeeding, but the situation is recoverable
 - `warning` when something can complete, but it is suspicious.
 - `panic` when an error triggered, and the situation cannot be recovered
 
-Panic does not mean exceptions. For example, the evaluation of an expression might panic, but this problem is not propagated.  
-It just means that there is no way to recover it, and downstream code will have to live with its failure.  
-Error means that there is a capability recognized when it was raised for the system to rectify this issue.  
-For example the inclusion of a file which does not exist can adopt the content of the `include` tag as fallback.
+Panic does not mean exceptions. For example, the evaluation of an expression might panic, but this problem is not propagated any further.  
+Panic just means that there is no way to recover the situation, and downstream code will have to live with such failure.  
+Error on the other hand means that the system is expected to be able to rectify this issue.  
+For example, the inclusion of a file which does not exist can adopt the content of the `include` tag as fallback, as such it is not considered panic.
 
 ### include
 
 > [!IMPORTANT]  
 > The full behaviour of this function is determined by downstream integration.
 
-Add in place the file defined in `src`. If not found, it uses the content inside `include`. External files will have their root removed when included.  
-File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
-`src` is just a static string, not an expression. This is because the evaluation of the file must be statically resolved.
+`include` can be used to insert in place the file defined by `src`. If not found, it uses the content inside its body.  
+External files will always have their root element removed when included.
 
-The functionality of `include` is not provided by `vs.templ` and requires downstream integration.  
-As such is no caching provided by `vs.templ`; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
+File loading for a single `include` instance appearing in code is only done once, even if in a cycle. Later requests will show the same content as before.  
+Because of this, the source is expected to be static, at least throughout the entire session.  
+Unlike most of the other instances, `src` is just a static string, not an expression nor a meta-expression.  
+This is because the evaluation of the file must be **ALWAYS** statically resolved.
+
+The functionality of `include` is not fully provided by `vs.templ` and requires downstream integration.  
+As such, no caching is provided by `vs.templ`; if you need that, you will have to implement it as part of the load function passed to the preprocessor constructor.  
 Similarly, circular dependencies are not tested. It is up to you to use a load function which ensures they will not occur.
 
-The CLI shipping with this library has a very limited implementation which will load files as XML with normal fs paths.
+The CLI shipping with this library has a very limited implementation which will load files as XML with normal filesystem paths.
 
 #### Examples
 
@@ -211,7 +219,7 @@ The `src` passed is just being used as a regular fs path.
 
 ## Property-based operators
 
-`xxx` are used as tags to identify groups under which multiple attributes should be used.
+`xxx` is used as marker to identify groups under which multiple attributes are allowed/needed.
 
 ### for.SUB-ATTR.xxx & for-props.SUB-ATTR.xxx
 

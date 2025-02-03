@@ -108,4 +108,4 @@ While the XML ecosystem is often reliant on XSLT as a preprocessor, this option 
 Hence, `vs` vendors its own XSLT-ish preprocessor.  
 Still, nothing about its semantics or syntax is directly tied to `vs`, so I am distributing it as a separate package, hoping it can reach a wider adoption.
 
-If you have more questions, I collected some in a [FAQ](./docs/faq.md) document.
+To cover further questions, I collected some in a [FAQ](./docs/faq.md) document.
