@@ -18,6 +18,12 @@ meson compile -C build
 meson install -C build
 ```
 
+Building for release should be a bit more heavy on flags, for example:
+
+```bash
+meson setup -Db_lto=true -Db_thinlto_cache=true -Db_lto_mode=thin build --buildtype=release
+```
+
 ## Embedding it
 
 At this time, this repository is only available as a [meson](https://mesonbuild.com/) package.  
@@ -31,7 +37,7 @@ The CLI in `src/app` shows everything that is needed to use `vs.templ` as a libr
 
 ### C bindings
 
-At this time, no C bindings are provided. My downstream project needs not them, and pugixml is C++ only.  
+At this time, no C bindings are provided. My downstream project needs them not, and pugixml has no C++ interface regardless.  
 Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.
 
 ## Versioning
@@ -40,4 +46,4 @@ Releases are tagged on the repo, with `master` as the main development branch.
 Semantic versioning will be followed after `v1.0.0`.  
 Before that, any release can and will have breaking changes.
 
-Versions ending with an odd revision number are meant for proper for releases, while even numbers are only for in-dev stages.
+Versions ending with an odd revision number are proper public releases, while even numbers are only for in-dev stages.

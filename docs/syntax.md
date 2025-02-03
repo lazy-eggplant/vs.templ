@@ -219,19 +219,22 @@ The `src` passed is just being used as a regular fs path.
 
 ## Property-based operators
 
-`xxx` is used as marker to identify groups under which multiple attributes are allowed/needed.
+Many of these are equivalent to some element-base version, but their output in the generated tree is in the form of attributes and not elements.
+`xxx` is used as marker to identify groups of attributes which should be considered collectively.  
+Please, notice that the generation of namespaced attributes is [not allowed at this point](https://github.com/lazy-eggplant/vs.templ/issues/21).
 
 ### for.SUB-ATTR.xxx & for-props.SUB-ATTR.xxx
 
-As prop, attribute variants of `for` and `for-props`. They add attributes/values to the node they are defined within.
+As prop, attribute variants of `for` and `for-props`. They add new attributes to the node they are defined within.  
+`SUB-ATTR` is the marker for the command property, while `xxx` is the final attribute name.
 
 ### value.xxx
 
-As for the element version, to introduce the value of an expression as value of a prop `xxx`.
+As for the element version, to introduce the result of an expression as value of prop `xxx`.
 
 ### prop.xxx
 
-To generate new property whose name and value are determined by the pair passed as value.
+To generate new property whose name and value are determined by the pair passed as value (`|`-separated).
 
 #### Examples
 
@@ -241,7 +244,8 @@ To generate new property whose name and value are determined by the pair passed 
 
 ### when
 
-To test if the current element should be rendered, if and only if the expression is `true`.
+To test if the current element should be rendered, if and only if the expression is `true`.  
+Basically a shorthand of a full element-based `when` to make some common cases less verbose.
 
 #### Examples
 
