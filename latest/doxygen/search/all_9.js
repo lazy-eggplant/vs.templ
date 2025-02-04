@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['symbol_5fmap_0',['symbol_map',['../structvs_1_1templ_1_1symbol__map.html',1,'vs::templ']]]
+  ['remove_5fframe_0',['remove_frame',['../structvs_1_1templ_1_1symbol__map.html#a2a602167f52d808247e989c80e9add12',1,'vs::templ::symbol_map']]],
+  ['repl_1',['repl',['../structvs_1_1templ_1_1repl.html',1,'vs::templ']]],
+  ['reset_2',['reset',['../structvs_1_1templ_1_1symbol__map.html#a8a9c1949e923caa661556811bc0af97d',1,'vs::templ::symbol_map::reset()'],['../structvs_1_1templ_1_1symbol__map.html#a5cda817fcacd4e7b43ff522031ab3bf5',1,'vs::templ::symbol_map::reset(std::map&lt; std::string, symbol &gt; &amp;src)']]],
+  ['resolve_3',['resolve',['../structvs_1_1templ_1_1symbol__map.html#addeb928f2c67c0eb38b415c9f94c9f04',1,'vs::templ::symbol_map']]]
 ];

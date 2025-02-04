@@ -9,14 +9,14 @@
       
       
       
-        <link rel="prev" href="../ordering/">
+        <link rel="prev" href="../manual/">
       
       
-        <link rel="next" href="../syntax/">
+        <link rel="next" href="../sorting/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.2">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.a40c8224.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
       
       
 
@@ -220,6 +220,7 @@
   
   <span class="md-ellipsis">
     Home
+    
   </span>
   
 
@@ -240,6 +241,7 @@
   
   <span class="md-ellipsis">
     FAQ
+    
   </span>
   
 
@@ -260,6 +262,7 @@
   
   <span class="md-ellipsis">
     Information for developers
+    
   </span>
   
 
@@ -280,26 +283,7 @@
   
   <span class="md-ellipsis">
     User Manual
-  </span>
-  
-
-      </a>
-    </li>
-  
-
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ordering/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ordering
   </span>
   
 
@@ -327,6 +311,7 @@
   
   <span class="md-ellipsis">
     Computing expressions
+    
   </span>
   
 
@@ -338,6 +323,7 @@
   
   <span class="md-ellipsis">
     Computing expressions
+    
   </span>
   
 
@@ -407,15 +393,6 @@
   
     <nav class="md-nav" aria-label="Operators">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#array-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      Array operators
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#generic" class="md-nav__link">
@@ -500,11 +477,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../sorting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sorting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../syntax/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Full Syntax reference
+    
   </span>
   
 
@@ -535,6 +534,7 @@
   
   <span class="md-ellipsis">
     Releases
+    
   </span>
   
 
@@ -560,6 +560,7 @@
   
   <span class="md-ellipsis">
     V0.3.11
+    
   </span>
   
 
@@ -581,6 +582,7 @@
   
   <span class="md-ellipsis">
     V0.3.13
+    
   </span>
   
 
@@ -602,6 +604,7 @@
   
   <span class="md-ellipsis">
     V0.3.15
+    
   </span>
   
 
@@ -623,6 +626,7 @@
   
   <span class="md-ellipsis">
     V0.3.5
+    
   </span>
   
 
@@ -644,6 +648,7 @@
   
   <span class="md-ellipsis">
     V0.3.7
+    
   </span>
   
 
@@ -665,6 +670,7 @@
   
   <span class="md-ellipsis">
     V0.3.9
+    
   </span>
   
 
@@ -686,6 +692,7 @@
   
   <span class="md-ellipsis">
     V0.4.1
+    
   </span>
   
 
@@ -707,6 +714,29 @@
   
   <span class="md-ellipsis">
     V0.4.3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.4.5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    V0.4.5
+    
   </span>
   
 
@@ -800,15 +830,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#array-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      Array operators
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#generic" class="md-nav__link">
     <span class="md-ellipsis">
       Generic
@@ -890,6 +911,7 @@
                 
                   
 
+
   
   
 
@@ -899,8 +921,8 @@
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This document was originally just a draft to keep as reference while implementing the RPN vm.<br />
- As such, its content does not fully represent features has they have been implemented.<br />
- Also, some functions reported as <em>not implemented</em> will never be, or some are yet to report.</p>
+ As such, its content (and language) does not fully represent features as they have been implemented.<br />
+ Also, some functions reported as <em>not implemented</em> will never be, and few more are yet to report.</p>
 </div>
 <p>Tentative specs for higher order expressions to add some degree of freedom in calculations.<br />
 They are still interpreted as expression, starting with <code>:</code>. The content of the expression represent the serialization of a program in reverse polish notation (RPN).<br />
@@ -911,7 +933,7 @@ The VM is going to run it, and the only element left on stack is taken as the fi
 <p>will return an expression of type string embedding the value <code>name-1</code>.</p>
 <p>Type casting must generally be explicit, but some operators might have automatic casting to simplify code.<br />
 The delimiters are needed, since some types of expressions like strings can contain spaces and other escaping characters.<br />
-The character <code>|</code> should never be used as it interfere with the serialization of tuples used by <em>vs.templ</em>.<br />
+The character <code>|</code> should never be used as it interfere with the serialization of tuples used by <code>vs.templ</code>.<br />
 Escaping sequences are defined for ` and <code>|</code> as well.</p>
 <h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
 <h3 id="why-rpn">Why RPN?<a class="headerlink" href="#why-rpn" title="Permanent link">#</a></h3>
@@ -936,22 +958,12 @@ Hence, processing these expressions should be very memory efficient.</p>
 <li><del>Find a library already implementing this design and use that.</del> no success in that</li>
 </ul>
 <h2 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">#</a></h2>
-<h3 id="array-operators">Array operators<a class="headerlink" href="#array-operators" title="Permanent link">#</a></h3>
-<ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>count</code> <code>[expr] #</code>, count the dimensionality of expression returning a 1-dimensional scalar number</del></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>reduce</code> <code>[initial] [reducer] [container] V</code>, reduces to a 1-dimensional object each element of the container starting from the initial expression (sum, join etc)</del></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>filter</code> <code>[container] F</code>, filters elements out of a container</del></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>map</code> <code>[expr] [container] M</code>, maps container based on a lambda</del></li>
-</ul>
 <h3 id="generic">Generic<a class="headerlink" href="#generic" title="Permanent link">#</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>dup</code> duplicate the last element on stack</li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>nop</code> no operation</li>
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>rem</code> remove last n elements from stack</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>swap</code> swap the two top elements</li>
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>eval</code> (probably I will not expose this one) expose a nested repl vm</del></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>load</code> load variable on stack from the environment map</del></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <del><code>store</code> (probably I will not expose this one) store variable form stack to the environment map</del></li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>log</code> to log errors/warning etc somewhere</li>
 </ul>
 <h3 id="string-operators">String operators<a class="headerlink" href="#string-operators" title="Permanent link">#</a></h3>
@@ -981,7 +993,7 @@ Hence, processing these expressions should be very memory efficient.</p>
 </li>
 </ul>
 <h3 id="common-algebraic-operators">Common algebraic operators<a class="headerlink" href="#common-algebraic-operators" title="Permanent link">#</a></h3>
-<p>And all the typical math operations as usual</p>
+<p>And all the typical maths operations as usual</p>
 <ul class="task-list">
 <li class="task-list-item"><input type="checkbox" disabled checked/> <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>mod</code> (and mnemonic versions too)</li>
 <li class="task-list-item"><input type="checkbox" disabled/> <code>pow</code> <code>log</code></li>
@@ -1052,7 +1064,7 @@ Hence, processing these expressions should be very memory efficient.</p>
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.60a45f97.min.js"></script>
+      <script src="../assets/javascripts/bundle.f13b1293.min.js"></script>
       
     
   </body>
