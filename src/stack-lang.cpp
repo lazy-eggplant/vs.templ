@@ -103,7 +103,7 @@ using fast_float::from_chars;
     for(size_t i = 0;i<N;i++){\
         auto tmp = std::move(stack.top());\
         stack.pop();\
-        if(is<  TYPE >(tmp))\
+        if(is< TYPE >(tmp))\
             ret OPERATOR ( as< TYPE >(tmp) );\
         else return error_t::WRONG_TYPE;\
     }\
@@ -324,7 +324,7 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                         return {};
                     }
                     if(arity>(int)stack.size()){
-                        ctx.log(log_t::PANIC,std::format("VM Error: arity asked for command `{}` @{} but the stack has less",command_name,current+begin));
+                        ctx.log(log_t::PANIC,std::format("VM Error: arity asked for command `{}` @{} but the stack has less {}",command_name,current+begin,arity));
                         return {};
                     }
                     auto ret = it->second.fn(stack,arity, &ctx);

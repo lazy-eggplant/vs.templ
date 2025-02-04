@@ -301,7 +301,7 @@ std::vector<pugi::xml_attribute> preprocessor::prepare_props_data(const pugi::xm
         for(auto& child: base.attributes()){
             if(filter!=nullptr && filter[0]!=0){
                 repl testexpr(*this);
-                auto retexpr = testexpr.eval(filter+1);
+                auto retexpr = testexpr.eval(filter);
                 if(is<int>(retexpr.value_or(true))==false)continue; //Skip logic.
                 if(as<int>(retexpr.value_or(true))==false)continue; //Skip logic.
             }
@@ -345,7 +345,7 @@ std::vector<pugi::xml_node> preprocessor::prepare_children_data(const pugi::xml_
             symbols.set("$",child);
             if(filter!=nullptr){
                 repl testexpr(*this);
-                auto retexpr = testexpr.eval(filter+1);
+                auto retexpr = testexpr.eval(filter);
                 if(is<int>(retexpr.value_or(true))==false)continue; //Skip logic.
                 if(as<int>(retexpr.value_or(true))==false)continue; //Skip logic.
             }
