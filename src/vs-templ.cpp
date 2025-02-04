@@ -249,7 +249,13 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
                 ref=as<const pugi::xml_node>(tmp.value());
             }
         }
-        if(strcmp(str+idx+1,"!txt")==0) return ref.text().as_string();
+        if(strcmp(str+idx+1,"!txt")==0){
+            std::string txt;
+            for(auto child: ref.children()){
+                if(child.type()==pugi::node_pcdata || child.type()==pugi::node_cdata) txt+=child.text().as_string();
+            }
+            return txt;
+        }
         else if(strcmp(str+idx+1,"!tag")==0) return ref.name();
         else return ref.attribute(str+idx+1).as_string();
     }

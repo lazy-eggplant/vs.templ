@@ -3,16 +3,17 @@
 ## `v0.4.5`
 
 - [x] Code cleanup.
-- [x] Speed up `O(nm)` children detection in cycles.
-- [ ] `string_view` version of `strnatcmp` to optimize the dot comparisons
+- [x] Speed up `O(nm)` children detection in cycles avoiding multiple passes.
 - [x] Rework the mechanisms used in `order-by`
-- [ ] and fill missing comparisons in the RPN vm
+- [x] More tests covering the language features
 
 ## `v0.4.7`
 
 - [ ] Properly show ctx information while logging
 - [ ] In the UI for the demo, add a loader as the first boot is quite slow
 - [ ] Fill in the docs at least of the public interface
+- [ ] `string_view` version of `strnatcmp` to optimize the dot comparisons
+- [ ] and fill missing comparisons in the RPN vm
 
 ## `v0.4.x`
 

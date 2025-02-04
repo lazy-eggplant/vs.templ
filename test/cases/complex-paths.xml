@@ -1,1 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<test xmlns:s="vs.templ">
+    <data attr-1="0">
+        <root attr-1="1">
+            <child attr-1="2">text<![CDATA[a]]>a</child>
+        </root>
+    </data>
+
+    <template>
+        <doc>
+            <a><s:value src="/~attr-1"/></a>
+            <a><s:value src="/root/~attr-1"/></a>
+            <a><s:value src="/root/child/~attr-1"/></a>
+            <a><s:value src="/root/child/~!txt"/></a>
+            <a><s:value src="/root/child/~!tag"/></a>
+        </doc>
+    </template>
+
+    <expects>
+        <doc>
+            <a>0</a>
+            <a>1</a>
+            <a>2</a>
+            <a>textaa</a>
+            <a>child</a>
+        </doc>
+    </expects>
+</test>
