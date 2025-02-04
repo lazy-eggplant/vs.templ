@@ -11,6 +11,11 @@
                     <item>(<s:value src="{i}" />;<s:value src="{j}" />)</item>
                 </s:for-range>
             </s:for-range>
+            <u>
+            <s:for-range tag="i" from="2" to="-2" step="-1">
+                    <s:value src="{i}" />
+            </s:for-range>
+            </u>
         </root>
     </template>
 
@@ -25,6 +30,7 @@
             <item>(7;9)</item>
             <i>head</i>
             <item>(9;9)</item>
+            <u>210-1</u>
         </root>
     </expects>
 </test>

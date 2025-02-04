@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -393,7 +394,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     if(step>0 && to<from){/* Skip infinite loop*/}
                     else if(step<0 && to>from){/* Skip infinite loop*/}
                     else if(step==0){/* Skip potentially infinite loop*/}
-                    else for(int i=from; i<to; i+=step){
+                    else for(int i=from; ((step>0)?i<to:i>to); i+=step){
                         auto frame_guard = symbols.guard();
                         if(tag!=nullptr)symbols.set(tag,i);
                         symbols.set("$",i);

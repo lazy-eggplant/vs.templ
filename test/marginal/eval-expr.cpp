@@ -32,5 +32,20 @@ int main(){
         auto symbol =  repl.eval("`#o` `#l` `#l` `#e` cat:*");
         assert(symbol.has_value() && std::holds_alternative<std::string>(*symbol) && std::get<std::string>(*symbol) == "ello");
     }
+    {
+        repl repl(pp);
+        auto symbol =  repl.eval("`#o` `#l` `#l` `#e` `#.` join:*");
+        assert(symbol.has_value() && std::holds_alternative<std::string>(*symbol) && std::get<std::string>(*symbol) == "e.l.l.o");
+    }
+    {
+        repl repl(pp);
+        auto symbol =  repl.eval("`1` `2` bg");
+        assert(symbol.has_value() && std::holds_alternative<int>(*symbol) && std::get<int>(*symbol) == true);
+    }
+    {
+        repl repl(pp);
+        auto symbol =  repl.eval("`1` `2` lt");
+        assert(symbol.has_value() && std::holds_alternative<int>(*symbol) && std::get<int>(*symbol) == false);
+    }
     return 0;
 } 
