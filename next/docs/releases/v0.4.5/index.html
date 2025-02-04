@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../v0.3.5/">
+        <link rel="prev" href="../v0.4.3/">
       
-      
-        <link rel="next" href="../v0.3.9/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>V0.3.7 - vs.templ</title>
+        <title>V0.4.5 - vs.templ</title>
       
     
     
@@ -61,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#fixes" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -93,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              V0.3.7
+              V0.4.5
             
           </span>
         </div>
@@ -480,17 +483,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../v0.3.7/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -500,7 +496,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -576,10 +571,29 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../v0.4.5/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    V0.4.5
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -589,6 +603,51 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breaking changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Internal changes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -619,6 +678,41 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breaking changes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Internal changes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -636,24 +730,35 @@
   
 
 
-  <h1>V0.3.7</h1>
+  <h1>V0.4.5</h1>
 
-<p>This release brings many new features which further expand the capabilities of <code>vs.templ</code>:</p>
-<ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced a more robust logging infrastructure at all levels. Now errors and warnings are better logged.<ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced <code>log</code> tag</li>
+<p>This release has not visible changes in its functionality (aside for some subtle bug fixes).<br />
+Which is good, it means the language itself is getting stable.<br />
+The main objectives for this release were:</p>
+<ul>
+<li>Reducing complexity and verbosity for most of the code</li>
+<li>Removing obsolete or unused features from earlier revisions</li>
+<li>Better documentation of its public interface.</li>
+<li>Improved tests (so that I can validate the implementation so far)</li>
 </ul>
-</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced <a href="../../repl-vm/">meta-expressions</a> with their RPN virtual machine to support more complex evaluations.<br />
-       A good number of operators have been implemented so far, with most of the architectural bits ironed out.</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> Introduced <code>filter</code> for loops now that we have meta-expressions.</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> A significantly improved documentation.</li>
-<li class="task-list-item"><input type="checkbox" disabled checked/> Initial work to support prop-based commands.</li>
+<p>So, a boring one! But it means that a &ldquo;final&rdquo; v1 is getting close.<br />
+Basically all that is left are better tests to see if all commands are working as expected, better documentation and some code optimization.</p>
+<h2 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">#</a></h2>
+<ul>
+<li>Fixed behaviour of filters in cycles. Now they always used meta-expressions only (no prefix <code>:</code> in that case).</li>
+<li>Fixed behaviour of <code>for-range</code> with negative increments to match specs.</li>
+<li>Fixed behaviour of <code>~!txt</code> to return the concatenation of all <em>cdata</em> and <em>pcdata</em> children, not just the first one.</li>
 </ul>
-<p>The <code>in</code> attribute for cycles has been removed in favour of <code>src</code> to make it more consistent.<br />
-No further breaking change is expected from v0.3.5 for templates, but the public interface itself has.<br />
-You might need to slightly refactor current code, and provide an explicit logging function.<br />
-Next release is expected to be the very last for v0.3.x.</p>
+<h2 id="breaking-changes">Breaking changes<a class="headerlink" href="#breaking-changes" title="Permanent link">#</a></h2>
+<p>The interface to build the preprocessor is now a configuration object.<br />
+This is done to avoid verbosity, and to allow for the definition of more fields if so needed.<br />
+In most cases, using the new interface is just as simple as placing braces between the original args.</p>
+<h2 id="internal-changes">Internal changes<a class="headerlink" href="#internal-changes" title="Permanent link">#</a></h2>
+<ul>
+<li>Code cleanup.</li>
+<li>Speed up <code>O(nm)</code> children detection in cycles avoiding multiple passes.</li>
+<li>Rework the mechanisms used in <code>order-by</code></li>
+</ul>
 
 
 
