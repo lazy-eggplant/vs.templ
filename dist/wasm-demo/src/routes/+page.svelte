@@ -35,6 +35,7 @@
         example_basic_entry("for-props"),
         example_basic_entry("test"),
         example_basic_entry("data"),
+        example_basic_entry("when"),
         //example_basic_entry("include"),
       ],
     },

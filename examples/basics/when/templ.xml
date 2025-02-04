@@ -1,0 +1,5 @@
+<doc xmlns:s="vs.templ">
+    <h1 s:when=": false">This will fail, not being shown</h1>
+    <h2 s:when=": true">This will be!</h2>
+    <h1 s:when=": true" s:when.attr1=": true" s:when.attr2=": false">Hello!</h1>
+</doc>

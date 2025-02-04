@@ -1,12 +1,5 @@
 # Milestones
 
-## `v0.4.5`
-
-- [x] Code cleanup.
-- [x] Speed up `O(nm)` children detection in cycles avoiding multiple passes.
-- [x] Rework the mechanisms used in `order-by`
-- [x] More tests covering the language features
-
 ## `v0.4.7`
 
 - [ ] Properly show ctx information while logging

@@ -27,7 +27,8 @@
                 </tr>
             </thead>
             <tbody>
-                <s:for in="$/entry" sort-by="~name|~surname" filter=": true">
+                <!--Filter can only be a meta expression, so no : is used as prefix-->
+                <s:for in="$/entry" sort-by="~name|~surname" filter="true">
                     <s:item>
                         <tr>
                             <td><img s:value.src="$~pic" s:prop.0="#width|#32px" /></td>
