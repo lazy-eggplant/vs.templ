@@ -5,7 +5,7 @@ vs_templ_test = executable(
     install: false,
 )
 
-cases = ['id', 'for-range', 'for.tag', 'for-props.tag', 'calc', 'when.prop', 'complex-paths']
+cases = ['id', 'for-range', 'for.tag', 'for-props.tag', 'calc', 'when.prop', 'complex-paths', 'tree-rewrite']
 
 foreach case : cases
 

@@ -52,6 +52,13 @@
           data: "./examples/advanced/html/data.0.xml",
         },
       ],
+      items: [
+        {
+          value: "Tree-rewrite",
+          template: "./examples/advanced/tree-rewrite/templ.xml",
+          data: "./examples/advanced/tree-rewrite/data.xml",
+        },
+      ],
     },
   ];
 

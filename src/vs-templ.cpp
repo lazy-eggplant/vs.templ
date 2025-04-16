@@ -38,6 +38,7 @@ static inline bool nsstrcmp(const char* left, const std::string_view& ns, const 
     return (strncmp(left,ns.data(),ns.length())==0 && strcmp(left+ns.length(),name)==0);
 }
 
+//Helper to handle partitions of children based on their tag name for aggregation purposes.
 template<size_t N, size_t M=1>
 static std::array<std::vector<pugi::xml_node>,N> pugi_ns_children(const pugi::xml_node& root, const std::string_view& ns, const std::array<const char*,N>& names){
     std::array<std::vector<pugi::xml_node>,N> partitions;
@@ -63,6 +64,14 @@ static pugi::xml_attribute pugi_ns_attr(const pugi::xml_node& root, const std::s
         }
     }
     return {};
+}
+
+
+static bool has_element_child(const pugi::xml_node& node){
+    for (pugi::xml_node child = node.first_child(); child; child = child.next_sibling()){
+        if (child.type() == pugi::node_element)return true;
+    }
+    return false;
 }
 
 void preprocessor::init(const config_t& cfg){
@@ -264,7 +273,6 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
 }
 
 preprocessor::order_t preprocessor::order_from_string(std::string_view str){
-    //TODO: extend to specify type. Syntax: `type:method`
     int offset = 0;
     order_t tmp;
     if(str.starts_with(".")){tmp.modifiers.dot=true;offset++;}
@@ -418,6 +426,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     const char* _sort_by = current_template.first->attribute("sort-by").as_string();
                     const char* _order_by = current_template.first->attribute("order-by").as_string("asc");
 
+                    const char* src_children = current_template.first->attribute("src-children").as_string(nullptr);
+                    const char* dst_children = current_template.first->attribute("dst-children").as_string("item");
+
                     int limit = get_or<int>(resolve_expr(current_template.first->attribute("limit").as_string("0")).value_or(0),0);
                     int offset = get_or<int>(resolve_expr(current_template.first->attribute("offset").as_string("0")).value_or(0),0);
 
@@ -434,6 +445,9 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                         }
                     }
                     else{
+                        std::stack<std::pair<pugi::xml_node,pugi::xml_node>> to_inspect;
+                        to_inspect.push({as<const pugi::xml_node>(expr.value()),current_compiled});
+    
                         std::vector<std::pair<std::string,order_t>> criteria;
                         //Build criteria
                         {
@@ -445,49 +459,81 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                 c++;
                             }
                         }
-                        auto good_data = prepare_children_data(as<const pugi::xml_node>(expr.value()), limit, offset, filter, criteria);
 
-                        if(good_data.size()==0){
-                            for(const auto& el: children[3]){
-                                stack_template.emplace(el.begin(),el.end());
-                                _parse(current_template.first);
-                                stack_compiled.emplace(current_compiled);
-                            }
-                        }
-                        else{
-                            //Header (once)
-                            {
-                                for(const auto& el: children[0]){
+                        while(to_inspect.size()!=0){
+                            auto path = to_inspect.top();
+                            to_inspect.pop();
+
+                            auto good_data = prepare_children_data(path.first, limit, offset, filter, criteria);
+
+                            stack_compiled.emplace(path.second);
+                            auto current_compiled = stack_compiled.top();   //Shadow the original current_compiled here.
+
+                            if(good_data.size()==0){
+                                for(const auto& el: children[3]){
                                     stack_template.emplace(el.begin(),el.end());
                                     _parse(current_template.first);
                                     stack_compiled.emplace(current_compiled);
                                 }
                             }
-                        
-                            //Items (iterate)
-                            int counter = 0;
-                            for(auto& i : good_data){
-                                auto frame_guard = symbols.guard();
-    
-                                symbols.set(tag,i);
-                                symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
-
-                                for(const auto& el: children[1]){
-                                    stack_template.emplace(el.begin(),el.end());
-                                    _parse(current_template.first);
-                                    stack_compiled.emplace(current_compiled);
+                            else{
+                                //Header (once)
+                                {
+                                    for(const auto& el: children[0]){
+                                        stack_template.emplace(el.begin(),el.end());
+                                        _parse(current_template.first);
+                                        stack_compiled.emplace(current_compiled);
+                                    }
                                 }
-                                counter++;
+                            
+                                //Items (iterate)
+                                int counter = 0;
+                                for(auto& i : good_data){
+                                    auto frame_guard = symbols.guard();
+        
+                                    symbols.set(tag,i);
+                                    symbols.set(std::string(tag) + ".c",counter);    //TODO stack string
+
+                                    if(src_children!=nullptr){
+                                    }
+
+                                    for(const auto& el: children[1]){
+                                        stack_template.emplace(el.begin(),el.end());
+                                        _parse(current_template.first);
+                                        stack_compiled.emplace(current_compiled);
+                                    }
+
+                                    if(src_children!=nullptr){
+                                        pugi::xml_node lastItem;
+                                        for(pugi::xml_node node=current_compiled.last_child();node;node=node.previous_sibling()){
+                                            if(strcmp(node.name(),dst_children)==0){lastItem = node;break;}
+                                        }
+                                        auto newSrc = as<const pugi::xml_node>(resolve_expr(src_children).value());
+                                        //If no element was found, or if the new data path would have no child, don't add it to the list of those to be inspected.
+                                        if(lastItem && has_element_child(newSrc)){
+                                            to_inspect.push({
+                                                newSrc,
+                                                lastItem
+                                            }); 
+                                        }
+                                    }
+
+                                    counter++;
+                                }
+
+                                //Footer (once)
+                                {
+                                    for(const auto& el: children[2]){
+                                        stack_template.emplace(el.begin(),el.end());
+                                        _parse(current_template.first);
+                                        stack_compiled.emplace(current_compiled);
+                                    }
+                                }
+
+                                //TODO: recurse based on src-children and dst-children
                             }
 
-                            //Footer (once)
-                            {
-                                for(const auto& el: children[2]){
-                                    stack_template.emplace(el.begin(),el.end());
-                                    _parse(current_template.first);
-                                    stack_compiled.emplace(current_compiled);
-                                }
-                            }
+                            stack_compiled.pop();
                         }
                     }
                 }
