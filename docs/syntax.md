@@ -61,7 +61,7 @@ Using the following XML file as reference:
 
 - `/hello/world/` is the list of children for the first `world` element in `hello`
 - `/hello/world~attribute-a` is evaluated as `value-0`
-- `/hello/world~!txt` is evaluated as `text-0`
+- `/hello/world~!txt` is evaluated as `text-0` (excluding white-spaces)
 - Assuming a for cycle in `/hello/`, its children will be navigated and `$~attribute-a` will be resolved in `value-0` and `value-1`.
 
 ## Element-based operators
@@ -149,6 +149,22 @@ You can use as many instances of the same type as you want, they will be applied
 
 The symbol `[tag].c` gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.  
 For `for-props` there are also `[tag].k` and `[tag].v` for key and value of the prop. `[tag]` stands for the value determined by the `tag` property, and by default is `$`.
+
+#### Nested for
+
+Since v0.4.7 it is possible to use the `for` loop base on elements to perform operations on trees.  
+Assumptions:
+- The structure of the node in the source data has always one single placement for children.
+- Filters, sorting and ordering clauses will be applied the same for all nodes.
+- The placement for children in the destination tree is marked by a unique tag for each of the parent entry.
+
+If these conditions are not fulfilled, `vs.templ` behaviour is undetermined, but it will try to avoid exceptions or hard failures as usual.  
+
+To use nesting one has to:
+- Provide an expression via attribute `src-children` to resolve the location of children in each cell based on the current parent. "$" is valid and means "check my direct children".
+- Provide an optional expression via attribute `dst-children` to resolve the location of the generated XML where new cells should be expanded. if empty, its default value is `item`.
+
+If `src-children` is missing, no recursive operation will take place, regardless of `dst-children` value.
 
 ### test & case
 

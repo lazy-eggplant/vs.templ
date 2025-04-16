@@ -18,17 +18,17 @@ Still, nothing about its semantics or syntax is directly tied to `vs`, so I am d
 ## Why not [handlebars](https://handlebarsjs.com/) or [mustache](https://mustache.github.io/)?
 
 This class of templating solutions cannot understand XML.  
-As such, the resulting generation will not ensure something syntactically correct is generated.
+As such, the resulting generation will not ensure the syntactical correctness of its own generation.
 
 ## Then why not `react` with an XML writer?
 
-That is a fine option, and you will be able to leverage the flexibility of a full JavaScript runtime.  
-Well, its bloat as well, you cannot really avoid that.  
-On a modern system, the final release build of `vs.templ` as a shared `vs.templ` is less than 300kB.  
-If you need an embeddable solution for your pipelines, and you are already using `pugixml`, the cost of integrating `vs.templ` is virtually none.  
-Any other solution is going to be much more expensive.
+That is a fine option, and you would be able to leverage the flexibility of a full JavaScript runtime.  
+Well, its bloat as well, once cannot have their cake and eat it too.  
+On a modern system, the final release build of `vs.templ` as a shared library is less than 300kB.  
+If you need an embeddable solution for your pipelines, and you are already using `pugixml`, the cost of integrating `vs.templ` is virtually zero.  
+Any other solution would be steeper.
 
-Even when used standalone, `vs.templ` shines: a fully static wasm/wasi build (so `libc`, `libc++`, `pugixml` and any other dependency bundled) is less 7MB.
+Even when used standalone, `vs.templ` shines: a fully static wasm/wasi build (so `libc`, `libc++`, `pugixml` and any other dependency bundled, basically a worst case scenario) is less 7MB.
 
 ## Is there a SAX implementation?
 

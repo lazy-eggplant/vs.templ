@@ -1,7 +1,6 @@
 > [!WARNING]  
-> Some features are still missing, and are tracked on the [repo](https://github.com/lazy-eggplant/vs.templ).
-> Documentation is an ongoing effort, so you will not find everything well described.  
-> Contributions to make them better are very welcome.
+> Some features are described but still missing; these cases should be tracked on the [repo](https://github.com/lazy-eggplant/vs.templ).  
+> Documentation is an ongoing effort and contributions to make it better are very welcome.
 
 `vs.templ` is a simple preprocessor for XML files.  
 It can be used to statically generate new files from a template definition and a data source.  

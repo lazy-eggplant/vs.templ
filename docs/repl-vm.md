@@ -3,8 +3,8 @@ title: Computing expressions
 ---
 
 > [!WARNING]  
-> This document was originally just a draft to keep as reference while implementing the RPN vm.  
-> As such, its content (and language) does not fully represent features as they have been implemented.  
+> This document was originally just a draft to keep as reference while implementing the RPN VM.  
+> As such, its content and language do not fully represent features as they have been implemented.  
 > Also, some functions reported as _not implemented_ will never be, and few more are yet to report.
 
 Tentative specs for higher order expressions to add some degree of freedom in calculations.  
@@ -94,6 +94,11 @@ And all the typical maths operations as usual
 - [ ] `pow` `log`
 - [x] `count.0` & `count.1`
 
+### IDs
+- [ ] 64bit sequential id (with optional family, 0 by default)
+- [ ] 256bit random uniform id
+- [ ] Timestamp (fixed once for all, it will be the same at any point of the generation)
+
 ### Cast
 
 - [x] `as.str`
@@ -106,3 +111,4 @@ And all the typical maths operations as usual
 - [x] `PIPE` and `APOS` to escape `|` and `\`` respectively
 - [x] `(` & `)` as nop just to enable formatting in expression (not enforced, but the LSP might check)
 - [x] `rem` to tag the prior tag as comment (remove the last element from stack)
+

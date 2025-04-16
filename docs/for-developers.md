@@ -29,21 +29,21 @@ meson setup -Db_lto=true -Db_thinlto_cache=true -Db_lto_mode=thin build --buildt
 At this time, this repository is only available as a [meson](https://mesonbuild.com/) package.  
 I might consider adding `cmake` later on to gain a wider compatibility.
 
-If `pugixml` is already provided as a dependency in the main project, that will be used.
+If `pugixml` is already provided as a dependency in the main project, that one shall be used.
 
-`vs.templ` requires you implement some features downstream to support all features.  
-If not provided, the library will still be usable, but the command tags `include` and `data` will not work as expected.  
-The CLI in `src/app` shows everything that is needed to use `vs.templ` as a library.
+`vs.templ` requires you to implement some features downstream.  
+If not provided, the library will still be usable, but the command tags `include` and `data` cannot operate as for specifications.  
+The CLI in `src/app` shows everything that is needed to use `vs.templ` as a library in your own projects.
 
 ### C bindings
 
-At this time, no C bindings are provided. My downstream project needs them not, and pugixml has no C++ interface regardless.  
+At this time, no C bindings are provided. My downstream projects have no need for them yet, and pugixml has no C++ interface regardless.  
 Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.
 
 ## Versioning
 
-Releases are tagged on the repo, with `master` as the main development branch.  
+Releases are tagged on the repo. `master` is the main development branch.  
 Semantic versioning will be followed after `v1.0.0`.  
-Before that, any release can and will have breaking changes.
+Before that, any release can and will have breaking changes, but they are usually described in the release notes.
 
-Versions ending with an odd revision number are proper public releases, while even numbers are only for in-dev stages.
+Versions ending with an odd revision number are proper public releases, while even numbers are reserved for in-dev stages.
