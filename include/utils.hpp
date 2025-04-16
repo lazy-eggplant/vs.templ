@@ -33,6 +33,9 @@ const T& get_or(const auto& ref, const T& defval) noexcept{
 std::vector<std::string_view> split_string (const char* str, char delim);
 
 
+std::string generate_rid();
+
+
 /**
  * @brief Compare two strings assuming the dot notation for ordering nested fields
  * 

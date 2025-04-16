@@ -1,5 +1,7 @@
 #include <utils.hpp>
 #include <strnatcmp.h>
+#include <format>
+#include <random>
 
 namespace vs{
 namespace templ{
@@ -12,6 +14,27 @@ std::vector<std::string_view> split_string (const char* str, char delim) {
         if(str[i]==0){result.emplace_back(str+last,i-last);break;}
     }
     return result;
+}
+
+std::string generate_rid() {
+    static std::random_device rd;
+    static std::uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
+
+    // Allocate an array to hold eight 32-bit numbers (256 bits total)
+    std::array<uint32_t, 8> randomValues;
+    for (size_t i = 0; i < randomValues.size(); ++i) {
+        randomValues[i] = dist(rd);
+    }
+
+    // Build the hex string using std::format
+    std::string id;
+    id.reserve(8 * 8);  // 8 numbers * 8 hex digits per number
+    for (uint32_t value : randomValues) {
+        // Format each value as an 8-digit hexadecimal number, padded with zeros
+        id += std::format("{:08x}", value);
+    }
+    
+    return id;
 }
 
 int cmp_dot_str(const char* a, const char* b){

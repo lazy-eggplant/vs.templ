@@ -12,7 +12,7 @@ namespace templ{
  * 
  */
 struct repl{
-    enum struct error_t{
+    enum struct return_t{
         OK,                     //No error actually everything ended up being right
         WRONG_TYPE,             //Type mismatch in the argument being used
         STACK_EMPTY,            //The stack is empty, I cannot take any further element
@@ -22,15 +22,15 @@ struct repl{
         MEMORY,                 //No more internal memory can be allocated.
         NOT_IMPLEMENTED,        //Operator or path not yet implemented.
     };
-    static constexpr const char* error_s(error_t e){
-        if(e==error_t::OK)return "ok";
-        else if(e==error_t::WRONG_TYPE)return "wrong type";
-        else if(e==error_t::STACK_EMPTY)return "stack is empty";
-        else if(e==error_t::STACK_STILL_FULL)return "stack has still items";
-        else if(e==error_t::UNKNOWN_OPERATOR)return "no matching operator found";
-        else if(e==error_t::UNKNOWN_ARITY)return "operator has the wrong arity";
-        else if(e==error_t::MEMORY)return "unable to allocate memory";
-        else if(e==error_t::NOT_IMPLEMENTED)return "the operator is not fully implemented yet";
+    static constexpr const char* error_s(return_t e){
+        if(e==return_t::OK)return "ok";
+        else if(e==return_t::WRONG_TYPE)return "wrong type";
+        else if(e==return_t::STACK_EMPTY)return "stack is empty";
+        else if(e==return_t::STACK_STILL_FULL)return "stack has still items";
+        else if(e==return_t::UNKNOWN_OPERATOR)return "no matching operator found";
+        else if(e==return_t::UNKNOWN_ARITY)return "operator has the wrong arity";
+        else if(e==return_t::MEMORY)return "unable to allocate memory";
+        else if(e==return_t::NOT_IMPLEMENTED)return "the operator is not fully implemented yet";
         else return "illegal error";
     }
 
@@ -60,7 +60,7 @@ struct repl{
         const preprocessor& ctx;
 
         struct command_t{
-            error_t (*fn)(std::stack<symbol>& stack, size_t N, const preprocessor* ctx);
+            return_t (*fn)(std::stack<symbol>& stack, size_t N, const preprocessor* ctx);
             int min_arity = 1;
             int max_arity = min_arity;
             int default_arity = min_arity;

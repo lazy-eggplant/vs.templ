@@ -1,6 +1,6 @@
 # Milestones
 
-## `v0.4.7`
+## `v0.4.9`
 
 - [ ] Properly show ctx information while logging
 - [ ] In the UI for the demo, add a loader as the first boot is quite slow

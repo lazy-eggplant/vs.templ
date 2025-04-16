@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Trivial example just to verify what gets in gets out-->
-
 <test xmlns:s="vs.templ">
     <data>
     </data>
 
     <template>
-        <identity></identity>
+        <doc>
+            <i><s:value src=": sid"/>-<s:value src=": sid"/>-<s:value src=": sid"/></i>
+            <i><s:value src=": `1` sid:1"/>-<s:value src=": `2` sid:1"/>-<s:value src=": `3` sid:1"/></i>
+            <!--<i><s:value src=": rid"/></i>-->
+            <!--<i><s:value src=": timestamp"/></i>-->
+        </doc>
     </template>
 
     <expects>
-        <identity></identity>
+        <doc>
+            <i>0-1-2</i>
+            <i>0-0-0</i>
+        </doc>
     </expects>
 </test>

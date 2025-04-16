@@ -1,3 +1,4 @@
+#include "utils.hpp"
 #include <cmath>
 #include <format>
 #include <string>
@@ -38,11 +39,11 @@ using fast_float::from_chars;
             else ret OPERATOR ( as<float>(tmp) );\
             type = FLOAT;\
         }\
-        else return error_t::WRONG_TYPE;\
+        else return return_t::WRONG_TYPE;\
     }\
     if(type==INT)stack.push(ret_i);\
     else if(type==FLOAT)stack.push(ret_f);\
-    return error_t::OK;\
+    return return_t::OK;\
 }, 2, MAX_ARITY}
 
 #define VS_OPERATOR_1_MATH_HELPER(OPERATOR) \
@@ -62,10 +63,10 @@ using fast_float::from_chars;
         ret = OPERATOR ( as<float>(tmp) );\
         type = FLOAT;\
     }\
-    else return error_t::WRONG_TYPE;\
+    else return return_t::WRONG_TYPE;\
     if(type==INT)stack.push(ret_i);\
     else if(type==FLOAT)stack.push(ret_f);\
-    return error_t::OK;\
+    return return_t::OK;\
 }, 1}
 
 #define VS_OPERATOR_CMP_HELPER(OPERATOR) \
@@ -79,22 +80,22 @@ using fast_float::from_chars;
         if(is<int>(b)){\
             stack.push(as<int>(a) OPERATOR as<int>(b));\
         }\
-        else return error_t::WRONG_TYPE;\
+        else return return_t::WRONG_TYPE;\
     }\
     else if(is<float>(a)){\
         if(is<float>(b)){\
             stack.push( as<float>(a) OPERATOR  as<float>(b));\
         }\
-        else return error_t::WRONG_TYPE;\
+        else return return_t::WRONG_TYPE;\
     }\
     else if(is<std::string>(a)){\
         if(is<std::string>(b)){\
             stack.push( as<std::string>(a) OPERATOR  as<std::string>(b));\
         }\
-        else return error_t::WRONG_TYPE;\
+        else return return_t::WRONG_TYPE;\
     }\
-    else return error_t::WRONG_TYPE;\
-    return error_t::OK;\
+    else return return_t::WRONG_TYPE;\
+    return return_t::OK;\
 }, 2}
 
 #define VS_OPERATOR_N_HELPER(OPERATOR, TYPE) \
@@ -105,10 +106,10 @@ using fast_float::from_chars;
         stack.pop();\
         if(is< TYPE >(tmp))\
             ret OPERATOR ( as< TYPE >(tmp) );\
-        else return error_t::WRONG_TYPE;\
+        else return return_t::WRONG_TYPE;\
     }\
     stack.push(ret);\
-    return error_t::OK;\
+    return return_t::OK;\
 }, 2, MAX_ARITY}
 
 #define VS_OPERATOR_1_HELPER(OPERATOR, TYPE) \
@@ -118,9 +119,9 @@ using fast_float::from_chars;
     stack.pop();\
     if(is<  TYPE >(tmp))\
         ret = OPERATOR ( as< TYPE >(tmp) );\
-    else return error_t::WRONG_TYPE;\
+    else return return_t::WRONG_TYPE;\
     stack.push(ret);\
-    return error_t::OK;\
+    return return_t::OK;\
 }, 1}
 
 namespace vs{
@@ -143,13 +144,13 @@ bool repl::push_operand(const symbol& ref)noexcept{
 
 std::optional<symbol> repl::eval(const char* expr) noexcept{
     static const size_t MAX_ARITY = 100;
-    static frozen::unordered_map<frozen::string, command_t, 39> commands = {
-            {"nop", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return error_t::OK;}, 0}},
-            {"(", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return error_t::OK;}, 0}},
-            {")", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return error_t::OK;}, 0}},
+    static frozen::unordered_map<frozen::string, command_t, 42> commands = {
+            {"nop", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return return_t::OK;}, 0}},
+            {"(", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return return_t::OK;}, 0}},
+            {")", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){return return_t::OK;}, 0}},
 
-            {"rem", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){for(size_t i=0;i<N;i++){stack.pop();}return repl::error_t::OK;}, 1, MAX_ARITY}},
-            {"dup", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push(stack.top());return repl::error_t::OK;}, 1}},
+            {"rem", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){for(size_t i=0;i<N;i++){stack.pop();}return repl::return_t::OK;}, 1, MAX_ARITY}},
+            {"dup", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push(stack.top());return repl::return_t::OK;}, 1}},
 
             {"cat", VS_OPERATOR_N_HELPER(+=,std::string)},
             {"join", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
@@ -160,7 +161,7 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                                 stack.pop();
                                 if(is<std::string>(tmp))
                                     sep = std::move( as<std::string>(tmp) );
-                                else return error_t::WRONG_TYPE;
+                                else return return_t::WRONG_TYPE;
                             }
                             for(size_t i = 1;i<N;i++){
                                 auto tmp = std::move(stack.top());
@@ -169,10 +170,10 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                                     if(i!=1)ret += sep + ( as<std::string>(tmp) );
                                     else ret+=( as<std::string>(tmp) );
                                 }
-                                else return error_t::WRONG_TYPE;
+                                else return return_t::WRONG_TYPE;
                             }
                             stack.push(ret);
-                            return error_t::OK;
+                            return return_t::OK;
             }, 3, MAX_ARITY}},
 
             //JOIN
@@ -221,8 +222,8 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 if(is<int>(t))stack.push(as<int>(t));
                 else if(is<float>(t))stack.push((int)as<float>(t));
                 else if(is<std::string>(t)){auto& str = as<std::string>(t);int result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
-                else return error_t::WRONG_TYPE;
-                return error_t::OK;
+                else return return_t::WRONG_TYPE;
+                return return_t::OK;
             }, 1}},
             {"as.bool", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
@@ -233,8 +234,8 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                     if(str=="false")stack.push(1);
                     else if(str=="true")stack.push(0);
                 }
-                else return error_t::WRONG_TYPE;
-                return error_t::OK;
+                else return return_t::WRONG_TYPE;
+                return return_t::OK;
             }, 1}},
             {"as.float", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
@@ -242,8 +243,8 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 if(is<int>(t))stack.push((float)as<int>(t));
                 else if(is<float>(t))stack.push(as<float>(t));
                 else if(is<std::string>(t)){auto& str = as<std::string>(t);float result{};from_chars(str.c_str(),str.c_str()+str.size(),result);stack.push(result);}
-                else return error_t::WRONG_TYPE;
-                return error_t::OK;
+                else return return_t::WRONG_TYPE;
+                return return_t::OK;
             }, 1}},
             {"as.str", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto t=std::move(stack.top());
@@ -251,16 +252,16 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 if(is<int>(t))stack.push(std::to_string(as<int>(t)));
                 else if(is<float>(t))stack.push(std::to_string(as<float>(t)));
                 else if(is<std::string>(t))stack.push(as<std::string>(t));
-                else return error_t::WRONG_TYPE;
-                return error_t::OK;
+                else return return_t::WRONG_TYPE;
+                return return_t::OK;
             }, 1}},
 
 
             ///Constants
-            {"APOS", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push("`");return error_t::OK;}, 0}},
-            {"PIPE", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push("|");return error_t::OK;}, 0}},
-            {"true", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push(true);return error_t::OK;}, 0}},
-            {"false", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push(false);return error_t::OK;}, 0}},
+            {"APOS", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push("`");return return_t::OK;}, 0}},
+            {"PIPE", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push("|");return return_t::OK;}, 0}},
+            {"true", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push(true);return return_t::OK;}, 0}},
+            {"false", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.push(false);return return_t::OK;}, 0}},
             {"?", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
                 auto condition = stack.top();
                 stack.pop();
@@ -268,11 +269,28 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                 stack.pop();
                 auto if_false = stack.top();
                 stack.pop();
-                if(!is<int>(condition))return error_t::WRONG_TYPE;
+                if(!is<int>(condition))return return_t::WRONG_TYPE;
                 if((as<int>(condition)&1)==0)stack.push(if_true);
                 else stack.push(if_false);
-                return error_t::OK;
+                return return_t::OK;
             }, 3, 3}},
+            {"sid", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
+                static std::map<int,int> family_map;
+                int family = 0;
+                if(N==1){
+                    auto t=std::move(stack.top());
+                    stack.pop();
+                    if(is<int>(t))family=as<int>(t);
+                    else return return_t::WRONG_TYPE;
+                }
+                stack.push(family_map[family]++);
+                return return_t::OK;
+            }, 0, 1, 0}},
+            {"rid", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){
+                stack.emplace(generate_rid());
+                return return_t::OK;
+            }, 0}},
+            {"timestamp", {+[](std::stack<symbol>& stack, size_t N, const preprocessor* ctx){stack.emplace(std::format("{}",time(NULL)));return return_t::OK;}, 0}},
 
             ///Comparison operators
             /* List of operators to implement is being developed in ./docs/repl-vm.md */
@@ -328,7 +346,7 @@ std::optional<symbol> repl::eval(const char* expr) noexcept{
                         return {};
                     }
                     auto ret = it->second.fn(stack,arity, &ctx);
-                    if(ret!=error_t::OK){
+                    if(ret!=return_t::OK){
                         ctx.log(log_t::ERROR,std::format("VM Error: the operator `{}` @{} returned with error `{}`",command_name,current+begin,error_s(ret)));
                         return {};
                     }

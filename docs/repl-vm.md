@@ -95,9 +95,9 @@ And all the typical maths operations as usual
 - [x] `count.0` & `count.1`
 
 ### IDs
-- [ ] 64bit sequential id (with optional family, 0 by default)
-- [ ] 256bit random uniform id
-- [ ] Timestamp (fixed once for all, it will be the same at any point of the generation)
+- [ ] `sid` 64bit sequential id (with optional family, 0 by default)
+- [ ] `rid` 256bit random uniform id
+- [ ] `timestamp` Timestamp (fixed once for all, it will be the same at any point of the generation)
 
 ### Cast
 
