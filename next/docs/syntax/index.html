@@ -508,6 +508,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="for &amp; for-props">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nested-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nested for
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1053,6 +1068,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="for &amp; for-props">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nested-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nested for
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1277,7 +1307,7 @@ However, the preprocessor will not generally throw exceptions, the preferred mec
 <ul>
 <li><code>/hello/world/</code> is the list of children for the first <code>world</code> element in <code>hello</code></li>
 <li><code>/hello/world~attribute-a</code> is evaluated as <code>value-0</code></li>
-<li><code>/hello/world~!txt</code> is evaluated as <code>text-0</code></li>
+<li><code>/hello/world~!txt</code> is evaluated as <code>text-0</code> (excluding white-spaces)</li>
 <li>Assuming a for cycle in <code>/hello/</code>, its children will be navigated and <code>$~attribute-a</code> will be resolved in <code>value-0</code> and <code>value-1</code>.</li>
 </ul>
 <h2 id="element-based-operators">Element-based operators<a class="headerlink" href="#element-based-operators" title="Permanent link">#</a></h2>
@@ -1345,6 +1375,17 @@ They basically share the same interface with minimal differences:</p>
 <p>You can use as many instances of the same type as you want, they will be applied to the final document in the same order as they appear after grouping.</p>
 <p>The symbol <code>[tag].c</code> gets loaded with the entry number we are iterating over, so that it is possible to count which one we are at.<br />
 For <code>for-props</code> there are also <code>[tag].k</code> and <code>[tag].v</code> for key and value of the prop. <code>[tag]</code> stands for the value determined by the <code>tag</code> property, and by default is <code>$</code>.</p>
+<h4 id="nested-for">Nested for<a class="headerlink" href="#nested-for" title="Permanent link">#</a></h4>
+<p>Since v0.4.7 it is possible to use the <code>for</code> loop base on elements to perform operations on trees.<br />
+Assumptions:
+- The structure of the node in the source data has always one single placement for children.
+- Filters, sorting and ordering clauses will be applied the same for all nodes.
+- The placement for children in the destination tree is marked by a unique tag for each of the parent entry.</p>
+<p>If these conditions are not fulfilled, <code>vs.templ</code> behaviour is undetermined, but it will try to avoid exceptions or hard failures as usual.  </p>
+<p>To use nesting one has to:
+- Provide an expression via attribute <code>src-children</code> to resolve the location of children in each cell based on the current parent. &ldquo;$&rdquo; is valid and means &ldquo;check my direct children&rdquo;.
+- Provide an optional expression via attribute <code>dst-children</code> to resolve the location of the generated XML where new cells should be expanded. if empty, its default value is <code>item</code>.</p>
+<p>If <code>src-children</code> is missing, no recursive operation will take place, regardless of <code>dst-children</code> value.</p>
 <h3 id="test-case">test &amp; case<a class="headerlink" href="#test-case" title="Permanent link">#</a></h3>
 <p><code>test</code> is used to perform conditional cuts in the final tree, based on a cascade of expressions.<br />
 Inside each <code>test</code> we have one or more <code>case</code>.<br />

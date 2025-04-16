@@ -803,18 +803,18 @@ meson install -C build
 <h2 id="embedding-it">Embedding it<a class="headerlink" href="#embedding-it" title="Permanent link">#</a></h2>
 <p>At this time, this repository is only available as a <a href="https://mesonbuild.com/">meson</a> package.<br />
 I might consider adding <code>cmake</code> later on to gain a wider compatibility.</p>
-<p>If <code>pugixml</code> is already provided as a dependency in the main project, that will be used.</p>
-<p><code>vs.templ</code> requires you implement some features downstream to support all features.<br />
-If not provided, the library will still be usable, but the command tags <code>include</code> and <code>data</code> will not work as expected.<br />
-The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library.</p>
+<p>If <code>pugixml</code> is already provided as a dependency in the main project, that one shall be used.</p>
+<p><code>vs.templ</code> requires you to implement some features downstream.<br />
+If not provided, the library will still be usable, but the command tags <code>include</code> and <code>data</code> cannot operate as for specifications.<br />
+The CLI in <code>src/app</code> shows everything that is needed to use <code>vs.templ</code> as a library in your own projects.</p>
 <h3 id="c-bindings">C bindings<a class="headerlink" href="#c-bindings" title="Permanent link">#</a></h3>
-<p>At this time, no C bindings are provided. My downstream project needs them not, and pugixml has no C++ interface regardless.<br />
+<p>At this time, no C bindings are provided. My downstream projects have no need for them yet, and pugixml has no C++ interface regardless.<br />
 Still, the public interface of this library is quite thin, so they can be easily introduced if so desired.</p>
 <h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">#</a></h2>
-<p>Releases are tagged on the repo, with <code>master</code> as the main development branch.<br />
+<p>Releases are tagged on the repo. <code>master</code> is the main development branch.<br />
 Semantic versioning will be followed after <code>v1.0.0</code>.<br />
-Before that, any release can and will have breaking changes.</p>
-<p>Versions ending with an odd revision number are proper public releases, while even numbers are only for in-dev stages.</p>
+Before that, any release can and will have breaking changes, but they are usually described in the release notes.</p>
+<p>Versions ending with an odd revision number are proper public releases, while even numbers are reserved for in-dev stages.</p>
 
 
 
