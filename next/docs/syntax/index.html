@@ -1378,13 +1378,13 @@ For <code>for-props</code> there are also <code>[tag].k</code> and <code>[tag].v
 <h4 id="nested-for">Nested for<a class="headerlink" href="#nested-for" title="Permanent link">#</a></h4>
 <p>Since v0.4.7 it is possible to use the <code>for</code> loop base on elements to perform operations on trees.<br />
 Assumptions:
-- The structure of the node in the source data has always one single placement for children.
-- Filters, sorting and ordering clauses will be applied the same for all nodes.
-- The placement for children in the destination tree is marked by a unique tag for each of the parent entry.</p>
-<p>If these conditions are not fulfilled, <code>vs.templ</code> behaviour is undetermined, but it will try to avoid exceptions or hard failures as usual.  </p>
+- The structure of the node in the source data has always one single location where children can be found.
+- Filters, sorting and ordering clauses will be applied the same for all cells.
+- The placement for children in the destination tree is unique for each of the parent entries.</p>
+<p>If these conditions are not fulfilled, <code>vs.templ</code> behaviour is undetermined, but as usual, exceptions or hard failures are avoided.  </p>
 <p>To use nesting one has to:
 - Provide an expression via attribute <code>src-children</code> to resolve the location of children in each cell based on the current parent. &ldquo;$&rdquo; is valid and means &ldquo;check my direct children&rdquo;.
-- Provide an optional expression via attribute <code>dst-children</code> to resolve the location of the generated XML where new cells should be expanded. if empty, its default value is <code>item</code>.</p>
+- Provide an optional expression via attribute <code>dst-children</code> to resolve the location of the generated XML where new cells should be expanded; if empty, its default value is <code>item</code>.</p>
 <p>If <code>src-children</code> is missing, no recursive operation will take place, regardless of <code>dst-children</code> value.</p>
 <h3 id="test-case">test &amp; case<a class="headerlink" href="#test-case" title="Permanent link">#</a></h3>
 <p><code>test</code> is used to perform conditional cuts in the final tree, based on a cascade of expressions.<br />
