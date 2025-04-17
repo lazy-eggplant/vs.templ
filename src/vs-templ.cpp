@@ -42,7 +42,8 @@ static inline bool nsstrcmp(const char* left, const std::string_view& ns, const 
 template<size_t N, size_t M=1>
 static std::array<std::vector<pugi::xml_node>,N> pugi_ns_children(const pugi::xml_node& root, const std::string_view& ns, const std::array<const char*,N>& names){
     std::array<std::vector<pugi::xml_node>,N> partitions;
-    partitions.fill(std::vector<pugi::xml_node>(N));    //TODO: This might add initializations of vectors which are not desired. Profile it.
+    //TODO: This might add initializations of vectors which are not desired. Profile it.
+    partitions.fill(std::vector<pugi::xml_node>(N));    
     for(auto it = root.children().begin();it!=root.children().end();it++){
         int i = 0;
         if(strncmp(it->name(),ns.data(),ns.length())!=0)continue;
@@ -95,12 +96,21 @@ void preprocessor::reset(){
 
 void preprocessor::log(log_t::values type, const std::string& str) const{
     //TODO: Add contextual information.
-    log_t::ctx ctx;
+    auto src_xml = stack_template.top().first;
+    auto dst_xml = stack_compiled.top();
+    auto data_xml = as<const pugi::xml_node>(symbols.resolve("$").value());
+
+    log_t::ctx ctx = {
+        src_xml->path(),
+        src_xml->offset_debug(),
+        dst_xml.path(),
+        dst_xml.offset_debug(),
+        data_xml.path(),
+    };
+    
     logfn(type,str.data(),ctx);
 }
 
-
-//TODO: Implement
 preprocessor::compare_result preprocessor::compare_symbols(const symbol& a, const symbol& b, order_t method) const{
     //Apply defaults if not specified
     if(method.type==order_t::type_t::DEFAULT){
@@ -236,7 +246,7 @@ std::optional<symbol> preprocessor::resolve_expr(const std::string_view& _str, c
         idx++;
     }
 
-    //Recurse over **/ blocks
+    //Recurse over `**/` blocks
     for(;;){
         int close = idx;
         for(;close<str_len && str[close]!='/' && str[close]!='~';close++);
@@ -460,7 +470,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                             }
                         }
 
-                        while(to_inspect.size()!=0){
+                        while(!to_inspect.empty()){
                             auto path = to_inspect.top();
                             to_inspect.pop();
 
@@ -505,6 +515,7 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
 
                                     if(src_children!=nullptr){
                                         pugi::xml_node lastItem;
+                                        //TODO:replace with a recursive reverse order path resolver.
                                         for(pugi::xml_node node=current_compiled.last_child();node;node=node.previous_sibling()){
                                             if(strcmp(node.name(),dst_children)==0){lastItem = node;break;}
                                         }
@@ -529,8 +540,6 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                                         stack_compiled.emplace(current_compiled);
                                     }
                                 }
-
-                                //TODO: recurse based on src-children and dst-children
                             }
 
                             stack_compiled.pop();

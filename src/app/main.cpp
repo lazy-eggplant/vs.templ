@@ -20,15 +20,15 @@
 
 using namespace vs::templ;
 
-void logfn(log_t::values type, const char* msg, const log_t::ctx&){
+void logfn(log_t::values type, const char* msg, const log_t::ctx&ctx){
     static const char* severity_table[] = {
-    "\033[31;1m[ERROR]\033[0m    : ",
-    "\033[33;1m[WARNING]\033[0m  : ",
-    "\033[41;30;1m[PANIC]\033[0m    : ",
-    "\033[34;1m[INFO]\033[0m     : ",
+    "\033[31;1m[ERROR]\033[0m  : ",
+    "\033[33;1m[WARNING]\033[0m: ",
+    "\033[41;30;1m[PANIC]\033[0m  : ",
+    "\033[34;1m[INFO]\033[0m   : ",
     };
     //TODO show context information
-    std::cerr<<std::format("{}{} \033[33;1m@\033[0m {}",severity_table[type],msg,"xxx")<<"\n";
+    std::cerr<<std::format("\033\n[33;1m╭\033[0m {}{} \033\n[33;1m├\033[0m src:/{}\n\033[33;1m├\033[0m tmpl:/{}\n\033[33;1m╰\033[0m dst:/{}\n",severity_table[type],msg,ctx.data_path,ctx.template_path,ctx.generated_path);
 }
 
 bool loadfn (const pugi::xml_node ctx,pugi::xml_document& ref){

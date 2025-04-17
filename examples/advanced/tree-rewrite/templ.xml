@@ -1,0 +1,7 @@
+<doc>
+    <s:for in="$" sort-by="~field-a" order-by=".desc" src-children="$" dst-children="item">
+        <s:item>
+            <item s:prop.0="~field-a|~!txt"/>
+        </s:item>
+    </s:for>
+</doc>
