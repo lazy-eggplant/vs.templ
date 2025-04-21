@@ -1,15 +1,1 @@
-## v0.4.7
-
-Introduced tree-rewrite capabilities with `s:for` via the additional attributes `src-children` and `dst-children`.  
-Basically the same for cycle is matched recursively inside the relative path described by `src-children` and applied inside `dst-children`.  
-The actual behaviour of `dst-children` has not been fully implemented yet, as it requires access to children in reverse order, making it incompatible with the rest of the codebase.  
-As such, some custom implementation is needed. For now one can only specify the direct name of the tag embedding children, without nesting as it should be in its final form.  
-The nested behaviour of `s:for` is going to change a bit in `v0.4.9` once `dst-children` is fully fixed.
-
-We also added support for more VM functions:
-- `timestamp` as the name implies
-- `rid` to generate a 256bit random ID serialized as hex string.
-- `sid` to generate an `int`-sized sequential ID, autoincrementing and with an optional family ID to have independent sequences.
-
-Finally, logs have now a proper context which provides paths and offsets to the template, data and destination locations which triggered the message.  
-For more details, check changes to `log_t::ctx`.
+## v0.4.9

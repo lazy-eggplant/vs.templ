@@ -1,10 +1,11 @@
-.cache
-build/ 
-subprojects/*
-!subprojects/*.wrap
-!subprojects/packagefiles/
+/.cache
+/build/ 
+/subprojects/*
+!/subprojects/*.wrap
+!/subprojects/packagefiles/
 /wraps/cfltk
 *.autogen.*
 /node_modules/
 /bun.lockb
 /private
+/.vscode
