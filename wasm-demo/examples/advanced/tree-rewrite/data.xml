@@ -1,0 +1,12 @@
+<root>
+    <tag field-a="A">
+        <tag field-a="B">12</tag>
+        <tag field-a="W">
+            <tag field-a="C">14</tag>
+            <tag field-a="D">15</tag>
+        </tag>
+        <tag field-a="E">
+            <tag field-a="F"/>
+        </tag>
+    </tag>
+</root>
