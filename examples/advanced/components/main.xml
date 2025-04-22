@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <pkg:import src="file://./component-a.xml" as="component-a">
+        <pkg:import src="component-b" as="component-a">
+            No component `component-a`
+        </pkg:import>
+    </pkg:import>
+    <pkg:import src="component-c.xml" as="component-c"/>
+    <pkg:use pkg:src="component-a"/>
+    <pkg-x:component-a prop-a="hello">
+        <pkg:slot pkg:name="slot-a">Hello!<b>world</b></pkg:slot>
+    </pkg-x:component-a>
+</document>

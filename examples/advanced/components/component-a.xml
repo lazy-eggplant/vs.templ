@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pkg:component prop-b="???">
+    <pkg:section pkg:name="template/xml">
+    <h1>Banana</h1>
+    <p>
+        <h2 pkg:inject.something="~prop-b" pkg:inject-default.something="Nothing here!"><pkg:inject src="~prop-a">Unsubtitles</pkg:inject></h2>
+        <pkg:inject src="#slot-a"></pkg:inject>
+    </p>
+    </pkg:section>
+    <pkg:section pkg:name="style/css" scoped="true">
+        *{
+            color:red;
+        }
+    </pkg:section>
+    <pkg:section pkg:name="script/lua">
+    </pkg:section>
+</pkg:component>
