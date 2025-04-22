@@ -9,22 +9,22 @@
       
       
       
-        <link rel="prev" href="../v0.3.7/">
+        <link rel="prev" href="../sorting/">
       
       
-        <link rel="next" href="../v0.4.1/">
+        <link rel="next" href="../syntax/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
-        <title>V0.3.9 - vs.templ</title>
+        <title>Static components - vs.templ</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
       
       
 
@@ -43,7 +43,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#new-features" class="md-skip">
+        <a href="#tags-and-attributes" class="md-skip">
           Skip to content
         </a>
       
@@ -78,7 +78,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="vs.templ" class="md-header__button md-logo" aria-label="vs.templ" data-md-component="logo">
+    <a href=".." title="vs.templ" class="md-header__button md-logo" aria-label="vs.templ" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              V0.3.9
+              Static components
             
           </span>
         </div>
@@ -188,7 +188,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="vs.templ" class="md-nav__button md-logo" aria-label="vs.templ" data-md-component="logo">
+    <a href=".." title="vs.templ" class="md-nav__button md-logo" aria-label="vs.templ" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -218,7 +218,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -240,7 +240,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../faq/" class="md-nav__link">
+      <a href="../faq/" class="md-nav__link">
         
   
   
@@ -262,7 +262,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../for-developers/" class="md-nav__link">
+      <a href="../for-developers/" class="md-nav__link">
         
   
   
@@ -284,7 +284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../manual/" class="md-nav__link">
+      <a href="../manual/" class="md-nav__link">
         
   
   
@@ -306,7 +306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../repl-vm/" class="md-nav__link">
+      <a href="../repl-vm/" class="md-nav__link">
         
   
   
@@ -328,7 +328,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../sorting/" class="md-nav__link">
+      <a href="../sorting/" class="md-nav__link">
         
   
   
@@ -347,10 +347,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../static-components/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Static components
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -361,6 +381,147 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tags-and-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tags and attributes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tags and attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nscomponent" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:component
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nssection" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:section
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsimport" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:import
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsslot" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:slot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsinject-as-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:inject as element
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsinjectxxx-and-nsinject-defaultxxx-as-props" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:inject.xxx and ns:inject-default.xxx as props
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsscope" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:scope
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsthrow" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:throw
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsdebug" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:debug
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ns-x-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns-x:* namespace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -372,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../syntax/" class="md-nav__link">
+      <a href="../syntax/" class="md-nav__link">
         
   
   
@@ -391,20 +552,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
@@ -420,7 +579,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             Releases
@@ -434,7 +593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.3.11/" class="md-nav__link">
+      <a href="../releases/v0.3.11/" class="md-nav__link">
         
   
   
@@ -457,7 +616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.3.13/" class="md-nav__link">
+      <a href="../releases/v0.3.13/" class="md-nav__link">
         
   
   
@@ -480,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.3.15/" class="md-nav__link">
+      <a href="../releases/v0.3.15/" class="md-nav__link">
         
   
   
@@ -503,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.3.5/" class="md-nav__link">
+      <a href="../releases/v0.3.5/" class="md-nav__link">
         
   
   
@@ -526,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.3.7/" class="md-nav__link">
+      <a href="../releases/v0.3.7/" class="md-nav__link">
         
   
   
@@ -546,30 +705,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    V0.3.9
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../releases/v0.3.9/" class="md-nav__link">
         
   
   
@@ -580,42 +719,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#new-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      New features
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Breaking changes
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -628,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.4.1/" class="md-nav__link">
+      <a href="../releases/v0.4.1/" class="md-nav__link">
         
   
   
@@ -651,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.4.3/" class="md-nav__link">
+      <a href="../releases/v0.4.3/" class="md-nav__link">
         
   
   
@@ -674,7 +777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.4.5/" class="md-nav__link">
+      <a href="../releases/v0.4.5/" class="md-nav__link">
         
   
   
@@ -697,7 +800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../v0.4.7/" class="md-nav__link">
+      <a href="../releases/v0.4.7/" class="md-nav__link">
         
   
   
@@ -745,18 +848,123 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#new-features" class="md-nav__link">
+  <a href="#tags-and-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      New features
+      Tags and attributes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tags and attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nscomponent" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:component
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#nssection" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:section
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsimport" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:import
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsslot" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:slot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsinject-as-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:inject as element
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsinjectxxx-and-nsinject-defaultxxx-as-props" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:inject.xxx and ns:inject-default.xxx as props
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsscope" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:scope
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsthrow" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:throw
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsdebug" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:debug
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ns-x-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns-x:* namespace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#breaking-changes" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Breaking changes
+      Examples
     </span>
   </a>
   
@@ -781,19 +989,51 @@
   
 
 
-  <h1>V0.3.9</h1>
+  <h1>Static components</h1>
 
-<p>Just a quick corrective version over v0.3.7 to fix the behaviour of several untested features, like the newly added filters of <code>for</code> loops.<br />
-This release also introduces few more meta-expression operators to allow escaping, and a realistic example emitting HTML to complement the rest of the docs.</p>
-<h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">#</a></h3>
-<ul>
-<li><code>when</code> as a prop command for the conditional rendering of the owner.</li>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These specs are not part of <code>vs.templ</code>.<br />
+ They are just temporarily hosted here to decide what to do about that.</p>
+</div>
+<h2 id="tags-and-attributes">Tags and attributes<a class="headerlink" href="#tags-and-attributes" title="Permanent link">#</a></h2>
+<h3 id="nscomponent"><code>ns:component</code><a class="headerlink" href="#nscomponent" title="Permanent link">#</a></h3>
+<p>Root for components
+Any attribute is considered as default value for when it is later injected.</p>
+<h3 id="nssection"><code>ns:section</code><a class="headerlink" href="#nssection" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>type</code></li>
 </ul>
-<h3 id="breaking-changes">Breaking changes<a class="headerlink" href="#breaking-changes" title="Permanent link">#</a></h3>
-<ul>
-<li><code>sort-by</code> and <code>order-by</code> will now use <code>|</code> in place <code>,</code> to split multiple options.</li>
-<li><code>when</code>/<code>is</code> fully replaced. The older syntax was dreadful but necessary without the RPN virtual machine, but now that we have&hellip; say hello to <code>test</code>/<code>case</code>.</li>
+<h3 id="nsimport"><code>ns:import</code><a class="headerlink" href="#nsimport" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>src</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>as</code> (optional)</li>
 </ul>
+<p>Body is the alternative if loading fails.</p>
+<h3 id="nsuse"><code>ns:use</code><a class="headerlink" href="#nsuse" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>s:src</code> either path or local resolution with prefix <code>#</code></li>
+</ul>
+<h3 id="nsslot"><code>ns:slot</code><a class="headerlink" href="#nsslot" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>s:name</code> identifier for the slot. If empty it is the default one. Special name <code>error</code> in case of component failure.</li>
+</ul>
+<h3 id="nsinject-as-element"><code>ns:inject</code> as element<a class="headerlink" href="#nsinject-as-element" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>src</code>
+Body is default in case the injection fails</li>
+</ul>
+<h3 id="nsinjectxxx-and-nsinject-defaultxxx-as-props"><code>ns:inject.xxx</code> and <code>ns:inject-default.xxx</code> as props<a class="headerlink" href="#nsinjectxxx-and-nsinject-defaultxxx-as-props" title="Permanent link">#</a></h3>
+<h3 id="nsscope"><code>ns:scope</code><a class="headerlink" href="#nsscope" title="Permanent link">#</a></h3>
+<p>It just forces a new scope in which imports can hide what came before.
+Totally optional, each component imposes its own scope, and the parent one is not being inherited.</p>
+<h3 id="nsthrow"><code>ns:throw</code><a class="headerlink" href="#nsthrow" title="Permanent link">#</a></h3>
+<h3 id="nsdebug"><code>ns:debug</code><a class="headerlink" href="#nsdebug" title="Permanent link">#</a></h3>
+<p>Like for <code>vs.templ</code>.</p>
+<h3 id="ns-x-namespace"><code>ns-x:*</code> namespace<a class="headerlink" href="#ns-x-namespace" title="Permanent link">#</a></h3>
+<p>It references any imported component which appeared before.</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
+<p>Check in <code>examples/advanced/components</code>.</p>
 
 
 
@@ -842,10 +1082,10 @@ This release also introduces few more meta-expression operators to allow escapin
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>
