@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: vs.templ
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: lazy-eggplant
+  - given-names: karurochari
+    affiliation: lazy-eggplant
+    email: public@karurochari.com
+repository-code: 'https://github.com/lazy-eggplant/vs.templ'
+url: 'https://lazy-eggplant.github.io/vs.templ/'
+abstract: 'Static template builder for XML, based on pugixml.'
+keywords:
+  - xslt
+  - xml
+  - preprocessor
+  - pugixml
+license: BSD-3-Clause
