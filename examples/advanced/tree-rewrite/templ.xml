@@ -1,4 +1,4 @@
-<doc>
+<doc xmlns:s="vs.templ">
     <s:for in="{$}/root" sort-by="~field-a" order-by=".desc" src-children="$" dst-children="item">
         <s:item>
             <item s:prop.0="~field-a|~!txt"/>

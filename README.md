@@ -87,12 +87,13 @@ bun run ./vs.templ.js [...]
 
 ## Installation
 
-Check the [helper script](./scripts/build.sh). It will work out of the box on most systems.  
-Still, to ensure expected behaviour, I highly suggest a dry run by setting `DESTDIR` somewhere safe.
+Check the [Makefile](./Makefile). It will work out of the box on most systems.  
+There are some flags you can configure without having to touch Meson directly in there.
 
 ## Projects using `vs.templ`
 
 - [vs](https://github.com/KaruroChori/vs-fltk) the parent project from which `vs.templ` derived.
+- [enance-amamento](https://github.com/KaruroChori/enance-amamento) as templating engine for the imported XML files.
 - [vs.http](https://github.com/lazy-eggplant/vs.http) an HTTP server built around `vs.templ`.
 
 ## Why?
