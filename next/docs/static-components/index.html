@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tags-and-attributes" class="md-skip">
+        <a href="#what-is-this" class="md-skip">
           Skip to content
         </a>
       
@@ -396,6 +396,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is this
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tags-and-attributes" class="md-nav__link">
     <span class="md-ellipsis">
       Tags and attributes
@@ -433,9 +442,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#nsinclude" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:include
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#nsuse" class="md-nav__link">
     <span class="md-ellipsis">
       ns:use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ns-x-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns-x:* namespace
     </span>
   </a>
   
@@ -496,9 +523,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ns-x-namespace" class="md-nav__link">
+  <a href="#nsmixin" class="md-nav__link">
     <span class="md-ellipsis">
-      ns-x:* namespace
+      ns:mixin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsmixins-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:mixins attribute
     </span>
   </a>
   
@@ -848,6 +884,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is this
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tags-and-attributes" class="md-nav__link">
     <span class="md-ellipsis">
       Tags and attributes
@@ -885,9 +930,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#nsinclude" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:include
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#nsuse" class="md-nav__link">
     <span class="md-ellipsis">
       ns:use
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ns-x-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns-x:* namespace
     </span>
   </a>
   
@@ -948,9 +1011,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ns-x-namespace" class="md-nav__link">
+  <a href="#nsmixin" class="md-nav__link">
     <span class="md-ellipsis">
-      ns-x:* namespace
+      ns:mixin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nsmixins-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      ns:mixins attribute
     </span>
   </a>
   
@@ -996,42 +1068,66 @@
 <p>These specs are not part of <code>vs.templ</code>.<br />
  They are just temporarily hosted here to decide what to do about that.</p>
 </div>
+<h2 id="what-is-this">What is this<a class="headerlink" href="#what-is-this" title="Permanent link">#</a></h2>
+<p>These are specifications for an agnostic component model based on XML.<br />
+It allows packaging code as single file components, and reuse it inside others.</p>
 <h2 id="tags-and-attributes">Tags and attributes<a class="headerlink" href="#tags-and-attributes" title="Permanent link">#</a></h2>
 <h3 id="nscomponent"><code>ns:component</code><a class="headerlink" href="#nscomponent" title="Permanent link">#</a></h3>
-<p>Root for components
-Any attribute is considered as default value for when it is later injected.</p>
+<p>Root for any component.
+Further attributes will be assumed as default values for when they are later injected.</p>
 <h3 id="nssection"><code>ns:section</code><a class="headerlink" href="#nssection" title="Permanent link">#</a></h3>
-<ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>type</code></li>
-</ul>
+<p>A section inside the component, to logically split its content and let the downstream application handle it on its own.
+- [ ] <code>type</code> a marker, usually in the form <code>logic-function/format</code>. Used as metadata downstream.
+Any other argument will also be handled downstream.</p>
 <h3 id="nsimport"><code>ns:import</code><a class="headerlink" href="#nsimport" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>src</code></li>
-<li class="task-list-item"><input type="checkbox" disabled/> <code>as</code> (optional)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>src</code> a path-like to the object to import, handled externally</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>as</code> (optional) a name to use the resource, if not provided downstream will assign one based on path
+Any other attribute is accepted, and will be package as part of the import request.</li>
 </ul>
-<p>Body is the alternative if loading fails.</p>
+<p>Body content is used as alternative if loading fails.</p>
+<h3 id="nsinclude"><code>ns:include</code><a class="headerlink" href="#nsinclude" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>src</code> a path-like to the object to import, handled externally
+In-place substitution of content. Used to introduce global things in the component scope.</li>
+</ul>
+<p>Body content is used as alternative if loading fails.</p>
 <h3 id="nsuse"><code>ns:use</code><a class="headerlink" href="#nsuse" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>s:src</code> either path or local resolution with prefix <code>#</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>s:src</code> either path or local resolution with prefix <code>#</code>
+Any other attribute is passed on.
+Body contains slots, some of which have special features, allowing for error handling for example.</li>
 </ul>
+<h3 id="ns-x-namespace"><code>ns-x:*</code> namespace<a class="headerlink" href="#ns-x-namespace" title="Permanent link">#</a></h3>
+<p>Elements in this namespace are shorthands for the <code>use</code> command.</p>
 <h3 id="nsslot"><code>ns:slot</code><a class="headerlink" href="#nsslot" title="Permanent link">#</a></h3>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled/> <code>s:name</code> identifier for the slot. If empty it is the default one. Special name <code>error</code> in case of component failure.</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>s:name</code> identifier for the slot. If empty it is the default one. Special name <code>error</code> in case of component failure.
+Any further argument is applied to the injection location.</li>
 </ul>
+<p>Its body is also for injection.</p>
 <h3 id="nsinject-as-element"><code>ns:inject</code> as element<a class="headerlink" href="#nsinject-as-element" title="Permanent link">#</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><input type="checkbox" disabled/> <code>src</code>
-Body is default in case the injection fails</li>
+Body is default for cases in which the injection fails.</li>
 </ul>
 <h3 id="nsinjectxxx-and-nsinject-defaultxxx-as-props"><code>ns:inject.xxx</code> and <code>ns:inject-default.xxx</code> as props<a class="headerlink" href="#nsinjectxxx-and-nsinject-defaultxxx-as-props" title="Permanent link">#</a></h3>
+<p>Like their element counterpart, with the restriction of being simple strings as they operate on attributes.</p>
 <h3 id="nsscope"><code>ns:scope</code><a class="headerlink" href="#nsscope" title="Permanent link">#</a></h3>
-<p>It just forces a new scope in which imports can hide what came before.
+<p>It just forces a new scope in which imports and mixins can hide what came before.
 Totally optional, each component imposes its own scope, and the parent one is not being inherited.</p>
 <h3 id="nsthrow"><code>ns:throw</code><a class="headerlink" href="#nsthrow" title="Permanent link">#</a></h3>
+<p>To close the process early. At times an error is so bad that it is not possible to continue.</p>
 <h3 id="nsdebug"><code>ns:debug</code><a class="headerlink" href="#nsdebug" title="Permanent link">#</a></h3>
 <p>Like for <code>vs.templ</code>.</p>
-<h3 id="ns-x-namespace"><code>ns-x:*</code> namespace<a class="headerlink" href="#ns-x-namespace" title="Permanent link">#</a></h3>
-<p>It references any imported component which appeared before.</p>
+<h3 id="nsmixin"><code>ns:mixin</code><a class="headerlink" href="#nsmixin" title="Permanent link">#</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>ns:rule</code>
+All the other attributes are part of the mixin definition.</li>
+</ul>
+<h3 id="nsmixins-attribute"><code>ns:mixins</code> attribute<a class="headerlink" href="#nsmixins-attribute" title="Permanent link">#</a></h3>
+<p>To apply a list of mixins to the current element, beyond those which are implicitly applied.
+Mixins are <strong>always</strong> evaluated and replaced in place. They don&rsquo;t pass barriers between components.</p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
 <p>Check in <code>examples/advanced/components</code>.</p>
 
