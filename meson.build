@@ -24,26 +24,7 @@ frozen_dep = dependency('frozen')
 ff_dep = dependency('fast_float')
 natsort_dep = dependency('natsort')
 
-vs_templ_lib = library(
-  'vs-templ',
-  [
-    'src/vs-templ.cpp',
-    'src/utils.cpp',
-    'src/stack-lang.cpp',
-  ],
-  dependencies: [pugixml_dep, frozen_dep, ff_dep, natsort_dep],
-  include_directories: ['include'],
-  install: not meson.is_subproject(),
-)
-
-vs_templ_cli = executable(
-  'vs.templ',
-  ['src/app/main.cpp'],
-  dependencies: [pugixml_dep],
-  link_with: [vs_templ_lib],
-  include_directories: ['include'],
-  install: not meson.is_subproject(),
-)
+subdir(['./src/'])
 
 pandoc = find_program('pandoc', required: false)
 if pandoc.found()
@@ -75,6 +56,10 @@ install_headers(
 
 if get_option('tests')
   subdir(['./test/'])
+endif
+
+if get_option('benchmarks')
+  subdir(['./benchmark/'])
 endif
 
 subdir(['./metadata/'])

@@ -1,1 +1,2 @@
 option('tests', type: 'boolean', value: true)
+option('benchmarks', type: 'boolean', value: false)
