@@ -698,6 +698,8 @@ void preprocessor::_parse(std::optional<pugi::xml_node_iterator> stop_at){
                     else if(strcmp(_type,"panic")==0)type=log_t::PANIC;
                     else if(strcmp(_type,"error")==0)type=log_t::ERROR;
                     else if(strcmp(_type,"warning")==0)type=log_t::WARNING;
+                    else if(strcmp(_type,"log")==0)type=log_t::LOG;
+                    else if(strcmp(_type,"ok")==0)type=log_t::OK;
                     else {/*....*/}
                     if(_msg.has_value()){
                         if(is<std::string>(_msg.value()))log(type,as<std::string>(_msg.value()));

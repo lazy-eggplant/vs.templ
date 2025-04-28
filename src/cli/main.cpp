@@ -11,6 +11,7 @@
     with both files added via pipes, like `vs.tmpl <(cat template.xml) <(cat data.xml)
 */
 
+#include "logging.hpp"
 #include <format>
 #include <pugixml.hpp>
 
@@ -22,13 +23,15 @@ using namespace vs::templ;
 
 void logfn(log_t::values type, const char* msg, const log_t::ctx&ctx){
     static const char* severity_table[] = {
-    "\033[31;1m[ERROR]\033[0m  : ",
-    "\033[33;1m[WARNING]\033[0m: ",
-    "\033[41;30;1m[PANIC]\033[0m  : ",
-    "\033[34;1m[INFO]\033[0m   : ",
+        "\033[31;1m[ERROR]\033[0m  : ",
+        "\033[33;1m[WARNING]\033[0m: ",
+        "\033[41;30;1m[PANIC]\033[0m  : ",
+        "\033[34;1m[INFO]\033[0m   : ",
+        "\033[37;1m[LOG]\033[0m    : ",
+        "\032[34;1m[OK]\033[0m     : ",
     };
-    //TODO show context information
-    std::cerr<<std::format("\033\n[33;1m╭\033[0m {}{} \033\n[33;1m├\033[0m src:/{}\n\033[33;1m├\033[0m tmpl:/{}\n\033[33;1m╰\033[0m dst:/{}\n",severity_table[type],msg,ctx.data_path,ctx.template_path,ctx.generated_path);
+
+    fprintf(type<=vs::templ::log_t::INFO?stderr:stdout,"%s",std::format("\033\n[33;1m╭\033[0m {}{} \033\n[33;1m├\033[0m src:/{}\n\033[33;1m├\033[0m tmpl:/{}\n\033[33;1m╰\033[0m dst:/{}\n",severity_table[type],msg,ctx.data_path,ctx.template_path,ctx.generated_path).c_str());
 }
 
 bool loadfn (const pugi::xml_node ctx,pugi::xml_document& ref){
@@ -72,13 +75,11 @@ int main(int argc, const char* argv[]){
 
         {auto t = tmpl.load(std::cin); if(!t){std::cerr<<t.description()<<" @ `template file`\n";exit(2);}}
         {auto t = data.load(std::cin); if(!t){std::cerr<<t.description()<<" @ `data file`\n";exit(3);}}
-
     }
 
     preprocessor doc({data,tmpl,ns_prefix, logfn, includefn, loadfn, seed});
     auto& result = doc.parse();
     
-
     result.save(std::cout);
 
     return 0;

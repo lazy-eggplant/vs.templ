@@ -7,7 +7,7 @@ namespace templ{
 
 struct log_t{
     enum values{
-        ERROR, WARNING, PANIC, INFO
+        ERROR, WARNING, PANIC, INFO, LOG, OK
     };
 
     struct ctx{
