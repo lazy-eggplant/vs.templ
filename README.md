@@ -88,7 +88,7 @@ bun run ./vs.templ.js [...]
 ## Installation
 
 Check the [Makefile](./Makefile). It will work out of the box on most systems.  
-There are some flags you can configure without having to touch Meson directly in there.
+There are some flags in there you can configure without having to touch Meson directly.
 
 ## Projects using `vs.templ`
 
