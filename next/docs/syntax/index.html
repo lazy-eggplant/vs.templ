@@ -1293,13 +1293,11 @@ This is a full list of all expression types:</p>
 <li><strong>String</strong>, automatically assigned from expressions starting with <code>#</code> (the prefix <code>#</code> is skipped and not part of the final string)</li>
 <li><strong>Integers</strong> (base 10), automatically assigned from expressions starting with a digit, <code>+</code>, <code>-</code> or <code>.</code></li>
 <li><strong>Floating point numbers</strong>, like integers but always ending with <code>f</code></li>
-<li><strong>Paths</strong>, of which few forms exists:<ul>
+<li><strong>Paths</strong>, of which few forms exists:</li>
 <li>Paths with arbitrary prefix <code>{var-name}</code> where <code>var-name</code>is searched for and resolved from the symbols&rsquo; stack. They can only appear as the first token.</li>
 <li>Those starting with <code>$</code>. This special symbol is used to mark the nearest recorded node from the data XML being visited, or root if none. It is a shorthand for <code>{$}</code>.</li>
 <li>Absolute paths starting from the root, with prefix <code>/</code>.</li>
 <li>Paths starting with <code>~</code>, an attribute rooted on <code>{$}</code>.</li>
-</ul>
-</li>
 </ul>
 <p>Path expressions will continue with one or more tokens <code>/</code>-terminated representing the tag name being visited.<br />
 If terminated with <code>~prop-name</code> the relevant attribute is selected.
