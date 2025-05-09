@@ -1,4 +1,4 @@
 <!--
-`./build/vs.templ ./examples/basics/data/templ.xml ./examples/basics/data/data.xml`
+`./build/src/vs.templ ./examples/basics/data/templ.xml ./examples/basics/data/data.xml`
 -->
 <data></data>

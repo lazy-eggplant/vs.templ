@@ -1,6 +1,6 @@
 <!-- 
 Test with:
-`./build/vs.templ ./examples/basics/old.templ.xml ./examples/basics/old.data.xml`
+`./build/src/vs.templ ./examples/basics/old.templ.xml ./examples/basics/old.data.xml`
 from the source root.
 -->
 

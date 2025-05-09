@@ -1,5 +1,5 @@
 <!-- 
-./build/vs.templ ./examples/advanced/html/template.xml ./examples/advanced/html/data.0.xml
+./build/src/vs.templ ./examples/advanced/html/templ.xml ./examples/advanced/html/data.0.xml
 -->
 
 <entry title="Page 0">

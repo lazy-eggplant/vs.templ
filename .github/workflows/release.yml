@@ -59,14 +59,14 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./build/vs.templ.js
+            ./build/src/vs.templ.js
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - name: Build wasm-demo
         run: |
           cp -R examples ./dist/wasm-demo/static
-          cp ./build/vs.templ.js ./dist/wasm-demo/static
+          cp ./build/src/vs.templ.js ./dist/wasm-demo/static
           cd ./dist/wasm-demo
           bun install
           bun run build

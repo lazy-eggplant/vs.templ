@@ -1,5 +1,5 @@
 <!--
-`./build/vs.templ ./examples/basics/for-props/templ.xml ./examples/basics/for-props/data.xml`
+`./build/src/vs.templ ./examples/basics/for-props/templ.xml ./examples/basics/for-props/data.xml`
 -->
 <items>
     <section-a prop-a="Value A-1" prop-b="Value A-2" prop-c="Value A-3"></section-a>
