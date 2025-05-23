@@ -20,6 +20,7 @@
 
 #include <pugixml.hpp>
 
+#include "config.hpp"
 #include "symbols.hpp"
 #include "logging.hpp"
 

@@ -7,6 +7,7 @@ vs_templ_lib = library(
   ],
   dependencies: [pugixml_dep, frozen_dep, ff_dep, natsort_dep],
   include_directories: ['../include'],
+  link_depends: cfgfile,
   install: not meson.is_subproject(),
 )
 

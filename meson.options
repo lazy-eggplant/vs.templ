@@ -1,2 +1,2 @@
-option('tests', type: 'boolean', value: true)
+option('tests', type: 'boolean', value: false)
 option('benchmarks', type: 'boolean', value: false)
