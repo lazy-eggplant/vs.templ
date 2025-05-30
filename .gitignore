@@ -2,9 +2,11 @@
 /.venv/
 /build/ 
 /subprojects/*
-!/subprojects/*.wrap
 !/subprojects/packagefiles/
-/wraps/cfltk
+!/subprojects/fast_float.wrap
+!/subprojects/forzen.wrap
+!/subprojects/natsort.wrap
+!/subprojects/pugixml.wrap
 *.autogen.*
-/private
-/.vscode
+/private/
+/.vscode/

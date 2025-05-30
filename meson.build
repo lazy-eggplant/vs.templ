@@ -22,13 +22,14 @@ configure_file(output : 'config.hpp',
 )
 
 cfgfile = custom_target('make-config',
-  input : './build/config.hpp',
+  input : join_paths(meson.current_build_dir(), 'config.hpp'),
   output : ['config.hpp.fake-meson'],
-  command : ['cp', '@INPUT0@', '../include/config.hpp'],
+  command : ['sh', '-c', 'rm -f ../include/config.hpp && ln -s @INPUT0@ ../include/config.hpp'],
   capture : true,
   install : false,
-  build_always_stale: true
+  build_by_default: true
 )
+
 
 add_project_arguments(['-Wno-vla-cxx-extension'], language: 'cpp')
 
