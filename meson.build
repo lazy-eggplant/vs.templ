@@ -24,7 +24,7 @@ configure_file(output : 'config.hpp',
 cfgfile = custom_target('make-config',
   input : join_paths(meson.current_build_dir(), 'config.hpp'),
   output : ['config.hpp.fake-meson'],
-  command : ['sh', '-c', 'rm -f ../include/config.hpp && ln -s @INPUT0@ ../include/config.hpp'],
+  command : ['sh', '-c', 'rm -f @CURRENT_SOURCE_DIR@/include/config.hpp && ln -s @INPUT0@ @CURRENT_SOURCE_DIR@/include/config.hpp'],
   capture : true,
   install : false,
   build_by_default: true
@@ -80,15 +80,20 @@ install_headers(
   subdir: 'vs-templ',
 )
 
-if get_option('tests')
-  subdir(['./test/'])
-endif
+# Ignore these targets if not the root project
+if meson.is_subproject() == false
 
-if get_option('benchmarks')
-  subdir(['./benchmark/'])
-endif
+  if get_option('tests')
+    subdir(['./test/'])
+  endif
 
-subdir(['./metadata/'])
+  if get_option('benchmarks')
+    subdir(['./benchmark/'])
+  endif
+
+  subdir(['./metadata/'])
+
+endif
 
 pconf = import('pkgconfig')
 pconf.generate(
