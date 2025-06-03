@@ -6,30 +6,7 @@ project(
   default_options: ['cpp_std=c++20'],
 )
 
-version_components = meson.project_version().split('.')
-major_version = version_components[0]
-minor_version = version_components[1]
-rev_version = version_components[2]
-
-conf = configuration_data()
-conf.set('VS_TEMPL_VERSION_MAJOR', major_version)
-conf.set('VS_TEMPL_VERSION_MINOR', minor_version)
-conf.set('VS_TEMPL_VERSION_REV', rev_version)
-conf.set_quoted('VS_TEMPL_VERSION', major_version + '.' + minor_version + '.' + rev_version)
-
-configure_file(output : 'config.hpp',
-  configuration : conf,
-)
-
-cfgfile = custom_target('make-config',
-  input : join_paths(meson.current_build_dir(), 'config.hpp'),
-  output : ['config.hpp.fake-meson'],
-  command : ['sh', '-c', 'rm -f @CURRENT_SOURCE_DIR@/include/config.hpp && ln -s @INPUT0@ @CURRENT_SOURCE_DIR@/include/config.hpp'],
-  capture : true,
-  install : false,
-  build_by_default: true
-)
-
+subdir('./include/')
 
 add_project_arguments(['-Wno-vla-cxx-extension'], language: 'cpp')
 
@@ -66,18 +43,6 @@ endif
 vs_templ_dep = declare_dependency(
   link_with: vs_templ_lib,
   include_directories: ['include'],
-)
-
-install_headers(
-  [
-    'include/config.hpp',
-    'include/vs-templ.hpp',
-    'include/logging.hpp',
-    'include/symbols.hpp',
-    'include/utils.hpp',
-    'include/module.modulemap',
-  ],
-  subdir: 'vs-templ',
 )
 
 # Ignore these targets if not the root project
