@@ -40,7 +40,7 @@ jobs:
           meson test -C build/ --suite=vs-templ
       - name: Archive production artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ubuntu-meson-logs
           path: |
